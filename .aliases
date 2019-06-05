@@ -1,5 +1,4 @@
 # Editor
-alias vim='vim'
 alias vi='vim'
 alias v='vim'
 
@@ -29,7 +28,7 @@ alias apthistory='less /var/log/apt/history.log'
 
 # Git
 alias g='git'
-alias gadd='git add .'
+alias gadd='git add'
 alias gcomm='git commit'
 alias gcommit='git commit'
 alias gdiff='git diff'
@@ -40,11 +39,15 @@ alias gstat='git status'
 alias branch='git rev-parse --abbrev-ref HEAD'
 
 # Dotfiles
-alias vbashrc='vim ~/.bashrc'
-alias sbashrc='source ~/.bashrc'
-alias valiases='vim ~/.config/bash/aliases'
-alias ualiases='cp ~/.config/bash/aliases'
-alias vimconfig='vim ~/.config/vim/init.vim'
+# alias vbashrc='vim ~/.bashrc'
+# alias sbashrc='source ~/.bashrc'
+alias szsh='source ~/.zshrc'
+alias vzsh='vim ~/.zshrc'
+alias czsh='cp ~/.zshrc'
+alias valiases='vim ~/.aliases'
+alias caliases='cp ~/.aliases'
+alias vvim='vim ~/.vimrc'
+alias cvim='cp ~/.vimrc'
 
 # General
 alias del='rm -rfi'
@@ -69,6 +72,6 @@ alias pinstall='pip3 install'
 # MySQL
 # alias entermysql='sudo mysql -u root'
 
-# (Optional) grep and ls color aliases
+# General color aliases
 # alias ls='ls --color=auto'
 # alias grep='grep --color=auto'
