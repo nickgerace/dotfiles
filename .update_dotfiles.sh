@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-# Dotfiles
+# DOTFILES
 # created by: Nick Gerace
 #
 # MIT License, Copyright (c) Nick Gerace
