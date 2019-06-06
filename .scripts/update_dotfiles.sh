@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-# DOTFILES
+# UPDATE DOTFILES
 # created by: Nick Gerace
 #
 # MIT License, Copyright (c) Nick Gerace
@@ -12,9 +12,10 @@
 # https://github.com/nickgerace/dotfiles
 ##
 
-echo "[dotfiles] Copying files to repository..."
+echo "[update-dotfiles] Copying files to repository..."
 cp ~/.zshrc ~/github/dotfiles
 cp ~/.vimrc ~/github/dotfiles
 cp ~/.aliases ~/github/dotfiles
+cp -r ~/.scripts ~/github/dotfiles
 git -C ~/github/dotfiles status
-echo "[dotfiles] Update complete!"
+echo "[update-dotfiles] Update complete!"
