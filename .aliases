@@ -3,17 +3,13 @@ alias vi='vim'
 alias v='vim'
 
 # Ubuntu
-alias sai='sudo apt install'
-alias sar='sudo apt remove'
-alias sau='sudo apt update -y'
-alias sauu='sudo apt update -y && sudo apt upgrade -y'
-alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
-alias saa='sudo apt autoremove -y'
-alias apthistory='less /var/log/apt/history.log'
-
-# macOS
-# alias bu='brew update'
-# alias buu='brew update -y && brew upgrade -y'
+# alias sai='sudo apt install'
+# alias sar='sudo apt remove'
+# alias sau='sudo apt update -y'
+# alias sauu='sudo apt update -y && sudo apt upgrade -y'
+# alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
+# alias saa='sudo apt autoremove -y'
+# alias apthistory='less /var/log/apt/history.log'
 
 # Fedora
 # alias sdi='sudo dnf install -y'
@@ -25,6 +21,12 @@ alias apthistory='less /var/log/apt/history.log'
 # alias sda='sudo dnf autoremove -y'
 # alias sdca='sudo dnf clean all -y'
 # alias sds='sudo dnf search'
+
+# macOS
+alias b='brew'
+alias bu='brew update'
+alias buu='brew update -y && brew upgrade -y'
+alias bs='brew search'
 
 # Git
 alias g='git'
@@ -41,7 +43,7 @@ alias branch='git rev-parse --abbrev-ref HEAD'
 # Dotfiles
 # alias vbashrc='vim ~/.bashrc'
 # alias sbashrc='source ~/.bashrc'
-alias dotfiles-update='bash ~/github/dotfiles/.scripts/update_dotfiles.sh'
+alias update-dotfiles='bash ~/github/dotfiles/.scripts/update_dotfiles.sh'
 alias check-git-status='bash ~/github/dotfiles/.scripts/check_git_status.sh'
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
@@ -51,13 +53,16 @@ alias caliases='cp ~/.aliases'
 alias vvim='vim ~/.vimrc'
 alias cvim='cp ~/.vimrc'
 
+# Server
+# alias bye='sudo poweroff'
+# alias checkpower='powerstat -R -c -z'
+# alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
+
 # General
+# alias 
 alias del='rm -rfi'
 alias h='history'
 alias name='printf '%s' "whoami     " && whoami && printf '%s' "hostname   " && hostname' 
-alias bye='sudo poweroff'
-alias checkpower='powerstat -R -c -z'
-alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # Docker
 alias dockerlint='docker run --rm -i hadolint/hadolint < Dockerfile'

@@ -46,3 +46,4 @@ colorscheme one
 syntax enable
 set number
 set noerrorbells
+set backspace=indent,eol,start
