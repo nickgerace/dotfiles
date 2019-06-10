@@ -12,11 +12,13 @@
 # https://github.com/nickgerace/dotfiles
 ##
 
-echo "[check-git-status] checking dotfiles..."
+RED='\033[0;31m'
+NC='\033[0m'
+echo -e "${RED}>>> dotfiles <<<${NC}"
 git -C ~/github/dotfiles status
-echo "[check-git-status] checking full-stack-python-template..."
+echo -e "${RED}>>> full-stack-python-template <<<${NC}"
 git -C ~/github/full-stack-python-template status
-echo "[check-git-status] checking lateralus..."
+echo -e "${RED}>>> lateralus <<<${NC}"
 git -C ~/github/lateralus status
-echo "[check-git-status] checking private..."
+echo -e "${RED}>>> private <<<${NC}"
 git -C ~/github/private status
