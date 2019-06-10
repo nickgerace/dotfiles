@@ -1,30 +1,11 @@
-" begin plugs
+" Plugins using vim-plug
 call plug#begin()
-
-" dark color theme
-" Plug 'drewtempelmeyer/palenight.vim'
-
-" light color theme
-Plug 'rakr/vim-one'
-
-" vim status bar
-Plug 'vim-airline/vim-airline'
-
-" bracket surrounding
-Plug 'tpope/vim-surround'
-
-" git wrapper line by line
-Plug 'airblade/vim-gitgutter'
-
-" golang plugin
-Plug 'fatih/vim-go'
-
-" end plugs
+Plug 'rakr/vim-one' "light color theme
+Plug 'vim-airline/vim-airline' "vim status bar
+Plug 'tpope/vim-surround' "bracket surrounding
+Plug 'airblade/vim-gitgutter' "git wrapper line by line
+Plug 'fatih/vim-go' "golang plugin
 call plug#end()
-
-" dark theme settings
-" set background=dark
-" colorscheme palenight
 
 " Use 24-bit (true-color) mode in Vim when outside tmux
 if (empty($TMUX))
@@ -36,14 +17,19 @@ if (empty($TMUX))
   endif
 endif
 
-" light theme settings
+" General settings
 set background=light
-let g:one_allow_italics = 1
 let g:airline_theme='one'
 colorscheme one
-
-" other options
 syntax enable
 set number
 set noerrorbells
 set backspace=indent,eol,start
+
+" FIXME: italics are not currently working
+" let g:one_allow_italics=1
+
+" OPTIONAL: dark theme options
+" set background=dark
+" colorscheme palenight
+" Plug 'drewtempelmeyer/palenight.vim'

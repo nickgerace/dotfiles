@@ -59,18 +59,20 @@ alias cvim='cp ~/.vimrc'
 # alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # General
-# alias 
 alias del='rm -rfi'
 alias h='history'
 alias name='printf '%s' "whoami     " && whoami && printf '%s' "hostname   " && hostname' 
 
 # Docker
+alias d='docker'
 alias dockerlint='docker run --rm -i hadolint/hadolint < Dockerfile'
 alias dpurge='docker system purge'
 alias dflask='docker run -d -p 5000:5000'
 alias dstat='docker ps -a'
 alias dimg='docker images'
 alias dfind='tree -P "Dockerfile"'
+alias drun='docker run'
+alias dc='docker-compose'
 
 # Python
 alias prun='python3'
