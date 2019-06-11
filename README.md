@@ -1,4 +1,6 @@
 # Dotfiles
 **created by: [Nick Gerace](https://nickgerace.dev)**
 
-A collection of my dotfiles and related scripts. You can follow [my guide](https://nickgerace.dev/post/my-setup) in order to setup my dotfiles.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A collection of my dotfiles and related scripts.
