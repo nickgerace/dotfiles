@@ -103,6 +103,11 @@ if [ -f ~/.aliases/main ]; then
     . ~/.aliases/main
 fi
 
+# Personal aliases
+if [ -f ~/.aliases/personal ]; then
+    . ~/.aliases/personal
+fi
+
 # Set default editor
 export VISUAL=vim
 export EDITOR="$VISUAL"

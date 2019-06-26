@@ -45,8 +45,6 @@ alias branch='git rev-parse --abbrev-ref HEAD'
 # Dotfiles
 alias vbash='vim ~/.bashrc'
 alias sbash='source ~/.bashrc'
-alias update-dotfiles='bash ~/.scripts/update_dotfiles.sh'
-alias check-git-status='bash ~/.scripts/check_git_status.sh'
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
 alias czsh='cp ~/.zshrc'
