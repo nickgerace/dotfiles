@@ -14,6 +14,8 @@
 
 RED='\033[0;31m'
 NC='\033[0m'
+echo -e "${RED}>>> determinant-domination <<<${NC}"
+git -C ~/github/determinant-domination status
 echo -e "${RED}>>> dotfiles <<<${NC}"
 git -C ~/github/dotfiles status
 echo -e "${RED}>>> full-stack-python-template <<<${NC}"

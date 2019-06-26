@@ -17,7 +17,7 @@ NC='\033[0m'
 echo -e "    ${COLOR}Copying dotfiles to git repository ...${NC}"
 cp ~/.zshrc ~/github/dotfiles
 cp ~/.vimrc ~/github/dotfiles
-cp ~/.aliases ~/github/dotfiles
+cp -r ~/.aliases ~/github/dotfiles
 cp -r ~/.scripts ~/github/dotfiles
 echo -e "    ${COLOR}Checking git status ...${NC}"
 git -C ~/github/dotfiles status

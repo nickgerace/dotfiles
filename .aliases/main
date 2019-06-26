@@ -1,29 +1,29 @@
-# Editor
+# Vim
+alias update-vim-plugs='vim +PlugUpdate +qall'
+alias upgrade-vim-plugs='vim +PlugUpdate +PlugUpgrade +PlugClean +qall'
 alias vi='vim'
 alias v='vim'
 
 # Ubuntu
-# alias sai='sudo apt install'
-# alias sar='sudo apt remove'
-# alias sau='sudo apt update -y'
-# alias sauu='sudo apt update -y && sudo apt upgrade -y'
-# alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
-# alias saa='sudo apt autoremove -y'
-# alias apthistory='less /var/log/apt/history.log'
+alias sai='sudo apt install'
+alias sar='sudo apt remove'
+alias sau='sudo apt update -y'
+alias sauu='sudo apt update -y && sudo apt upgrade -y'
+alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
+alias saa='sudo apt autoremove -y'
+alias apthistory='less /var/log/apt/history.log'
 
 # Fedora
-# alias sdi='sudo dnf install -y'
-# alias sdr='sudo dnf remove -y'
-# alias sdu='sudo dnf check-update -y'
-# alias sdcu='sudo dnf check-update -y'
-# alias sdup='sudo dnf check-update -y && sudo dnf upgrade -y'
-# alias sdupr='sudo dnf upgrade -y --refresh'
-# alias sda='sudo dnf autoremove -y'
-# alias sdca='sudo dnf clean all -y'
-# alias sds='sudo dnf search'
+alias sdi='sudo dnf install -y'
+alias sdr='sudo dnf remove -y'
+alias sdupr='sudo dnf upgrade -y --refresh'
+alias sda='sudo dnf autoremove -y'
+alias sdca='sudo dnf clean all -y'
+alias sds='sudo dnf search'
 
 # macOS
 alias b='brew'
+alias bd='brew doctor'
 alias bu='brew update'
 alias bup='brew upgrade'
 alias buu='brew update && brew upgrade'
@@ -43,24 +43,28 @@ alias gstat='git status'
 alias branch='git rev-parse --abbrev-ref HEAD'
 
 # Dotfiles
-# alias vbashrc='vim ~/.bashrc'
-# alias sbashrc='source ~/.bashrc'
+alias vbash='vim ~/.bashrc'
+alias sbash='source ~/.bashrc'
 alias update-dotfiles='bash ~/.scripts/update_dotfiles.sh'
 alias check-git-status='bash ~/.scripts/check_git_status.sh'
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
 alias czsh='cp ~/.zshrc'
-alias valiases='vim ~/.aliases'
-alias caliases='cp ~/.aliases'
+alias valiases='vim ~/.aliases/main'
+alias caliases='cp ~/.aliases/main'
 alias vvim='vim ~/.vimrc'
 alias cvim='cp ~/.vimrc'
 
 # Server
-# alias bye='sudo poweroff'
-# alias checkpower='powerstat -R -c -z'
-# alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias bye='sudo poweroff'
+alias checkpower='powerstat -R -c -z'
+alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # General
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 alias del='rm -rfi'
 alias h='history'
 alias name='printf '%s' "whoami     " && whoami && printf '%s' "hostname   " && hostname' 
@@ -77,12 +81,14 @@ alias drun='docker run'
 alias dc='docker-compose'
 
 # Python
+alias p='python3'
 alias prun='python3'
 alias pinstall='pip3 install'
 
-# MySQL
-# alias entermysql='sudo mysql -u root'
+# Kubernetes
+alias k='kubectl'
 
-# General color aliases
+# Other 
+# alias entermysql='sudo mysql -u root'
 # alias ls='ls --color=auto'
 # alias grep='grep --color=auto'

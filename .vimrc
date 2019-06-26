@@ -1,33 +1,33 @@
-" Plugins using vim-plug
+" ======================
+"         VIMRC
+" https://nickgerace.dev
+" ======================
+
+" Plugins
 call plug#begin()
-Plug 'rakr/vim-one' "light color theme
-Plug 'vim-airline/vim-airline' "vim status bar
-Plug 'tpope/vim-surround' "bracket surrounding
-Plug 'airblade/vim-gitgutter' "git wrapper line by line
-Plug 'fatih/vim-go' "golang plugin
+Plug 'rakr/vim-one'            " Light color theme
+Plug 'vim-airline/vim-airline' " Vim status bar
+Plug 'tpope/vim-surround'      " Bracket surrounding
+Plug 'airblade/vim-gitgutter'  " Git wrapper line by line
+Plug 'fatih/vim-go'            " Golang plugin
 call plug#end()
 
-" Use 24-bit (true-color) mode in Vim when outside tmux
-if (empty($TMUX))
-  if (has("vim"))
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
+" Theme
+set background=light           " Light background
+let g:airline_theme='one'      " Match airline theme
+colorscheme one                " Set colorscheme
 
-" General settings
-set background=light
-let g:airline_theme='one'
-colorscheme one
-syntax enable
-set number
-set noerrorbells
-set backspace=indent,eol,start
+" General
+syntax enable                  " Enable syntax checking
+set number                     " Set line numbers
+set noerrorbells               " Turn off bells
+set backspace=indent,eol,start " Gives backspace IDE functionality
 
-" FIXME: italics are not currently working
-" let g:one_allow_italics=1
+" Tab
+set tabstop=4                  " Tab key gives 4 spaces
+set shiftwidth=4               " Shifting gives 4 spaces
+set softtabstop=4              " Tab key (soft) gives 4 spaces
+set expandtab                  " Tab characters become 4 spaces
 
 " OPTIONAL: dark theme options
 " set background=dark
