@@ -1,2 +1,0 @@
-alias update-dotfiles='bash ~/.aliases/scripts/update_dotfiles.sh'
-alias check-git-status='python3 ~/github/py-git-status/check_git_status.py'
