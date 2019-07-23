@@ -9,7 +9,7 @@ Plug 'rakr/vim-one'            " Light color theme
 Plug 'vim-airline/vim-airline' " Vim status bar
 Plug 'tpope/vim-surround'      " Bracket surrounding
 Plug 'airblade/vim-gitgutter'  " Git wrapper line by line
-Plug 'fatih/vim-go'            " Golang plugin
+" Plug 'fatih/vim-go'            " Golang plugin
 call plug#end()
 
 " Theme

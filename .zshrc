@@ -104,8 +104,8 @@ if [ -f ~/.aliases/main.bash ]; then
 fi
 
 # Personal aliases
-if [ -f ~/.aliases/personal.bash ]; then
-    . ~/.aliases/personal.bash
+if [ -f ~/.aliases/internal.bash ]; then
+    . ~/.aliases/internal.bash
 fi
 
 # Set default editor
