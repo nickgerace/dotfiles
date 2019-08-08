@@ -104,6 +104,10 @@ alias k='kubectl'
 alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
 
+# Metro
+alias metro='python3 ~/git/metro/app.py'
+alias metro-git-status='metro status ~/git -r'
+
 # Disabled
 # alias entermysql='sudo mysql -u root'
 # alias ls='ls --color=auto'

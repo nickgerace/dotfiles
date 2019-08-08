@@ -103,11 +103,6 @@ if [ -f ~/.aliases.bash ]; then
     . ~/.aliases.bash
 fi
 
-# Internal aliases
-if [ -f ~/.internal.bash ]; then
-    . ~/.internal.bash
-fi
-
 # Set default editor
 export VISUAL=vim
 export EDITOR="$VISUAL"
