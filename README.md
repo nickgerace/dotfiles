@@ -5,8 +5,12 @@
 
 A collection of my dotfiles and related scripts.
 
-*Update the repository through the following command.*
+## Installation
+
+Perform a shallow clone and then run the following commands.
 
 ```bash
-make update
+git clone --depth=1 https://github.com/nickgerace/dotfiles
+cd dotfiles
+make install
 ```
