@@ -1,10 +1,15 @@
+# ======================
+# ====== ALIASES =======
+# === nickgerace.dev ===
+# ======================
+
 # Vim
 alias update-vim-plugs='vim +PlugUpdate +qall'
 alias upgrade-vim-plugs='vim +PlugUpdate +PlugUpgrade +PlugClean +qall'
 alias vi='vim'
 alias v='vim'
 
-# Ubuntu
+# DEB
 alias sai='sudo apt install'
 alias sar='sudo apt remove'
 alias sau='sudo apt update -y'
@@ -13,7 +18,7 @@ alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -
 alias saa='sudo apt autoremove -y'
 alias apthistory='less /var/log/apt/history.log'
 
-# Fedora
+# RPM 
 alias sdi='sudo dnf install -y'
 alias sdr='sudo dnf remove -y'
 alias sdupr='sudo dnf upgrade -y --refresh'
@@ -40,7 +45,11 @@ alias gfetch='git fetch'
 alias gpom='git push origin master'
 alias gpull='git pull'
 alias gstat='git status'
+alias git-store-credentials='git config credential.helper store'
 alias branch='git rev-parse --abbrev-ref HEAD'
+
+# Perforce
+alias po='p4 opened'
 
 # Dotfiles
 alias vbash='vim ~/.bashrc'
@@ -48,7 +57,7 @@ alias sbash='source ~/.bashrc'
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
 alias czsh='cp ~/.zshrc'
-alias valiases='vim ~/.aliases/main.bash'
+alias valiases='vim ~/.aliases.bash'
 alias vvim='vim ~/.vimrc'
 alias cvim='cp ~/.vimrc'
 
@@ -64,14 +73,16 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias del='rm -rfi'
 alias h='history'
-alias name='printf '%s' "whoami     " && whoami && printf '%s' "hostname   " && hostname' 
+alias name='printf '%s' "whoami: " && whoami && printf '%s' "hostname: " && hostname' 
 
 # Docker
 alias d='docker'
 alias dlint='docker run --rm -i hadolint/hadolint < Dockerfile'
 alias dpurge='docker system purge'
-alias dflask='docker run -d -p 5000:5000'
-alias dstat='docker ps -a'
+alias dpurge-all='docker system purge -a'
+alias dflask='docker run -dp 5000:5000'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
 alias dimg='docker images'
 alias dfind='tree -P "Dockerfile"'
 alias drun='docker run'
@@ -81,11 +92,12 @@ alias dc='docker-compose'
 alias p='python3'
 alias prun='python3'
 alias pinstall='pip3 install'
+alias fr='flask run'
 
 # Kubernetes
 alias k='kubectl'
 
-# Other 
+# Disabled
 # alias entermysql='sudo mysql -u root'
 # alias ls='ls --color=auto'
 # alias grep='grep --color=auto'

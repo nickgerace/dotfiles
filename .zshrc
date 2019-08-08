@@ -99,13 +99,13 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Custom aliases
-if [ -f ~/.aliases/main.bash ]; then
-    . ~/.aliases/main.bash
+if [ -f ~/.aliases.bash ]; then
+    . ~/.aliases.bash
 fi
 
-# Personal aliases
-if [ -f ~/.aliases/internal.bash ]; then
-    . ~/.aliases/internal.bash
+# Internal aliases
+if [ -f ~/.internal.bash ]; then
+    . ~/.internal.bash
 fi
 
 # Set default editor
