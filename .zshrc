@@ -99,8 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Custom aliases
-if [ -f ~/.aliases.bash ]; then
-    . ~/.aliases.bash
+if [ -f ~/.aliases.zsh ]; then
+    . ~/.aliases.zsh
 fi
 
 # Set default editor
