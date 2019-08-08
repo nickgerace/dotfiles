@@ -73,7 +73,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias del='rm -rfi'
 alias h='history'
-alias name='printf '%s' "whoami: " && whoami && printf '%s' "hostname: " && hostname' 
+alias name='whoami && hostname && hostname -f'
 
 # Docker
 alias d='docker'
@@ -88,6 +88,11 @@ alias dfind='tree -P "Dockerfile"'
 alias drun='docker run'
 alias dc='docker-compose'
 
+# Dockerfiles
+alias run-newest-python='docker run -it python:rc-alpine'
+alias run-newest-golang='docker run -it golang:rc-alpine'
+alias run-newest-debian='docker run -it debian:unstable-slim'
+
 # Python
 alias p='python3'
 alias prun='python3'
@@ -96,6 +101,8 @@ alias fr='flask run'
 
 # Kubernetes
 alias k='kubectl'
+alias kgp='kubectl get pods'
+alias kgpa='kubectl get pods -A'
 
 # Disabled
 # alias entermysql='sudo mysql -u root'
