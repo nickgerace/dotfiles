@@ -1,4 +1,5 @@
-# kphoen.zsh-theme
+# Forked from "kphoen.zsh-theme"
+# Slightly modified version of the original theme
 
 if [[ "$TERM" != "dumb" ]] && [[ "$DISABLE_LS_COLORS" != "true" ]]; then
     PROMPT='%{$fg[red]%}%n%{$reset_color%} at %{$fg[magenta]%}%m%{$reset_color%} in %{$fg[blue]%}%~%{$reset_color%}$(git_prompt_info)
