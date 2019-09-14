@@ -1,14 +1,16 @@
+DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
 push:
-	cp ~/.zshrc .
-	cp ~/.vimrc .
-	cp ~/.aliases.zsh .
-	cp -r ~/.extra .
-	cp ~/.oh-my-zsh/themes/nickgerace.zsh-theme .oh-my-zsh/themes/
+	cp $(HOME)/.zshrc $(DIR)/
+	cp $(HOME)/.vimrc $(DIR)/
+	cp $(HOME)/.aliases.zsh $(DIR)/
+	cp -r $(HOME)/.extra $(DIR)/
+	cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(DIR)/.oh-my-zsh/themes/
 
 install:
-	cp .zshrc ~/
-	cp .vimrc ~/
-	cp .aliases.zsh ~/
-	cp -r .extra ~/
-	mkdir -p ~/.oh-my-zsh/themes
-	cp .oh-my-zsh/themes/nickgerace.zsh-theme ~/.oh-my-zsh/themes/
+	cp $(DIR)/.zshrc $(HOME)/
+	cp $(DIR)/.vimrc $(HOME)/
+	cp $(DIR)/.aliases.zsh $(HOME)/
+	cp -r $(DIR)/extra $(HOME)/
+	mkdir -p $(HOME)/.oh-my-zsh/themes
+	cp $(DIR)/oh-my-zsh/themes/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
