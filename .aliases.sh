@@ -1,6 +1,6 @@
 # ======================
-# ====== ALIASES =======
-# === nickgerace.dev ===
+#        ALIASES
+# https://nickgerace.dev
 # ======================
 
 # Vim
@@ -9,16 +9,17 @@ alias upgrade-vim-plugs='vim +PlugUpdate +PlugUpgrade +PlugClean +qall'
 alias vi='vim'
 alias v='vim'
 
-# DEB
+# Debian
 alias sai='sudo apt install'
 alias sar='sudo apt remove'
 alias sau='sudo apt update -y'
 alias sauu='sudo apt update -y && sudo apt upgrade -y'
 alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
 alias saa='sudo apt autoremove -y'
+alias sas='sudo apt search'
 alias apthistory='less /var/log/apt/history.log'
 
-# RPM 
+# Fedora
 alias sdi='sudo dnf install -y'
 alias sdr='sudo dnf remove -y'
 alias sdupr='sudo dnf upgrade -y --refresh'
@@ -57,7 +58,7 @@ alias sbash='source ~/.bashrc'
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
 alias czsh='cp ~/.zshrc'
-alias valiases='vim ~/.aliases.zsh'
+alias valiases='vim ~/.aliases.sh'
 alias vvim='vim ~/.vimrc'
 alias cvim='cp ~/.vimrc'
 
@@ -75,6 +76,7 @@ alias del='rm -rfi'
 alias h='history'
 alias name='whoami && hostname && hostname -f'
 alias vmake='vim Makefile'
+alias see-drives='sudo fdisk -l'
 
 # Docker
 alias d='docker'
@@ -107,7 +109,6 @@ alias kgpa='kubectl get pods -A'
 
 # Metro
 alias metro='python3 ~/git/metro/app.py'
-alias metro-git-status='metro -c status --target ~/git'
 
 # Disabled
 # alias entermysql='sudo mysql -u root'
