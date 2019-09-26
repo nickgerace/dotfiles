@@ -52,15 +52,19 @@ alias branch='git rev-parse --abbrev-ref HEAD'
 # Perforce
 alias po='p4 opened'
 
-# Dotfiles
+# Bash
 alias vbash='vim ~/.bashrc'
 alias sbash='source ~/.bashrc'
+
+# Zsh
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
-alias czsh='cp ~/.zshrc'
+
+# Aliases
 alias valiases='vim ~/.aliases.sh'
+
+# Vim
 alias vvim='vim ~/.vimrc'
-alias cvim='cp ~/.vimrc'
 
 # Server
 alias bye='sudo poweroff'
