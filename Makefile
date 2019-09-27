@@ -3,13 +3,15 @@ DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 push:
 	cp $(HOME)/.zshrc $(DIR)/
 	cp $(HOME)/.vimrc $(DIR)/
+	cp $(HOME)/.config/fish/config.fish $(DIR)/
 	cp $(HOME)/.aliases.sh $(DIR)/
 	cp -r $(HOME)/.extra $(DIR)/
 	cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(DIR)/.oh-my-zsh/themes/
 
 install-fish:
 	mkdir -p $(HOME)/.config/fish
-	cp $(DIR)/.aliases.sh $(HOME)/.config/fish/aliases.fish
+	cp $(DIR)/config.fish $(HOME)/.config/fish
+	cp $(DIR)/.aliases.sh $(HOME)/
 
 install-zsh:
 	cp $(DIR)/.zshrc $(HOME)/

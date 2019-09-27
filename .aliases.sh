@@ -22,7 +22,7 @@ alias apthistory='less /var/log/apt/history.log'
 # Fedora
 alias sdi='sudo dnf install -y'
 alias sdr='sudo dnf remove -y'
-alias sdupr='sudo dnf upgrade -y --refresh'
+alias sdu='sudo dnf upgrade -y --refresh'
 alias sda='sudo dnf autoremove -y'
 alias sdca='sudo dnf clean all -y'
 alias sds='sudo dnf search'
@@ -48,6 +48,7 @@ alias gpull='git pull'
 alias gstat='git status'
 alias git-store-credentials='git config credential.helper store'
 alias branch='git rev-parse --abbrev-ref HEAD'
+alias reset-repo-to-last-commmit='git reset --hard'
 
 # Perforce
 alias po='p4 opened'
@@ -111,8 +112,8 @@ alias k='kubectl'
 alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
 
-# Metro
-alias metro='python3 ~/git/metro/app.py'
+# Go Status
+alias go-status='~/git/go-status/bin/gostatus ~/git'
 
 # Disabled
 # alias entermysql='sudo mysql -u root'
