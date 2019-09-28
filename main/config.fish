@@ -7,7 +7,9 @@
 set -x TERM xterm-256color
 
 # Import all aliases.
-. ~/.aliases.sh
+if source ~/.aliases.sh
+    source ~/.aliases.sh
+end
 
 # Set default editor.
 set VISUAL vim

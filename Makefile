@@ -1,34 +1,38 @@
-DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+REPO:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+VIM:=$(REPO)/main/vimrc
+FISH:=$(REPO)/main/config.fish
+ALIAS:=$(REPO)/main/aliases.sh
 
 push:
-	cp $(HOME)/.zshrc $(DIR)/
-	cp $(HOME)/.vimrc $(DIR)/
-	cp $(HOME)/.config/fish/config.fish $(DIR)/
-	cp $(HOME)/.aliases.sh $(DIR)/
-	cp -r $(HOME)/.extra $(DIR)/
-	cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(DIR)/.oh-my-zsh/themes/
+	cp $(HOME)/.vimrc $(VIM)
+	cp $(HOME)/.config/fish/config.fish $(FISH)
+	cp $(HOME)/.aliases.sh $(ALIAS)
+	cp $(HOME)/.zshrc $(REPO)/zsh/zshrc
+	cp -r $(HOME)/.extra $(REPO)/extra/
+	cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(REPO)/zsh/
 
-install-fish:
+task-fish:
 	mkdir -p $(HOME)/.config/fish
-	cp $(DIR)/config.fish $(HOME)/.config/fish
-	cp $(DIR)/.aliases.sh $(HOME)/
+	cp $(FISH) $(HOME)/.config/fish
 
-install-zsh:
-	cp $(DIR)/.zshrc $(HOME)/
-	cp $(DIR)/.aliases.sh $(HOME)/
+task-zsh:
+	cp $(REPO)/zsh/zshrc $(HOME)/.zshrc
 	mkdir -p $(HOME)/.oh-my-zsh/themes
-	cp $(DIR)/.oh-my-zsh/themes/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
+	cp $(REPO)/zsh/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
 
-install-vim:
-	cp $(DIR)/.vimrc $(HOME)/
+task-vim:
+	cp $(VIM) $(HOME)/.vimrc
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
 
-install-extras:
-	cp -r $(DIR)/.extra $(HOME)/
+task-aliases:
+	cp $(ALIAS) $(HOME)/.aliases.sh
 
-install-minimal-fish: install-fish install-vim
+task-extras:
+	cp -r $(REPO)/extra $(HOME)/.extra
 
-install-minimal-zsh: install-zsh install-vim
+install-minimal-fish: task-fish task-vim task-aliases
 
-install-all: install-fish install-zsh install-vim install-extras
+install-minimal-zsh: task-zsh task-vim task-aliases
+
+install-all: task-fish task-zsh task-vim task-aliases task-extras
