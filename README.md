@@ -5,13 +5,17 @@
 
 A collection of my dotfiles and related scripts.
 
+## Why Only Instructions For Fish?
+
+While there are Make targets for **zsh**, this README will only look at **fish**.
+The former is a great shell, but **fish** is much more user friendly and has very sane defaults.
+
 ## Requirements
 
 The following must be installed before the **make** command is performed.
 
-- [zsh](https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH)
-- [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/)
-- [vim-plug](https://github.com/junegunn/vim-plug)
+- [fish](https://fishshell.com/)
+- [vim](https://github.com/vim/vim)
 
 ## Installation
 
@@ -20,5 +24,5 @@ Perform a shallow clone and then run the following commands.
 ```bash
 git clone --depth=1 https://github.com/nickgerace/dotfiles
 cd dotfiles
-make install-minimal
+make install-fish
 ```

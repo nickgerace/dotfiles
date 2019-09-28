@@ -31,8 +31,8 @@ task-aliases:
 task-extras:
 	cp -r $(REPO)/extra $(HOME)/.extra
 
-install-minimal-fish: task-fish task-vim task-aliases
+install-fish: task-fish task-vim task-aliases
 
-install-minimal-zsh: task-zsh task-vim task-aliases
+install-zsh: task-zsh task-vim task-aliases
 
 install-all: task-fish task-zsh task-vim task-aliases task-extras
