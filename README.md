@@ -19,6 +19,10 @@ The following must be installed before the **make** command is performed.
 
 ## Installation
 
+*Note:* be sure to read the Makefile to see what the targets do.
+- For this Make target, it installs vim-plug, the vim-plug packages from the vimrc, and the relevant dotfiles.
+- Those files are config.fish, .vimrc, and .aliases.sh.
+
 Perform a shallow clone and then run the following commands.
 
 ```bash
