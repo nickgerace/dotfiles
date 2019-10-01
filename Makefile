@@ -1,38 +1,41 @@
 REPO:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-VIM:=$(REPO)/main/vimrc
-FISH:=$(REPO)/main/config.fish
-ALIAS:=$(REPO)/main/aliases.sh
 
-push:
-	cp $(HOME)/.vimrc $(VIM)
-	cp $(HOME)/.config/fish/config.fish $(FISH)
-	cp $(HOME)/.aliases.sh $(ALIAS)
-	cp $(HOME)/.zshrc $(REPO)/zsh/zshrc
-	cp -r $(HOME)/.extra $(REPO)/extra/
-	cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(REPO)/zsh/
-
-task-fish:
+# ALL INSTALL TARGETS.
+install-fish:
 	mkdir -p $(HOME)/.config/fish
-	cp $(FISH) $(HOME)/.config/fish
+	cp $(REPO)/config.fish $(HOME)/.config/fish
 
-task-zsh:
-	cp $(REPO)/zsh/zshrc $(HOME)/.zshrc
+install-zsh:
+	cp $(REPO)/zshrc $(HOME)/.zshrc
+
+install-ohmyzsh:
+	cp $(REPO)/ohmyzsh/ohmyzshrc $(HOME)/.oh-my-zsh/themes/
 	mkdir -p $(HOME)/.oh-my-zsh/themes
 	cp $(REPO)/zsh/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
 
-task-vim:
-	cp $(VIM) $(HOME)/.vimrc
+install-vim:
+	cp $(REPO)/vimrc $(HOME)/.vimrc
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
 
-task-aliases:
-	cp $(ALIAS) $(HOME)/.aliases.sh
+install-aliases:
+	cp $(REPO)/aliases.sh $(HOME)/.aliases.sh
 
-task-extras:
+intsall-extras:
 	cp -r $(REPO)/extra $(HOME)/.extra
 
-install-fish: task-fish task-vim task-aliases
+# ALL PUSH TARGETS.
+push-main:
+	cp $(HOME)/.aliases.sh $(REPO)/aliases.sh
+	cp $(HOME)/.vimrc $(REPO)/vimrc
+	cp -r $(HOME)/.extra $(REPO)/extra/
 
-install-zsh: task-zsh task-vim task-aliases
+push-fish:
+	cp $(HOME)/.config/fish/config.fish $(REPO)/config.fish
 
-install-all: task-fish task-zsh task-vim task-aliases task-extras
+push-zsh:
+	cp $(HOME)/.zshrc $(REPO)/zshrc
+
+push-ohmyzsh:
+	cp $(HOME)/.zshrc $(REPO)/ohmyzsh/ohmyzshrc
+	cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(REPO)/ohmyzsh/

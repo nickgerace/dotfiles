@@ -8,6 +8,7 @@ alias update-vim-plugs='vim +PlugUpdate +qall'
 alias upgrade-vim-plugs='vim +PlugUpdate +PlugUpgrade +PlugClean +qall'
 alias vi='vim'
 alias v='vim'
+alias vvim='vim ~/.vimrc'
 
 # Debian
 alias sai='sudo apt install'
@@ -61,11 +62,12 @@ alias sbash='source ~/.bashrc'
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
 
+# Fish
+alias vfish='vim ~/.config/fish/config.fish'
+alias sfish='source ~/.config/fish/config.fish'
+
 # Aliases
 alias valiases='vim ~/.aliases.sh'
-
-# Vim
-alias vvim='vim ~/.vimrc'
 
 # Server
 alias bye='sudo poweroff'
@@ -111,6 +113,7 @@ alias fr='flask run'
 alias k='kubectl'
 alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
+alias o='operator-sdk'
 
 # Go Status
 alias go-status='~/git/go-status/bin/gostatus ~/git'
