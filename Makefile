@@ -21,14 +21,15 @@ install-vim:
 install-aliases:
 	cp $(REPO)/aliases.sh $(HOME)/.aliases.sh
 
-intsall-extras:
-	cp -r $(REPO)/extra $(HOME)/.extra
+install-extras:
+	mkdir -p $(HOME)/.extra
+	cp -r $(REPO)/extra/* $(HOME)/.extra/
 
-# ALL PUSH TARGETS.
+# (NOTE: ONLY FOR GIT) ALL PUSH TARGETS.
 push-main:
 	cp $(HOME)/.aliases.sh $(REPO)/aliases.sh
 	cp $(HOME)/.vimrc $(REPO)/vimrc
-	cp -r $(HOME)/.extra $(REPO)/extra/
+	cp -r $(HOME)/.extra/* $(REPO)/extra/
 
 push-fish:
 	cp $(HOME)/.config/fish/config.fish $(REPO)/config.fish

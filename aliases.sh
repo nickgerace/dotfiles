@@ -8,7 +8,6 @@ alias update-vim-plugs='vim +PlugUpdate +qall'
 alias upgrade-vim-plugs='vim +PlugUpdate +PlugUpgrade +PlugClean +qall'
 alias vi='vim'
 alias v='vim'
-alias vvim='vim ~/.vimrc'
 
 # Debian
 alias sai='sudo apt install'
@@ -54,20 +53,19 @@ alias reset-repo-to-last-commmit='git reset --hard'
 # Perforce
 alias po='p4 opened'
 
-# Bash
+# Bash and Zsh
 alias vbash='vim ~/.bashrc'
 alias sbash='source ~/.bashrc'
-
-# Zsh
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
 
 # Fish
 alias vfish='vim ~/.config/fish/config.fish'
 alias sfish='source ~/.config/fish/config.fish'
-
-# Aliases
 alias valiases='vim ~/.aliases.sh'
+
+# Vim
+alias vvim='vim ~/.vimrc'
 
 # Server
 alias bye='sudo poweroff'
@@ -84,6 +82,7 @@ alias h='history'
 alias name='whoami && hostname && hostname -f'
 alias vmake='vim Makefile'
 alias see-drives='sudo fdisk -l'
+alias check-os='cat /etc/os-release'
 
 # Docker
 alias d='docker'
@@ -113,7 +112,7 @@ alias fr='flask run'
 alias k='kubectl'
 alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
-alias o='operator-sdk'
+alias o='operator-sk'
 
 # Go Status
 alias go-status='~/git/go-status/bin/gostatus ~/git'
