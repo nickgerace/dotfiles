@@ -6,7 +6,10 @@
 # ======================
 
 # Display 256 colors.
-export TERM=xterm-256colors
+export TERM=xterm-256color
+
+# Check if neofetch exists. If it does, execute.
+if type neofectch &> /dev/null; then neofetch; fi
 
 # Set autocolors if they are available on the OS.
 if [[ -x /usr/bin/dircolors ]]; then
