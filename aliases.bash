@@ -83,6 +83,7 @@ alias name='whoami && hostname && hostname -f'
 alias vmake='vim Makefile'
 alias see-drives='sudo fdisk -l'
 alias check-os='cat /etc/os-release'
+alias ping5='ping -c 5'
 
 # Docker
 alias d='docker'
@@ -112,12 +113,7 @@ alias fr='flask run'
 alias k='kubectl'
 alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
-alias o='operator-sk'
+alias o='operator-sdk'
 
 # Go Status
 alias go-status='~/git/go-status/bin/gostatus ~/git'
-
-# Disabled
-# alias entermysql='sudo mysql -u root'
-# alias ls='ls --color=auto'
-# alias grep='grep --color=auto'
