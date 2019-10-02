@@ -12,7 +12,7 @@ install-vim:
 
 install-all: install-bash install-vim
 
-push-all:
+push:
 	cp $(HOME)/.aliases.bash $(REPO)/
 	cp $(HOME)/.vimrc $(REPO)/
 	cp $(HOME)/.bashrc $(REPO)/

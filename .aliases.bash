@@ -68,7 +68,7 @@ alias valiases='vim ~/.aliases.sh'
 alias vvim='vim ~/.vimrc'
 
 # Server
-alias bye='sudo poweroff'
+alias bye='sudo shutdown now'
 alias checkpower='powerstat -R -c -z'
 alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
 
@@ -115,5 +115,6 @@ alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
 alias o='operator-sdk'
 
-# Go Status
+# Repositories
 alias go-status='~/git/go-status/bin/gostatus ~/git'
+alias update-dotfiles='make -f ~/git/dotfiles/Makefile push'
