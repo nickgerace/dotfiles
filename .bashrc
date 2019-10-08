@@ -21,8 +21,11 @@ fi
 # Load aliases if file exists and is readable.
 if [[ -r ~/.aliases.bash ]]; then source ~/.aliases.bash; fi
 
-# Makefile target autocompletion.
-complete -W "\`grep -oE '^[a-zA-Z0-9_-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_-]*$//'\`" make
+# Load completion on Fedora and other RPM distros.
+if [[ -r /etc/profile.d/bash_completion.sh ]]; then source /etc/profile.d/bash_completion.sh; fi
+
+# Kubectl autocompletion.
+source <(kubectl completion bash)
 
 # Set default editor to vim.
 export VISUAL=vim
