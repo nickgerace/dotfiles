@@ -21,11 +21,11 @@ fi
 # Load aliases if file exists and is readable.
 if [[ -r ~/.aliases.bash ]]; then source ~/.aliases.bash; fi
 
-# Load completion on Fedora and other RPM distros.
+# Load bash completion when available.
 if [[ -r /etc/profile.d/bash_completion.sh ]]; then source /etc/profile.d/bash_completion.sh; fi
 
-# Kubectl autocompletion.
-source <(kubectl completion bash)
+# Add Kubectl autocompletion if installed.
+if type kubectl &> /dev/null; then source <(kubectl completion bash); fi
 
 # Set default editor to vim.
 export VISUAL=vim
@@ -34,8 +34,8 @@ export EDITOR="$VISUAL"
 # Check if neofetch exists. If it does, execute.
 if type neofetch &> /dev/null; then neofetch; fi
 
-# Check if exa exists. If so, replace ls with it.
-if type exa &> /dev/null; then alias ls="exa"; fi
+# Check if exa exists. If so, replace lls with it.
+if type exa &> /dev/null; then alias lls="exa"; fi
 
 # If tput colors are available, use them. Otherwise, use ASCII colors.
 if tput setaf 1 &> /dev/null; then

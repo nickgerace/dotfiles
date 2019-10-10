@@ -1,0 +1,15 @@
+# Primary repositories.
+deb http://us.archive.ubuntu.com/ubuntu disco main restricted universe multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu disco main restricted universe multiverse
+
+# Bug fixes and updates.
+deb http://us.archive.ubuntu.com/ubuntu disco-updates main restricted universe multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu disco-updates main restricted universe multiverse
+
+# Security updates.
+deb http://us.archive.ubuntu.com/ubuntu disco-security main restricted universe multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu disco-security main restricted universe multiverse
+
+# Backports from newer releases.
+deb http://us.archive.ubuntu.com/ubuntu disco-backports main restricted universe multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu disco-backports main restricted universe multiverse
