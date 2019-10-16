@@ -8,6 +8,7 @@ alias update-vim-plugs='vim +PlugUpdate +qall'
 alias upgrade-vim-plugs='vim +PlugUpdate +PlugUpgrade +PlugClean +qall'
 alias vi='vim'
 alias v='vim'
+alias vvim='vim ~/.vimrc'
 
 # Debian
 alias sai='sudo apt install'
@@ -16,6 +17,7 @@ alias sau='sudo apt update -y'
 alias sauu='sudo apt update -y && sudo apt upgrade -y'
 alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
 alias saa='sudo apt autoremove -y'
+alias saduar='sadu && saa'
 alias sas='sudo apt search'
 alias apthistory='less /var/log/apt/history.log'
 
@@ -53,19 +55,20 @@ alias reset-repo-to-last-commmit='git reset --hard'
 # Perforce
 alias po='p4 opened'
 
-# Bash and Zsh
+# Bash
 alias vbash='vim ~/.bashrc'
 alias sbash='source ~/.bashrc'
+
+# Zsh
 alias szsh='source ~/.zshrc'
 alias vzsh='vim ~/.zshrc'
 
 # Fish
 alias vfish='vim ~/.config/fish/config.fish'
 alias sfish='source ~/.config/fish/config.fish'
-alias valiases='vim ~/.aliases.sh'
 
-# Vim
-alias vvim='vim ~/.vimrc'
+# Aliases
+alias valiases='vim ~/.aliases.bash'
 
 # Server
 alias bye='sudo shutdown now'
@@ -116,5 +119,5 @@ alias kgpa='kubectl get pods -A'
 alias o='operator-sdk'
 
 # Repositories
-alias go-status='~/git/go-status/bin/gostatus ~/git'
+alias go-status='~/git/go-status/bin/go-status ~/git'
 alias update-dotfiles='make -f ~/git/dotfiles/Makefile push'
