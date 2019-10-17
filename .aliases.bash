@@ -87,6 +87,7 @@ alias vmake='vim Makefile'
 alias see-drives='sudo fdisk -l'
 alias check-os='cat /etc/os-release'
 alias ping5='ping -c 5'
+alias find-aliases='alias | grep'
 
 # Docker
 alias d='docker'
@@ -105,6 +106,7 @@ alias dc='docker-compose'
 alias run-newest-python='docker run -it python:rc-alpine'
 alias run-newest-golang='docker run -it golang:rc-alpine'
 alias run-newest-debian='docker run -it debian:unstable-slim'
+alias run-newest-ubuntu='docker run -it ubuntu:rolling'
 
 # Python
 alias p='python3'
