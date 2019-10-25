@@ -22,8 +22,11 @@ However, they do not appear as targets in the Makefile.
 Perform a shallow clone and then run the following commands.
 In this example, we will be setting up the **bash** shell, **vim**, **vim-plug**, and my **aliases**.
 
+The first make target installs everything, so we can just use "make".
+However, you should see what each target installs before execution.
+
 ```bash
 git clone --depth=1 https://github.com/nickgerace/dotfiles.git
 cd dotfiles
-make install-all
+make
 ```

@@ -38,17 +38,18 @@ if type neofetch &> /dev/null; then neofetch; fi
 if type exa &> /dev/null; then alias lls="exa"; fi
 
 # If tput colors are available, use them. Otherwise, use ASCII colors.
+# Finally, display the prompt.
 if tput setaf 1 &> /dev/null; then
     reset=$(tput sgr0)
     blue=$(tput setaf 33)
     green=$(tput setaf 64)
     violet=$(tput setaf 61)
+    bold=$(tput bold)
+    export PS1="${bold}${violet}\u${reset} at ${bold}${green}\h${reset} in ${bold}${blue}\w${reset}\nλ "
 else
     reset="\[\e[m\]"
     blue="\[\e[36m\]"
     green="\[\e[32m\]"
     violet="\[\e[35m\]"
+    export PS1="${violet}\u${reset} at ${green}\h${reset} in ${blue}\w${reset}\nλ "
 fi
-
-# Finally, display the prompt.
-export PS1="${violet}\u${reset} at ${green}\h${reset} in ${blue}\w${reset}\nλ "

@@ -1,5 +1,7 @@
 REPO:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+install-all: install-bash install-vim
+
 install-bash:
 	cp $(REPO)/.aliases.bash $(HOME)/
 	cp $(REPO)/.bashrc $(HOME)/
@@ -9,8 +11,6 @@ install-vim:
 	cp $(REPO)/.vimrc $(HOME)/
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
-
-install-all: install-bash install-vim
 
 push:
 	cp $(HOME)/.aliases.bash $(REPO)/
