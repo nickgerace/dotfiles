@@ -12,6 +12,9 @@ install-vim:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
 
+ubuntu-sources:
+	cp $(REPO)/sources.list /etc/apt/sources.list
+
 push:
 	cp $(HOME)/.aliases.bash $(REPO)/
 	cp $(HOME)/.vimrc $(REPO)/

@@ -1,0 +1,17 @@
+# Ubuntu
+deb http://us.archive.ubuntu.com/ubuntu/ eoan main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu/ eoan-updates main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu/ eoan-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu eoan-security main restricted universe multiverse
+
+# Chrome
+deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+
+# Docker (still on Disco)
+deb [arch=amd64] https://download.docker.com/linux/ubuntu disco stable
+
+# Google Cloud SDK
+deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main
+
+# Kubernetes
+deb https://apt.kubernetes.io/ kubernetes-xenial main

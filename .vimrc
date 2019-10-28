@@ -27,7 +27,7 @@ set expandtab                  " Tab characters become 4 spaces
 set t_co=256                   " Enable 256 color
 set background=light           " Light background
 let g:airline_theme='one'      " Match airline theme
-colorscheme one                " Set colorscheme
+silent! colorscheme one        " Set colorscheme, silent for installation
 
 " Transparent background (no comment to the right)
 hi Normal guibg=NONE ctermbg=NONE
