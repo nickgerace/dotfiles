@@ -121,5 +121,4 @@ alias kgpa='kubectl get pods -A'
 alias o='operator-sdk'
 
 # Repositories
-alias go-status='~/git/go-status/bin/go-status ~/git'
 alias update-dotfiles='make -f ~/git/dotfiles/Makefile push'

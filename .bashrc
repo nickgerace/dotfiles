@@ -8,6 +8,10 @@
 # Display 256 colors.
 export TERM=xterm-256color
 
+# Set go path.
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
 # Set autocolors if they are available on the OS.
 if [[ -x /usr/bin/dircolors ]]; then
     alias ls="ls --color=auto"
@@ -19,23 +23,31 @@ if [[ -x /usr/bin/dircolors ]]; then
 fi
 
 # Load aliases if file exists and is readable.
-if [[ -r ~/.aliases.bash ]]; then source ~/.aliases.bash; fi
+if [[ -f ~/.aliases.bash ]]; then source ~/.aliases.bash; fi
 
 # Load bash completion when available.
-if [[ -r /etc/profile.d/bash_completion.sh ]]; then source /etc/profile.d/bash_completion.sh; fi
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    source /usr/share/bash-completion/bash_completion
+elif [[ -f /etc/profile.d/bash_completion.sh ]]; then
+    source /etc/profile.d/bash_completion.sh
+else
+    echo "Unable to start bash completion."
+fi
 
 # Add Kubectl autocompletion if installed.
-if type kubectl &> /dev/null; then source <(kubectl completion bash); fi
+if type kubectl &> /dev/null; then
+    source <(kubectl completion bash)
+    alias k='kubectl'
+    complete -F __start_kubectl k
+fi
 
 # Set default editor to vim.
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
-# Check if neofetch exists. If it does, execute.
-if type neofetch &> /dev/null; then neofetch; fi
-
-# Check if exa exists. If so, replace lls with it.
-if type exa &> /dev/null; then alias lls="exa"; fi
+# Optional: tools and startup utilities.
+# if type neofetch &> /dev/null; then neofetch; fi
+# if type exa &> /dev/null; then alias lls="exa"; fi
 
 # If tput colors are available, use them. Otherwise, use ASCII colors.
 # Finally, display the prompt.
