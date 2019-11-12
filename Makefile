@@ -13,7 +13,10 @@ install-vim:
 	vim +PlugInstall +qall
 
 ubuntu-sources:
-	cp $(REPO)/sources.list /etc/apt/sources.list
+	cp $(REPO)/ubuntu/sources.list /etc/apt/sources.list
+
+debian-unstable-sources:
+	cp $(REPO)/debian-unstable/sources.list /etc/apt/sources.list
 
 push:
 	cp $(HOME)/.aliases.bash $(REPO)/
