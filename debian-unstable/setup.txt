@@ -1,0 +1,10 @@
+Debian Unstable Setup
+written by: Nick Gerace
+
+- use the newest verison of Debian, Live ISO
+- tasksel desktop
+- tasksel laptop
+- add sources for unstable main contrib nonfree
+- install wifi and network drivers
+- setup and use firmware manager
+- install Chrome, Docker, Kubectl and more
