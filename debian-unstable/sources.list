@@ -1,1 +1,11 @@
+# Debian
 deb http://deb.debian.org/debian/ unstable main contrib non-free
+
+# Chrome
+deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+
+# Docker (using Debian 10 Buster)
+deb [arch=amd64] https://download.docker.com/linux/debian buster stable
+
+# Kubernetes
+deb https://apt.kubernetes.io/ kubernetes-xenial main

@@ -12,10 +12,10 @@ install-vim:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
 
-ubuntu-sources:
+install-ubuntu-sources:
 	cp $(REPO)/ubuntu/sources.list /etc/apt/sources.list
 
-debian-unstable-sources:
+install-debian-unstable-sources:
 	cp $(REPO)/debian-unstable/sources.list /etc/apt/sources.list
 
 push:
@@ -23,3 +23,9 @@ push:
 	cp $(HOME)/.vimrc $(REPO)/
 	cp $(HOME)/.bashrc $(REPO)/
 	cp $(HOME)/.bash_profile $(REPO)/
+
+push-ubuntu-sources:
+	cp /etc/apt/sources.list $(REPO)/ubuntu/sources.list
+
+push-debian-unstable-sources:
+	cp /etc/apt/sources.list $(REPO)/debian-unstable/sources.list

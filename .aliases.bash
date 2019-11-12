@@ -17,6 +17,7 @@ alias sau='sudo apt update -y'
 alias sauu='sudo apt update -y && sudo apt upgrade -y'
 alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
 alias saa='sudo apt autoremove -y'
+alias sal='sudo apt list --upgradeable'
 alias saduar='sadu && saa'
 alias sas='sudo apt search'
 alias apthistory='less /var/log/apt/history.log'
@@ -37,6 +38,10 @@ alias bup='brew upgrade'
 alias buu='brew update && brew upgrade'
 alias bs='brew search'
 alias bclean='brew cleanup'
+
+# Firmware
+alias update-firmware='fwupdmgr update'
+alias check-firmware='fwupdmger get-devices'
 
 # Git
 alias g='git'
@@ -116,9 +121,7 @@ alias fr='flask run'
 
 # Kubernetes
 alias k='kubectl'
+alias kgn='kubectl get nodes'
 alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
 alias o='operator-sdk'
-
-# Repositories
-alias update-dotfiles='make -f ~/git/dotfiles/Makefile push'

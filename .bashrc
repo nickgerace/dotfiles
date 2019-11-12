@@ -57,11 +57,11 @@ if tput setaf 1 &> /dev/null; then
     green=$(tput setaf 64)
     violet=$(tput setaf 61)
     bold=$(tput bold)
-    export PS1="\n${bold}${violet}\u${reset} at ${bold}${green}\h${reset} in ${bold}${blue}\w${reset}\n% "
+    export PS1="${bold}${violet}\u${reset} at ${bold}${green}\h${reset} in ${bold}${blue}\w${reset}\n% "
 else
     reset="\[\e[m\]"
     blue="\[\e[36m\]"
     green="\[\e[32m\]"
     violet="\[\e[35m\]"
-    export PS1="\n${violet}\u${reset} at ${green}\h${reset} in ${blue}\w${reset}\n% "
+    export PS1="${violet}\u${reset} at ${green}\h${reset} in ${blue}\w${reset}\n% "
 fi
