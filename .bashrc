@@ -11,6 +11,7 @@ export TERM=xterm-256color
 # Set go path.
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin
 
 # Set autocolors if they are available on the OS.
 if [[ -x /usr/bin/dircolors ]]; then
@@ -65,3 +66,7 @@ else
     violet="\[\e[35m\]"
     export PS1="${violet}\u${reset} at ${green}\h${reset} in ${blue}\w${reset}\n% "
 fi
+
+# Setup Ruby.
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
