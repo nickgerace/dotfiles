@@ -42,6 +42,12 @@ if type kubectl &> /dev/null; then
     complete -F __start_kubectl k
 fi
 
+# Setup Ruby environment.
+if type rbenv &> /dev/null; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
+
 # Set default editor to vim.
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -66,7 +72,6 @@ else
     violet="\[\e[35m\]"
     export PS1="${violet}\u${reset} at ${green}\h${reset} in ${blue}\w${reset}\n% "
 fi
-
-# Setup Ruby.
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+# Install Ruby Gems to ~/gems
+export GEM_HOME="$HOME/gems"
+export PATH="$HOME/gems/bin:$PATH"

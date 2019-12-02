@@ -81,6 +81,9 @@ alias checkpower='powerstat -R -c -z'
 alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # General
+alias ll='ls -l'
+alias la='ls -a'
+alias lal='ls -la'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -93,6 +96,7 @@ alias see-drives='sudo fdisk -l'
 alias check-os='cat /etc/os-release'
 alias ping5='ping -c 5'
 alias find-aliases='alias | grep'
+alias count-directories='ls -d * | wc -l'
 
 # Docker
 alias d='docker'
