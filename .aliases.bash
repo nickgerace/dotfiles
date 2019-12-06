@@ -13,9 +13,8 @@ alias vvim='vim ~/.vimrc'
 # Debian
 alias sai='sudo apt install'
 alias sar='sudo apt remove'
-alias sau='sudo apt update -y'
-alias sauu='sudo apt update -y && sudo apt upgrade -y'
-alias sadu='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y'
+alias sau='sudo apt update'
+alias sauu='sudo apt update && sudo apt upgrade -y'
 alias saa='sudo apt autoremove -y'
 alias sal='sudo apt list --upgradeable'
 alias saduar='sadu && saa'
@@ -41,7 +40,7 @@ alias bclean='brew cleanup'
 
 # Firmware
 alias update-firmware='fwupdmgr update'
-alias check-firmware='fwupdmger get-devices'
+alias check-firmware='fwupdmgr get-devices'
 
 # Git
 alias g='git'
@@ -95,7 +94,7 @@ alias vmake='vim Makefile'
 alias see-drives='sudo fdisk -l'
 alias check-os='cat /etc/os-release'
 alias ping5='ping -c 5'
-alias find-aliases='alias | grep'
+alias find-alias='alias | grep'
 alias count-directories='ls -d * | wc -l'
 
 # Docker
@@ -122,6 +121,9 @@ alias p='python3'
 alias prun='python3'
 alias pinstall='pip3 install'
 alias fr='flask run'
+
+# Go
+alias gocode='cd $GOPATH/src/github.com/nickgerace'
 
 # Kubernetes
 alias k='kubectl'
