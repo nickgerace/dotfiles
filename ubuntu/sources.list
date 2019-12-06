@@ -3,17 +3,20 @@
 # https://nickgerace.dev
 # ======================
 
-# Ubuntu
-deb http://us.archive.ubuntu.com/ubuntu/ eoan main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu/ eoan-updates main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu/ eoan-backports main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu eoan-security main restricted universe multiverse
+# Ubuntu Main
+deb http://us.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
+
+# Ubuntu Partner
+deb http://archive.canonical.com/ubuntu bionic partner
+
+# Docker
+deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
 
 # Chrome
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-
-# Docker (still on Disco)
-deb [arch=amd64] https://download.docker.com/linux/ubuntu disco stable
 
 # Google Cloud SDK
 deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main
