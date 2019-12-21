@@ -42,6 +42,9 @@ if type kubectl &> /dev/null; then
     complete -F __start_kubectl k
 fi
 
+# Add Kubebuilder to path.
+export PATH=$PATH:/usr/local/kubebuilder/bin
+
 # Setup Ruby environment.
 if [[ -d $HOME/.rbenv/bin ]]; then
     export PATH="$HOME/.rbenv/bin:$PATH"

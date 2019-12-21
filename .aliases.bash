@@ -59,6 +59,9 @@ alias reset-repo-to-last-commmit='git reset --hard'
 # Perforce
 alias po='p4 opened'
 
+# Tmux
+alias vtmux='vim ~/.tmux.conf'
+
 # Bash
 alias vbash='vim ~/.bashrc'
 alias sbash='source ~/.bashrc'
@@ -130,4 +133,4 @@ alias k='kubectl'
 alias kgn='kubectl get nodes'
 alias kgp='kubectl get pods'
 alias kgpa='kubectl get pods -A'
-alias o='operator-sdk'
+alias minikube-start='minikube start --vm-name=virtualbox'
