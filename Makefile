@@ -15,6 +15,9 @@ install-vim:
 install-tmux:
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
 
+install-other:
+	cp $(MAKEPATH)/.gitconfig $(HOME)/
+
 install-sources:
 	cp $(MAKEPATH)/ubuntu/sources.list /etc/apt/sources.list
 
@@ -24,6 +27,7 @@ push:
 	cp $(HOME)/.bashrc $(MAKEPATH)/
 	cp $(HOME)/.bash_profile $(MAKEPATH)/
 	cp $(HOME)/.tmux.conf $(MAKEPATH)/
+	cp $(HOME)/.gitconfig $(MAKEPATH)/
 
 push-sources:
 	cp /etc/apt/sources.list $(MAKEPATH)/ubuntu/sources.list
