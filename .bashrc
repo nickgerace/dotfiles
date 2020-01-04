@@ -59,6 +59,9 @@ export PATH="$HOME/gems/bin:$PATH"
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
+# Set Rust path.
+export PATH="$PATH:$HOME/.cargo/bin"
+
 # Optional: tools and startup utilities.
 # if type neofetch &> /dev/null; then neofetch; fi
 # if type exa &> /dev/null; then alias lls="exa"; fi
