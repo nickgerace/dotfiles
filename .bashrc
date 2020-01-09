@@ -12,6 +12,9 @@ export TERM=xterm-256color
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
+# Change history format to include timestamps.
+export HISTTIMEFORMAT="%d/%m/%y %T | "
+
 # Set Go path and add local installation of Go.
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
@@ -199,6 +202,7 @@ alias check-os='cat /etc/os-release'
 alias ping5='ping -c 5'
 alias findalias='alias | grep'
 alias count-directories='ls -d * | wc -l'
+alias path='echo $PATH | sed "s/:/\n/g"'
 
 # If tput colors are available, use them. Otherwise, use ASCII colors.
 # Finally, display the prompt.
