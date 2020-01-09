@@ -1,7 +1,6 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 install:
-	cp $(MAKEPATH)/.aliases.bash $(HOME)/
 	cp $(MAKEPATH)/.bashrc $(HOME)/
 	cp $(MAKEPATH)/.bash_profile $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
@@ -10,7 +9,6 @@ install:
 	vim +PlugInstall +qall
 
 push:
-	cp $(HOME)/.aliases.bash $(MAKEPATH)/
 	cp $(HOME)/.vimrc $(MAKEPATH)/
 	cp $(HOME)/.bashrc $(MAKEPATH)/
 	cp $(HOME)/.bash_profile $(MAKEPATH)/
