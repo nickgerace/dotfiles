@@ -103,19 +103,27 @@ fi
 
 # Git aliases.
 if type git &> /dev/null; then
+
+    # General git aliases.
     alias g='git'
     alias gadd='git add'
     alias gcomm='git commit'
     alias gcommit='git commit'
     alias gdiff='git diff'
     alias gfetch='git fetch'
-    alias gpom='git push origin master'
+    alias gpo='git push origin'
     alias gpull='git pull'
     alias gstat='git status'
     alias git-store-credentials='git config credential.helper store'
-    alias branch='git rev-parse --abbrev-ref HEAD'
     alias reset-repo-to-last-commmit='git reset --hard'
     alias vgitconf='vim ~/.gitconfig'
+
+    # Branch-related aliases.
+    alias branch='git rev-parse --abbrev-ref HEAD'
+    alias branches='git branch -a'
+    alias branch-new='git checkout -b'
+    alias branch-switch='git checkout'
+    alias branch-delete='git branch -d'
 fi
 
 # Perforce aliases.
@@ -126,6 +134,7 @@ fi
 # Tmux aliases.
 if type tmux &> /dev/null; then
     alias vtmux='vim ~/.tmux.conf'
+    alias tmuxa='tmux attach -t'
 fi
 
 # Powerstat aliases.
@@ -156,6 +165,12 @@ fi
 # Go aliases.
 if type go &> /dev/null; then
     alias gocode='cd $GOPATH/src/github.com/nickgerace'
+fi
+
+# Rust aliases.
+if type cargo &> /dev/null; then
+    alias cr='cargo run'
+    alias crq='cargo run --quiet'
 fi
 
 # Minikube aliases.

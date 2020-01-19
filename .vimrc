@@ -9,6 +9,7 @@ Plug 'rakr/vim-one'            " Light color theme
 Plug 'vim-airline/vim-airline' " Vim status bar
 Plug 'tpope/vim-surround'      " Bracket surrounding
 Plug 'airblade/vim-gitgutter'  " Git wrapper line by line
+Plug 'rust-lang/rust.vim'      " Rust plugin
 call plug#end()
 
 " General
