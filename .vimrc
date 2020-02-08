@@ -10,6 +10,7 @@ Plug 'vim-airline/vim-airline' " Vim status bar
 Plug 'tpope/vim-surround'      " Bracket surrounding
 Plug 'airblade/vim-gitgutter'  " Git wrapper line by line
 Plug 'rust-lang/rust.vim'      " Rust plugin
+Plug 'fatih/vim-go'            " Go plugin
 call plug#end()
 
 " General
@@ -32,9 +33,6 @@ silent! colorscheme one        " Set colorscheme, silent for installation
 
 " Transparent background (no comment to the right)
 hi Normal guibg=NONE ctermbg=NONE
-
-" TESTING: not currently in permanent use
-" Plug 'fatih/vim-go'
 
 " OPTIONAL: dark theme options
 " set background=dark
