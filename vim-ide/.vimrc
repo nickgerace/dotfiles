@@ -3,6 +3,16 @@
 " https://nickgerace.dev
 " ======================
 
+" Plugins
+call plug#begin()
+Plug 'rakr/vim-one'            " Light color theme
+Plug 'vim-airline/vim-airline' " Vim status bar
+Plug 'tpope/vim-surround'      " Bracket surrounding
+Plug 'airblade/vim-gitgutter'  " Git wrapper line by line
+Plug 'rust-lang/rust.vim'      " Rust plugin
+Plug 'fatih/vim-go'            " Go plugin
+call plug#end()
+
 " General
 syntax enable                  " Enable syntax checking
 set number                     " Set line numbers
@@ -18,6 +28,13 @@ set expandtab                  " Tab characters become 4 spaces
 " Theme
 set t_co=256                   " Enable 256 color
 set background=light           " Light background
+let g:airline_theme='one'      " Match airline theme
+silent! colorscheme one        " Set colorscheme, silent for installation
 
 " Transparent background (no comment to the right)
 hi Normal guibg=NONE ctermbg=NONE
+
+" OPTIONAL: dark theme options
+" set background=dark
+" colorscheme palenight
+" Plug 'drewtempelmeyer/palenight.vim'
