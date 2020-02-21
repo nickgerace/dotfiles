@@ -23,6 +23,9 @@ export PATH=$PATH:/usr/local/go/bin
 # Add Kubebuilder to path.
 export PATH=$PATH:/usr/local/kubebuilder/bin
 
+# Add NodeJS to path.
+export PATH=$PATH:/usr/local/nodejs/bin
+
 # Install Ruby Gems to the gems directory.
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
@@ -115,6 +118,7 @@ if type git &> /dev/null; then
     alias gpull='git pull'
     alias gstat='git status'
     alias git-store-credentials='git config credential.helper store'
+    alias git-store-credentials-global='git config credential.helper store --global'
     alias reset-repo-to-last-commmit='git reset --hard'
     alias vgitconf='vim ~/.gitconfig'
 

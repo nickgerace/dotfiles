@@ -5,12 +5,14 @@
 
 " Plugins
 call plug#begin()
-Plug 'rakr/vim-one'            " Light color theme
-Plug 'vim-airline/vim-airline' " Vim status bar
-Plug 'tpope/vim-surround'      " Bracket surrounding
-Plug 'airblade/vim-gitgutter'  " Git wrapper line by line
-Plug 'rust-lang/rust.vim'      " Rust plugin
-Plug 'fatih/vim-go'            " Go plugin
+Plug 'rakr/vim-one'                             " Light color theme
+Plug 'vim-airline/vim-airline'                  " Vim status bar
+Plug 'tpope/vim-surround'                       " Bracket surrounding
+Plug 'airblade/vim-gitgutter'                   " Git wrapper line by line
+Plug 'rust-lang/rust.vim'                       " Rust plugin
+Plug 'fatih/vim-go'                             " Go plugin
+Plug 'godlygeek/tabular'                        " Lines up text nicely
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " VSCode intellisense
 call plug#end()
 
 " General
