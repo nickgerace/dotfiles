@@ -5,9 +5,6 @@ install:
 	cp $(MAKEPATH)/.bash_profile $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
 	cp $(MAKEPATH)/.vimrc $(HOME)/
-
-install-with-vim-ide: install
-	cp $(MAKEPATH)/vim-ide/.vimrc $(HOME)/
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
 
