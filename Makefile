@@ -10,9 +10,7 @@ NODE_VERSION_FULL:=node-$(NODE_VERSION)-linux-x64
 NODE_FILE:=$(NODE_VERSION_FULL).tar.xz
 NODE_LOCATION:=/usr/local
 
-###################################################################################################
-# PRIMARY TARGETS
-###################################################################################################
+# Primary targets.
 install: message main vim
 
 push:
@@ -21,9 +19,7 @@ push:
 	cp $(HOME)/.bash_profile $(MAKEPATH)/
 	cp $(HOME)/.tmux.conf $(MAKEPATH)/
 
-###################################################################################################
-# SUB TARGETS
-###################################################################################################
+# Secondary targets.
 message:
 	@printf "Must have the following installed...\n"
 	@printf "  [ vim | curl | wget | bash | tmux | tar ]\n"
@@ -33,30 +29,30 @@ main:
 	cp $(MAKEPATH)/.bash_profile $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
 
-vim: vim-pre-node vim-post-node
-
-vim-post-node:
+vim: node
 	cp $(MAKEPATH)/.vimrc $(HOME)/
 	export PATH=$(PATH):$(NODE_LOCATION)
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
 
-vim-pre-node:
+node:
 	@printf "We need NodeJS installed for vim plug(s) to work...\n"
 	cd $(MAKEPATH); wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_FILE)
 	sudo tar -xJvf $(MAKEPATH)/$(NODE_FILE) -C $(NODE_LOCATION)
 	sudo mv $(NODE_LOCATION)/$(NODE_VERSION_FULL) $(NODE_LOCATION)/nodejs
 	rm $(MAKEPATH)/$(NODE_FILE)
 
-###################################################################################################
-# TEST TARGETS
-###################################################################################################
+# Test targets.
 test-dotfiles:
 	cd $(MAKEPATH); docker build -f test/Dockerfile -t test-dotfiles .
 
+test-dotfiles-interactive: test-dotfiles
+	docker run -it --entrypoint /bin/bash test-dotfiles
+
 docker-install: message main docker-vim
 
-docker-vim: docker-node vim-post-node
+docker-vim: docker-node
+	cp $(MAKEPATH)/.vimrc $(HOME)/
 
 docker-node:
 	@printf "We need NodeJS installed for vim plug(s) to work...\n"

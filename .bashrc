@@ -223,6 +223,9 @@ alias findalias='alias | grep'
 alias count-directories='ls -d * | wc -l'
 alias path='echo $PATH | sed "s/:/\n/g"'
 
+# Other aliases.
+if [[ -r ~/.aliases.bash ]]; then source ~/.aliases.bash; fi
+
 # If tput colors are available, use them. Otherwise, use ASCII colors.
 # Finally, display the prompt.
 if tput setaf 1 &> /dev/null; then
