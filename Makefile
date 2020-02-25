@@ -9,6 +9,8 @@ NODE_VERSION:=v12.16.1
 NODE_VERSION_FULL:=node-$(NODE_VERSION)-linux-x64
 NODE_FILE:=$(NODE_VERSION_FULL).tar.xz
 NODE_LOCATION:=/usr/local
+# OPTIONAL: user your home directory.
+# NODE_LOCATION:=~/local
 
 # Primary targets.
 install: message main vim
@@ -31,7 +33,6 @@ main:
 
 vim: node
 	cp $(MAKEPATH)/.vimrc $(HOME)/
-	export PATH=$(PATH):$(NODE_LOCATION)
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	vim +PlugInstall +qall
 
