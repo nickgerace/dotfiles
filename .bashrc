@@ -5,11 +5,20 @@
 # https://nickgerace.dev
 # ======================
 
+# If not running interactively, don't do anything.
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# Update the windows and columns as necessary.
+shopt -s checkwinsize
+
 # Display 256 colors.
 export TERM=xterm-256color
 
-# Set default editor to vim.
-export VISUAL=vim
+# Set default editor to neovim.
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 # Change history format to include timestamps.
@@ -67,12 +76,16 @@ elif grep -q "ID=fedora" /etc/os-release; then
 fi
 
 # Load bash completion when available.
-if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-    source /usr/share/bash-completion/bash_completion
-elif [[ -f /etc/profile.d/bash_completion.sh ]]; then
-    source /etc/profile.d/bash_completion.sh
-else
-    echo "Unable to start bash completion."
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/profile.d/bash_completion.sh ]; then
+	source /etc/profile.d/bash_completion.sh
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    else
+        echo "Unable to start bash completion."
+    fi
 fi
 
 # Add kubectl autocompletion if installed.
@@ -92,13 +105,13 @@ if [[ -d $HOME/.rbenv/bin ]]; then
     eval "$(rbenv init -)"
 fi
 
-# Vim aliases.
-if type vim &> /dev/null; then
-    alias update-vim-plugs='vim +PlugUpdate +qall'
-    alias upgrade-vim-plugs='vim +PlugUpdate +PlugUpgrade +PlugClean +qall'
-    alias vi='vim'
-    alias v='vim'
-    alias vvim='vim ~/.vimrc'
+# Neovim aliases.
+if type nvim &> /dev/null; then
+    alias update-nvim-plugs='nvim +PlugUpdate +qall'
+    alias upgrade-nvim-plugs='nvim +PlugUpdate +PlugUpgrade +PlugClean +qall'
+    alias vi='nvim'
+    alias v='nvim'
+    alias vnvim='nvim ~/.config/nvim/init.vim'
 fi
 
 # Firmware manager aliases.
@@ -123,7 +136,7 @@ if type git &> /dev/null; then
     alias git-store-credentials='git config credential.helper store'
     alias git-store-credentials-global='git config credential.helper store --global'
     alias reset-repo-to-last-commmit='git reset --hard'
-    alias vgitconf='vim ~/.gitconfig'
+    alias vgitconf='nvim ~/.gitconfig'
 
     # Branch-related aliases.
     alias branch='git rev-parse --abbrev-ref HEAD'
@@ -140,7 +153,7 @@ fi
 
 # Tmux aliases.
 if type tmux &> /dev/null; then
-    alias vtmux='vim ~/.tmux.conf'
+    alias vtmux='nvim ~/.tmux.conf'
     alias tmuxa='tmux attach -t'
 fi
 
@@ -166,7 +179,7 @@ fi
 
 # Make aliases.
 if type make &> /dev/null; then
-    alias vmake='vim Makefile'
+    alias vmake='nvim Makefile'
 fi
 
 # Go aliases.
@@ -205,7 +218,7 @@ if type docker &> /dev/null; then
 fi
 
 # After all other aliases, add helpful bash defaults.
-alias vbash='vim ~/.bashrc'
+alias vbash='nvim ~/.bashrc'
 alias vbashrc='vbash'
 alias sbash='source ~/.bashrc'
 alias sbashrc='sbash'

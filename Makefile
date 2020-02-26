@@ -18,7 +18,7 @@ install: message main vim
 push:
 	cp $(HOME)/.vimrc $(MAKEPATH)/
 	cp $(HOME)/.bashrc $(MAKEPATH)/
-	cp $(HOME)/.bash_profile $(MAKEPATH)/
+	cp $(HOME)/.profile $(MAKEPATH)/
 	cp $(HOME)/.tmux.conf $(MAKEPATH)/
 
 # Secondary targets.
@@ -28,7 +28,7 @@ message:
 
 main:
 	cp $(MAKEPATH)/.bashrc $(HOME)/
-	cp $(MAKEPATH)/.bash_profile $(HOME)/
+	cp $(MAKEPATH)/.profile $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
 
 vim: node
