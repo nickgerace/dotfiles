@@ -109,6 +109,7 @@ fi
 if type nvim &> /dev/null; then
     alias update-nvim-plugs='nvim +PlugUpdate +qall'
     alias upgrade-nvim-plugs='nvim +PlugUpdate +PlugUpgrade +PlugClean +qall'
+    alias vim='nvim'
     alias vi='nvim'
     alias v='nvim'
     alias vnvim='nvim ~/.config/nvim/init.vim'

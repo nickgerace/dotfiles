@@ -16,10 +16,11 @@ NODE_LOCATION:=/usr/local
 install: message main vim
 
 push:
-	cp $(HOME)/.vimrc $(MAKEPATH)/
-	cp $(HOME)/.bashrc $(MAKEPATH)/
-	cp $(HOME)/.profile $(MAKEPATH)/
-	cp $(HOME)/.tmux.conf $(MAKEPATH)/
+	-cp $(HOME)/.vimrc $(MAKEPATH)/
+	-cp $(HOME)/.bashrc $(MAKEPATH)/
+	-cp $(HOME)/.profile $(MAKEPATH)/
+	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
+	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/
 
 # Secondary targets.
 message:
@@ -30,6 +31,8 @@ main:
 	cp $(MAKEPATH)/.bashrc $(HOME)/
 	cp $(MAKEPATH)/.profile $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
+	mkdir -p $(HOME)/.config/nvim/
+	cp $(MAKEPATH)/init.vim $(HOME)/.config/nvim/
 
 vim: node
 	cp $(MAKEPATH)/.vimrc $(HOME)/
