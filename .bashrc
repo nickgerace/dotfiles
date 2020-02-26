@@ -27,11 +27,14 @@ export PATH=$PATH:/usr/local/kubebuilder/bin
 export PATH=$PATH:/usr/local/nodejs/bin
 
 # Install Ruby Gems to the gems directory.
-export GEM_HOME="$HOME/gems"
-export PATH="$HOME/gems/bin:$PATH"
+export GEM_HOME=$HOME/gems
+export PATH=$HOME/gems/bin:$PATH
 
 # Set Rust path in the cargo directory.
-export PATH="$PATH:$HOME/.cargo/bin"
+export PATH=$PATH:$HOME/.cargo/bin
+
+# Add the Neovim path.
+export PATH=$HOME/local/nvim/bin:$PATH
 
 # Set autocolors if they are available on the OS.
 if [[ -x /usr/bin/dircolors ]]; then
