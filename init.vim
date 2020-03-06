@@ -1,7 +1,5 @@
-" ======================
-"        INIT.VIM
+" NEOVIM INIT.VIM
 " https://nickgerace.dev
-" ======================
 
 " Plugins from vim-plug.
 call plug#begin()

@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-# ======================
-#         BASHRC
+# BASHRC
 # https://nickgerace.dev
-# ======================
 
 # If not running interactively, don't do anything.
 case $- in
@@ -29,6 +27,9 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin
 
+# Add all binaries in the local path.
+export PATH=$PATH:/usr/local/bin
+
 # Add Kubebuilder to path.
 export PATH=$PATH:/usr/local/kubebuilder/bin
 
@@ -38,12 +39,13 @@ export PATH=$PATH:/usr/local/nodejs/bin
 # Install Ruby Gems to the gems directory.
 export GEM_HOME=$HOME/gems
 export PATH=$HOME/gems/bin:$PATH
+export PATH=$HOME/.rbenv/bin:$PATH
 
 # Set Rust path in the cargo directory.
 export PATH=$PATH:$HOME/.cargo/bin
 
 # Add the Neovim path.
-export PATH=$HOME/local/nvim/bin:$PATH
+export PATH=/usr/local/nvim/bin:$PATH
 
 # Set autocolors if they are available on the OS.
 if [[ -x /usr/bin/dircolors ]]; then
@@ -89,140 +91,112 @@ if ! shopt -oq posix; then
 fi
 
 # Add kubectl autocompletion if installed.
-# Then, add kubectl aliases.
 if type kubectl &> /dev/null; then
     source <(kubectl completion bash)
-    alias k='kubectl'
-    alias kgn='kubectl get nodes'
-    alias kgp='kubectl get pods'
-    alias kgpa='kubectl get pods -A'
     complete -F __start_kubectl k
 fi
 
 # Setup Ruby environment.
 if [[ -d $HOME/.rbenv/bin ]]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
 fi
 
 # Neovim aliases.
-if type nvim &> /dev/null; then
-    alias update-nvim-plugs='nvim +PlugUpdate +qall'
-    alias upgrade-nvim-plugs='nvim +PlugUpdate +PlugUpgrade +PlugClean +qall'
-    alias vim='nvim'
-    alias vi='nvim'
-    alias v='nvim'
-    alias vnvim='nvim ~/.config/nvim/init.vim'
-fi
+alias update-nvim-plugs='nvim +PlugUpdate +qall'
+alias upgrade-nvim-plugs='nvim +PlugUpdate +PlugUpgrade +PlugClean +qall'
+alias vim='nvim'
+alias vi='nvim'
+alias v='nvim'
+alias vnvim='nvim $HOME/.config/nvim/init.vim'
 
-# Firmware manager aliases.
-if type fwdupmgr &> /dev/null; then
-    alias update-firmware='fwupdmgr update'
-    alias check-firmware='fwupdmgr get-devices'
-fi
+# Firmware manager aliases (Linux only).
+alias update-firmware='fwupdmgr update'
+alias check-firmware='fwupdmgr get-devices'
 
-# Git aliases.
-if type git &> /dev/null; then
+# General git aliases.
+alias g='git'
+alias gadd='git add'
+alias gcomm='git commit'
+alias gcommit='git commit'
+alias gdiff='git diff'
+alias gfetch='git fetch'
+alias gpo='git push origin'
+alias gpull='git pull'
+alias gstat='git status'
+alias git-store-credentials='git config credential.helper store'
+alias git-store-credentials-global='git config credential.helper store --global'
+alias reset-repo-to-last-commmit='git reset --hard'
+alias vgitconf='nvim $HOME/.gitconfig'
 
-    # General git aliases.
-    alias g='git'
-    alias gadd='git add'
-    alias gcomm='git commit'
-    alias gcommit='git commit'
-    alias gdiff='git diff'
-    alias gfetch='git fetch'
-    alias gpo='git push origin'
-    alias gpull='git pull'
-    alias gstat='git status'
-    alias git-store-credentials='git config credential.helper store'
-    alias git-store-credentials-global='git config credential.helper store --global'
-    alias reset-repo-to-last-commmit='git reset --hard'
-    alias vgitconf='nvim ~/.gitconfig'
-
-    # Branch-related aliases.
-    alias branch='git rev-parse --abbrev-ref HEAD'
-    alias branches='git branch -a'
-    alias branch-new='git checkout -b'
-    alias branch-switch='git checkout'
-    alias branch-delete='git branch -d'
-fi
+# Branch-related aliases.
+alias branch='git branch'
+alias branch-current='git rev-parse --abbrev-ref HEAD'
+alias branches='git branch -a'
+alias branch-new='git checkout -b'
+alias branch-switch='git checkout'
+alias branch-delete='git branch -d'
 
 # Perforce aliases.
-if type p4 &> /dev/null; then
-    alias po='p4 opened'
-fi
+alias po='p4 opened'
 
 # Tmux aliases.
-if type tmux &> /dev/null; then
-    alias vtmux='nvim ~/.tmux.conf'
-    alias tmuxa='tmux attach -t'
-fi
+alias vtmux='nvim $HOME/.tmux.conf'
+alias tmuxa='tmux attach -t'
 
 # Powerstat aliases.
-if type powerstat &> /dev/null; then
-    alias checkpower='powerstat -R -c -z'
-fi
+alias checkpower='powerstat -R -c -z'
 
 # Dig aliases.
-if type dig &> /dev/null; then
-    alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
-fi
+alias get-public-ip-address='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # Fdisk aliases.
-if type fdisk &> /dev/null; then
-    alias see-drives='sudo fdisk -l'
-fi
+alias see-drives='sudo fdisk -l'
+
+# Kubectl aliases.
+alias k='kubectl'
+alias kgn='kubectl get nodes'
+alias kgp='kubectl get pods'
+alias kgpa='kubectl get pods -A'
 
 # Exa aliases.
-if type exa &> /dev/null; then
-    alias x='exa'
-fi
+alias x='exa'
 
 # Make aliases.
-if type make &> /dev/null; then
-    alias vmake='nvim Makefile'
-fi
+alias vmake='nvim Makefile'
 
 # Go aliases.
-if type go &> /dev/null; then
-    alias gocode='cd $GOPATH/src/github.com/nickgerace'
-fi
+alias gocode='cd $GOPATH/src/github.com/nickgerace'
 
 # Rust aliases.
-if type cargo &> /dev/null; then
-    alias cr='cargo run'
-    alias crq='cargo run --quiet'
-fi
+alias cr='cargo run'
+alias crq='cargo run --quiet'
 
 # Minikube aliases.
-if type minikube &> /dev/null; then
-    alias minikube-start='minikube start --vm-driver virtualbox'
-fi
+alias minikube-start='minikube start --vm-driver virtualbox'
 
 # Docker aliases.
-if type docker &> /dev/null; then
-    alias d='docker'
-    alias dlint='docker run --rm -i hadolint/hadolint < Dockerfile'
-    alias dpurge='docker system purge'
-    alias dpurge-all='docker system purge -a'
-    alias dflask='docker run -dp 5000:5000'
-    alias dps='docker ps'
-    alias dpsa='docker ps -a'
-    alias dimg='docker images'
-    alias dfind='tree -P "Dockerfile"'
-    alias drun='docker run'
-    alias dc='docker-compose'
-    alias run-newest-python='docker run -it python:rc-alpine'
-    alias run-newest-golang='docker run -it golang:rc-alpine'
-    alias run-newest-debian='docker run -it debian:unstable-slim'
-    alias run-newest-ubuntu='docker run -it ubuntu:rolling'
-fi
+alias d='docker'
+alias dlint='docker run --rm -i hadolint/hadolint < Dockerfile'
+alias dpurge='docker system purge'
+alias dpurge-all='docker system purge -a'
+alias dflask='docker run -dp 5000:5000'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias dimg='docker images'
+alias dfind='tree -P "Dockerfile"'
+alias drun='docker run'
+alias dc='docker-compose'
+alias run-newest-python='docker run -it python:rc-alpine'
+alias run-newest-golang='docker run -it golang:rc-alpine'
+alias run-newest-debian='docker run -it debian:unstable-slim'
+alias run-newest-ubuntu='docker run -it ubuntu:rolling'
 
 # After all other aliases, add helpful bash defaults.
-alias vbash='nvim ~/.bashrc'
+alias vbash='nvim $HOME/.bashrc'
 alias vbashrc='vbash'
-alias sbash='source ~/.bashrc'
+alias sbash='source $HOME/.bashrc'
 alias sbashrc='sbash'
+alias vprofile='nvim $HOME/.profile'
 alias bye='sudo shutdown now'
 alias ll='ls -l'
 alias la='ls -a'
@@ -241,7 +215,7 @@ alias count-directories='ls -d * | wc -l'
 alias path='echo $PATH | sed "s/:/\n/g"'
 
 # Other aliases.
-if [[ -r ~/.aliases.bash ]]; then source ~/.aliases.bash; fi
+if [ -r $HOME/.aliases.bash ]; then source $HOME/.aliases.bash; fi
 
 # If tput colors are available, use them. Otherwise, use ASCII colors.
 # Finally, display the prompt.

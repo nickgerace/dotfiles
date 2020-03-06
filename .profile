@@ -1,7 +1,5 @@
-# ======================
-#      BASH PROFILE
+# BASH PROFILE
 # https://nickgerace.dev
-# ======================
 
 # Load bashrc if it exists.
 if [ -n "$BASH_VERSION" ]; then

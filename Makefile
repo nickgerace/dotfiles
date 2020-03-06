@@ -3,48 +3,33 @@
 
 # Path to this repository.
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
-# All Node related variables. These are for VIM plugins.
-NODE_VERSION:=v12.16.1
-NODE_VERSION_FULL:=node-$(NODE_VERSION)-linux-x64
-NODE_FILE:=$(NODE_VERSION_FULL).tar.xz
-NODE_LOCATION:=/usr/local
-# OPTIONAL: user your home directory.
-# NODE_LOCATION:=~/local
+NEOVIM_PATH:=/usr/local
+NEOVIM_VERSION:=v0.4.3
 
 # Primary targets.
-install: message main vim
+install: install-dotfiles install-neovim
 
-push:
-	-cp $(HOME)/.vimrc $(MAKEPATH)/
-	-cp $(HOME)/.bashrc $(MAKEPATH)/
-	-cp $(HOME)/.profile $(MAKEPATH)/
-	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
-	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/
-
-# Secondary targets.
-message:
-	@printf "Must have the following installed...\n"
-	@printf "  [ vim | curl | wget | bash | tmux | tar ]\n"
-
-main:
+install-dotfiles:
 	cp $(MAKEPATH)/.bashrc $(HOME)/
 	cp $(MAKEPATH)/.profile $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
 	mkdir -p $(HOME)/.config/nvim/
 	cp $(MAKEPATH)/init.vim $(HOME)/.config/nvim/
 
-vim: node
-	cp $(MAKEPATH)/.vimrc $(HOME)/
-	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	vim +PlugInstall +qall
+install-neovim:
+	sudo rm -r $(NEOVIM_PATH)/nvim
+	cd $(MAKEPATH); wget https://github.com/neovim/neovim/releases/download/$(NEOVIM_VERSION)/nvim-linux64.tar.gz
+	cd $(MAKEPATH); tar -xzf nvim-linux64.tar.gz
+	sudo mv $(MAKEPATH)/nvim-linux64 $(NEOVIM_PATH)/nvim
+	-rm $(MAKEPATH)nvim-linux64.tar.gz
+	if ! [ -f ~/.local/share/nvim/site/autoload/plug.vim ]; then curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; fi
+	$(NEOVIM_PATH)/nvim +PlugInstall +qall
 
-node:
-	@printf "We need NodeJS installed for vim plug(s) to work...\n"
-	cd $(MAKEPATH); wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_FILE)
-	sudo tar -xJvf $(MAKEPATH)/$(NODE_FILE) -C $(NODE_LOCATION)
-	sudo mv $(NODE_LOCATION)/$(NODE_VERSION_FULL) $(NODE_LOCATION)/nodejs
-	rm $(MAKEPATH)/$(NODE_FILE)
+push:
+	-cp $(HOME)/.bashrc $(MAKEPATH)/
+	-cp $(HOME)/.profile $(MAKEPATH)/
+	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
+	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/
 
 # Test targets.
 test-dotfiles:
@@ -53,14 +38,24 @@ test-dotfiles:
 test-dotfiles-interactive: test-dotfiles
 	docker run -it --entrypoint /bin/bash test-dotfiles
 
-docker-install: message main docker-vim
-
-docker-vim: docker-node
-	cp $(MAKEPATH)/.vimrc $(HOME)/
-
-docker-node:
-	@printf "We need NodeJS installed for vim plug(s) to work...\n"
-	cd $(MAKEPATH); wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_FILE)
-	tar -xJvf $(MAKEPATH)/$(NODE_FILE) -C $(NODE_LOCATION)
-	mv $(NODE_LOCATION)/$(NODE_VERSION_FULL) $(NODE_LOCATION)/nodejs
-	rm $(MAKEPATH)/$(NODE_FILE)
+# OPTIONAL: All Node related targets for installing the coc.vim extension.
+#
+# All Node related variables.
+# NODE_VERSION:=v12.16.1
+# NODE_VERSION_FULL:=node-$(NODE_VERSION)-linux-x64
+# NODE_FILE:=$(NODE_VERSION_FULL).tar.xz
+# NODE_LOCATION:=/usr/local
+#
+# node:
+# 	@printf "We need NodeJS installed for vim plug(s) to work...\n"
+# 	cd $(MAKEPATH); wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_FILE)
+# 	sudo tar -xJvf $(MAKEPATH)/$(NODE_FILE) -C $(NODE_LOCATION)
+# 	sudo mv $(NODE_LOCATION)/$(NODE_VERSION_FULL) $(NODE_LOCATION)/nodejs
+# 	rm $(MAKEPATH)/$(NODE_FILE)
+# 
+# docker-node:
+# 	@printf "We need NodeJS installed for vim plug(s) to work...\n"
+# 	cd $(MAKEPATH); wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_FILE)
+# 	tar -xJvf $(MAKEPATH)/$(NODE_FILE) -C $(NODE_LOCATION)
+# 	mv $(NODE_LOCATION)/$(NODE_VERSION_FULL) $(NODE_LOCATION)/nodejs
+# 	rm $(MAKEPATH)/$(NODE_FILE)
