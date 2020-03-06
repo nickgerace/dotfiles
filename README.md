@@ -10,7 +10,6 @@ A collection of my dotfiles and related scripts.
 The following must be installed before the **make** command is performed.
 
 - bash
-- vim
 - curl
 - git
 - tmux

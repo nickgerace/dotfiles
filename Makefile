@@ -1,29 +1,34 @@
 # DOTFILES
 # https://nickgerace.dev
 
-# Path to this repository.
+# All variables for Make targets.
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-NEOVIM_PATH:=/usr/local
+NEOVIM_PATH:=$(HOME)/local
 NEOVIM_VERSION:=v0.4.3
 
-# Primary targets.
-install: install-dotfiles install-neovim
+# All Make targets.
+install: dotfiles neovim
 
-install-dotfiles:
+dotfiles:
 	cp $(MAKEPATH)/.bashrc $(HOME)/
 	cp $(MAKEPATH)/.profile $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
 	mkdir -p $(HOME)/.config/nvim/
 	cp $(MAKEPATH)/init.vim $(HOME)/.config/nvim/
 
-install-neovim:
-	sudo rm -r $(NEOVIM_PATH)/nvim
+neovim: download plugs
+
+download:
+	-rm -r $(NEOVIM_PATH)/nvim
 	cd $(MAKEPATH); wget https://github.com/neovim/neovim/releases/download/$(NEOVIM_VERSION)/nvim-linux64.tar.gz
 	cd $(MAKEPATH); tar -xzf nvim-linux64.tar.gz
-	sudo mv $(MAKEPATH)/nvim-linux64 $(NEOVIM_PATH)/nvim
-	-rm $(MAKEPATH)nvim-linux64.tar.gz
-	if ! [ -f ~/.local/share/nvim/site/autoload/plug.vim ]; then curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; fi
-	$(NEOVIM_PATH)/nvim +PlugInstall +qall
+	mkdir -p $(NEOVIM_PATH)
+	mv $(MAKEPATH)/nvim-linux64 $(NEOVIM_PATH)/nvim
+	-rm $(MAKEPATH)/nvim-linux64.tar.gz
+
+plugs:
+	-if ! [ -f $(HOME)/.local/share/nvim/site/autoload/plug.vim ]; then curl -fLo $(HOME)/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; fi
+	$(NEOVIM_PATH)/nvim/bin/nvim +PlugInstall +qall
 
 push:
 	-cp $(HOME)/.bashrc $(MAKEPATH)/
@@ -31,11 +36,10 @@ push:
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/
 
-# Test targets.
-test-dotfiles:
+docker-test:
 	cd $(MAKEPATH); docker build -f test/Dockerfile -t test-dotfiles .
 
-test-dotfiles-interactive: test-dotfiles
+docker-test-interactive: docker-test
 	docker run -it --entrypoint /bin/bash test-dotfiles
 
 # OPTIONAL: All Node related targets for installing the coc.vim extension.
