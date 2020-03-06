@@ -45,7 +45,7 @@ export PATH=$HOME/.rbenv/bin:$PATH
 export PATH=$PATH:$HOME/.cargo/bin
 
 # Add the Neovim path.
-export PATH=/usr/local/nvim/bin:$PATH
+export PATH=$HOME/local/nvim/bin:$PATH
 
 # Set autocolors if they are available on the OS.
 if [[ -x /usr/bin/dircolors ]]; then
@@ -101,13 +101,17 @@ if [[ -d $HOME/.rbenv/bin ]]; then
     eval "$(rbenv init -)"
 fi
 
-# Neovim aliases.
-alias update-nvim-plugs='nvim +PlugUpdate +qall'
-alias upgrade-nvim-plugs='nvim +PlugUpdate +PlugUpgrade +PlugClean +qall'
-alias vim='nvim'
-alias vi='nvim'
-alias v='nvim'
-alias vnvim='nvim $HOME/.config/nvim/init.vim'
+# Neovim aliases. Only use if neovim is installed.
+if [ "$(command -v nvim)" ]; then
+    alias update-nvim-plugs='nvim +PlugUpdate +qall'
+    alias upgrade-nvim-plugs='nvim +PlugUpdate +PlugUpgrade +PlugClean +qall'
+    alias neovim='nvim'
+    alias vim='nvim'
+    alias vi='nvim'
+    alias v='nvim'
+    alias vvim='nvim $HOME/.config/nvim/init.vim'
+    alias vnvim='nvim $HOME/.config/nvim/init.vim'
+fi
 
 # Firmware manager aliases (Linux only).
 alias update-firmware='fwupdmgr update'
