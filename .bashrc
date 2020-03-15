@@ -120,8 +120,8 @@ alias check-firmware='fwupdmgr get-devices'
 # General git aliases.
 alias g='git'
 alias gadd='git add'
-alias gcomm='git commit'
-alias gcommit='git commit'
+alias gcomm='git commit -s'
+alias gcommit='git commit -s'
 alias gdiff='git diff'
 alias gfetch='git fetch'
 alias gpo='git push origin'
@@ -146,6 +146,9 @@ alias po='p4 opened'
 # Tmux aliases.
 alias vtmux='nvim $HOME/.tmux.conf'
 alias tmuxa='tmux attach -t'
+alias tmuxl='tmux ls'
+alias tmuxn='tmux new -s'
+alias tmuxk='tmux kill-session -t'
 
 # Powerstat aliases.
 alias checkpower='powerstat -R -c -z'

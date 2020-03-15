@@ -43,6 +43,9 @@ function! TrimWhitespace()
     call winrestview(l:save)
 endfunction
 
+" Add default filetypes for odd files.
+au BufRead,BufNewFile Jenkinsfile set filetype=groovy
+
 " Add custom functions.
 let mapleader=","
 nmap <leader>t :call TrimWhitespace()<CR>

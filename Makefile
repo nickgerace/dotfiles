@@ -3,8 +3,6 @@
 
 # All variables for Make targets.
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-NEOVIM_PATH:=$(HOME)/local
-NEOVIM_VERSION:=v0.4.3
 
 # All Make targets.
 install: dotfiles neovim
@@ -16,19 +14,9 @@ dotfiles:
 	mkdir -p $(HOME)/.config/nvim/
 	cp $(MAKEPATH)/init.vim $(HOME)/.config/nvim/
 
-neovim: download plugs
-
-download:
-	-rm -r $(NEOVIM_PATH)/nvim
-	cd $(MAKEPATH); wget https://github.com/neovim/neovim/releases/download/$(NEOVIM_VERSION)/nvim-linux64.tar.gz
-	cd $(MAKEPATH); tar -xzf nvim-linux64.tar.gz
-	mkdir -p $(NEOVIM_PATH)
-	mv $(MAKEPATH)/nvim-linux64 $(NEOVIM_PATH)/nvim
-	-rm $(MAKEPATH)/nvim-linux64.tar.gz
-
-plugs:
+neovim:
 	-if ! [ -f $(HOME)/.local/share/nvim/site/autoload/plug.vim ]; then curl -fLo $(HOME)/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; fi
-	$(NEOVIM_PATH)/nvim/bin/nvim +PlugInstall +qall
+	nvim +PlugInstall +qall
 
 push:
 	-cp $(HOME)/.bashrc $(MAKEPATH)/
@@ -41,6 +29,20 @@ docker-test:
 
 docker-test-interactive: docker-test
 	docker run -it --entrypoint /bin/bash test-dotfiles
+
+# OPTIONAL: Bonus Neovim targets for manual installation.
+# NEOVIM_PATH:=$(HOME)/local
+# NEOVIM_VERSION:=v0.4.3
+#
+# neovim-download:
+# 	-rm -r $(NEOVIM_PATH)/nvim
+# 	cd $(MAKEPATH); wget https://github.com/neovim/neovim/releases/download/$(NEOVIM_VERSION)/nvim-linux64.tar.gz
+# 	cd $(MAKEPATH); tar -xzf nvim-linux64.tar.gz
+# 	mkdir -p $(NEOVIM_PATH)
+# 	mv $(MAKEPATH)/nvim-linux64 $(NEOVIM_PATH)/nvim
+# 	-rm $(MAKEPATH)/nvim-linux64.tar.gz
+# 	-if ! [ -f $(HOME)/.local/share/nvim/site/autoload/plug.vim ]; then curl -fLo $(HOME)/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; fi
+# 	$(NEOVIM_PATH)/nvim/bin/nvim +PlugInstall +qall
 
 # OPTIONAL: All Node related targets for installing the coc.vim extension.
 #
