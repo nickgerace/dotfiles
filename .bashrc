@@ -80,13 +80,13 @@ fi
 # Load bash completion when available.
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
+        source /usr/share/bash-completion/bash_completion
     elif [ -f /etc/profile.d/bash_completion.sh ]; then
-	source /etc/profile.d/bash_completion.sh
+        source /etc/profile.d/bash_completion.sh
     elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
+        source /etc/bash_completion
     else
-        echo "Unable to start bash completion."
+        printf "Unable to start bash completion.\n"
     fi
 fi
 
@@ -127,8 +127,8 @@ alias gfetch='git fetch'
 alias gpo='git push origin'
 alias gpull='git pull'
 alias gstat='git status'
-alias git-store-credentials='git config credential.helper store'
-alias git-store-credentials-global='git config credential.helper store --global'
+alias git-store-credentials='git config credential.helper store && printf "\nPlease switch to SSH!\n"'
+alias git-store-credentials-global='git config credential.helper store --global && printf "\nPlease switch to SSH!\n"'
 alias reset-repo-to-last-commmit='git reset --hard'
 alias vgitconf='nvim $HOME/.gitconfig'
 
