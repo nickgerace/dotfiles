@@ -1,4 +1,5 @@
 # Dotfiles
+
 **created by: [Nick Gerace](https://nickgerace.dev)**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,8 +14,9 @@ The following must be installed before the **make** command is performed.
 - curl
 - git
 - tmux
+- zsh
 
-Depending on what you want, there may be more requirements, such as **zsh** and **fish**.
+Depending on what you want, there may be more requirements, such as **neovim** and **fish**.
 However, they do not appear as targets in the Makefile.
 
 ## Installation

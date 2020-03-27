@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # BASHRC
 # https://nickgerace.dev
 

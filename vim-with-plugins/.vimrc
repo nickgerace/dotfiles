@@ -1,7 +1,5 @@
-" ======================
-"         VIMRC
+" VIMRC
 " https://nickgerace.dev
-" ======================
 
 " Plugins
 call plug#begin()
