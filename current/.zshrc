@@ -18,14 +18,34 @@ export PATH=$PATH:/usr/local/bin
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
+export PATH=$PATH:/usr/local/go/bin
 
 # Rust settings and pathing.
 export PATH=$PATH:$HOME/.cargo/bin
-alias cr='cargo run'
-alias crq='cargo run --quiet'
-alias cb='cargo build'
-alias cbr='cargo build --release'
-alias vcargo='vim Cargo.toml'
+if [ "$(command -v cargo)" ]; then
+    alias cr='cargo run'
+    alias crq='cargo run --quiet'
+    alias cb='cargo build'
+    alias cbr='cargo build --release'
+    alias vcargo='vim Cargo.toml'
+    alias install-cargo-tools='cargo install exa ripgrep fd-find bat'
+fi
+if [ "$(command -v bat)" ]; then
+    alias cat='bat'
+    alias bat='bat --theme=ansi-light'
+fi
+if [ "$(command -v exa)" ]; then
+    alias ls='exa'
+    alias x='exa'
+fi
+if [ "$(command -v rg)" ]; then
+    alias grep='rg'
+    alias rgh='rg --hidden'
+fi
+if [ "$(command -v fd)" ]; then
+    alias find='fd'
+    alias fdh='fd --hidden'
+fi
 
 # Ruby settings and pathing. If installed, set up the environment.
 export GEM_HOME=$HOME/gems
@@ -43,12 +63,11 @@ export PATH=$PATH:/usr/local/nodejs/bin
 if [ "$(command -v kubectl)" ]; then
     source <(kubectl completion zsh)
     complete -F __start_kubectl k
+    alias k='kubectl'
+    alias kgn='kubectl get nodes'
+    alias kgp='kubectl get pods'
+    alias kgpa='kubectl get pods -A'
 fi
-alias k='kubectl'
-alias kgn='kubectl get nodes'
-alias kgp='kubectl get pods'
-alias kgpa='kubectl get pods -A'
-alias minikube-start='minikube start --vm-driver virtualbox'
 
 # Vim, tmux, make and shell aliases.
 alias v='vim'
@@ -76,8 +95,6 @@ alias gfetch='git fetch'
 alias gpo='git push origin'
 alias gpull='git pull'
 alias gstat='git status'
-alias git-store-credentials='git config credential.helper store && printf "\nPlease switch to SSH!\n"'
-alias git-store-credentials-global='git config credential.helper store --global && printf "\nPlease switch to SSH!\n"'
 alias reset-repo-to-last-commmit='git reset --hard'
 alias squash='printf "git reset --soft HEAD~N\n"'
 alias vgitconf='vim $HOME/.gitconfig'
@@ -87,7 +104,6 @@ alias branch='git branch'
 alias branch-current='git rev-parse --abbrev-ref HEAD'
 alias branches='git branch -a'
 alias branch-new='git checkout -b'
-alias branch-switch='git checkout'
 alias branch-delete='git branch -d'
 
 # Docker aliases.
@@ -102,38 +118,11 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-alias x='exa'
-alias ll='ls -l'
-alias la='ls -a'
-alias lal='ls -la'
-alias del='rm -ri'
 alias rm='rm -i'
 alias h='history'
-alias name='echo "> whomai" && whoami && echo "> hostname"&& hostname && echo "> hostname -f" && hostname -f'
 alias ping5='ping -c 5'
 alias findalias='alias | grep'
-alias count-directories='ls -d * | wc -l'
 alias path='echo $PATH | sed "s/:/\n/g"'
-
-# Load aliases based on distro.
-if grep -q -E "ID=ubuntu|ID=debain" /etc/os-release; then
-    alias sai='sudo apt install'
-    alias sar='sudo apt remove'
-    alias sau='sudo apt update'
-    alias sauu='sudo apt update && sudo apt upgrade -y'
-    alias saa='sudo apt autoremove -y'
-    alias sal='sudo apt list --upgradeable'
-    alias saduar='sadu && saa'
-    alias sas='sudo apt search'
-    alias apthistory='less /var/log/apt/history.log'
-elif grep -q "ID=fedora" /etc/os-release; then
-    alias sdi='sudo dnf install -y'
-    alias sdr='sudo dnf remove -y'
-    alias sdu='sudo dnf upgrade -y --refresh'
-    alias sda='sudo dnf autoremove -y'
-    alias sdca='sudo dnf clean all -y'
-    alias sds='sudo dnf search'
-fi
 
 # Hardware management aliases (Linux only).
 alias update-firmware='fwupdmgr update'
