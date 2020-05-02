@@ -21,6 +21,24 @@ push:
 	-cp $(HOME)/.config/Code/User/settings.json $(CURRENT)/
 	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(CURRENT)/
 
-ubuntu:
+deb:
 	sudo apt update
-	sudo apt install zsh fish tree cloc speedtest-cli libclang-dev llvm libssl-dev build-essential wget curl make git tmux vim
+	sudo apt install \
+		fish \
+		tree \
+		cloc \
+		speedtest-cli \
+		libclang-dev \
+		llvm \
+		libssl-dev \
+		build-essential \
+		wget \
+		curl \
+		make \
+		git \
+		tmux \
+		vim \
+		nvme-cli \
+		neofetch \
+		aspell \
+		htop
