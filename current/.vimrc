@@ -12,16 +12,18 @@ set expandtab                  " Tab characters become 4 spaces
 set t_co=256                   " Enable 256 color
 set background=light           " Light background
 
-" Smart defaults
+" Defaults
 filetype plugin indent on
 set smarttab
 set autoindent
-set incsearch ignorecase smartcase hlsearch
 set ruler laststatus=2 showcmd showmode
-set fillchars+=vert:\ 
-set wrap breakindent
 set encoding=utf-8
 set title
+
+" Disabled
+" set fillchars+=vert:\
+" set wrap breakindent
+" set incsearch ignorecase smartcase hlsearch
 
 " Transparent background
 hi Normal guibg=NONE ctermbg=NONE
