@@ -3,6 +3,7 @@
 
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 CURRENT:=$(MAKEPATH)/current
+GO_VERSION:=1.14.2
 
 install:
 	cp $(CURRENT)/.zshrc $(HOME)/
@@ -25,6 +26,7 @@ deb:
 	sudo apt update
 	sudo apt install \
 		fish \
+		zsh \
 		tree \
 		cloc \
 		speedtest-cli \
@@ -35,10 +37,22 @@ deb:
 		wget \
 		curl \
 		make \
-		git \
 		tmux \
 		vim \
+		tlp \
 		nvme-cli \
 		neofetch \
 		aspell \
-		htop
+		htop \
+		fwupd \
+		efibootmgr \
+		git
+
+go:
+	wget https://dl.google.com/go/go$(GO_VERSION).linux-amd64.tar.gz
+	-sudo rm -r /usr/local/go
+	sudo tar -C /usr/local -xzf go$(GO_VERSION).linux-amd64.tar.gz
+	-rm go$(GO_VERSION).linux-amd64.tar.gz
+
+rust:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

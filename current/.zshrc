@@ -3,7 +3,7 @@
 
 # Oh My Zsh defaults and options.
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="kphoen"
+ZSH_THEME="nickgerace"
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
