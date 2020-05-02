@@ -47,12 +47,11 @@ deb:
 		fwupd \
 		efibootmgr \
 		git
-
-go:
-	wget https://dl.google.com/go/go$(GO_VERSION).linux-amd64.tar.gz
-	-sudo rm -r /usr/local/go
-	sudo tar -C /usr/local -xzf go$(GO_VERSION).linux-amd64.tar.gz
-	-rm go$(GO_VERSION).linux-amd64.tar.gz
-
-rust:
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	@printf "\nInstall the following...\n\
+		oh-my-zsh\n\
+		docker\n\
+		kind\n\
+		kubectl\n\
+		go\n\
+		rust (rustup)\n\
+		\n"
