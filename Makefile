@@ -3,7 +3,6 @@
 
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 CURRENT:=$(MAKEPATH)/current
-GO_VERSION:=1.14.2
 
 install:
 	cp $(CURRENT)/.zshrc $(HOME)/
@@ -22,31 +21,27 @@ push:
 	-cp $(HOME)/.config/Code/User/settings.json $(CURRENT)/
 	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(CURRENT)/
 
-deb:
-	sudo apt update
-	sudo apt install \
+fedora:
+	sudo dnf check-update
+	sudo dnf install \
 		fish \
 		zsh \
 		tree \
 		cloc \
 		speedtest-cli \
-		libclang-dev \
 		llvm \
-		libssl-dev \
-		build-essential \
 		wget \
 		curl \
+		openssl-devel \
 		make \
 		tmux \
 		vim \
-		tlp \
 		nvme-cli \
 		neofetch \
 		aspell \
 		htop \
 		fwupd \
 		efibootmgr \
-		hey \
 		git
 	@printf "\nInstall the following...\n\
 		oh-my-zsh\n\
