@@ -43,6 +43,8 @@ fedora:
 		fwupd \
 		efibootmgr \
 		util-linux-user \
+		zlib-devel \
+		@development-tools \
 		git
 	@printf "\nInstall the following...\n\
 		oh-my-zsh\n\
