@@ -28,10 +28,9 @@ if [ "$(command -v cargo)" ]; then
     alias cb='cargo build'
     alias cbr='cargo build --release'
     alias vcargo='vim Cargo.toml'
-    alias install-cargo-tools='cargo install exa ripgrep fd-find bat && cargo install --git https://github.com/nickgerace/gfold'
 fi
 if [ "$(command -v bat)" ]; then
-    alias cat='bat'
+    alias cat='bat -p'
     alias bat='bat --theme=ansi-light'
 fi
 if [ "$(command -v exa)" ]; then

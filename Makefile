@@ -42,6 +42,7 @@ fedora:
 		htop \
 		fwupd \
 		efibootmgr \
+		util-linux-user \
 		git
 	@printf "\nInstall the following...\n\
 		oh-my-zsh\n\
