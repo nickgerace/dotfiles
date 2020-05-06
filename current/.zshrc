@@ -54,10 +54,6 @@ if [[ -d $HOME/.rbenv/bin ]]; then
     eval "$(rbenv init -)"
 fi
 
-# Misc local binaries.
-export PATH=$PATH:/usr/local/kubebuilder/bin
-export PATH=$PATH:/usr/local/nodejs/bin
-
 # Kubernetes aliases and kubectl autocompletion.
 if [ "$(command -v kubectl)" ]; then
     source <(kubectl completion zsh)
@@ -68,10 +64,11 @@ if [ "$(command -v kubectl)" ]; then
     alias kgpa='kubectl get pods -A'
 fi
 
-# Vim, tmux, make and shell aliases.
-alias v='vim'
-alias vi='vim'
-alias vvim='vim $HOME/.vimrc'
+# Neovim, Vim, tmux, make and shell aliases.
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+alias vvim='nvim $HOME/.config/nvim/init.vim'
 alias vtmux='vvim $HOME/.tmux.conf'
 alias tmuxa='tmux attach -t'
 alias tmuxl='tmux ls'

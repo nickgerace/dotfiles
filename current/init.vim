@@ -4,6 +4,11 @@
 " Plugins from vim-plug.
 call plug#begin()
 Plug 'rakr/vim-one'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fatih/vim-go'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
+Plug 'vim-airline/vim-airline'
 call plug#end()
 
 " Setup colorscheme. Make sure that the background is light.
@@ -36,15 +41,15 @@ set number
 set title
 set noerrorbells
 
+" Add default filetypes for odd files.
+au BufRead,BufNewFile Jenkinsfile set filetype=groovy
+
 " Trim whitespace custom function.
 function! TrimWhitespace()
     let l:save = winsaveview()
     %s/\\\@<!\s\+$//e
     call winrestview(l:save)
 endfunction
-
-" Add default filetypes for odd files.
-au BufRead,BufNewFile Jenkinsfile set filetype=groovy
 
 " Add custom functions.
 let mapleader=","
