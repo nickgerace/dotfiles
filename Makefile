@@ -7,8 +7,9 @@ CURRENT:=$(MAKEPATH)/current
 install:
 	cp $(CURRENT)/.zshrc $(HOME)/
 	cp $(CURRENT)/.tmux.conf $(HOME)/
-	-mkdir -p $(HOME)/.config/nvim/
-	cp $(CURRENT)/init.vim $(HOME)/.config/nvim/init.vim
+	cp $(CURRENT)/.vimrc.conf $(HOME)/
+	-mkdir -p $(HOME)/.config/Code/User/
+	cp $(CURRENT)/settings.json $(HOME)/.config/Code/User/
 	-mkdir -p $(HOME)/.oh-my-zsh/themes/
 	cp $(CURRENT)/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
 	@printf "\nNow, install oh-my-zsh: https://ohmyz.sh/\n"
@@ -16,7 +17,8 @@ install:
 push:
 	-cp $(HOME)/.zshrc $(CURRENT)/
 	-cp $(HOME)/.tmux.conf $(CURRENT)/
-	-cp $(HOME)/.config/nvim/init.vim $(CURRENT)/
+	-cp $(HOME)/.vimrc $(CURRENT)/
+	-cp $(HOME)/.config/Code/User/settings.json $(CURRENT)/
 	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(CURRENT)/
 
 cargo:
@@ -44,8 +46,6 @@ fedora:
 		make \
 		tmux \
 		vim \
-		nodejs \
-		neovim \
 		nvme-cli \
 		neofetch \
 		aspell \

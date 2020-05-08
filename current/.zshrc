@@ -64,11 +64,10 @@ if [ "$(command -v kubectl)" ]; then
     alias kgpa='kubectl get pods -A'
 fi
 
-# Neovim, Vim, tmux, make and shell aliases.
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
-alias vvim='nvim $HOME/.config/nvim/init.vim'
+# Vim, tmux, make and shell aliases.
+alias v='vim'
+alias vi='vim'
+alias vvim='vim $HOME/.vimrc'
 alias vtmux='vvim $HOME/.tmux.conf'
 alias tmuxa='tmux attach -t'
 alias tmuxl='tmux ls'
