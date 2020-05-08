@@ -7,7 +7,7 @@ CURRENT:=$(MAKEPATH)/current
 install:
 	cp $(CURRENT)/.zshrc $(HOME)/
 	cp $(CURRENT)/.tmux.conf $(HOME)/
-	cp $(CURRENT)/.vimrc.conf $(HOME)/
+	cp $(CURRENT)/.vimrc $(HOME)/
 	-mkdir -p $(HOME)/.config/Code/User/
 	cp $(CURRENT)/settings.json $(HOME)/.config/Code/User/
 	-mkdir -p $(HOME)/.oh-my-zsh/themes/
