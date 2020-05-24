@@ -24,6 +24,7 @@ push:
 cargo:
 	cargo install exa ripgrep fd-find bat
 	cargo install --git https://github.com/nickgerace/gfold
+	@printf "Should probably publish gfold to crates.io at some point...\n"
 
 .PHONY: neovim
 neovim:
@@ -31,7 +32,7 @@ neovim:
 	nvim +PlugInstall +qall
 	nvim +"CocInstall coc-rust-analyzer" +qall
 
-fedora:
+dnf:
 	sudo dnf check-update
 	sudo dnf install \
 		fish \
@@ -40,27 +41,30 @@ fedora:
 		cloc \
 		speedtest-cli \
 		llvm \
+		llvm-dev \
 		wget \
 		curl \
-		openssl-devel \
 		make \
 		tmux \
 		vim \
+		neovim \
 		nvme-cli \
 		neofetch \
 		aspell \
 		htop \
 		fwupd \
 		efibootmgr \
-		util-linux-user \
+		git \
+		openssl-devel \
 		zlib-devel \
 		@development-tools \
-		git
+		util-linux-user 
 	sudo dnf install \
 		https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 		https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	sudo dnf check-update
 	sudo dnf groupupdate Multimedia
+	sudo dnf autoremove
 	@printf "\nInstall the following...\n\
 		oh-my-zsh\n\
 		docker\n\
@@ -70,3 +74,13 @@ fedora:
 		go\n\
 		rust (rustup)\n\
 		\n"
+
+apt:
+	sudo apt update
+	sudo apt install \
+		libssl-dev \
+		build-essential \
+		ubuntu-restricted-extras
+	sudo apt upgrade
+	sudo apt autoremove
+
