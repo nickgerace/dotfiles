@@ -22,7 +22,12 @@ push:
 	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(CURRENT)/
 
 cargo:
-	cargo install exa ripgrep fd-find bat
+	cargo install \
+		exa \
+		ripgrep \
+		fd-find \
+		ytop \
+		bat
 	cargo install --git https://github.com/nickgerace/gfold
 	@printf "Should probably publish gfold to crates.io at some point...\n"
 
@@ -41,7 +46,6 @@ dnf:
 		cloc \
 		speedtest-cli \
 		llvm \
-		llvm-dev \
 		wget \
 		curl \
 		make \
@@ -60,8 +64,8 @@ dnf:
 		@development-tools \
 		util-linux-user 
 	sudo dnf install \
-		https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-		https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+		https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(shell rpm -E %fedora).noarch.rpm \
+		https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(shell rpm -E %fedora).noarch.rpm
 	sudo dnf check-update
 	sudo dnf groupupdate Multimedia
 	sudo dnf autoremove
@@ -74,6 +78,12 @@ dnf:
 		go\n\
 		rust (rustup)\n\
 		\n"
+
+cgroups:
+	sudo dnf install -y grubby
+	sudo grubby \
+		--update-kernel=ALL \
+		--args="systemd.unified_cgroup_hierarchy=0"
 
 apt:
 	sudo apt update
