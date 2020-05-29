@@ -45,11 +45,26 @@ dnf:
 		rust (rustup)\n\
 		\n"
 
-cgroups:
+cgroups-v1-dnf:
 	sudo dnf install -y grubby
 	sudo grubby \
 		--update-kernel=ALL \
 		--args="systemd.unified_cgroup_hierarchy=0"
+	sudo systemctl reboot
+
+docker-on-fedora-32:
+	sudo dnf install dnf-plugins-core
+	sudo dnf config-manager \
+    	--add-repo \
+    	https://download.docker.com/linux/fedora/docker-ce.repo
+	sudo sed -i 's/$$releasever/31/g' /etc/yum.repos.d/docker-ce.repo
+	sudo dnf install docker-ce docker-ce-cli containerd.io
+	sudo systemctl start docker
+	sudo systemctl enable docker
+	sudo usermod -aG docker $(shell whoami)
+	firewall-cmd --permanent --zone=trusted --add-interface=docker0
+	firewall-cmd --reload
+	sudo docker run hello-world
 
 apt:
 	sudo apt update
