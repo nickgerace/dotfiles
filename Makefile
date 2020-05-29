@@ -2,25 +2,24 @@
 # https://nickgerace.dev
 
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-CURRENT:=$(MAKEPATH)/current
 
 include $(MAKEPATH)/makefiles/distros.mk
 include $(MAKEPATH)/makefiles/editors.mk
 
 install:
-	cp $(CURRENT)/.zshrc $(HOME)/
-	cp $(CURRENT)/.tmux.conf $(HOME)/
-	cp $(CURRENT)/.vimrc $(HOME)/
+	cp $(MAKEPATH)/zsh/.zshrc $(HOME)/
+	cp $(MAKEPATH)/tmux/.tmux.conf $(HOME)/
+	cp $(MAKEPATH)/vim/.vimrc $(HOME)/
 	-mkdir -p $(HOME)/.oh-my-zsh/themes/
-	cp $(CURRENT)/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
-	@printf "\nNow, install oh-my-zsh: https://ohmyz.sh/\n"
+	cp $(MAKEPATH)/zsh/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
 
 push:
-	-cp $(HOME)/.zshrc $(CURRENT)/
-	-cp $(HOME)/.tmux.conf $(CURRENT)/
-	-cp $(HOME)/.vimrc $(CURRENT)/
-	-cp $(HOME)/.config/Code/User/settings.json $(CURRENT)/
-	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(CURRENT)/
+	-cp $(HOME)/.zshrc $(MAKEPATH)/zsh/
+	-cp $(HOME)/.tmux.conf $(MAKEPATH)/tmux/
+	-cp $(HOME)/.vimrc $(MAKEPATH)/vim/
+	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/nvim/
+	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/vs-code/
+	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(MAKEPATH)/zsh/
 
 cargo:
 	cargo install \

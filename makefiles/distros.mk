@@ -25,6 +25,7 @@ dnf:
 	sudo dnf check-update
 	sudo dnf install \
 		$(PACKAGES) \
+		nodejs \
 		openssl-devel \
 		zlib-devel \
 		@development-tools \
