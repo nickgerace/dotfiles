@@ -5,13 +5,11 @@ MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 include $(MAKEPATH)/makefiles/distros.mk
 include $(MAKEPATH)/makefiles/editors.mk
+include $(MAKEPATH)/makefiles/fonts.mk
+include $(MAKEPATH)/makefiles/languages.mk
+include $(MAKEPATH)/makefiles/shells.mk
 
-install:
-	cp $(MAKEPATH)/zsh/.zshrc $(HOME)/
-	cp $(MAKEPATH)/tmux/.tmux.conf $(HOME)/
-	cp $(MAKEPATH)/vim/.vimrc $(HOME)/
-	-mkdir -p $(HOME)/.oh-my-zsh/themes/
-	cp $(MAKEPATH)/zsh/nickgerace.zsh-theme $(HOME)/.oh-my-zsh/themes/
+install: zsh tmux vim neovim
 
 push:
 	-cp $(HOME)/.zshrc $(MAKEPATH)/zsh/
@@ -20,14 +18,4 @@ push:
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/nvim/
 	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/vs-code/
 	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(MAKEPATH)/zsh/
-
-cargo:
-	cargo install \
-		exa \
-		ripgrep \
-		fd-find \
-		ytop \
-		bat
-	cargo install --git https://github.com/nickgerace/gfold
-	@printf "Should probably publish gfold to crates.io at some point...\n"
 

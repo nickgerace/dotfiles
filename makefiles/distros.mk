@@ -56,8 +56,8 @@ cgroups-v1-dnf:
 docker-on-fedora-32:
 	sudo dnf install dnf-plugins-core
 	sudo dnf config-manager \
-    	--add-repo \
-    	https://download.docker.com/linux/fedora/docker-ce.repo
+		--add-repo \
+		https://download.docker.com/linux/fedora/docker-ce.repo
 	sudo sed -i 's/$$releasever/31/g' /etc/yum.repos.d/docker-ce.repo
 	sudo dnf install docker-ce docker-ce-cli containerd.io
 	sudo systemctl start docker
