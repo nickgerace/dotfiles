@@ -25,6 +25,10 @@ dnf:
 	sudo dnf check-update
 	sudo dnf install \
 		$(PACKAGES) \
+		musl-gcc \
+		musl-libc \
+		aspell-en \
+		g++ \
 		nodejs \
 		openssl-devel \
 		zlib-devel \
