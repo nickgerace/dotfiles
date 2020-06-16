@@ -25,6 +25,7 @@ dnf:
 	sudo dnf check-update
 	sudo dnf install \
 		$(PACKAGES) \
+		qemu \
 		musl-gcc \
 		musl-libc \
 		aspell-en \
@@ -49,6 +50,10 @@ dnf:
 		go\n\
 		rust (rustup)\n\
 		\n"
+
+gtk-dnf:
+	sudo dnf check-update
+	sudo dnf install gtk3-devel glib clutter-devel webkit2gtk3-devel libgda-devel gobject-introspection-devel
 
 cgroups-v1-dnf:
 	sudo dnf install -y grubby

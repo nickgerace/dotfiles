@@ -3,11 +3,11 @@
 
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-include $(MAKEPATH)/makefiles/distros.mk
-include $(MAKEPATH)/makefiles/editors.mk
-include $(MAKEPATH)/makefiles/fonts.mk
-include $(MAKEPATH)/makefiles/languages.mk
-include $(MAKEPATH)/makefiles/shells.mk
+include $(MAKEPATH)/mk/distros.mk
+include $(MAKEPATH)/mk/editors.mk
+include $(MAKEPATH)/mk/fonts.mk
+include $(MAKEPATH)/mk/languages.mk
+include $(MAKEPATH)/mk/shells.mk
 
 install: zsh tmux vim neovim
 
