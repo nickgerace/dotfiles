@@ -1,30 +1,54 @@
 # DOTFILES
 # https://nickgerace.dev
 
-PACKAGES:=git \
-	fish \
-	zsh \
-	tree \
-	cloc \
-	speedtest-cli \
-	llvm \
-	wget \
-	curl \
-	make \
-	tmux \
-	vim \
-	neovim \
-	nvme-cli \
-	neofetch \
-	aspell \
-	htop \
-	fwupd \
-	efibootmgr
+apt:
+	sudo apt update
+	sudo apt install \
+		git fish zsh tree cloc speedtest-cli \
+		wget curl make tmux \
+		vim neovim neofetch aspell htop \
+		llvm llvm-dev libssl-dev nodejs \
+		build-essential
+	sudo apt upgrade
+	sudo apt autoremove
+	@printf "\nInstall the following...\n\
+		oh-my-zsh\n\
+		docker\n\
+		kind\n\
+		kubectl\n\
+		helm\n\
+		go\n\
+		rust (rustup)\n\
+		\n"
+
+apt-desktop:
+	sudo apt update
+	sudo apt install nvme-cli efibootmgr fwupd ubuntu-restricted-extras
+	sudo apt upgrade
+	sudo apt autoremove
 
 dnf:
 	sudo dnf check-update
 	sudo dnf install \
-		$(PACKAGES) \
+		git \
+		fish \
+		zsh \
+		tree \
+		cloc \
+		speedtest-cli \
+		llvm \
+		wget \
+		curl \
+		make \
+		tmux \
+		vim \
+		neovim \
+		nvme-cli \
+		neofetch \
+		aspell \
+		htop \
+		fwupd \
+		efibootmgr
 		qemu \
 		musl-gcc \
 		musl-libc \
@@ -51,18 +75,18 @@ dnf:
 		rust (rustup)\n\
 		\n"
 
-gtk-dnf:
+dnf-gtk:
 	sudo dnf check-update
 	sudo dnf install gtk3-devel glib clutter-devel webkit2gtk3-devel libgda-devel gobject-introspection-devel
 
-cgroups-v1-dnf:
+dnf-cgroups-v1:
 	sudo dnf install -y grubby
 	sudo grubby \
 		--update-kernel=ALL \
 		--args="systemd.unified_cgroup_hierarchy=0"
 	sudo systemctl reboot
 
-docker-on-fedora-32:
+dnf-docker-fedora-32:
 	sudo dnf install dnf-plugins-core
 	sudo dnf config-manager \
 		--add-repo \
@@ -75,23 +99,4 @@ docker-on-fedora-32:
 	firewall-cmd --permanent --zone=trusted --add-interface=docker0
 	firewall-cmd --reload
 	sudo docker run hello-world
-
-apt:
-	sudo apt update
-	sudo apt install \
-		$(PACKAGES) \
-		libssl-dev \
-		build-essential \
-		ubuntu-restricted-extras
-	sudo apt upgrade
-	sudo apt autoremove
-	@printf "\nInstall the following...\n\
-		oh-my-zsh\n\
-		docker\n\
-		kind\n\
-		kubectl\n\
-		helm\n\
-		go\n\
-		rust (rustup)\n\
-		\n"
 
