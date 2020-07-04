@@ -12,7 +12,10 @@ export TERM=xterm-256color
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export HISTTIMEFORMAT="%d/%m/%y %T | "
+
+# All "local" path additions.
 export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:$HOME/local/bin
 
 # Go settings and pathing.
 export GOPATH=$HOME/go

@@ -14,7 +14,7 @@ push:
 	-cp $(HOME)/.zshrc $(MAKEPATH)/zsh/
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/tmux/
 	-cp $(HOME)/.vimrc $(MAKEPATH)/vim/
-	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/nvim/
+	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/neovim/
 	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/vs-code/
 	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(MAKEPATH)/zsh/
 
