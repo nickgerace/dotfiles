@@ -22,6 +22,7 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/usr/local/go/bin
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Rust settings and pathing.
 export PATH=$PATH:$HOME/.cargo/bin

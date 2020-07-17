@@ -43,6 +43,7 @@ set noerrorbells
 
 " Add default filetypes for odd files.
 au BufRead,BufNewFile Jenkinsfile set filetype=groovy
+au BufRead,BufNewFile go.mod set filetype=go
 
 " Trim whitespace custom function.
 function! TrimWhitespace()
