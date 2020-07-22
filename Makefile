@@ -3,7 +3,7 @@
 
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-include $(MAKEPATH)/mk/distros.mk
+include $(MAKEPATH)/mk/os.mk
 include $(MAKEPATH)/mk/editors.mk
 include $(MAKEPATH)/mk/languages.mk
 include $(MAKEPATH)/mk/shells.mk

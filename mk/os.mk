@@ -1,6 +1,11 @@
 # DOTFILES
 # https://nickgerace.dev
 
+brew:
+	brew install \
+		aspell curl git htop make neovim speedtest-cli tmux tree wget \
+		go helm k3d kind kubectl
+
 apt:
 	sudo apt update
 	sudo apt install \
