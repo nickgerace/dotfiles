@@ -2,6 +2,9 @@
 # https://nickgerace.dev
 
 # Oh My Zsh defaults and options.
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export ZSH_DISABLE_COMPFIX=true
+fi
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="nickgerace"
 plugins=(git)
