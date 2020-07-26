@@ -134,3 +134,12 @@ alias get-public-ip-address='dig +short myip.opendns.com @resolver1.opendns.com'
 alias see-drives='sudo fdisk -l'
 alias bye='sudo shutdown now'
 alias check-os='cat /etc/os-release'
+
+# Functions for advanced "alias-like" usage.
+function github-clone {
+    if [[ -v "$2" ]]; then
+        git clone git@github.com:"$1".git "$2"
+    else
+        git clone git@github.com:"$1".git
+    fi
+}

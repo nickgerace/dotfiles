@@ -22,8 +22,8 @@ highlight Comment gui=bold
 highlight Normal gui=none
 highlight NonText guibg=none
 
-" Use the terminal's GUI colors.
-set termguicolors
+" Use the terminal's GUI colors. Note: this does not work with macOS.
+" set termguicolors
 
 " Use a transparent background.
 highlight Normal guibg=NONE ctermbg=NONE
