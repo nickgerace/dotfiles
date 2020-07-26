@@ -9,6 +9,7 @@ Plug 'fatih/vim-go'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'vim-airline/vim-airline'
+Plug 'cespare/vim-toml'
 call plug#end()
 
 " Setup colorscheme. Make sure that the background is light.
