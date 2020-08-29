@@ -8,23 +8,21 @@ A collection of my dotfiles and related scripts.
 
 ## Requirements
 
-The following must be installed before the **make** command is performed.
-
-- bash
-- curl
-- git
-- tmux
-- zsh
-
-Depending on what you want, there may be more requirements, such as **neovim** and **fish**.
-However, they do not appear as targets in the Makefile.
+Due to the ever-changing nature of this repoistory, requirements are always in flux.
+Be sure to read through interested ```make``` targets before using them.
 
 ## Installation
 
-Be sure to read the Makefile to see what the targets do.
-
 ```bash
+# Perform a shallow clone of the repository.
 git clone --depth=1 https://github.com/nickgerace/dotfiles.git
-make -f dotfiles/Makefile install
+
+# For macOS users...
+make -f dotfiles/Makefile install-mac
+
+# For Linux and WSL2 users...
+make -f dotfiles/Makefile install-linux
+
+# Remove the repository, if it is no longer needed.
 rm -r dotfiles/
 ```
