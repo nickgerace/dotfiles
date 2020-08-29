@@ -101,6 +101,7 @@ alias gstat='git status'
 alias reset-repo-to-last-commmit='git reset --hard'
 alias squash='printf "git reset --soft HEAD~N\n"'
 alias vgitconf='vim $HOME/.gitconfig'
+alias git-pull-fix='git config --global pull.ff only'
 
 # Branch-related aliases.
 alias branch='git branch'
