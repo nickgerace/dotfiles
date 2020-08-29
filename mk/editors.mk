@@ -9,13 +9,18 @@ neovim:
 neovim-plugs:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	nvim +PlugInstall +qall
+
+neovim-coc-installs:
 	nvim +"CocInstall coc-rust-analyzer" +qall
 
 .PHONY: vim
 vim:
 	cp $(MAKEPATH)/vim/.vimrc $(HOME)/
 
-vs-code:
+vs-code-mac:
 	-mkdir -p $(HOME)/.config/Code/User/
-	cp $(CURRENT)/settings.json $(HOME)/.config/Code/User/
+	cp $(MAKEPATH)/vs-code/settings.json $(HOME)/Library/Application\ Support/Code/User
 
+vs-code-linux:
+	-mkdir -p $(HOME)/.config/Code/User/
+	cp $(MAKEPATH)/vs-code/settings.json $(HOME)/.config/Code/User/

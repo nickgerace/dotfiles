@@ -1,9 +1,9 @@
 {
-    // VS Code: settings.json
-    // https://nickgerace.dev
     "workbench.colorTheme": "Atom One Light",
+    "go.formatTool": "goimports",
     "workbench.iconTheme": "material-icon-theme",
-    "editor.fontFamily": "'Cascadia Mono'",
+    "workbench.preferredLightColorTheme": "Atom One Light",
+    "editor.fontFamily": "Iosevka",
     "editor.fontLigatures": true,
-    "editor.fontWeight": "400"
+    "editor.fontSize": 14
 }
