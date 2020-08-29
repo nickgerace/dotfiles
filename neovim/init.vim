@@ -1,11 +1,13 @@
 " NEOVIM INIT.VIM
 " https://nickgerace.dev
 
+" Language support plugins (optional).
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'fatih/vim-go'
+
 " Plugins from vim-plug.
 call plug#begin()
 Plug 'rakr/vim-one'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'fatih/vim-go'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'vim-airline/vim-airline'

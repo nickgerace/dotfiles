@@ -52,6 +52,7 @@ if [ "$(command -v fd)" ]; then
     alias find='fd'
     alias fdh='fd --hidden'
 fi
+alias grep-no-match='grep -L'
 
 # Ruby settings and pathing. If installed, set up the environment.
 export GEM_HOME=$HOME/gems
@@ -115,6 +116,9 @@ alias dpsa='docker ps -a'
 alias dimg='docker images'
 alias run-newest-ubuntu='docker run -it ubuntu:rolling'
 
+# macOS aliases.
+alias ds-store-delete-recursive='find . -name .DS_Store -exec rm -r {} \;'
+
 # Misc aliases.
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -142,4 +146,9 @@ function github-clone {
     else
         git clone git@github.com:"$1".git
     fi
+}
+function cargo-build-static {
+    PWD=$(pwd)
+    docker pull clux/muslrust
+    docker run -v $PWD:/volume --rm -t clux/muslrust cargo build --release
 }
