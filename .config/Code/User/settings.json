@@ -5,5 +5,7 @@
     "workbench.preferredLightColorTheme": "Atom One Light",
     "editor.fontFamily": "Iosevka",
     "editor.fontLigatures": true,
-    "editor.fontSize": 14
+    "editor.fontSize": 14,
+    "window.zoomLevel": 0,
+    "files.insertFinalNewline": true
 }

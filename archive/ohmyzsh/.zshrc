@@ -102,6 +102,9 @@ alias reset-repo-to-last-commmit='git reset --hard'
 alias squash='printf "git reset --soft HEAD~N\n"'
 alias vgitconf='vim $HOME/.gitconfig'
 alias git-pull-fix='git config --global pull.ff only'
+alias git-checkout-remote='printf "git checkout -b branch origin/branch\n"' 
+alias git-delete-remote-tag='printf "git push --delete origin <tag>\n"'
+alias git-show-tags='git log --tags --simplify-by-decoration --pretty="format:%ci %d"'
 
 # Branch-related aliases.
 alias branch='git branch'
@@ -142,8 +145,8 @@ alias check-os='cat /etc/os-release'
 
 # Functions for advanced "alias-like" usage.
 function github-clone {
-    if [[ -v "$2" ]]; then
-        git clone git@github.com:"$1".git "$2"
+    if [[ $2 ]]; then
+        git clone git@github.com:"$1".git $2
     else
         git clone git@github.com:"$1".git
     fi
@@ -152,4 +155,15 @@ function cargo-build-static {
     PWD=$(pwd)
     docker pull clux/muslrust
     docker run -v $PWD:/volume --rm -t clux/muslrust cargo build --release
+}
+function post-merge {
+    if [[ ! $1 ]]; then
+        printf "Requires main branch name as first argument.\n"
+    else
+        MERGED=$(git rev-parse --abbrev-ref HEAD)
+        git pull --rebase origin $1
+        git checkout $1
+        git pull origin $1
+        git branch -d $MERGED
+    fi
 }

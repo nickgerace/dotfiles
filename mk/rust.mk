@@ -1,6 +1,7 @@
 # DOTFILES
 # https://nickgerace.dev
 
+.PHONY: cargo
 cargo:
 	cargo install \
                 exa \
@@ -8,5 +9,4 @@ cargo:
                 fd-find \
                 ytop \
                 bat
-	cargo install --git https://github.com/nickgerace/gfold
-
+	cargo install --git https://github.com/nickgerace/gfold --tag 0.5.0
