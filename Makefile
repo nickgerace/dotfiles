@@ -15,15 +15,15 @@ install-mac: zsh tmux vim neovim vs-code-mac
 
 install-linux: zsh tmux vim neovim vs-code-linux
 
-push-mac: push-extras
-	-cp $(HOME)/Library/Application\ Support/Code/User/settings.json $(MAKEPATH)/vs-code/
+push-mac: push-core
+	-cp $(HOME)/Library/Application\ Support/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
 
-push-linux: push-extras
-	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/vs-code/
+push-linux: push-core
+	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
 
-push-extras:
-	-cp $(HOME)/.zshrc $(MAKEPATH)/zsh/
-	-cp $(HOME)/.tmux.conf $(MAKEPATH)/tmux/
-	-cp $(HOME)/.vimrc $(MAKEPATH)/vim/
-	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/neovim/
-	-cp $(HOME)/.oh-my-zsh/themes/nickgerace.zsh-theme $(MAKEPATH)/zsh/
+push-core:
+	-cp $(HOME)/.zshrc $(MAKEPATH)/
+	-cp -r $(HOME)/.config/zsh/ $(MAKEPATH)/.config/zsh/
+	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
+	-cp $(HOME)/.vimrc $(MAKEPATH)/
+	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/

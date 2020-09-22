@@ -4,7 +4,7 @@
 .PHONY: neovim
 neovim:
 	-mkdir -p $(HOME)/.config/nvim/
-	cp $(MAKEPATH)/neovim/init.vim $(HOME)/.config/nvim/
+	cp $(MAKEPATH)/.config/nvim/init.vim $(HOME)/.config/nvim/
 
 neovim-plugs:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -15,12 +15,12 @@ neovim-coc-installs:
 
 .PHONY: vim
 vim:
-	cp $(MAKEPATH)/vim/.vimrc $(HOME)/
+	cp $(MAKEPATH)/.vimrc $(HOME)/
 
 vs-code-mac:
 	-mkdir -p $(HOME)/.config/Code/User/
-	cp $(MAKEPATH)/vs-code/settings.json $(HOME)/Library/Application\ Support/Code/User
+	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/Library/Application\ Support/Code/User
 
 vs-code-linux:
 	-mkdir -p $(HOME)/.config/Code/User/
-	cp $(MAKEPATH)/vs-code/settings.json $(HOME)/.config/Code/User/
+	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/.config/Code/User/
