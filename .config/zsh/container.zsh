@@ -23,6 +23,7 @@ if [ "$(command -v kubectl)" ]; then
     # Within kubectl settings, check if krew is installed. If so, add its settings.
     if [ -d $HOME/.krew ]; then
         export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+        alias krew-update="kubectl krew update && kubectl krew upgrade"
     fi
 fi
 

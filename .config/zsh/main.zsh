@@ -58,9 +58,9 @@ alias update-firmware="fwupdmgr update"
 alias get-public-ip-address="dig +short myip.opendns.com @resolver1.opendns.com"
 alias see-drives="sudo fdisk -l"
 
-# Add macOS settings.
+# Add macOS settings, and aiases.
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # FIXME: we may not need the following.
+    # FIXME: we may not need the following export, so it's been commented out for now.
     # export ZSH_DISABLE_COMPFIX=true
     export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
     alias ls="ls -G"
@@ -68,3 +68,20 @@ else
     alias ls="ls --color=auto"
 fi
 
+# Generic update function for any OS.
+function update() {
+    printf "[+] Updating all...\n"
+    if [[ "$OSTYPE" == "darwin"* ]] && [ "$(command -v brew)" ]; then
+        printf "[+] brew update\n"
+        brew update
+        printf "[+] brew upgrade\n"
+        brew upgrade
+        printf "[+] brew cleanup\n"
+        brew cleanup
+    fi
+    if [ "$(command -v rustup)" ]; then
+        printf "[+] rustup update\n"
+        rustup update
+    fi
+    printf "[+] All updates completed.\n"
+}
