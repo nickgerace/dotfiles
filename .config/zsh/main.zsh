@@ -20,8 +20,8 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:$HOME/local/bin
 
 # Set essential aliases. These are usually OS-independent.
-alias vz="$EDITOR $HOME/.zshrc"
 alias sz="source $HOME/.zshrc"
+alias zsh-config="cd $HOME/.config/zsh/"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
