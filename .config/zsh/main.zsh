@@ -60,10 +60,10 @@ alias see-drives="sudo fdisk -l"
 
 # Add macOS settings, and aiases.
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # FIXME: we may not need the following export, so it's been commented out for now.
-    # export ZSH_DISABLE_COMPFIX=true
+    export ZSH_DISABLE_COMPFIX=true
     export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
     alias ls="ls -G"
+    alias fix-compaudit-errors-on-macos="compaudit | xargs chmod g-w"
 else
     alias ls="ls --color=auto"
 fi

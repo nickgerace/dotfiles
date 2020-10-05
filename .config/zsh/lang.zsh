@@ -22,6 +22,7 @@ if [ "$(command -v cargo)" ]; then
     alias crq="cargo run --quiet"
     alias cb="cargo build"
     alias cbr="cargo build --release"
+    alias ct="cargo test"
 fi
 
 # Add aliases for applications available on crates.io.
