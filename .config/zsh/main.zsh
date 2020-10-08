@@ -42,6 +42,7 @@ alias vi="vim"
 alias vmake="$EDITOR Makefile"
 alias vtmux="$EDITOR $HOME/.tmux.conf"
 alias vvim="$EDITOR $HOME/.vimrc"
+alias vscode-settings="$EDITOR '$HOME/Library/Application Support/Code/User/settings.json'"
 
 # Add tmux-related aliases.
 alias tmuxa="tmux attach -t"

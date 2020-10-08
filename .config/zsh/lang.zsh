@@ -6,6 +6,7 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/usr/local/go/bin
+export PATH=${GOPATH//://bin:}/bin:$PATH
 
 # Ruby settings and pathing. If installed, set up the environment.
 export GEM_HOME=$HOME/gems
