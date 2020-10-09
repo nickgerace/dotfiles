@@ -27,3 +27,4 @@ push-core:
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.vimrc $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/
+

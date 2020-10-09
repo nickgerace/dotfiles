@@ -1,6 +1,10 @@
 # DOTFILES
 # https://nickgerace.dev
 
+.PHONY: rustup
+rustup:
+	@printf "https://rustup.rs/\n"
+
 .PHONY: cargo
 cargo:
 	cargo install \
@@ -9,4 +13,4 @@ cargo:
                 fd-find \
                 ytop \
                 bat
-	cargo install --git https://github.com/nickgerace/gfold --tag 0.5.0
+
