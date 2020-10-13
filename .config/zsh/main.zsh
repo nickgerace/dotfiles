@@ -37,12 +37,12 @@ alias ping5="ping -c 5"
 alias rm="rm -i"
 
 # Add editor-related aliases based on settings above.
-alias v="vim"
-alias vi="vim"
+alias v=$EDITOR
+alias vi=$EDITOR
+alias vim=$EDITOR
 alias vmake="$EDITOR Makefile"
 alias vtmux="$EDITOR $HOME/.tmux.conf"
 alias vvim="$EDITOR $HOME/.vimrc"
-alias vscode-settings="$EDITOR '$HOME/Library/Application Support/Code/User/settings.json'"
 
 # Add tmux-related aliases.
 alias tmuxa="tmux attach -t"
@@ -65,12 +65,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
     alias ls="ls -G"
     alias fix-compaudit-errors-on-macos="compaudit | xargs chmod g-w"
+    alias sed="gsed"
 else
     alias ls="ls --color=auto"
 fi
 
 # Generic update function for any OS.
-function update() {
+function update {
     printf "[+] Updating all...\n"
     if [[ "$OSTYPE" == "darwin"* ]] && [ "$(command -v brew)" ]; then
         printf "[+] brew update\n"

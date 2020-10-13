@@ -21,6 +21,7 @@ alias git-pull-fix="git config --global pull.ff only"
 alias git-show-tags='git log --tags --simplify-by-decoration --pretty="format:%ci %d"'
 
 # Set branch-related aliases.
+alias gbva="git branch -v -a"
 alias branch="git rev-parse --abbrev-ref HEAD"
 alias branches="git branch -a"
 alias branch-new="git checkout -b"
@@ -46,9 +47,16 @@ function post-merge {
 
 # Show instructions on to rebase a forked Git repository.
 function rebase-forked-repo {
-    printf "git remote add upstream https://github.com/<org>/<repo>.git\n"
-    printf "git fetch upstream\n"
-    printf "git rebase upstream/<main>\n"
-    printf "git push origin <main> --force\n"
+    if [[ ! $1 || ! $2 || ! $3 ]]; then
+	printf "[-] Requires three arguments: <github-org/original-repo> <original-branch> <forked-branch>\n"
+    else
+	printf "\n[+] Starting rebase from original repository to forked repository...\n"
+	git remote add upstream https://github.com/${1}.git
+	git fetch upstream
+	git rebase upstream/${2}
+	git push origin ${3} --force
+	printf "\n[+] Done! Current remotes...\n"
+	git remote -v
+    fi
 }
 
