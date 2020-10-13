@@ -46,8 +46,7 @@ fi
 
 # Use Docker to build a staticlly-linked Rust project.
 function cargo-build-static {
-    PWD=$(pwd)
     docker pull clux/muslrust
-    docker run -v $PWD:/volume --rm -t clux/muslrust cargo build --release
+    docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
 }
 
