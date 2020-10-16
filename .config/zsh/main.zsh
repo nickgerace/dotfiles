@@ -80,3 +80,11 @@ function update {
     fi
     printf "[+] All updates completed.\n"
 }
+
+function find-file {
+    if [[ ! $1 ]]; then
+        printf "[-] Requires argument(s): <file-name-or-pattern>\n"
+    else
+        find . -name ${1}
+    fi
+}
