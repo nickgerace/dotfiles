@@ -11,7 +11,7 @@ include $(MAKEPATH)/mk/editors.mk
 include $(MAKEPATH)/mk/rust.mk
 include $(MAKEPATH)/mk/shells.mk
 
-install: zsh tmux vim neovim vs-code
+install: zsh tmux neovim vs-code
 	-cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
 
 push:
@@ -23,7 +23,6 @@ endif
 	-cp $(HOME)/.zshrc $(MAKEPATH)/
 	-cp -r $(HOME)/.config/zsh/ $(MAKEPATH)/.config/zsh/
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
-	-cp $(HOME)/.vimrc $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/
 	-cp $(HOME)/.gitignore $(MAKEPATH)/.gitignore
 

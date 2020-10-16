@@ -3,8 +3,9 @@
 
 .PHONY: neovim
 neovim:
-	-mkdir -p $(HOME)/.config/nvim/
+	-mkdir -p $(HOME)/.config/nvim/colors/
 	cp $(MAKEPATH)/.config/nvim/init.vim $(HOME)/.config/nvim/
+	cd $(HOME)/.config/nvim/colors/; wget https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim
 
 neovim-plugs:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
