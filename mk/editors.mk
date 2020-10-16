@@ -17,10 +17,10 @@ neovim-coc-installs:
 vim:
 	cp $(MAKEPATH)/.vimrc $(HOME)/
 
-vs-code-mac:
-	-mkdir -p $(HOME)/.config/Code/User/
+vs-code:
+ifeq ($(shell uname), Darwin)
 	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/Library/Application\ Support/Code/User
-
-vs-code-linux:
+else
 	-mkdir -p $(HOME)/.config/Code/User/
 	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/.config/Code/User/
+endif

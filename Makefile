@@ -11,20 +11,19 @@ include $(MAKEPATH)/mk/editors.mk
 include $(MAKEPATH)/mk/rust.mk
 include $(MAKEPATH)/mk/shells.mk
 
-install-mac: zsh tmux vim neovim vs-code-mac
+install: zsh tmux vim neovim vs-code
+	-cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
 
-install-linux: zsh tmux vim neovim vs-code-linux
-
-push-mac: push-core
+push:
+ifeq ($(shell uname), Darwin)
 	-cp $(HOME)/Library/Application\ Support/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
-
-push-linux: push-core
+else
 	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
-
-push-core:
+endif
 	-cp $(HOME)/.zshrc $(MAKEPATH)/
 	-cp -r $(HOME)/.config/zsh/ $(MAKEPATH)/.config/zsh/
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.vimrc $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/
+	-cp $(HOME)/.gitignore $(MAKEPATH)/.gitignore
 

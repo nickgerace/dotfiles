@@ -5,10 +5,18 @@
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'fatih/vim-go'
 
-" Plugins from vim-plug.
-
+" Plugins via vim-plug
+call plug#begin()
+Plug 'rakr/vim-one'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
+Plug 'vim-airline/vim-airline'
+Plug 'cespare/vim-toml'
+call plug#end()
+ 
 " Setup colorscheme. Make sure that the background is light.
 syntax on
+color one
 set background=light
 
 " Highlighting options.
