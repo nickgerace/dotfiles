@@ -5,6 +5,7 @@
 neovim:
 	-mkdir -p $(HOME)/.config/nvim/colors/
 	cp $(MAKEPATH)/.config/nvim/init.vim $(HOME)/.config/nvim/
+	-rm $(HOME)/.config/nvim/colors/one.vim
 	cd $(HOME)/.config/nvim/colors/; wget https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim
 
 neovim-plugs:
