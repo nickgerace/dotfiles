@@ -1,13 +1,6 @@
 # ZSH MAIN
 # https://nickgerace.dev
 
-# Add autocomplete functionality.
-# Solution: https://github.com/kubernetes/kubectl/issues/125#issuecomment-351653836
-autoload -U +X compinit && compinit
-
-# FIXME: currently disabled. We may or may not need this.
-# autoload -U +X bashcompinit && bashcompinit
-
 # Set general settings for the terminal, editor, and more.
 export TERM=xterm-256color
 

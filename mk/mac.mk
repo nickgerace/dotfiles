@@ -4,7 +4,7 @@
 brew: brew-update-and-upgrade
 	brew install \
 		aspell curl git htop make neovim speedtest-cli tmux tree wget gsed \
-		go helm k3d kind kubectl rke kustomize
+		go helm k3d kind kubectl rke kustomize k9s
 	brew tap homebrew/cask-fonts
 	brew cask install \
 		font-iosevka font-iosevka-slab font-cascadia-code \
