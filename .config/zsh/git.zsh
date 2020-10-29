@@ -46,7 +46,6 @@ function post-merge {
     fi
 }
 
-# Show instructions on to rebase a forked Git repository.
 function rebase-forked-repo {
     if [[ ! $1 || ! $2 || ! $3 ]]; then
         printf "[-] Requires three arguments: <github-org/original-repo> <original-branch> <forked-branch>\n"
@@ -61,3 +60,16 @@ function rebase-forked-repo {
     fi
 }
 
+function rebase-forked-repo-git {
+    if [[ ! $1 || ! $2 || ! $3 ]]; then
+        printf "[-] Requires three arguments: <github-org/original-repo> <original-branch> <forked-branch>\n"
+    else
+        printf "\n[+] Starting rebase from original repository to forked repository...\n"
+        git remote add upstream git@github.com:${1}.git
+        git fetch upstream
+        git rebase upstream/${2}
+        git push origin ${3} --force
+        printf "\n[+] Done! Current remotes...\n"
+        git remote -v
+    fi
+}

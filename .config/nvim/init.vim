@@ -9,6 +9,7 @@
 
 " Setup colorscheme. Make sure that the background is light.
 syntax on
+color one
 set background=light
 
 " Highlighting options.

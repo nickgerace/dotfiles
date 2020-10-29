@@ -13,6 +13,8 @@ include $(MAKEPATH)/mk/shells.mk
 
 install: zsh tmux neovim vs-code
 	-cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
+	-mkdir $(HOME)/.scripts/
+	-cp -r $(MAKEPATH)/.scripts/ $(HOME)/.scripts/
 
 push:
 ifeq ($(shell uname), Darwin)
@@ -25,4 +27,5 @@ endif
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/
 	-cp $(HOME)/.gitignore $(MAKEPATH)/.gitignore
+	-cp -r $(HOME)/.scripts/ $(MAKEPATH)/.scripts/
 
