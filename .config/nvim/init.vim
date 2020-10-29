@@ -1,12 +1,6 @@
 " NEOVIM INIT.VIM
 " https://nickgerace.dev
 
-" Language support plugins (optional).
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'fatih/vim-go'
-
-" Plugins from vim-plug.
-
 " Setup colorscheme. Make sure that the background is light.
 syntax on
 color one

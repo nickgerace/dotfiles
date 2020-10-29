@@ -3,7 +3,7 @@
 
 brew: brew-update-and-upgrade
 	brew install \
-		aspell curl git htop make neovim speedtest-cli tmux tree wget gsed \
+		aspell curl git htop make neovim speedtest-cli tmux tree wget gsed jq \
 		go helm k3d kind kubectl rke kustomize k9s
 	brew install \
 		golangci/tap/golangci-lint
