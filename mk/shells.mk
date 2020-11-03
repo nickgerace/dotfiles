@@ -1,11 +1,12 @@
 # DOTFILES
 # https://nickgerace.dev
 
-.PHONY: zsh
-zsh:
-	cp $(MAKEPATH)/.zshrc $(HOME)/
-	-mkdir -p $(HOME)/.config/zsh/
-	cp -r $(MAKEPATH)/.config/zsh/ $(HOME)/.config/zsh/
+.PHONY: bash
+bash:
+	cp $(MAKEPATH)/.profile $(HOME)/
+	cp $(MAKEPATH)/.bashrc $(HOME)/
+	-mkdir -p $(HOME)/.config/bash/
+	cp -r $(MAKEPATH)/.config/bash/ $(HOME)/.config/bash/
 
 .PHONY: tmux
 tmux:

@@ -2,14 +2,15 @@
 # https://nickgerace.dev
 
 brew: brew-update-and-upgrade
-	brew install \
-		aspell curl git htop make neovim speedtest-cli tmux tree wget gsed jq \
+	-brew install \
+		bash curl git make tmux wget bash-completion@2 \
+		aspell htop speedtest-cli gsed jq tree neovim \
 		go helm k3d kind kubectl rke kustomize k9s
-	brew install \
+	-brew install \
 		golangci/tap/golangci-lint
-	brew tap \
+	-brew tap \
 		homebrew/cask-fonts
-	brew cask install \
+	-brew cask install \
 		font-iosevka font-iosevka-slab font-cascadia-code \
 		ngrok
 
@@ -23,7 +24,7 @@ brew-memes:
 
 brew-cloud:
 	brew install \
-		doctl
+		doctl azure-cli
 	brew cask install \
 		google-cloud-sdk
 
