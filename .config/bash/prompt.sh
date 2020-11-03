@@ -1,3 +1,6 @@
+# BASH PROMPT
+# https://nickgerace.dev
+
 # 59   Grey37         #5f5f5f  rgb(95,95,95)
 # 61   SlateBlue3     #5f5faf  rgb(95,95,175)
 # 71   DarkSeaGreen4  #5faf5f  rgb(95,175,95)
@@ -22,12 +25,8 @@ function build_prompt {
 	fi
 	PS1="[${red}\u${reset} at ${green}\h${reset} in ${blue}\w${reset}] ${EXIT} ${BRANCH}\n\\$ "
 }
+
 export PROMPT_COMMAND=build_prompt
-export EDITOR=nvim
-alias vb="$EDITOR $HOME/.bashrc"
-alias sb="source $HOME/.bashrc"
-alias v="$EDITOR"
-alias vi="$EDITOR"
-alias vim="$EDITOR"
+
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'

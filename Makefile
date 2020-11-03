@@ -11,7 +11,7 @@ include $(MAKEPATH)/mk/editors.mk
 include $(MAKEPATH)/mk/rust.mk
 include $(MAKEPATH)/mk/shells.mk
 
-install: zsh tmux neovim vs-code
+install: bash tmux neovim vs-code
 	-cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
 	-mkdir $(HOME)/.scripts/
 	-cp -r $(MAKEPATH)/.scripts/ $(HOME)/.scripts/
@@ -22,8 +22,9 @@ ifeq ($(shell uname), Darwin)
 else
 	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
 endif
-	-cp $(HOME)/.zshrc $(MAKEPATH)/
-	-cp -r $(HOME)/.config/zsh/ $(MAKEPATH)/.config/zsh/
+	-cp $(HOME)/.profile $(MAKEPATH)/
+	-cp $(HOME)/.bashrc $(MAKEPATH)/
+	-cp -r $(HOME)/.config/bash/ $(MAKEPATH)/.config/bash/
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/
 	-cp $(HOME)/.gitignore $(MAKEPATH)/.gitignore
