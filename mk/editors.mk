@@ -21,8 +21,8 @@ vim:
 
 vs-code:
 ifeq ($(shell uname), Darwin)
-	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/Library/Application\ Support/Code/User
+	-cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/Library/Application\ Support/Code/User
 else
 	-mkdir -p $(HOME)/.config/Code/User/
-	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/.config/Code/User/
+	-cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/.config/Code/User/
 endif
