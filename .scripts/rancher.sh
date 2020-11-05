@@ -24,9 +24,9 @@ if [ "$1" == "create" ] || [ "$1" == "install" ]; then
     kubectl rollout status deployment cert-manager-webhook -n cert-manager
     kubectl rollout status deployment cert-manager-cainjector -n cert-manager
 
-    helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+    helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
     kubectl create namespace cattle-system
-    helm install rancher rancher-stable/rancher -n cattle-system --set hostname=${2}
+    helm install rancher rancher-latest/rancher -n cattle-system --set hostname=${2}
     kubectl rollout status deploy/rancher -n cattle-system
 elif [ "$1" == "delete" ] || [ "$1" == "uninstall" ]; then
     helm uninstall -n cattle-system rancher
