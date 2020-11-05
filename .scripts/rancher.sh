@@ -9,7 +9,7 @@ if [ ! -f $HOME/.kube/config ]; then
     export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 fi
 
-if [ "$1" == "install" ]; then
+if [ "$1" == "create" ] || [ "$1" == "install" ]; then
     if [ ! $2 ]; then
         printf "Requires argument(s): <rancher-ui-hostname>\n"
         exit 1
@@ -24,9 +24,9 @@ if [ "$1" == "install" ]; then
     kubectl rollout status deployment cert-manager-webhook -n cert-manager
     kubectl rollout status deployment cert-manager-cainjector -n cert-manager
 
-    helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+    helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
     kubectl create namespace cattle-system
-    helm install rancher rancher-latest/rancher -n cattle-system --set hostname=${2}
+    helm install rancher rancher-stable/rancher -n cattle-system --set hostname=${2}
     kubectl rollout status deploy/rancher -n cattle-system
 elif [ "$1" == "delete" ] || [ "$1" == "uninstall" ]; then
     helm uninstall -n rancher rancher
@@ -36,6 +36,6 @@ elif [ "$1" == "delete" ] || [ "$1" == "uninstall" ]; then
     kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v0.15.0/cert-manager.crds.yaml
     kubectl delete namespace cert-manager
 else
-    printf "Possible subcommands: install delete/uninstall\n"
+    printf "Possible subcommands: create/install delete/uninstall\n"
     exit 1
 fi
