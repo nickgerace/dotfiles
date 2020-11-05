@@ -5,8 +5,8 @@
 bash:
 	cp $(MAKEPATH)/.profile $(HOME)/
 	cp $(MAKEPATH)/.bashrc $(HOME)/
-	-mkdir -p $(HOME)/.config/bash/
-	cp -r $(MAKEPATH)/.config/bash $(HOME)/.config/bash
+	-mkdir -p $(HOME)/.config/
+	cp -r $(MAKEPATH)/.config/bash/ $(HOME)/.config/
 
 .PHONY: tmux
 tmux:
