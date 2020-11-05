@@ -29,7 +29,7 @@ if [ "$1" == "create" ] || [ "$1" == "install" ]; then
     helm install rancher rancher-stable/rancher -n cattle-system --set hostname=${2}
     kubectl rollout status deploy/rancher -n cattle-system
 elif [ "$1" == "delete" ] || [ "$1" == "uninstall" ]; then
-    helm uninstall -n rancher rancher
+    helm uninstall -n cattle-system rancher
     kubectl delete namespace cattle-system
 
     helm uninstall -n cert-manager cert-manager

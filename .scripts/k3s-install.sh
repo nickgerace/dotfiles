@@ -4,5 +4,3 @@ if [ ! "$(command -v kubectl)" ] || [ ! "$(command -v docker)" ] || [ ! "$(comma
     exit 1
 fi
 curl -sfL https://get.k3s.io | sh -
-mkdir ${HOME}/.kube/
-cp /etc/rancher/k3s/k3s.yaml ${HOME}/.kube/config
