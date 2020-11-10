@@ -28,8 +28,9 @@ else
     printf "Unable to start bash completion.\n"
 fi
 
+alias toolbelt="cd $HOME/toolbelt"
 alias sb="source $HOME/.bashrc"
-alias bash-config="cd $HOME/.config/bash/"
+
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
