@@ -36,3 +36,11 @@ function docker-stop-and-rm-all-containers {
     docker stop $(docker ps -a -q)
     docker rm $(docker ps -a -q)
 }
+
+function kubectl-exec {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <namespace> <pod>\n"
+    else
+        kubectl -n ${1} exec --stdin --tty ${2} -- /bin/bash
+    fi
+}
