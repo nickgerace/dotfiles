@@ -9,25 +9,35 @@ include $(MAKEPATH)/mk/mac.mk
 
 include $(MAKEPATH)/mk/editors.mk
 include $(MAKEPATH)/mk/rust.mk
-include $(MAKEPATH)/mk/shells.mk
 
-install: bash tmux neovim vs-code
-	-cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
-	-mkdir -p $(MAKEPATH)/.scripts/
-	-cp -r $(MAKEPATH)/.scripts/* $(HOME)/.scripts/
+install:
+ifeq ($(shell uname), Darwin)
+	-mkdir -p "$(HOME)/Library/Application\ Support/Code/User/"
+	cp $(MAKEPATH)/.config/Code/User/settings.json "$(HOME)/Library/Application\ Support/Code/User"
+else
+	-mkdir -p $(HOME)/.config/Code/User/
+	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/.config/Code/User/
+endif
+	cp $(MAKEPATH)/.profile $(HOME)/
+	cp $(MAKEPATH)/.bashrc $(HOME)/
+	cp $(MAKEPATH)/.tmux.conf $(HOME)/
+	-mkdir -p $(HOME)/.config/nvim/colors/
+	cp $(MAKEPATH)/.config/nvim/init.vim $(HOME)/.config/nvim/
+	-rm $(HOME)/.config/nvim/colors/one.vim
+	cd $(HOME)/.config/nvim/colors/; wget https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim
+	cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
+	cp -r $(MAKEPATH)/toolbelt $(HOME)/
 
 push:
 ifeq ($(shell uname), Darwin)
-	-cp $(HOME)/Library/Application\ Support/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
+	-cp "$(HOME)/Library/Application\ Support/Code/User/settings.json" $(MAKEPATH)/.config/Code/User/
 else
 	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
 endif
 	-cp $(HOME)/.profile $(MAKEPATH)/
 	-cp $(HOME)/.bashrc $(MAKEPATH)/
-	-cp -r $(HOME)/.config/bash/ $(MAKEPATH)/.config/bash/
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/
 	-cp $(HOME)/.gitignore $(MAKEPATH)/.gitignore
-	-mkdir -p $(MAKEPATH)/.scripts/
-	-cp -r $(HOME)/.scripts/* $(MAKEPATH)/.scripts/
+	-cp -r $(HOME)/toolbelt $(MAKEPATH)/
 
