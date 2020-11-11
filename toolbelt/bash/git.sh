@@ -69,3 +69,19 @@ function rebase-forked-repo-git {
         git remote -v
     fi
 }
+
+function checkout-tag {
+    if [ ! $1 ]; then
+        printf "argument(s): <tag>"
+    else
+        git fetch --all --tags
+        BRANCH=tag-${1}
+        DOES_EXIST=$(git branch --list ${BRANCH})
+        if [[ -z ${DOES_EXIST} ]]; then
+            git checkout tags/${1} -b ${BRANCH}
+        else
+            TAG_BRANCHES=$(git branch | grep tag-*)
+            printf "Branch already exists: ${BRANCH}\nAll existing tags with 'tag' prepended...\n${TAG_BRANCHES}\n"
+        fi
+    fi
+}
