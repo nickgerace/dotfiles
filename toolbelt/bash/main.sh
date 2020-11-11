@@ -13,7 +13,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T | "
 export VISUAL=nvim
 export EDITOR=$VISUAL
 export PATH=$PATH:/usr/local/bin
-export PATH=$PATH:$HOME/local/bin
+export PATH=$HOME/local/bin:$PATH
 
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 if [ -f /usr/local/etc/profile.d/bash_completion.sh ]; then
