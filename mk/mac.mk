@@ -1,25 +1,31 @@
 # DOTFILES
 # https://nickgerace.dev
 
-brew-mac-install: brew-mac-update-and-upgrade
+BREW_BASE:="aspell bash curl git gsed htop jq make neovim speedtest-cli tmux tree wget"
+BREW_CLOUD:="doctl azure-cli"
+BREW_K8S:="helm k3d k9s kind kubectl kustomize"
+BREW_LANG:="go golangci/tap/golangci-lint python3"
+
+brew-install: brew-update-upgrade
 	brew install \
-		bash curl git make tmux wget neovim \
-		aspell htop speedtest-cli gsed jq tree nodejs \
-		cowsay lolcat fortune neofetch \
-		doctl azure-cli \
-		go helm k3d kind kubectl rke kustomize k9s golangci/tap/golangci-lint
-	brew tap \
-		homebrew/cask-fonts
+		"$(BREW_BASE)" \
+		"$(BREW_CLOUD)" \
+		"$(BREW_K8S)" \
+		"$(BREW_LANG)"
+	brew tap homebrew/cask-fonts
 	brew cask install \
 		font-iosevka font-iosevka-slab font-cascadia-code \
 		ngrok google-cloud-sdk
 
-brew-mac-install-essentials: brew-mac-update-and-upgrade
-	brew install \
-		bash curl tmux make git wget neovim aspell htop speedtest-cli gsed jq tree go helm \
-		k3d kind kubectl kustomize
+BREW_EXTRA:="nodejs"
+BREW_MEME:="cowsay lolcat fortune neofetch"
 
-brew-mac-update-and-upgrade:
+brew-install-extras: brew-install
+	brew install \
+		"$(BREW_EXTRA)" \
+		"$(BREW_MEME)"
+
+brew-update-upgrade:
 	brew update
 	brew upgrade
 
