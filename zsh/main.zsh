@@ -59,6 +59,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     alias ls="ls -G"
     alias fix-compaudit-errors-on-macos="compaudit | xargs chmod g-w"
     alias sed="gsed"
+    alias make="gmake"
 else
     alias ls="ls --color=auto"
 fi
