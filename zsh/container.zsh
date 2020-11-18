@@ -36,3 +36,23 @@ function docker-stop-and-rm-all-containers {
     docker stop $(docker ps -a -q)
     docker rm $(docker ps -a -q)
 }
+
+function kubectl-exec {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <namespace> <pod>\n"
+    else
+        kubectl -n ${1} exec --stdin --tty ${2} -- /bin/bash
+    fi
+}
+
+function k3d-create {
+    if [ ! $1 ]; then
+        printf "argument(s): <name> <optional-k8s-semver-x.x.x>\n"
+    elif [ ! $2 ]; then
+        k3d cluster create ${1}
+    else
+        K3S_IMAGE=rancher/k3s:v${2}-k3s2
+        docker pull $K3S_IMAGE
+        k3d cluster create ${1} --image $K3S_IMAGE
+    fi
+}

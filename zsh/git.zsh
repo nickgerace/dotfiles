@@ -1,7 +1,6 @@
 # ZSH GIT
 # https://nickgerace.dev
 
-# Set Git aliases.
 alias g="git"
 alias gd="git diff"
 alias gadd="git add"
@@ -20,19 +19,16 @@ alias reset-repo-to-last-commmit="git reset --hard"
 alias git-pull-fix="git config --global pull.ff only"
 alias git-show-tags='git log --tags --simplify-by-decoration --pretty="format:%ci %d"'
 
-# Set branch-related aliases.
 alias gbva="git branch -v -a"
 alias branch="git rev-parse --abbrev-ref HEAD"
 alias branches="git branch -a"
 alias branch-new="git checkout -b"
 alias branch-delete="git branch -d"
 
-# Show tips and reminders when using Git.
 alias squash='printf "git reset --soft HEAD~N\n"'
 alias git-checkout-remote='printf "git checkout -b branch origin/branch\n"' 
 alias git-delete-remote-tag='printf "git push --delete origin <tag>\n"'
 
-# If a remote branch has been merged and deleted, sync the local repository accordingly.
 function post-merge {
     if [[ ! $1 ]]; then
         printf "Requires main branch name as first argument.\n"
@@ -71,5 +67,21 @@ function rebase-forked-repo-git {
         git push origin ${3} --force
         printf "\n[+] Done! Current remotes...\n"
         git remote -v
+    fi
+}
+
+function checkout-tag {
+    if [ ! $1 ]; then
+        printf "argument(s): <tag>"
+    else
+        git fetch --all --tags
+        BRANCH=tag-${1}
+        DOES_EXIST=$(git branch --list ${BRANCH})
+        if [[ -z ${DOES_EXIST} ]]; then
+            git checkout tags/${1} -b ${BRANCH}
+        else
+            TAG_BRANCHES=$(git branch | grep tag-*)
+            printf "Branch already exists: ${BRANCH}\nAll existing tags with 'tag' prepended...\n${TAG_BRANCHES}\n"
+        fi
     fi
 }

@@ -1,27 +1,26 @@
 # ZSH MAIN
 # https://nickgerace.dev
 
-# Set general settings for the terminal, editor, and more.
 export TERM=xterm-256color
-
-# Setup primary editor.
 export VISUAL=nvim
 export EDITOR=$VISUAL
 
-# Add "local" path additions.
 export PATH=$PATH:/usr/local/bin
-export PATH=$PATH:$HOME/local/bin
+export PATH=$HOME/local/bin:$PATH
+export DOTFILES=$HOME/Developer/dotfiles
 
-# Set essential aliases. These are usually OS-independent.
 alias sz="source $HOME/.zshrc"
-alias zsh-config="cd $HOME/.config/zsh/"
+alias zsh-config="cd $DOTFILES/zsh/"
+alias scripts="cd $DOTFILES/scripts/"
+alias dotfiles="cd $DOTFILES"
+
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../"
 alias .......="cd ../../../../../"
-alias fa="alias | grep"
+alias alias-search="alias | grep"
 alias grep-no-match="grep -L"
 alias h="history"
 alias history="fc -lf -20"
@@ -29,21 +28,17 @@ alias path='echo $PATH | sed "s/:/\n/g"'
 alias ping5="ping -c 5"
 alias rm="rm -i"
 
-# Add editor-related aliases based on settings above.
 alias v=$EDITOR
 alias vi=$EDITOR
 alias vim=$EDITOR
 alias vmake="$EDITOR Makefile"
 alias vtmux="$EDITOR $HOME/.tmux.conf"
-alias vvim="$EDITOR $HOME/.vimrc"
 
-# Add tmux-related aliases.
 alias tmuxa="tmux attach -t"
 alias tmuxk="tmux kill-session -t"
 alias tmuxl="tmux ls"
 alias tmuxn="tmux new -s"
 
-# Add hardware management aliases (Linux only).
 alias bye="sudo shutdown now"
 alias check-os="cat /etc/os-release"
 alias check-power="powerstat -R -c -z"
@@ -52,19 +47,18 @@ alias update-firmware="fwupdmgr update"
 alias get-public-ip-address="dig +short myip.opendns.com @resolver1.opendns.com"
 alias see-drives="sudo fdisk -l"
 
-# Add macOS settings, and aiases.
 if [[ "$OSTYPE" == "darwin"* ]]; then
     export ZSH_DISABLE_COMPFIX=true
     export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
-    alias ls="ls -G"
     alias fix-compaudit-errors-on-macos="compaudit | xargs chmod g-w"
+
+    alias ls="ls -G"
     alias sed="gsed"
     alias make="gmake"
 else
     alias ls="ls --color=auto"
 fi
 
-# Generic update function for any OS.
 function update {
     printf "[+] Updating all...\n"
     if [[ "$OSTYPE" == "darwin"* ]] && [ "$(command -v brew)" ]; then

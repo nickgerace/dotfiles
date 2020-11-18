@@ -1,14 +1,12 @@
 # ZSH LANG
 # https://nickgerace.dev
 
-# Go settings and pathing.
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/usr/local/go/bin
 export PATH=${GOPATH//://bin:}/bin:$PATH
 
-# Ruby settings and pathing. If installed, set up the environment.
 export GEM_HOME=$HOME/gems
 export PATH=$HOME/gems/bin:$PATH
 export PATH=$HOME/.rbenv/bin:$PATH
@@ -16,7 +14,6 @@ if [[ -d $HOME/.rbenv/bin ]]; then
     eval "$(rbenv init -)"
 fi
 
-# Adjust settings for Rust and Cargo.
 export PATH=$PATH:$HOME/.cargo/bin
 if [ "$(command -v cargo)" ]; then
     alias cr="cargo run"
@@ -26,7 +23,6 @@ if [ "$(command -v cargo)" ]; then
     alias ct="cargo test"
 fi
 
-# Add aliases for applications available on crates.io.
 if [ "$(command -v bat)" ]; then
     alias cat="bat -p"
     alias bat="bat --theme=ansi-light"
@@ -44,7 +40,6 @@ if [ "$(command -v fd)" ]; then
     alias fdh="fd --hidden"
 fi
 
-# Use Docker to build a staticlly-linked Rust project.
 function cargo-build-static {
     docker pull clux/muslrust
     docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
