@@ -44,4 +44,3 @@ function cargo-build-static {
     docker pull clux/muslrust
     docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
 }
-

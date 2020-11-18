@@ -49,9 +49,7 @@ alias see-drives="sudo fdisk -l"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     export ZSH_DISABLE_COMPFIX=true
-    export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
     alias fix-compaudit-errors-on-macos="compaudit | xargs chmod g-w"
-
     alias ls="ls -G"
     alias sed="gsed"
     alias make="gmake"

@@ -7,3 +7,7 @@ neovim-plugs:
 
 neovim-coc-installs:
 	-nvim +"CocInstall coc-rust-analyzer" +qall
+
+neovim-theme-upstream:
+	-rm $(MAKEPATH)/nvim/one.vim
+	cd $(MAKEPATH)/nvim/; wget https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim

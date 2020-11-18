@@ -12,28 +12,28 @@ include $(MAKEPATH)/mk/rust.mk
 
 install:
 ifeq ($(shell uname), Darwin)
-	-mkdir -p "$(HOME)/Library/Application\ Support/Code/User/"
-	cp $(MAKEPATH)/.config/Code/User/settings.json "$(HOME)/Library/Application\ Support/Code/User"
+	-mkdir -p $(HOME)/Library/Application\ Support/Code/User/
+	cp $(MAKEPATH)/code/settings.json $(HOME)/Library/Application\ Support/Code/User
 else
 	-mkdir -p $(HOME)/.config/Code/User/
-	cp $(MAKEPATH)/.config/Code/User/settings.json $(HOME)/.config/Code/User/
+	cp $(MAKEPATH)/code/settings.json $(HOME)/.config/Code/User/
 endif
 	cp $(MAKEPATH)/.zshrc $(HOME)/
 	cp $(MAKEPATH)/.tmux.conf $(HOME)/
 	-mkdir -p $(HOME)/.config/nvim/colors/
-	cp $(MAKEPATH)/.config/nvim/init.vim $(HOME)/.config/nvim/
-	-rm $(HOME)/.config/nvim/colors/one.vim
-	cd $(HOME)/.config/nvim/colors/; wget https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim
+	cp $(MAKEPATH)/nvim/init.vim $(HOME)/.config/nvim/
+	cp $(MAKEPATH)/nvim/one.vim $(HOME)/.config/nvim/colors/
 	cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
 
 push:
 ifeq ($(shell uname), Darwin)
-	-cp "$(HOME)/Library/Application\ Support/Code/User/settings.json" $(MAKEPATH)/.config/Code/User/
+	-cp $(HOME)/Library/Application\ Support/Code/User/settings.json $(MAKEPATH)/code/
 else
-	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/.config/Code/User/
+	-cp $(HOME)/.config/Code/User/settings.json $(MAKEPATH)/code/
 endif
 	-cp $(HOME)/.zshrc $(MAKEPATH)/
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
-	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/.config/nvim/
+	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/nvim/
+	-cp $(HOME)/.config/nvim/colors/one.vim $(MAKEPATH)/nvim/
 	-cp $(HOME)/.gitignore $(MAKEPATH)/.gitignore
 

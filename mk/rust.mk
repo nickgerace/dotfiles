@@ -12,5 +12,6 @@ cargo:
                 ripgrep \
                 fd-find \
                 ytop \
-                bat
+                bat \
+				gfold
 
