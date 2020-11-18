@@ -7,12 +7,15 @@ export EDITOR=$VISUAL
 
 export PATH=$PATH:/usr/local/bin
 export PATH=$HOME/local/bin:$PATH
-export DOTFILES=$HOME/Developer/dotfiles
+export DEVELOPER=$HOME/Developer
+export DOTFILES=$DEVELOPER/dotfiles
 
 alias sz="source $HOME/.zshrc"
 alias zsh-config="cd $DOTFILES/zsh/"
-alias scripts="cd $DOTFILES/scripts/"
+
+alias dev="cd $DEVELOPER"
 alias dotfiles="cd $DOTFILES"
+alias scripts="cd $DOTFILES/scripts/"
 
 alias ..="cd .."
 alias ...="cd ../.."

@@ -23,23 +23,6 @@ if [ "$(command -v cargo)" ]; then
     alias ct="cargo test"
 fi
 
-if [ "$(command -v bat)" ]; then
-    alias cat="bat -p"
-    alias bat="bat --theme=ansi-light"
-fi
-if [ "$(command -v exa)" ]; then
-    alias ls="exa"
-    alias x="exa"
-fi
-if [ "$(command -v rg)" ]; then
-    alias grep="rg"
-    alias rgh="rg --hidden"
-fi
-if [ "$(command -v fd)" ]; then
-    alias find="fd"
-    alias fdh="fd --hidden"
-fi
-
 function cargo-build-static {
     docker pull clux/muslrust
     docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
