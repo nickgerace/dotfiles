@@ -8,6 +8,8 @@ alias dimg="docker images"
 
 alias run-newest-ubuntu="docker run -it ubuntu:rolling"
 
+alias aws-login="aws configure"
+
 if [ "$(command -v kubectl)" ]; then
     source <(kubectl completion zsh)
     complete -F __start_kubectl k
@@ -54,5 +56,13 @@ function k3d-create {
         K3S_IMAGE=rancher/k3s:v${2}-k3s2
         docker pull $K3S_IMAGE
         k3d cluster create ${1} --image $K3S_IMAGE
+    fi
+}
+
+function aws-create-role {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Required argument(s): <role-name> <path-to-role-json-file>\n"
+    else
+        aws iam create-role --role-name ${1} --assume-role-policy-document file://${2}
     fi
 }

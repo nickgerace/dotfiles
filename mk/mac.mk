@@ -2,7 +2,7 @@
 # https://nickgerace.dev
 
 BREW_BASE:="aspell bash curl git gsed htop jq make neovim speedtest-cli tmux tree wget"
-BREW_CLOUD:="doctl azure-cli"
+BREW_CLOUD:="doctl azure-cli awscli terraform"
 BREW_K8S:="helm k3d k9s kind kubectl kustomize"
 BREW_LANG:="go golangci/tap/golangci-lint python3"
 
