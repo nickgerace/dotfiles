@@ -27,3 +27,13 @@ function cargo-build-static {
     docker pull clux/muslrust
     docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
 }
+
+function go-mod-vendor {
+    printf "Remove the old module first from go.mod\n"
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <module-url> <git-hash>\n"
+    else
+        go get ${1}@${2}
+        go mod vendor
+    fi
+}
