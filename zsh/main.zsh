@@ -87,3 +87,11 @@ function find-file {
         find . -name ${1}
     fi
 }
+
+function string-grab-first-n-characters {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <string> <n>\n"
+    else
+        echo "${1}" | cut -c1-${2}
+    fi
+}
