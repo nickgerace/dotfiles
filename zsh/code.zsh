@@ -7,6 +7,14 @@ fi
 
 alias code-open-here="code ."
 
+function code-settings {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        ${EDITOR} "${HOME}/Library/Application\ Support/Code/User/settings.json"
+    else
+        ${EDITOR} "${HOME}/.config/Code/User/settings.json"
+    fi
+}
+
 function code-install-extensions {
     if [ "$(command -v code)" ]; then
         EXTENSIONS=$DOTFILES/code/extensions.txt
