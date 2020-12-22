@@ -9,9 +9,12 @@ sudo /bin/systemctl enable elasticsearch.service
 sudo systemctl start elasticsearch.service
 sleep 10
 curl -X GET "localhost:9200/?pretty"
-sudo apt-get install -y kibana
-sudo /bin/systemctl daemon-reload
-sudo /bin/systemctl enable kibana.service
-sudo systemctl start kibana.service
-sleep 10
-printf "ElasticSearch and Kibana should be running!\n"
+
+if [ $1 ] && [ "${1}" == "kibana"]; then
+    sudo apt-get install -y kibana
+    sudo /bin/systemctl daemon-reload
+    sudo /bin/systemctl enable kibana.service
+    sudo systemctl start kibana.service
+    sleep 10
+    printf "ElasticSearch and Kibana should be running!\n"
+fi
