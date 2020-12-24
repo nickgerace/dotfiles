@@ -47,6 +47,14 @@ function kubectl-exec {
     fi
 }
 
+function kubectl-exec-windows {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <namespace> <pod>\n"
+    else
+        kubectl -n ${1} exec --stdin --tty ${2} -- powershell.exe
+    fi
+}
+
 function k3d-create {
     if [ ! $1 ]; then
         printf "argument(s): <name> <optional-k8s-semver-x.x.x>\n"

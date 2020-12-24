@@ -95,3 +95,11 @@ function loop-command {
         while true; do ${1}; sleep ${2}; done
     fi
 }
+
+function string-grab-first-n-characters {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <string> <n>\n"
+    else
+        echo "${1}" | cut -c1-${2}
+    fi
+}

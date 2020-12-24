@@ -5,7 +5,7 @@ if [ ! $1 ]; then
 fi
 
 if [ ! -f $HOME/.kube/config ]; then
-    printf "File not found: ${HOME}/.kube/config\nTrying k3s..\n"
+    printf "File not found: ${HOME}/.kube/config\nTrying k3s file: /etc/rancher/k3s/k3s.yaml\n"
     export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 fi
 
@@ -15,7 +15,7 @@ NS_RANCHER=cattle-system
 
 if [ "$1" == "create" ] || [ "$1" == "install" ]; then
     if [ ! $2 ]; then
-        printf "Argument(s): <rancher-ui-hostname> <optional-rancher-image-tag>\n"
+        printf "Argument(s): <rancher-ui-hostname-without-http> <optional-rancher-image-tag>\n"
         exit 1
     fi
 
