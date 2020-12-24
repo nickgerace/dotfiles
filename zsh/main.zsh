@@ -87,3 +87,11 @@ function find-file {
         find . -name ${1}
     fi
 }
+
+function loop-command {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "[-] Requires argument(s): <command-to-be-looped> <sleep-seconds>\n"
+    else
+        while true; do ${1}; sleep ${2}; done
+    fi
+}

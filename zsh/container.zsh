@@ -66,3 +66,7 @@ function aws-create-role {
         aws iam create-role --role-name ${1} --assume-role-policy-document file://${2}
     fi
 }
+
+function kubectl-all-images {
+    kubectl get pods --all-namespaces -o jsonpath="{..image}" | tr -s '[[:space:]]' '\n' | sort | uniq -c
+}
