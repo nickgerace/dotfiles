@@ -1,4 +1,4 @@
-# ZSHRC
+# ZSH CONFIG
 # https://nickgerace.dev
 
 # Add autocomplete functionality before everything else.

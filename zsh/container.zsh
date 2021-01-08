@@ -1,4 +1,4 @@
-# ZSH CONTAINER
+# ZSH CONFIG
 # https://nickgerace.dev
 
 alias d="docker"
@@ -64,14 +64,6 @@ function k3d-create {
         K3S_IMAGE=rancher/k3s:v${2}-k3s2
         docker pull $K3S_IMAGE
         k3d cluster create ${1} --image $K3S_IMAGE
-    fi
-}
-
-function aws-create-role {
-    if [ ! $1 ] || [ ! $2 ]; then
-        printf "Required argument(s): <role-name> <path-to-role-json-file>\n"
-    else
-        aws iam create-role --role-name ${1} --assume-role-policy-document file://${2}
     fi
 }
 

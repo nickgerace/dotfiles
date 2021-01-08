@@ -1,4 +1,4 @@
-# ZSH PROMPT
+# ZSH CONFIG
 # https://nickgerace.dev
 
 # 59   Grey37         #5f5f5f  rgb(95,95,95)

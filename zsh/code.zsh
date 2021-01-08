@@ -1,4 +1,4 @@
-# ZSH CODE
+# ZSH CONFIG
 # https://nickgerace.dev
 
 if [[ "$OSTYPE" == "darwin"* ]]; then

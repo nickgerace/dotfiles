@@ -1,4 +1,4 @@
-# ZSH MAIN
+# ZSH CONFIG
 # https://nickgerace.dev
 
 export TERM=xterm-256color
@@ -52,16 +52,6 @@ alias see-drives="sudo fdisk -l"
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    export ZSH_DISABLE_COMPFIX=true
-    alias fix-compaudit-errors-on-macos="compaudit | xargs chmod g-w"
-    alias ls="ls -G"
-    alias sed="gsed"
-    alias make="gmake"
-else
-    alias ls="ls --color=auto"
-fi
 
 function update {
     printf "[+] Updating all...\n"

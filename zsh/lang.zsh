@@ -1,4 +1,4 @@
-# ZSH LANG
+# ZSH CONFIG
 # https://nickgerace.dev
 
 export GOPATH=$HOME/go
@@ -18,6 +18,7 @@ export PATH=$PATH:$HOME/.cargo/bin
 if [ "$(command -v cargo)" ]; then
     alias cr="cargo run"
     alias crq="cargo run --quiet"
+    alias cmr="cargo fmt && cargo run"
     alias cb="cargo build"
     alias cbr="cargo build --release"
     alias ct="cargo test"

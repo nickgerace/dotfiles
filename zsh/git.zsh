@@ -1,4 +1,4 @@
-# ZSH GIT
+# ZSH CONFIG
 # https://nickgerace.dev
 
 alias g="git"
