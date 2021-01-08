@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 if [ ! "$(command -v kubectl)" ] || [ ! "$(command -v docker)" ] || [ ! "$(command -v helm)" ]; then
-    printf "[k3s-install] Recommended dependencies: kubectl docker helm\n"
+    printf "[INFO] Recommended dependencies: kubectl docker helm\n"
     exit 1
 fi
 
-if [ $1 ]; then
-    TEMP="v${1}+k3s2"
-    printf "[k3s-install] Running with version: ${TEMP}\n"
-    printf "[k3s-install] If the image does not exist, use a valid image: https://hub.docker.com/r/rancher/k3s/tags\n"
-    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=${TEMP} sh -
+if [ $K3S_VERSION ]; then
+    TEMP_K3S_VERSION="v${K3S_VERSION}+k3s2"
+    printf "[INFO] Running with version: ${TEMP_K3S_VERSION}\n"
+    printf "[INFO] If the image does not exist, use a valid image: https://hub.docker.com/r/rancher/k3s/tags\n"
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=${TEMP_K3S_VERSION} sh -
 else
     curl -sfL https://get.k3s.io | sh -
 fi
 
-printf "[k3s-install] Config file location: /etc/rancher/k3s/k3s.yaml\n"
+if [ $COPY_CONFIG ] && [ $COPY_CONFIG == "true" ]; then
+    cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
+    printf "[INFO] Config file location: ${HOME}/.kube/config\n"
+else
+    printf "[INFO] Config file location: /etc/rancher/k3s/k3s.yaml\n"
+fi
