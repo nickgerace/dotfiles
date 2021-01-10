@@ -93,3 +93,11 @@ function string-grab-first-n-characters {
         echo "${1}" | cut -c1-${2}
     fi
 }
+
+function markdown-to-html {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <input.md> <output.html>\n"
+    else
+        pandoc ${1} -f markdown -t html5 > ${2}
+    fi
+}
