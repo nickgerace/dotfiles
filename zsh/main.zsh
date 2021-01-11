@@ -49,6 +49,7 @@ alias check-firmware="fwupdmgr get-devices"
 alias update-firmware="fwupdmgr update"
 alias get-public-ip-address="dig +short myip.opendns.com @resolver1.opendns.com"
 alias see-drives="sudo fdisk -l"
+alias inspiration="fortune | cowsay | lolcat"
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward

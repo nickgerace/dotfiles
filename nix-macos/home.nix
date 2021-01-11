@@ -14,7 +14,6 @@
   home.packages = with pkgs; [
     aspell
     bash
-    cascadia-code
     cowsay
     curl
     doctl
@@ -26,7 +25,6 @@
     go
     golangci-lint
     htop
-    iosevka
     jq
     k9s
     kubectl
