@@ -23,7 +23,8 @@ endif
 	-mkdir -p $(HOME)/.config/nvim/colors/
 	cp $(MAKEPATH)/nvim/init.vim $(HOME)/.config/nvim/
 	cp $(MAKEPATH)/nvim/one.vim $(HOME)/.config/nvim/colors/
-	cp $(MAKEPATH)/.gitignore $(HOME)/.gitignore
+	cp $(MAKEPATH)/git/.gitignore $(HOME)/.gitignore
+	cp $(MAKEPATH)/nix-macos/home.nix $(HOME)/.config/nixpkgs/
 
 push:
 ifeq ($(shell uname), Darwin)
@@ -35,5 +36,6 @@ endif
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/nvim/
 	-cp $(HOME)/.config/nvim/colors/one.vim $(MAKEPATH)/nvim/
-	-cp $(HOME)/.gitignore $(MAKEPATH)/.gitignore
+	-cp $(HOME)/.gitignore $(MAKEPATH)/git/
+	-cp $(HOME)/.config/nixpkgs/home.nix $(MAKEPATH)/nix-macos/
 
