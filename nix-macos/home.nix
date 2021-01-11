@@ -13,7 +13,7 @@
   
   home.packages = with pkgs; [
     aspell
-    bash
+    bash_5 # bash
     cowsay
     curl
     doctl
@@ -36,7 +36,7 @@
     ngrok # unfree
     pandoc
     python3
-    ruby
+    ruby_2_7 # ruby
     rustup
     speedtest-cli
     tmux
