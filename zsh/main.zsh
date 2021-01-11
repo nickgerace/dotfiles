@@ -67,6 +67,10 @@ function update {
         printf "[+] rustup update\n"
         rustup update
     fi
+    if [ "$(command -v home-manager)" ]; then
+        printf "[+] home-manager switch\n"
+        home-manager switch
+    fi
     printf "[+] All updates completed.\n"
 }
 
