@@ -4,6 +4,7 @@ K3S_CONFIG_PATH=/etc/rancher/k3s/k3s.yaml
 CM_VERSION=v0.15.0
 NS_CM=cert-manager
 NS_RANCHER=cattle-system
+AUDIT_LOGGING=0 # --set auditLog.level=1
 
 if [ ! -f ${KUBE_CONFIG_PATH} ]; then
     printf "File not found: ${KUBE_CONFIG_PATH}\nTrying k3s file: ${K3S_CONFIG_PATH}\n"

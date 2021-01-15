@@ -35,6 +35,10 @@ if [ "$(command -v k3d)" ]; then
     alias kcstop="k3d cluster stop"
 fi
 
+if [ -d "/usr/local/opt/yq@3/bin" ]; then
+    export PATH="/usr/local/opt/yq@3/bin:$PATH"
+fi
+
 function docker-stop-and-rm-all-containers {
     docker stop $(docker ps -a -q)
     docker rm $(docker ps -a -q)

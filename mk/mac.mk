@@ -20,7 +20,7 @@ brew-install: brew-update-upgrade
 		ngrok google-cloud-sdk
 
 brew-install-not-in-home-manager:
-	brew install k3d rke
+	brew install k3d rke yq@3
 	brew tap homebrew/cask-fonts
 	brew install --cask font-iosevka font-iosevka-slab font-cascadia-code
 
