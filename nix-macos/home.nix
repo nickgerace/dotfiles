@@ -10,9 +10,15 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  # Not in nixpkgs   | rke
+  # No macOS support | kube3d
+  # Optional         | nodejs parallel
   
   home.packages = with pkgs; [
     aspell
+    awscli2
+    azure-cli
     bash_5 # bash
     cowsay
     curl
@@ -21,12 +27,14 @@
     fzf
     git
     gnumake
+    gnupg
     gnused
     go
     golangci-lint
     htop
     jq
     k9s
+    kind
     kubectl
     kubernetes-helm
     kustomize
@@ -39,6 +47,7 @@
     ruby_2_7 # ruby
     rustup
     speedtest-cli
+    terraform_0_14 # terraform
     tmux
     tree
     wget
