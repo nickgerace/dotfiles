@@ -18,6 +18,7 @@ if [ "$(command -v kubectl)" ]; then
     alias kgp="kubectl get pods"
     alias kgpa="kubectl get pods -A"
     alias kgns="kubectl get namespaces"
+    alias pods-on-nodes="kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName --all-namespaces"
 
     if [ -d $HOME/.krew ]; then
         export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"

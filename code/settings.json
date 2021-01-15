@@ -6,7 +6,7 @@
     "editor.fontFamily": "Iosevka",
     "editor.fontLigatures": true,
     "editor.fontSize": 14,
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 1,
     "[yaml]": {
         "editor.tabSize": 2,
         "editor.insertSpaces": true,
