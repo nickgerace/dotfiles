@@ -106,3 +106,11 @@ function markdown-to-html {
         pandoc ${1} -f markdown -t html5 > ${2}
     fi
 }
+
+function trim-whitespace {
+    if [ ! $1 ]; then
+        printf "Requires argument(s): <path-to-file>\n"
+    else
+        vim "+%s/\s\+$//e" +wq ${1}
+    fi
+}
