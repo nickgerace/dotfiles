@@ -1,6 +1,3 @@
-# ZSH CONFIG
-# https://nickgerace.dev
-
 if [[ "$OSTYPE" == "darwin"* ]]; then
     export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 fi
@@ -17,13 +14,13 @@ function code-settings {
 
 function code-install-extensions {
     if [ "$(command -v code)" ]; then
-        EXTENSIONS=$DOTFILES/code/extensions.txt
+        EXTENSIONS=$HOME/dotfiles/code/extensions.txt
         if [ -r $EXTENSIONS ]; then
             while IFS= read -r line; do
                 code --install-extension $line
             done < "$EXTENSIONS"
         else
-            printf "Cannot access file: $EXTENSIONS\n"
+            printf "Cannot access file: ${EXTENSIONS}\n"
         fi
     else
         printf "Visual Studio Code not installed.\n"

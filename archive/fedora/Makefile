@@ -1,6 +1,3 @@
-# DOTFILES
-# https://nickgerace.dev
-
 dnf:
 	sudo dnf check-update
 	sudo dnf install \

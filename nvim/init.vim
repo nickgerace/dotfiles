@@ -1,6 +1,3 @@
-" NEOVIM INIT.VIM
-" https://nickgerace.dev
-
 " Setup colorscheme. Make sure that the background is light.
 syntax on
 color one
