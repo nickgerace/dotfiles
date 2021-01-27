@@ -1,21 +1,15 @@
-# ZSH CONFIG
-# https://nickgerace.dev
-
 export TERM=xterm-256color
 export VISUAL=nvim
 export EDITOR=$VISUAL
 
 export PATH=$PATH:/usr/local/bin
 export PATH=$HOME/local/bin:$PATH
-export DEVELOPER=$HOME/Developer
-export DOTFILES=$DEVELOPER/dotfiles
 
 alias sz="source $HOME/.zshrc"
-alias zsh-config="cd $DOTFILES/zsh/"
+alias zsh-config="cd $HOME/dotfiles/zsh/"
 
-alias dev="cd $DEVELOPER"
-alias dotfiles="cd $DOTFILES"
-alias scripts="cd $DOTFILES/scripts/"
+alias dotfiles="cd $HOME/dotfiles"
+alias scripts="cd $HOME/dotfiles/scripts/"
 
 alias ..="cd .."
 alias ...="cd ../.."
@@ -107,6 +101,16 @@ function markdown-to-html {
     fi
 }
 
+function ssh-passwordless-setup {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <username> <hostname> <optional-port-number>\n"
+    elif [ ! $3 ]; then
+        cat ${HOME}/.ssh/id_rsa.pub | ssh ${1}@${2} "mkdir -p ${HOME}/.ssh && chmod 755 ${HOME}/.ssh && cat >> ${HOME}/.ssh/authorized_keys && chmod 644 ${HOME}/.ssh/authorized_keys"
+    else
+        cat ${HOME}/.ssh/id_rsa.pub | ssh ${1}@${2} -p ${3} "mkdir -p ${HOME}/.ssh && chmod 755 ${HOME}/.ssh && cat >> ${HOME}/.ssh/authorized_keys && chmod 644 ${HOME}/.ssh/authorized_keys"
+    fi
+}
+
 function trim-whitespace {
     if [ ! $1 ]; then
         printf "Requires argument(s): <path-to-file>\n"
@@ -114,3 +118,16 @@ function trim-whitespace {
         vim "+%s/\s\+$//e" +wq ${1}
     fi
 }
+
+function shasum-github {
+    if [ ! $1 ] || [ ! $2 ] || [ ! $3 ]; then
+        printf "Argument(s): <user/org> <repo> <release-semver>\n"
+    else
+        for i in {1..20}; do
+            wget https://github.com/${1}/${2}/archive/${3}.tar.gz > /dev/null 2>&1
+            shasum -a 256 ${3}.tar.gz
+            rm ${3}.tar.gz
+        done
+    fi
+}
+

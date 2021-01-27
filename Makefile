@@ -1,14 +1,4 @@
-# DOTFILES
-# https://nickgerace.dev
-
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
-include $(MAKEPATH)/mk/apt.mk
-include $(MAKEPATH)/mk/dnf.mk
-include $(MAKEPATH)/mk/mac.mk
-
-include $(MAKEPATH)/mk/editors.mk
-include $(MAKEPATH)/mk/rust.mk
 
 install:
 ifeq ($(shell uname), Darwin)
@@ -24,7 +14,6 @@ endif
 	cp $(MAKEPATH)/nvim/init.vim $(HOME)/.config/nvim/
 	cp $(MAKEPATH)/nvim/one.vim $(HOME)/.config/nvim/colors/
 	cp $(MAKEPATH)/git/.gitignore $(HOME)/.gitignore
-	cp $(MAKEPATH)/nix-macos/home.nix $(HOME)/.config/nixpkgs/
 
 push:
 ifeq ($(shell uname), Darwin)
@@ -37,5 +26,3 @@ endif
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/nvim/
 	-cp $(HOME)/.config/nvim/colors/one.vim $(MAKEPATH)/nvim/
 	-cp $(HOME)/.gitignore $(MAKEPATH)/git/
-	-cp $(HOME)/.config/nixpkgs/home.nix $(MAKEPATH)/nix-macos/
-

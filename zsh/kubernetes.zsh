@@ -1,15 +1,3 @@
-# ZSH CONFIG
-# https://nickgerace.dev
-
-alias d="docker"
-alias dps="docker ps"
-alias dpsa="docker ps -a"
-alias dimg="docker images"
-
-alias run-newest-ubuntu="docker run -it ubuntu:rolling"
-
-alias aws-login="aws configure"
-
 if [ "$(command -v kubectl)" ]; then
     source <(kubectl completion zsh)
     complete -F __start_kubectl k
@@ -34,15 +22,6 @@ if [ "$(command -v k3d)" ]; then
     alias kcstart="k3d cluster start"
     alias kcstop="k3d cluster stop"
 fi
-
-if [ -d "/usr/local/opt/yq@3/bin" ]; then
-    export PATH="/usr/local/opt/yq@3/bin:$PATH"
-fi
-
-function docker-stop-and-rm-all-containers {
-    docker stop $(docker ps -a -q)
-    docker rm $(docker ps -a -q)
-}
 
 function kubectl-exec {
     if [ ! $1 ] || [ ! $2 ]; then

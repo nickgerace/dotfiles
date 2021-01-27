@@ -1,5 +1,6 @@
-# ZSH CONFIG                                                                                                 
-# https://nickgerace.dev
+if [ -d "/usr/local/opt/yq@3/bin" ]; then
+    export PATH="/usr/local/opt/yq@3/bin:$PATH"
+fi
 
 function rc {
     if [ ! $1 ]; then
@@ -9,6 +10,7 @@ function rc {
         if [ $2 ]; then
             TEMP_PACKAGE="${2}"
         fi
-        ( cd $DEVELOPER/rancher-charts; PACKAGE=${TEMP_PACKAGE} make ${1} )
+        ( cd $HOME/rancher-charts; PACKAGE=${TEMP_PACKAGE} make ${1} )
     fi
 }
+

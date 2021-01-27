@@ -1,6 +1,3 @@
-# DOTFILES
-# https://nickgerace.dev
-
 apt:
 	sudo apt update
 	sudo apt install \
@@ -12,13 +9,11 @@ apt:
 	sudo apt upgrade
 	sudo apt autoremove
 	@printf "\nInstall the following...\n\
-		oh-my-zsh\n\
 		docker\n\
-		kind\n\
 		kubectl\n\
 		helm\n\
 		go\n\
-		rust (rustup)\n\
+		rustup\n\
 		\n"
 
 apt-desktop:

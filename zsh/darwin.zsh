@@ -1,6 +1,3 @@
-# ZSH CONFIG
-# https://nickgerace.dev
-
 if [[ "$OSTYPE" == "darwin"* ]]; then
     export ZSH_DISABLE_COMPFIX=true
     alias fix-compaudit-errors-on-macos="compaudit | xargs chmod g-w"

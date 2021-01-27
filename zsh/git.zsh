@@ -1,6 +1,3 @@
-# ZSH CONFIG
-# https://nickgerace.dev
-
 alias g="git"
 alias gd="git diff"
 alias gadd="git add"
