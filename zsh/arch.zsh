@@ -1,5 +1,5 @@
 function paru-push {
-    paru -Qqe > ${HOME}/dotfiles/archlinux/PKGLIST
+    paru -Qqen > ${HOME}/dotfiles/archlinux/PKGLIST
     paru -Qqm > ${HOME}/dotfiles/archlinux/AURLIST
 }
 
@@ -8,7 +8,7 @@ function paru-install {
     paru -Sy - < ${HOME}/dotfiles/archlinux/AURLIST
 }
 
-function paru-upgrade {
+function paru-up {
     paru -Syu
     paru -Sua
 }
