@@ -1,6 +1,7 @@
 alias g="git"
 alias gd="git diff"
 alias gadd="git add"
+alias gbc="git branch --show-current"
 alias gcomm="git commit"
 alias gcommit="git commit"
 alias gcs="git commit -s"
