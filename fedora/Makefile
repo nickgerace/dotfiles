@@ -19,11 +19,11 @@ docker-install:
 	sudo dnf install dnf-plugins-core
 	sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 	sudo dnf install docker-ce docker-ce-cli containerd.io
-	sudo systemctl start docker
-	sudo systemctl enable docker
 	sudo firewall-cmd --permanent --zone=trusted --add-interface=docker0
 	sudo firewall-cmd --permanent --zone=$(FIREWALL_ZONE) --add-masquerade
 	sudo firewall-cmd --reload
+	sudo systemctl start docker
+	sudo systemctl enable docker
 	sudo usermod -aG docker $(shell whoami)
 	sudo docker run hello-world
 
@@ -35,6 +35,16 @@ terraform-install:
 	sudo dnf install -y dnf-plugins-core
 	sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 	sudo dnf install -y terraform
+
+rke2-install:
+	sudo curl -sfL https://get.rke2.io | sudo sh -
+	sudo systemctl enable rke2-server.service
+	sudo systemctl start rke2-server.service
+	-mkdir $(HOME)/.kube/
+	sudo cp /etc/rancher/rke2/rke2.yaml $(HOME)/.kube/config
+	sudo chown $(USER):$(USER) $(HOME)/.kube/config
+	sudo chmod 755 $(HOME)/.kube/config
+	kubectl get nodes
 
 rustup-install:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
