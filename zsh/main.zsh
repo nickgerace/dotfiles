@@ -48,27 +48,6 @@ alias inspiration="fortune | cowsay | lolcat"
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 
-function update {
-    printf "[+] Updating all...\n"
-    if [[ "$OSTYPE" == "darwin"* ]] && [ "$(command -v brew)" ]; then
-        printf "[+] brew update\n"
-        brew update
-        printf "[+] brew upgrade\n"
-        brew upgrade
-        printf "[+] brew cleanup\n"
-        brew cleanup
-    fi
-    if [ "$(command -v rustup)" ]; then
-        printf "[+] rustup update\n"
-        rustup update
-    fi
-    if [ "$(command -v home-manager)" ]; then
-        printf "[+] home-manager switch\n"
-        home-manager switch
-    fi
-    printf "[+] All updates completed.\n"
-}
-
 function find-file {
     if [[ ! $1 ]]; then
         printf "[-] Requires argument(s): <file-name-or-pattern>\n"
