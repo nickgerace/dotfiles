@@ -21,6 +21,7 @@ grub2-efi-x64
 grub2-tools
 htop
 kernel
+kubectl
 llvm
 lolcat
 lvm2
@@ -32,8 +33,11 @@ neovim
 openssl-devel
 pandoc
 ripgrep
+ruby
+ruby-devel
 shim-x64
 speedtest-cli
+terraform
 tmux
 vim-enhanced
 xfsprogs

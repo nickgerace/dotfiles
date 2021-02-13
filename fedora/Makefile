@@ -1,6 +1,6 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 FIREWALL_ZONE:=FedoraServer
-MANUAL_PKGS:="k9s doctl helm k3d"
+MANUAL_PKGS:="k9s doctl helm k3d ngrok"
 
 install: install-helper manual
 
