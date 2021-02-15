@@ -15,9 +15,11 @@ function update {
         rustup update
     fi
 
-    if [ "$(command -v home-manager)" ]; then
-        printf "[+] home-manager switch\n"
-        home-manager switch
+    if [ "$(command -v cargo)" ]; then
+        printf "[+] cargo install cargo-update\n"
+        cargo install cargo-update
+        printf "[+] cargo install-update -a\n"
+        cargo install-update -a
     fi
 
     TEMP_FEDORA=$(cat /etc/os-release | grep "^NAME=Fedora$")
