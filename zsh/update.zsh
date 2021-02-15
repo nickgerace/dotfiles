@@ -16,8 +16,10 @@ function update {
     fi
 
     if [ "$(command -v cargo)" ]; then
-        printf "[+] cargo install cargo-update\n"
-        cargo install cargo-update
+        if [ ! -f ~/.cargo/bin/cargo-install-update ]; then
+            printf "[+] cargo install cargo-update\n"
+            cargo install cargo-update
+        fi
         printf "[+] cargo install-update -a\n"
         cargo install-update -a
     fi
