@@ -11,8 +11,9 @@ install-helper:
 update:
 	sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $(MAKEPATH)/PKGS
 
-dnf-max-downloads-20:
-	if ! [ $(shell grep "^max_parallel_downloads=" /etc/dnf/dnf.conf) ]; then echo "max_parallel_downloads=20" | sudo tee -a /etc/dnf/dnf.conf; fi
+dnf-max-downloads:
+	sudo sed -i '/^max_parallel_downloads*/d' /etc/dnf/dnf.conf
+	echo "max_parallel_downloads=20" | sudo tee -a /etc/dnf/dnf.conf
 
 cgroups-v2-disable:
 	sudo dnf install -y grubby
