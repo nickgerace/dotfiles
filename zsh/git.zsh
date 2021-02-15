@@ -83,3 +83,7 @@ function checkout-tag {
         fi
     fi
 }
+
+function git-diff-check-permissions {
+    ls -l $(git diff --name-only)
+}

@@ -15,13 +15,21 @@ cgroups-v2-disable:
 	sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
 	sudo systemctl reboot
 
+selinux-permissive:
+	sudo sed -i 's/^SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config
+	sudo sed -i 's/^SELINUX=disabled/SELINUX=permissive/' /etc/selinux/config
+	@printf "Confirm by running 'getenforce' after reboot.\nRebooting in 5 seconds...\n"
+	@sleep 5
+	sudo reboot
+
 docker-install:
-	sudo dnf install dnf-plugins-core
+	sudo dnf install -y dnf-plugins-core
 	sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-	sudo dnf install docker-ce docker-ce-cli containerd.io
-	sudo firewall-cmd --permanent --zone=trusted --add-interface=docker0
-	sudo firewall-cmd --permanent --zone=$(FIREWALL_ZONE) --add-masquerade
-	sudo firewall-cmd --reload
+	sudo dnf install -y docker-ce docker-ce-cli containerd.io
+	@printf "[+] firewall-cmd settings no longer needed on Fedora 33+ and Docker 20.10+\n"
+	@printf "[+] Skipping: sudo firewall-cmd --permanent --zone=trusted --add-interface=docker0\n"
+	@printf "[+] Skipping: sudo firewall-cmd --permanent --zone=$(FIREWALL_ZONE) --add-masquerade\n"
+	@printf "[+] Skipping: sudo firewall-cmd --reload\n"
 	sudo systemctl start docker
 	sudo systemctl enable docker
 	sudo usermod -aG docker $(shell whoami)
@@ -36,6 +44,8 @@ terraform-install:
 	sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 	sudo dnf install -y terraform
 
+####################################################################################################
+
 rke2-install:
 	sudo curl -sfL https://get.rke2.io | sudo sh -
 	sudo systemctl enable rke2-server.service
@@ -48,6 +58,8 @@ rke2-install:
 
 rustup-install:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+####################################################################################################
 
 manual:
 	@echo "The following must be manually installed to /usr/local/bin/ by root:root with 755 permissions"
