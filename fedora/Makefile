@@ -1,6 +1,7 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 FIREWALL_ZONE:=FedoraServer
 MANUAL_PKGS:="k9s doctl helm k3d ngrok"
+USER_NO_SUDO:=$(shell whoami)
 
 install: install-helper manual
 
@@ -32,7 +33,7 @@ docker-install:
 	@printf "[+] Skipping: sudo firewall-cmd --reload\n"
 	sudo systemctl start docker
 	sudo systemctl enable docker
-	sudo usermod -aG docker $(shell whoami)
+	sudo usermod -aG docker $(USER_NO_SUDO)
 	sudo docker run hello-world
 
 kubectl-install:
