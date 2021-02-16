@@ -1,7 +1,7 @@
 function update {
     printf "[+] Updating all...\n"
 
-    if [[ "$OSTYPE" == "darwin"* ]] && [ "$(command -v brew)" ]; then
+    if [ "$(command -v brew)" ]; then
         printf "[+] brew update\n"
         brew update
         printf "[+] brew upgrade\n"

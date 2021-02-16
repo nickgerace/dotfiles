@@ -1,6 +1,5 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 FIREWALL_ZONE:=FedoraServer
-MANUAL_PKGS:="k9s doctl helm k3d ngrok"
 USER_NO_SUDO:=$(shell whoami)
 
 install: install-helper manual
@@ -21,11 +20,19 @@ cgroups-v2-disable:
 	sudo systemctl reboot
 
 selinux-permissive:
-	sudo sed -i 's/^SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config
-	sudo sed -i 's/^SELINUX=disabled/SELINUX=permissive/' /etc/selinux/config
+	sudo sed -i '/^SELINUX=enforcing*/d' /etc/selinux/config
+	sudo sed -i '/^SELINUX=disabled*/d' /etc/selinux/config
+	echo "SELINUX=permissive" | sudo tee -a /etc/selinux/config
 	@printf "Confirm by running 'getenforce' after reboot.\nRebooting in 5 seconds...\n"
 	@sleep 5
 	sudo reboot
+
+secure-sshd:
+	sudo sed -i '/^PermitEmptyPasswords*/d' /etc/ssh/sshd_config
+	echo "PermitEmptyPasswords no" | sudo tee -a /etc/ssh/sshd_config
+	sudo sed -i '/^PasswordAuthentication*/d' /etc/ssh/sshd_config
+	echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
+	sudo systemctl restart sshd
 
 docker-install:
 	sudo dnf install -y dnf-plugins-core
@@ -48,6 +55,9 @@ terraform-install:
 	sudo dnf install -y dnf-plugins-core
 	sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 	sudo dnf install -y terraform
+
+brew-install:
+	brew install k9s doctl helm k3d
 
 ####################################################################################################
 

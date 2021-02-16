@@ -15,6 +15,7 @@ efibootmgr
 exa
 fd-find
 fzf
+gcc-c++
 git
 golang
 grub2-efi-x64

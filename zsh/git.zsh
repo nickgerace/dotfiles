@@ -87,3 +87,13 @@ function checkout-tag {
 function git-diff-check-permissions {
     ls -l $(git diff --name-only)
 }
+
+function github-clone {
+    if [ ! $1 ]; then
+        printf "Required argument(s): <repo-under-nickgerace> <optional-destination-path>\n"
+    elif [ ! $2 ]; then
+        git clone git@github.com:nickgerace/${1}
+    else
+        git clone git@github.com:nickgerace/${1} ${2}
+    fi
+}

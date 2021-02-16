@@ -5,6 +5,10 @@ export EDITOR=$VISUAL
 export PATH=$PATH:/usr/local/bin
 export PATH=$HOME/local/bin:$PATH
 
+if [ -d /home/linuxbrew/.linuxbrew/bin ]; then
+    export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+fi
+
 alias sz="source $HOME/.zshrc"
 alias zsh-config="cd $HOME/dotfiles/zsh/"
 
