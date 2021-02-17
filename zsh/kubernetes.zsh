@@ -54,11 +54,3 @@ function k3d-create {
 function kubectl-all-images {
     kubectl get pods --all-namespaces -o jsonpath="{..image}" | tr -s '[[:space:]]' '\n' | sort | uniq -c
 }
-
-function k9s {
-    if [ -n $KUBECONFIG ]; then
-        docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s:latest
-    else
-        docker run --rm -it -v $HOME/.kube/config:/root/.kube/config quay.io/derailed/k9s:latest
-    fi
-}

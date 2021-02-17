@@ -2,8 +2,7 @@ if [ -d "/usr/local/opt/yq@3/bin" ]; then
     export PATH="/usr/local/opt/yq@3/bin:$PATH"
 fi
 
-alias k3s-start="curl -sfL https://get.k3s.io | sudo sh -"
-alias k3s-stop="k3s-uninstall.sh"
+alias k3s-uninstall="k3s-uninstall.sh"
 
 function rc-logging {
     if [ ! $1 ]; then

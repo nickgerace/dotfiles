@@ -8,3 +8,12 @@ function aws-create-key-pair {
         ( cd ${2}; chmod 400 ${1}.pem )
     fi
 }
+
+function aws-delete-key-pair {
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Required argument(s): <key-name> <path-to-directory-containing-key-file>\n"
+    else
+        aws ec2 delete-key-pair --key-name ${1}
+        ( cd ${2}; rm -i ${1}.pem )
+    fi
+}

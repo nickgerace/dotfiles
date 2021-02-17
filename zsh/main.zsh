@@ -3,7 +3,7 @@ export VISUAL=nvim
 export EDITOR=$VISUAL
 
 export PATH=$PATH:/usr/local/bin
-export PATH=$HOME/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 if [ -d /home/linuxbrew/.linuxbrew/bin ]; then
     export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin

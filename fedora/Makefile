@@ -2,9 +2,7 @@ MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 FIREWALL_ZONE:=FedoraServer
 USER_NO_SUDO:=$(shell whoami)
 
-install: install-helper manual
-
-install-helper:
+install:
 	sudo dnf install $(shell cat $(MAKEPATH)/PKGS)
 
 update:
@@ -59,6 +57,17 @@ terraform-install:
 brew-install:
 	brew install k9s doctl helm k3d
 
+ngrok-install:
+	printf "[+] Using sudo to ensure correct permissions and ownership...\n"
+	sudo wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+	sudo unzip ngrok-stable-linux-amd64.zip
+	sudo rm ngrok-stable-linux-amd64.zip
+	-sudo rm /usr/local/bin/ngrok
+	sudo mv ngrok /usr/local/bin/ngrok
+
+rustup-install:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 ####################################################################################################
 
 rke2-install:
@@ -71,11 +80,3 @@ rke2-install:
 	sudo chmod 755 $(HOME)/.kube/config
 	kubectl get nodes
 
-rustup-install:
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-####################################################################################################
-
-manual:
-	@echo "The following must be manually installed to /usr/local/bin/ by root:root with 755 permissions"
-	@echo "> $(MANUAL_PKGS)"
