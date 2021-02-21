@@ -6,15 +6,7 @@ NS_CM=cert-manager
 NS_RANCHER=cattle-system
 AUDIT_LOGGING=0 # --set auditLog.level=1
 
-if [ ! -f ${KUBE_CONFIG_PATH} ]; then
-    printf "File not found: ${KUBE_CONFIG_PATH}\nTrying k3s file: ${K3S_CONFIG_PATH}\n"
-    if [ ! -f ${K3S_CONFIG_PATH} ]; then
-        printf "File not found: ${K3S_CONFIG_PATH}\n"
-        exit 1
-    fi
-    export KUBECONFIG=${K3S_CONFIG_PATH}
-fi
-
+set -e
 if [ ! $1 ]; then
     printf "Argument(s): <rancher-ui-hostname-without-http> <optional-rancher-image-tag>\n"
     exit 1
@@ -22,13 +14,16 @@ fi
 
 if [ $2 ]; then
     printf "Rancher image tag provided: ${2}\n"
-    docker pull rancher/rancher:${2}
     if [ $? -ne 0 ]; then
         printf "Invalid image provided. Valid images: https://hub.docker.com/r/rancher/rancher/tags/\n"
         exit 1
     fi
 fi
 
+read -p "Path to KUBECONFIG (leave blank to use KUBECONFIG default): " KUBE_CONFIG_PATH
+if [ $KUBE_CONFIG_PATH ]; then
+    export KUBECONFIG=$KUBE_CONFIG_PATH
+fi
 
 kubectl create --validate=false -f https://github.com/jetstack/cert-manager/releases/download/${CM_VERSION}/cert-manager.crds.yaml
 kubectl create namespace ${NS_CM}
