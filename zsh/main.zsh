@@ -9,6 +9,10 @@ if [ -d /home/linuxbrew/.linuxbrew/bin ]; then
     export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 fi
 
+if [ -f $HOME/.fzf.zsh ]; then
+    source $HOME/.fzf.zsh
+fi
+
 alias sz="source $HOME/.zshrc"
 alias zsh-config="cd $HOME/dotfiles/zsh/"
 

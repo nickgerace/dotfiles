@@ -6,6 +6,7 @@ if [ "$(command -v kubectl)" ]; then
     alias kgp="kubectl get pods"
     alias kgpa="kubectl get pods -A"
     alias kgns="kubectl get namespaces"
+    alias kge="kubectl get events --all-namespaces  --sort-by='.metadata.creationTimestamp'"
     alias pods-on-nodes="kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName --all-namespaces"
 
     if [ -d $HOME/.krew ]; then
@@ -13,6 +14,8 @@ if [ "$(command -v kubectl)" ]; then
         alias krew-update="kubectl krew update && kubectl krew upgrade"
     fi
 fi
+
+alias ktx="kubectx"
 
 if [ "$(command -v k3d)" ]; then
     alias kc="k3d cluster"
@@ -53,4 +56,24 @@ function k3d-create {
 
 function kubectl-all-images {
     kubectl get pods --all-namespaces -o jsonpath="{..image}" | tr -s '[[:space:]]' '\n' | sort | uniq -c
+}
+
+function kube-status {
+    kubectl cluster-info
+    kubectl get cs
+}
+
+function kube-config-combine {
+    if [ ! $1 ]; then
+        printf "Requires argument(s): <path-to-other-config>\n"
+    elif ! [ -f $HOME/.kube/config ]; then
+        printf "Requires $HOME/.kube/config to exist.\n"
+    else
+        printf "Combining $HOME/.kube/config and $1 ...\n"
+        if [ -f $HOME/.kube/config-new ]; then rm $HOME/.kube/config-new; fi
+        KUBECONFIG=$HOME/.kube/config:$1 kubectl config view --flatten > $HOME/.kube/config-new
+        mv $HOME/.kube/config-new $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
+        rm -i $1
+    fi
 }
