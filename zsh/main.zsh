@@ -1,6 +1,6 @@
 export TERM=xterm-256color
-export VISUAL=nvim
-export EDITOR=$VISUAL
+export EDITOR=nvim
+export VISUAL=$EDITOR
 
 export PATH=$PATH:/usr/local/bin
 export PATH=$HOME/.local/bin:$PATH
@@ -38,6 +38,7 @@ alias vi=$EDITOR
 alias vim=$EDITOR
 alias vmake="$EDITOR Makefile"
 alias vtmux="$EDITOR $HOME/.tmux.conf"
+alias nvim-config="nvim $HOME/.config/nvim/init.vim"
 
 alias tmuxa="tmux attach -t"
 alias tmuxk="tmux kill-session -t"

@@ -32,5 +32,10 @@ function update {
         sudo dnf autoremove
     fi
 
+    if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
+        printf "[+] nvim +PlugUpgrade +PlugUpdate +PlugClean +qall\n"
+        nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
+    fi
+
     printf "[+] All updates completed.\n"
 }

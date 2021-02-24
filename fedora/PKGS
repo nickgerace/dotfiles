@@ -22,6 +22,7 @@ grub2-efi-x64
 grub2-tools
 htop
 kernel
+krunvm
 kubectl
 llvm
 lolcat
@@ -31,9 +32,11 @@ musl-gcc
 musl-libc
 neofetch
 neovim
+nodejs
 openssl-devel
 pandoc
 patch
+podman
 ripgrep
 ruby
 ruby-devel
@@ -41,6 +44,7 @@ shim-x64
 speedtest-cli
 terraform
 tmux
+vgrep
 vim-enhanced
 xfsprogs
 zlib-devel
