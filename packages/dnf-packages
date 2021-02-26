@@ -22,6 +22,8 @@ grub2-efi-x64
 grub2-tools
 htop
 kernel
+kernel-core
+kernel-modules
 krunvm
 kubectl
 llvm

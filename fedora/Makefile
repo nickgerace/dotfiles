@@ -1,12 +1,10 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+PACKAGES:=$(shell dirname $(MAKEPATH))/packages
 FIREWALL_ZONE:=FedoraServer
 USER_NO_SUDO:=$(shell whoami)
 
 install:
-	sudo dnf install $(shell cat $(MAKEPATH)/PKGS)
-
-update:
-	sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $(MAKEPATH)/PKGS
+	sudo dnf install $(shell cat $(PACKAGES)/dnf-packages)
 
 dnf-max-downloads:
 	sudo sed -i '/^max_parallel_downloads*/d' /etc/dnf/dnf.conf
