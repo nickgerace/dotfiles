@@ -1,0 +1,8 @@
+doctl
+helm
+k3d
+k9s
+kubectx
+kubernetes-cli
+patchelf
+rke

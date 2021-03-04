@@ -1,19 +1,3 @@
-" Plugins provided by vim-plug.
-call plug#begin()
-Plug 'andymass/vim-matchup'
-Plug 'cespare/vim-toml'
-Plug 'fatih/vim-go'
-Plug 'godlygeek/tabular'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'plasticboy/vim-markdown'
-Plug 'rakr/vim-one'
-Plug 'stephpy/vim-yaml'
-Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-call plug#end()
-
 " Setup colorscheme. Make sure that the background is light.
 syntax on
 color one
