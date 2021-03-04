@@ -3,6 +3,9 @@
 autoload -U +X compinit
 compinit
 
+# If facing issues on macOS, run the following command...
+# compaudit | xargs chmod g-w
+
 # Leaving the below commented for now. We may or may not need this.
 # autoload -U +X bashcompinit && bashcompinit
 

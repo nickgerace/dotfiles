@@ -26,7 +26,7 @@ function update {
         cargo install --list | grep -o "^\S*\S" > $PACKAGES/cargo-packages
     fi
 
-    if [ "$(command -v dnf)" ] && [ ! -z $(cat /etc/os-release | grep "^NAME=Fedora$") ]; then
+    if [ "$(command -v dnf)" ]; then
         sudo dnf upgrade --refresh
         sudo dnf autoremove
         sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $PACKAGES/dnf-packages
