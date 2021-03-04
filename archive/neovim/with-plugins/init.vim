@@ -1,19 +1,19 @@
-" NEOVIM INIT.VIM
-" https://nickgerace.dev
-
-" Language support plugins (optional).
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'fatih/vim-go'
-
-" Plugins via vim-plug
+" Plugins provided by vim-plug.
 call plug#begin()
-Plug 'rakr/vim-one'
-Plug 'tpope/vim-surround'
-Plug 'godlygeek/tabular'
-Plug 'vim-airline/vim-airline'
+Plug 'andymass/vim-matchup'
 Plug 'cespare/vim-toml'
+Plug 'fatih/vim-go'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'plasticboy/vim-markdown'
+Plug 'rakr/vim-one'
+Plug 'stephpy/vim-yaml'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
 call plug#end()
- 
+
 " Setup colorscheme. Make sure that the background is light.
 syntax on
 color one
@@ -32,19 +32,23 @@ highlight NonText guibg=none
 highlight Normal guibg=NONE ctermbg=NONE
 highlight LineNr guibg=NONE ctermbg=NONE
 
-" Smart defaults.
+" Set generic defaults.
 filetype plugin indent on
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent
 set incsearch ignorecase smartcase hlsearch
 set ruler laststatus=2 showcmd showmode
-set fillchars+=vert:\ 
+set fillchars+=vert:\
 set wrap breakindent
 set encoding=utf-8
-set number
 set title
 set noerrorbells
 
-" Add default filetypes for odd files.
+" Set line numbers.
+" set number relativenumber
+" set nu rnu
+set number
+
+" Add explicit default filetypes for certain files.
 au BufRead,BufNewFile Jenkinsfile set filetype=groovy
 au BufRead,BufNewFile go.mod set filetype=go
 

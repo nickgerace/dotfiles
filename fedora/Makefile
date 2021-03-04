@@ -1,10 +1,6 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PACKAGES:=$(shell dirname $(MAKEPATH))/packages
 FIREWALL_ZONE:=FedoraServer
 USER_NO_SUDO:=$(shell whoami)
-
-install:
-	sudo dnf install $(shell cat $(PACKAGES)/dnf-packages)
 
 dnf-max-downloads:
 	sudo sed -i '/^max_parallel_downloads*/d' /etc/dnf/dnf.conf
@@ -51,30 +47,4 @@ terraform-install:
 	sudo dnf install -y dnf-plugins-core
 	sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 	sudo dnf install -y terraform
-
-brew-install:
-	brew install k9s doctl helm k3d
-
-ngrok-install:
-	printf "[+] Using sudo to ensure correct permissions and ownership...\n"
-	sudo wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-	sudo unzip ngrok-stable-linux-amd64.zip
-	sudo rm ngrok-stable-linux-amd64.zip
-	-sudo rm /usr/local/bin/ngrok
-	sudo mv ngrok /usr/local/bin/ngrok
-
-rustup-install:
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-####################################################################################################
-
-rke2-install:
-	sudo curl -sfL https://get.rke2.io | sudo sh -
-	sudo systemctl enable rke2-server.service
-	sudo systemctl start rke2-server.service
-	-mkdir $(HOME)/.kube/
-	sudo cp /etc/rancher/rke2/rke2.yaml $(HOME)/.kube/config
-	sudo chown $(USER):$(USER) $(HOME)/.kube/config
-	sudo chmod 755 $(HOME)/.kube/config
-	kubectl get nodes
 
