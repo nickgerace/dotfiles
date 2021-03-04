@@ -23,6 +23,7 @@ kubectx
 kustomize
 lolcat
 make
+neofetch
 neovim
 pandoc
 patchelf
@@ -31,6 +32,7 @@ speedtest-cli
 terraform
 tmux
 tree
+unbound
 vgrep
 vim
 wget

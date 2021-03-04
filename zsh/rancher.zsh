@@ -22,3 +22,12 @@ function rc-fleet {
     fi
 }
 
+function rc-backup {
+    if [ ! $1 ]; then
+        printf "Required argument(s): <command>\nExample commands: prepare patch clean charts\n"
+    else
+        ( cd $HOME/rancher-charts; PACKAGE=rancher-backup make ${1} )
+        ( cd $HOME/rancher-charts; PACKAGE=rancher-backup-crd make ${1} )
+    fi
+}
+
