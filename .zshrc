@@ -9,7 +9,9 @@ compinit
 # Leaving the below commented for now. We may or may not need this.
 # autoload -U +X bashcompinit && bashcompinit
 
-ZSH_CONFIG_DIR=$HOME/dotfiles/zsh
+export DOTFILES=$HOME/github.com/nickgerace/dotfiles
+local ZSH_CONFIG_DIR=$DOTFILES/zsh
+
 for ZSH_CONFIG_FILE in $ZSH_CONFIG_DIR/*; do
     if [ -r $ZSH_CONFIG_FILE ]; then
         source $ZSH_CONFIG_FILE

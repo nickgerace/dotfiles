@@ -1,6 +1,6 @@
 function update {
     set -x
-    local PACKAGES=$HOME/dotfiles/packages
+    local PACKAGES=$DOTFILES/packages
 
     if [ "$(command -v brew)" ]; then
         brew update

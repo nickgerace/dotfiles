@@ -14,7 +14,7 @@ function code-settings {
 
 function code-install-extensions {
     if [ "$(command -v code)" ]; then
-        EXTENSIONS=$HOME/dotfiles/code/extensions.txt
+        EXTENSIONS=$DOTFILES/code/extensions.txt
         if [ -r $EXTENSIONS ]; then
             while IFS= read -r line; do
                 code --install-extension $line
