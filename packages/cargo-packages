@@ -1,4 +1,5 @@
 bat
+cargo-udeps
 cargo-update
 exa
 gfold

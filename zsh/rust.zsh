@@ -18,8 +18,13 @@ function cargo-build-static {
 }
 
 function rustup-default-toolchain-setup {
-    if [ "$(command -v rustup)" ] && [ "$(uname)" = "Linux" ]; then
+    if [ "$(uname)" = "Linux" ]; then
         rustup toolchain install stable-x86_64-unknown-linux-gnu
+        rustup toolchain install nightly-x86_64-unknown-linux-gnu
         rustup default stable-x86_64-unknown-linux-gnu
+    else
+        rustup toolchain install stable-x86_64-apple-darwin
+        rustup toolchain install nightly-x86_64-apple-darwin
+        rustup default stable-x86_64-apple-darwin
     fi
 }
