@@ -17,4 +17,4 @@ darwin-install:
 neovim-theme-update:
 	-mkdir -p $(HOME)/.config/nvim/colors/
 	-rm $(HOME)/.config/nvim/colors/one.vim
-	wget https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim -P $(HOME)/.config/nvim/colors/
+	curl https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim -o $(HOME)/.config/nvim/colors/
