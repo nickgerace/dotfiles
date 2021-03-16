@@ -3,4 +3,5 @@ cargo-udeps
 cargo-update
 exa
 gfold
+reelpath
 ripgrep

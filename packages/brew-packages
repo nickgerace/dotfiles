@@ -28,6 +28,7 @@ neovim
 pandoc
 patchelf
 rke
+rust
 speedtest-cli
 terraform
 tmux

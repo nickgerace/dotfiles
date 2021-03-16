@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-if [ ! $1 ] || [ ! $2 ] || [ ! $3 ]; then
-    printf "Argument(s): <user/org> <repo> <release-semver>\n"
+if [ ! $1 ] || [ ! $2 ]; then
+    printf "Argument(s): <user-or-org/repo> <release-semver>\n"
     exit 1
 fi
 
@@ -9,12 +9,12 @@ if [ "$(command -v shasum)" ]; then
     SHA256SUM=false
 fi
 
-for i in {1..20}; do
-    wget https://github.com/${1}/${2}/archive/${3}.tar.gz > /dev/null 2>&1
+for i in {1..10}; do
+    wget https://github.com/${1}/archive/${2}.tar.gz > /dev/null 2>&1
     if [ "$SHA256SUM" = true ]; then
-        sha256sum ${3}.tar.gz
+        sha256sum ${2}.tar.gz
     else
-        shasum -a 256 ${3}.tar.gz
+        shasum -a 256 ${2}.tar.gz
     fi
-    rm ${3}.tar.gz
+    rm ${2}.tar.gz
 done
