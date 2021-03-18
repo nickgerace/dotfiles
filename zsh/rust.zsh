@@ -13,8 +13,12 @@ if [ "$(command -v rustup)" ]; then
 fi
 
 function cargo-build-static {
-    docker pull clux/muslrust
-    docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
+    if [ ! -f Cargo.toml ]; then
+        docker pull clux/muslrust
+        docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
+    else
+        printf "Cargo.toml not found in current working directory\n"
+    fi
 }
 
 function rustup-default-toolchain-setup {
