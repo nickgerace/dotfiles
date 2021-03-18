@@ -13,6 +13,7 @@ gnu-sed
 go
 golangci/tap/golangci-lint
 gpatch
+gpgme
 helm
 htop
 jq

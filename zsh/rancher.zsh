@@ -8,7 +8,7 @@ function rc-logging {
     if [ ! $1 ]; then
         printf "Required argument(s): <command>\nExample commands: prepare patch clean charts\n"
     else
-        ( cd $HOME/rancher-charts; PACKAGE=rancher-logging make ${1} )
+        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-logging make ${1} )
     fi
 }
 
@@ -16,9 +16,9 @@ function rc-fleet {
     if [ ! $1 ]; then
         printf "Required argument(s): <command>\nExample commands: prepare patch clean charts\n"
     else
-        ( cd $HOME/rancher-charts; PACKAGE=fleet make ${1} )
-        ( cd $HOME/rancher-charts; PACKAGE=fleet-crd make ${1} )
-        ( cd $HOME/rancher-charts; PACKAGE=fleet-agent make ${1} )
+        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=fleet make ${1} )
+        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=fleet-crd make ${1} )
+        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=fleet-agent make ${1} )
     fi
 }
 
@@ -26,8 +26,8 @@ function rc-backup {
     if [ ! $1 ]; then
         printf "Required argument(s): <command>\nExample commands: prepare patch clean charts\n"
     else
-        ( cd $HOME/rancher-charts; PACKAGE=rancher-backup make ${1} )
-        ( cd $HOME/rancher-charts; PACKAGE=rancher-backup-crd make ${1} )
+        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup make ${1} )
+        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup-crd make ${1} )
     fi
 }
 

@@ -57,6 +57,8 @@ alias inspiration="fortune | cowsay | lolcat"
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 
+alias bat="bat --theme=OneHalfLight"
+
 function find-file {
     if [[ ! $1 ]]; then
         printf "[-] Requires argument(s): <file-name-or-pattern>\n"
