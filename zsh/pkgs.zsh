@@ -61,5 +61,11 @@ function pkgs-install {
         xargs cargo install < $PACKAGES/cargo-packages
     fi
 
+    if [ "$(command -v apt)" ]; then
+        sudo apt update
+        sudo apt install build-essential libssl-dev
+        sudo apt autoremove
+    fi
+
     set +x
 }
