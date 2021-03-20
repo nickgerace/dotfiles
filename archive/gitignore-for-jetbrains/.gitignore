@@ -1,4 +1,0 @@
-# Add the following to ~/.gitconfig...
-# [core]
-#     excludesfile = ~/.gitignore
-.idea/
