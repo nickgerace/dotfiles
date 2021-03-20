@@ -1,7 +1,7 @@
-" Setup colorscheme. Make sure that the background is light.
+" Setup colorscheme. Ensure that the background matches the terminal/OS theme.
 syntax on
 color one
-set background=light
+set background=dark
 
 " Highlighting options.
 highlight Pmenu guibg=white guifg=black gui=bold
