@@ -10,11 +10,7 @@ push:
 	-cp $(HOME)/.tmux.conf $(MAKEPATH)/
 	-cp $(HOME)/.config/nvim/init.vim $(MAKEPATH)/
 
-darwin-install:
-	xargs brew install < $(MAKEPATH)/packages/brew-packages
-	xargs brew install --cask < $(MAKEPATH)/packages/brew-casks
-
 neovim-theme-update:
 	-mkdir -p $(HOME)/.config/nvim/colors/
 	-rm $(HOME)/.config/nvim/colors/one.vim
-	curl https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim -o $(HOME)/.config/nvim/colors/
+	curl https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim -o $(HOME)/.config/nvim/colors/one.vim
