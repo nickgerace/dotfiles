@@ -7,7 +7,7 @@ function pkgs-update {
         brew upgrade
         brew cleanup
         local SUFFIX=linux
-        if [[ "$OSTYPE" == "darwin"* ]]; then
+        if [ "$(uname -s)" = "Darwin" ]; then
             SUFFIX=darwin
         fi
         brew bundle dump --force --file $PACKAGES/brewfile-$SUFFIX
@@ -25,14 +25,14 @@ function pkgs-update {
         cargo install --list | grep -o "^\S*\S" > $PACKAGES/cargo-packages
     fi
 
-    if [ "$(command -v dnf)" ] && ! [[ "$OSTYPE" == "darwin"* ]]; then
+    if [ "$(command -v dnf)" ] && [ "$(uname -s)" != "Darwin" ]; then
         sudo dnf upgrade --refresh
         sudo dnf autoremove
         sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $PACKAGES/dnf-packages
     fi
 
     # We do not store apt packages into a file due to inconsistencies in results.
-    if [ "$(command -v apt)" ] && ! [[ "$OSTYPE" == "darwin"* ]]; then
+    if [ "$(command -v apt)" ] && [ "$(uname -s)" != "Darwin" ]; then
         sudo apt update
         sudo apt upgrade
         sudo apt autoremove
@@ -51,7 +51,7 @@ function pkgs-install {
 
     if [ "$(command -v brew)" ]; then
         local SUFFIX=linux
-        if [[ "$OSTYPE" == "darwin"* ]]; then
+        if [ "$(uname -s)" = "Darwin" ]; then
             SUFFIX=darwin
         fi
         brew bundle install --no-lock --file $PACKAGES/brewfile-$SUFFIX
@@ -61,7 +61,7 @@ function pkgs-install {
         xargs cargo install < $PACKAGES/cargo-packages
     fi
 
-    if [ "$(command -v apt)" ]; then
+    if [ "$(command -v apt)" ] && [ "$(uname -s)" != "Darwin" ]; then
         sudo apt update
         sudo apt install build-essential libssl-dev
         sudo apt autoremove
