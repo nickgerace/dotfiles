@@ -1,4 +1,7 @@
 bat
+cargo-bloat
+cargo-crev
+cargo-expand
 cargo-udeps
 cargo-update
 exa

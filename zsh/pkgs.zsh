@@ -25,14 +25,14 @@ function pkgs-update {
         cargo install --list | grep -o "^\S*\S" > $PACKAGES/cargo-packages
     fi
 
-    if [ "$(command -v dnf)" ]; then
+    if [ "$(command -v dnf)" ] && ! [[ "$OSTYPE" == "darwin"* ]]; then
         sudo dnf upgrade --refresh
         sudo dnf autoremove
         sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $PACKAGES/dnf-packages
     fi
 
     # We do not store apt packages into a file due to inconsistencies in results.
-    if [ "$(command -v apt)" ]; then
+    if [ "$(command -v apt)" ] && ! [[ "$OSTYPE" == "darwin"* ]]; then
         sudo apt update
         sudo apt upgrade
         sudo apt autoremove
