@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 KUBE_CONFIG_PATH=$HOME/.kube/config
 K3S_CONFIG_PATH=/etc/rancher/k3s/k3s.yaml
-CM_VERSION=v0.15.0
+CM_VERSION=v1.1.1
 NS_CM=cert-manager
 NS_RANCHER=cattle-system
 AUDIT_LOGGING=0 # --set auditLog.level=1
@@ -18,6 +18,11 @@ if [ $2 ]; then
         printf "Invalid image provided. Valid images: https://hub.docker.com/r/rancher/rancher/tags/\n"
         exit 1
     fi
+fi
+
+if [ ! $(command -v helm) ]; then
+    printf "Command not found: helm\n"
+    exit 1
 fi
 
 read -p "Path to KUBECONFIG (leave blank to use KUBECONFIG default): " KUBE_CONFIG_PATH

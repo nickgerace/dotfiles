@@ -3,8 +3,10 @@ cargo-bloat
 cargo-crev
 cargo-expand
 cargo-udeps
+cargo-expand
 cargo-update
 exa
+ferris-fetch
 gfold
 reelpath
 ripgrep
