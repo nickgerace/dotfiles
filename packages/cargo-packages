@@ -4,8 +4,10 @@ cargo-crev
 cargo-expand
 cargo-udeps
 cargo-update
+cross
 exa
 ferris-fetch
+gfld
 gfold
 reelpath
 ripgrep
