@@ -121,3 +121,11 @@ function shasum-github {
     fi
 }
 
+function strip-and-size {
+    if [ ! $1 ]; then
+        echo "Required argument: <path-to-binary>"
+        return
+    fi
+    strip $1
+    du -h $1 | cut -f -1
+}

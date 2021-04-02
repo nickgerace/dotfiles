@@ -12,6 +12,11 @@ if [ "$(command -v rustup)" ]; then
     alias rustup-list="rustup target list"
 fi
 
+function cargo-fmt-all {
+    cargo fmt --all -- --check
+    cargo clippy -- -D warnings
+}
+
 function cargo-build-static {
     if [ ! -f Cargo.toml ]; then
         docker pull clux/muslrust
