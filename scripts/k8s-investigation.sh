@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+cat <<EOF | kubectl create -f -
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -34,3 +36,4 @@ spec:
          - name: all
            hostPath:
                path: /
+EOF
