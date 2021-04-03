@@ -1,4 +1,4 @@
-" Setup colorscheme. Ensure that the background matches the terminal/OS theme.
+" Setup colorscheme. Make sure that the background is light.
 syntax on
 color one
 set background=dark
