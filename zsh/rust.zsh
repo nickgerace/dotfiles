@@ -12,6 +12,10 @@ if [ "$(command -v rustup)" ]; then
     alias rustup-list="rustup target list"
 fi
 
+function cargo-update-crates {
+    cargo install-update -a
+}
+
 function cargo-fmt-all {
     cargo fmt --all -- --check
     cargo clippy -- -D warnings
