@@ -31,7 +31,7 @@ alias h="history"
 alias history="fc -lf -20"
 alias path='echo $PATH | sed "s/:/\n/g"'
 alias ping5="ping -c 5"
-alias rm="rm -i"
+alias rmi="rm -i"
 
 alias v=$EDITOR
 alias vi=$EDITOR

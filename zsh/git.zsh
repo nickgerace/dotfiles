@@ -97,3 +97,12 @@ function github-clone {
         git clone git@github.com:nickgerace/${1} ${2}
     fi
 }
+
+function github-branch-comparison {
+    if [ ! $1 ] || [ ! $2 ] || [ ! $3 ]; then
+        echo "Required arguments: <owner/repo> <older-branch> <newer-branch>"
+        echo "Note: to specifcy a fork, use 'fork:branch' rather than just 'branch"
+        return
+    fi
+    echo "https://github.com/$1/compare/$2...$3"
+}

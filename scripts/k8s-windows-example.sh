@@ -3,7 +3,12 @@
 # https://kubernetes.io/docs/setup/production-environment/windows/user-guide-windows-containers/#getting-started-deploying-a-windows-container
 # Modified version of the above YAML link.
 
-cat <<EOF | kubectl create -f -
+if [ ! $1 ]; then
+    echo "Required arguments: <create/delete> <sac-version>"
+    exit 1
+fi
+
+cat <<EOF | kubectl $1 -f -
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -32,7 +37,7 @@ metadata:
   name: win-webserver
   namespace: windows
 spec:
-  replicas: 6
+  replicas: 1
   selector:
     matchLabels:
       app: win-webserver
@@ -44,7 +49,7 @@ spec:
     spec:
      containers:
       - name: windowswebserver
-        image: mcr.microsoft.com/windows/servercore:1809
+        image: mcr.microsoft.com/windows/servercore:$2
         command:
         - powershell.exe
         - -command
