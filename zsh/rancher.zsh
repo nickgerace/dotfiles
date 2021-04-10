@@ -10,9 +10,6 @@ function rc-logging {
         return
     fi
     ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-logging make ${1} )
-    if [ "$1" = "clean" ]; then
-        ( $HOME/github.com/nickgerace/rancher-charts; rm -r assets index.yaml charts )
-    fi
 }
 
 function rc-fleet {

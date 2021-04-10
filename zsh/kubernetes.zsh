@@ -2,6 +2,8 @@ if [ "$(command -v kubectl)" ]; then
     source <(kubectl completion zsh)
     complete -F __start_kubectl k
     alias k="kubectl"
+    alias kfc="kubectl create -f"
+    alias kfd="kubectl delete -f"
     alias kgn="kubectl get nodes"
     alias kgp="kubectl get pods"
     alias kgpa="kubectl get pods -A"
