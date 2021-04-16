@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
-cat <<EOF | kubectl create -f -
+set -ex
+if [ ! $1 ]; then
+    echo "Requires argument: <create/<delete>"
+    exit 0
+fi
+cat <<EOF | kubectl $1 -f -
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: test
+  name: investigation
 
 ---
 
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
-  namespace: test
-  name: nginx-deployment
+  namespace: investigation
+  name: nginx
   labels:
     app: nginx
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -24,9 +28,20 @@ spec:
       labels:
         app: nginx
     spec:
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - key: node-role.kubernetes.io/controlplane
+        value: "true"
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/etcd
+        value: "true"
+        effect: NoExecute
+      - key: cattle.io/os
+        value: "linux"
+        effect: NoSchedule
       containers:
       - name: nginx
-        image: rancher/nginx:1.14.2
+        image: nginx:latest
         ports:
         - containerPort: 80
         volumeMounts:
@@ -37,3 +52,4 @@ spec:
            hostPath:
                path: /
 EOF
+set -ex

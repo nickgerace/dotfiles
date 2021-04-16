@@ -58,6 +58,7 @@ bindkey -v
 bindkey '^R' history-incremental-search-backward
 
 alias bat="bat --theme=OneHalfLight"
+alias uuidgen-seven="uuidgen | tr '[:upper:]' '[:lower:]' |  cut -c1-7"
 
 function find-file {
     if [[ ! $1 ]]; then
