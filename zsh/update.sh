@@ -6,23 +6,21 @@ function update {
         echo "  -Su  perform both actions (sync and then update)"
         return
     fi
-
     set -ex
-    local PACKAGES=$DOTFILES/packages
 
     if [ "$1" = "-S" ] || [ "$1" = "-Su" ]; then
         ( cd $DOTFILES; git pull origin main )
 
         if [ "$(command -v brew)" ]; then
-            local SUFFIX=linux
-            if [ "$(uname -s)" = "Darwin" ]; then
-                SUFFIX=darwin
+            local BREWFILE=$DOTFILES/Brewfile
+            if [ "$(uname -s)" != "Darwin" ]; then
+                BREWFILE=$DOTFILES/linux/Brewfile-linux
             fi
-            brew bundle install --no-lock --file $PACKAGES/brewfile-$SUFFIX
+            brew bundle install --no-lock --file $BREWFILE
         fi
 
         if [ "$(command -v cargo)" ]; then
-            xargs cargo install < $PACKAGES/cargo-packages
+            xargs cargo install < $DOTFILES/crates
         fi
 
         if [ "$(command -v apt)" ] && [ "$(uname -s)" != "Darwin" ]; then
@@ -37,11 +35,11 @@ function update {
             brew update
             brew upgrade
             brew cleanup
-            local SUFFIX=linux
-            if [ "$(uname -s)" = "Darwin" ]; then
-                SUFFIX=darwin
+            local BREWFILE=$DOTFILES/Brewfile
+            if [ "$(uname -s)" != "Darwin" ]; then
+                BREWFILE=$DOTFILES/linux/Brewfile-linux
             fi
-            brew bundle dump --force --file $PACKAGES/brewfile-$SUFFIX
+            brew bundle dump --force --file $BREWFILE
         fi
 
         if [ "$(command -v rustup)" ]; then
@@ -53,13 +51,13 @@ function update {
                 cargo install cargo-update
             fi
             cargo install-update -a
-            cargo install --list | grep -o "^\S*\S" > $PACKAGES/cargo-packages
+            cargo install --list | grep -o "^\S*\S" > $DOTFILES/crates
         fi
 
         if [ "$(command -v dnf)" ] && [ "$(uname -s)" != "Darwin" ]; then
             sudo dnf upgrade --refresh
             sudo dnf autoremove
-            sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $PACKAGES/dnf-packages
+            sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $DOTFILES/linux/dnf-packages
         fi
 
         # We do not store apt packages into a file due to inconsistencies in results.

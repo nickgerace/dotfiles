@@ -39,10 +39,6 @@ docker-install:
 	sudo usermod -aG docker $(USER_NO_SUDO)
 	sudo docker run hello-world
 
-kubectl-install:
-	sudo cp $(MAKEPATH)/kubernetes.repo /etc/yum.repos.d/
-	sudo dnf install -y kubectl
-
 terraform-install:
 	sudo dnf install -y dnf-plugins-core
 	sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
