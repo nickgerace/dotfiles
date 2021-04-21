@@ -44,3 +44,10 @@ function rc-backup {
     fi
 }
 
+function rancher-ci {
+    local DIR=$HOME/github.com/rancher/rancher
+    if [ $1 ]; then
+        DIR=$1
+    fi
+    ( cd $DIR; DRONE_TAG=local-test TAG=local-test drone exec --event=pull_request --trusted --pipeline=default-linux-amd64 )
+}
