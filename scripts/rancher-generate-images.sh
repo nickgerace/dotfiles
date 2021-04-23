@@ -3,9 +3,10 @@
 set -ex
 
 # Change these values to your needs and liking.
-RANCHER=$HOME/github.com/rancher/rancher
+#RANCHER=$HOME/github.com/rancher/rancher
+RANCHER=$HOME/github.com/thedadams/rancher
 RANCHER_SYSTEM_CHARTS=$HOME/github.com/rancher/system-charts
-RANCHER_CHARTS=$HOME/github.com/nickgerace/rancher-charts
+RANCHER_CHARTS=$HOME/github.com/nickgerace/rancher-charts/assets
 RANCHER_METADATA_BRANCH=dev-v2.5
 RANCHER_SYSTEM_CHARTS_BRANCH=dev-v2.5
 RANCHER_CHARTS_BRANCH=dev-v2.5
