@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 KUBE_CONFIG_PATH=$HOME/.kube/config
 K3S_CONFIG_PATH=/etc/rancher/k3s/k3s.yaml
-CM_VERSION=v1.1.1
 NS_CM=cert-manager
 NS_RANCHER=cattle-system
 AUDIT_LOGGING=0 # --set auditLog.level=1
@@ -30,11 +29,12 @@ if [ $KUBE_CONFIG_PATH ]; then
     export KUBECONFIG=$KUBE_CONFIG_PATH
 fi
 
+CM_VERSION=$(curl -s https://api.github.com/repos/jetstack/cert-manager/releases/latest | jq -r ".tag_name")
 kubectl create --validate=false -f https://github.com/jetstack/cert-manager/releases/download/${CM_VERSION}/cert-manager.crds.yaml
 kubectl create namespace ${NS_CM}
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm install cert-manager jetstack/cert-manager -n ${NS_CM} --version ${CM_VERSION}
+helm install cert-manager jetstack/cert-manager -n ${NS_CM}
 kubectl rollout status deployment cert-manager -n ${NS_CM}
 kubectl rollout status deployment cert-manager-webhook -n ${NS_CM}
 kubectl rollout status deployment cert-manager-cainjector -n ${NS_CM}
