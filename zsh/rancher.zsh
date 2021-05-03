@@ -24,7 +24,7 @@ function rc-fleet {
 
 function fleet-update-rc-charts {
     if [ ! $1 ] || [ ! $2 ]; then
-        echo "Required arguments: <old-rc> <new-rc>"
+        echo "Required arguments: <old-rc-single-digit> <new-rc-single-digit>"
         return
     fi
     local PACKAGES=$HOME/github.com/nickgerace/rancher-charts/packages
