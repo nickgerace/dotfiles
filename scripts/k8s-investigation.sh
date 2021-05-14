@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 if [ ! $1 ]; then
     echo "Requires argument: <create/<delete>"
     exit 0
@@ -52,4 +52,3 @@ spec:
            hostPath:
                path: /
 EOF
-set -ex

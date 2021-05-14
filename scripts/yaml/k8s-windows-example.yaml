@@ -24,14 +24,13 @@ spec:
   type: NodePort
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   labels:
     app: win-webserver
   name: win-webserver
   namespace: windows
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: win-webserver

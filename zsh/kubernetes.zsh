@@ -9,7 +9,9 @@ if [ "$(command -v kubectl)" ]; then
     alias kgpa="kubectl get pods -A"
     alias kgns="kubectl get namespaces"
     alias kge="kubectl get events --all-namespaces  --sort-by='.metadata.creationTimestamp'"
-    alias pods-on-nodes="kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName --all-namespaces"
+    alias kubectl-get-pods-on-nodes="kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName --all-namespaces"
+    alias kubectl-api-logs="kubectl get --raw=/apis"
+    alias kubectl-apiserver-log="kubectl get --raw=/logs/kube-apiserver.log"
 
     if [ -d $HOME/.krew ]; then
         export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -60,7 +62,7 @@ function kubectl-all-images {
     kubectl get pods --all-namespaces -o jsonpath="{..image}" | tr -s '[[:space:]]' '\n' | sort | uniq -c
 }
 
-function kube-status {
+function kubectl-cluster-status {
     kubectl cluster-info
     kubectl get cs
 }
@@ -77,5 +79,13 @@ function kube-config-combine {
         mv $HOME/.kube/config-new $HOME/.kube/config
         chmod 600 $HOME/.kube/config
         rm -i $1
+    fi
+}
+
+function kubectl-get-pods-names-only {
+    if [ $1 ]; then
+        kubectl get pods -n $1 --no-headers -o custom-columns=":metadata.name"
+    else
+        kubectl get pods -A --no-headers -o custom-columns=":metadata.namespace,:metadata.name"
     fi
 }
