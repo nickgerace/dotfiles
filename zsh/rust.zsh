@@ -21,6 +21,13 @@ function cargo-fmt-all {
     cargo clippy -- -D warnings
 }
 
+function cargo-check-all {
+    cargo +nightly fmt
+    cargo +nightly clippy
+    cargo +nightly udeps
+    cargo bloat
+}
+
 function cargo-build-static {
     if [ ! -f Cargo.toml ]; then
         docker pull clux/muslrust
@@ -28,6 +35,14 @@ function cargo-build-static {
     else
         printf "Cargo.toml not found in current working directory\n"
     fi
+}
+
+function cbr-and-strip {
+    local CRATE=target/release/$(cargo metadata --no-deps | jq -r '.packages[0].name')
+    cargo build --release
+    du -h $CRATE
+    strip $CRATE
+    du -h $CRATE
 }
 
 function rustup-default-toolchain-setup {

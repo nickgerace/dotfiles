@@ -127,6 +127,7 @@ function strip-and-size {
         echo "Required argument: <path-to-binary>"
         return
     fi
+    du -h $1
     strip $1
-    du -h $1 | cut -f -1
+    du -h $1
 }

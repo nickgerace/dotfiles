@@ -9,9 +9,10 @@ function update {
     set -ex
 
     if [ "$1" = "-S" ] || [ "$1" = "-Su" ]; then
-        ( cd $DOTFILES; git pull origin main )
-
         if [ "$(command -v brew)" ]; then
+            brew update
+            brew upgrade
+            brew cleanup
             local BREWFILE=$DOTFILES/Brewfile
             if [ "$(uname -s)" != "Darwin" ]; then
                 BREWFILE=$DOTFILES/linux/Brewfile-linux
@@ -21,12 +22,6 @@ function update {
 
         if [ "$(command -v cargo)" ]; then
             xargs cargo install < $DOTFILES/crates
-        fi
-
-        if [ "$(command -v apt)" ] && [ "$(uname -s)" != "Darwin" ]; then
-            sudo apt update
-            sudo apt install build-essential libssl-dev
-            sudo apt autoremove
         fi
     fi
 
