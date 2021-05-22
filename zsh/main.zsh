@@ -59,6 +59,8 @@ bindkey '^R' history-incremental-search-backward
 
 alias bat="bat --theme=OneHalfLight"
 alias uuidgen-seven="uuidgen | tr '[:upper:]' '[:lower:]' |  cut -c1-7"
+alias which-linker="ld --verbose > default.ld"
+alias jq-keys="jq 'keys'"
 
 function find-file {
     if [[ ! $1 ]]; then

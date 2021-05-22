@@ -89,3 +89,11 @@ function kubectl-get-pods-names-only {
         kubectl get pods -A --no-headers -o custom-columns=":metadata.namespace,:metadata.name"
     fi
 }
+
+function kubectl-download-crd {
+    if [ ! $1 ]; then
+        echo "Provide full api-resource plural name"
+        return
+    fi
+    kubectl get crd $1 -o yaml > $1.yaml
+}

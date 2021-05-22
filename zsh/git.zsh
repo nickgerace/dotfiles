@@ -29,6 +29,8 @@ alias squash='printf "git reset --soft HEAD~N\n"'
 alias git-checkout-remote='printf "git checkout -b branch origin/branch\n"' 
 alias git-delete-remote-tag='printf "git push --delete origin <tag>\n"'
 
+alias git-reset-undo="git reset 'HEAD@{1}'"
+
 function post-merge {
     if [[ ! $1 ]]; then
         printf "Requires main branch name as first argument.\n"

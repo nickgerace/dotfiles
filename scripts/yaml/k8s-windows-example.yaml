@@ -42,10 +42,10 @@ spec:
     spec:
       containers:
       - name: windowswebserver
-        image: mcr.microsoft.com/windows/servercore:1809
+        image: mcr.microsoft.com/windows/servercore:20H2
         volumeMounts:
         - name: all
-          mountPath: "C:\\host"
+          mountPath: "/host"
         command:
         - powershell.exe
         - -command
@@ -55,4 +55,4 @@ spec:
       volumes:
         - name: all
           hostPath:
-              path: "C:\\"
+              path: "/"
