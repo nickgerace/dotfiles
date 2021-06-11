@@ -13,3 +13,7 @@ function go-mod-vendor {
         go mod vendor
     fi
 }
+
+if [ "$(command -v rg)" ]; then
+    alias rg-go="rg -g '*.go' -g '!zz*.go' --sort path"
+fi

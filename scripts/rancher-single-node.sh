@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+echo "Options: master-head latest <dockerhub-tag>"
 TAG=latest
 if [ $1 ]; then
     TAG=$1

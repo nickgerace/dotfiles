@@ -39,6 +39,10 @@ kubectl rollout status deployment cert-manager -n ${NS_CM}
 kubectl rollout status deployment cert-manager-webhook -n ${NS_CM}
 kubectl rollout status deployment cert-manager-cainjector -n ${NS_CM}
 
+SLEEP_SEC=15
+echo "Sleeping for $SLEEP_SEC seconds..."
+sleep $SLEEP_SEC
+
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 kubectl create namespace ${NS_RANCHER}
 if [ $2 ]; then
