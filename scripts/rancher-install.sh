@@ -3,7 +3,6 @@ KUBE_CONFIG_PATH=$HOME/.kube/config
 K3S_CONFIG_PATH=/etc/rancher/k3s/k3s.yaml
 NS_CM=cert-manager
 NS_RANCHER=cattle-system
-AUDIT_LOGGING=0 # --set auditLog.level=1
 
 set -e
 if [ ! $1 ]; then
@@ -19,10 +18,16 @@ if [ $2 ]; then
     fi
 fi
 
-if [ ! $(command -v helm) ]; then
-    printf "Command not found: helm\n"
-    exit 1
-fi
+function check-binary {
+    if [ ! $(command -v $1) ]; then
+        echo "Command not found: $1"
+        exit 1
+    fi
+}
+
+check-binary kubectl
+check-binary helm
+check-binary jq
 
 read -p "Path to KUBECONFIG (leave blank to use KUBECONFIG default): " KUBE_CONFIG_PATH
 if [ $KUBE_CONFIG_PATH ]; then
