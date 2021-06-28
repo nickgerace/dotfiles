@@ -51,3 +51,18 @@ function rancher-ci {
     fi
     ( cd $DIR; DRONE_TAG=local-test TAG=local-test drone exec --event=pull_request --trusted --pipeline=default-linux-amd64 )
 }
+
+function rancher-build {
+    local NAME=rancher
+    k3d cluster delete $NAME
+    if [ $1 ]; then
+        local K3S_IMAGE=rancher/k3s:v${1}-k3s1
+        docker pull $K3S_IMAGE
+        k3d cluster create $NAME --image $K3S_IMAGE
+    else
+        k3d cluster create $NAME
+    fi
+
+    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o $NAME -v -i -gcflags="-N -l" main.go
+    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./$NAME --add-local=true
+}

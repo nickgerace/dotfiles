@@ -52,7 +52,7 @@ function k3d-create {
     elif [ ! $2 ]; then
         k3d cluster create ${1}
     else
-        K3S_IMAGE=rancher/k3s:v${2}-k3s2
+        K3S_IMAGE=rancher/k3s:v${2}-k3s1
         docker pull $K3S_IMAGE
         k3d cluster create ${1} --image $K3S_IMAGE
     fi

@@ -4,6 +4,10 @@ export PATH=$PATH:$GOBIN
 export PATH=$PATH:/usr/local/go/bin
 export PATH=${GOPATH//://bin:}/bin:$PATH
 
+if [ "$(command -v rg)" ]; then
+    alias rg-go="rg -g '*.go' -g '!zz*.go' --sort path"
+fi
+
 function go-mod-vendor {
     printf "Remove the old module first from go.mod\n"
     if [ ! $1 ] || [ ! $2 ]; then
@@ -14,6 +18,14 @@ function go-mod-vendor {
     fi
 }
 
-if [ "$(command -v rg)" ]; then
-    alias rg-go="rg -g '*.go' -g '!zz*.go' --sort path"
-fi
+function go-pre-build {
+    set -x
+    go fmt ./...
+    echo "---"
+    go generate
+    echo "---"
+    go vet ./...
+    echo "---"
+    golangci-lint run
+    set +x
+}

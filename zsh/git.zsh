@@ -17,7 +17,8 @@ alias reset-repo-to-last-commmit="git reset --hard"
 alias git-pull-fix="git config --global pull.ff only"
 alias git-show-tags='git log --tags --simplify-by-decoration --pretty="format:%ci %d"'
 alias gcdf="git clean -df"
-alias git-clean-all-"git clean -df"
+alias git-clean-all-"git clean -fd"
+alias gcl="git config -l"
 
 alias gbva="git branch -v -a"
 alias branch="git rev-parse --abbrev-ref HEAD"
