@@ -37,7 +37,7 @@ function cargo-build-static {
     fi
 }
 
-function cbr-and-strip {
+function cbrs {
     local CRATE=target/release/$(cargo metadata --no-deps | jq -r '.packages[0].name')
     cargo build --release
     du -h $CRATE

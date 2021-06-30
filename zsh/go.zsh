@@ -7,6 +7,8 @@ export PATH=${GOPATH//://bin:}/bin:$PATH
 if [ "$(command -v rg)" ]; then
     alias rg-go="rg -g '*.go' -g '!zz*.go' --sort path"
 fi
+alias gr="go run"
+alias grm="go run main.go"
 
 function go-mod-vendor {
     printf "Remove the old module first from go.mod\n"
