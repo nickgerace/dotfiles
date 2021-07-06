@@ -66,3 +66,31 @@ function rancher-build {
     CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o $NAME -v -i -gcflags="-N -l" main.go
     CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./$NAME --add-local=true
 }
+
+function docker-run-rancher {
+    echo "options: master-head latest <dockerhub-tag>"
+    local TAG=latest
+    if [ $1 ] && [ "$1" != "" ]; then
+        TAG=$1
+    fi
+    docker run -d --restart=unless-stopped \
+        -p 80:80 -p 443:443 \
+        --privileged \
+        rancher/rancher:$TAG
+}
+
+function docker-upgrade-rancher {
+    if [ ! $1 ] || [ ! $2 ]; then
+        echo "required argument: <rancher-container-name> <new-tag> <optional-volume-name>"
+        return
+    fi
+    local VOLUME_NAME=rancher-data
+    if [ $3 ] && [ "$3" != "" ]; then
+        VOLUME_NAME=$3
+    fi
+    local OLD_TAG=$(docker container inspect $1 | jq ".[0].Config.Image" | tr -d '"' | cut -d ":" -f2)
+
+    docker stop $1
+    docker create --volumes-from $1 --name rancher-data rancher/rancher:$OLD_TAG
+    docker run -d --privileged --volumes-from $VOLUME_NAME --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher:$2
+}
