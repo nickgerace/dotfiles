@@ -10,20 +10,15 @@ alias docker-run-tumbleweed="docker run -it opensuse/tumbleweed:latest"
 
 alias trivy-scan='trivy image -s "HIGH,CRITICAL"'
 
-function docker-stop-and-rm-all-containers {
-    local TEMP=$(docker ps -aq)
-    if [ "$TEMP" != "" ]; then
-        docker stop $TEMP
-        docker rm $TEMP
-    fi
+function docker-prune-containers {
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
 }
 
 function docker-prune-everything {
-    docker-stop-and-rm-all-containers
-    local TEMP=$(docker images -q)
-    if [ "$TEMP" != "" ]; then
-        docker rmi $TEMP
-    fi
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
+    docker rmi $(docker images -q)
     docker volume prune -f
     docker system prune -a -f
 }
