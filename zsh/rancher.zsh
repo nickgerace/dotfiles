@@ -68,15 +68,15 @@ function rancher-build {
 }
 
 function docker-run-rancher {
-    echo "options: master-head latest <dockerhub-tag>"
-    local TAG=latest
-    if [ $1 ] && [ "$1" != "" ]; then
-        TAG=$1
+    if [ ! $1 ] || [ "$1" = "" ]; then
+        echo "argument required: <rancher-tag>"
+        echo "options: master-head latest <dockerhub-tag>"
+        return
     fi
     docker run -d --restart=unless-stopped \
         -p 80:80 -p 443:443 \
         --privileged \
-        rancher/rancher:$TAG
+        rancher/rancher:$1
 }
 
 function docker-upgrade-rancher {
