@@ -19,6 +19,6 @@ function docker-prune-everything {
     docker stop $(docker ps -aq)
     docker rm $(docker ps -aq)
     docker rmi $(docker images -q)
-    docker volume prune -f
     docker system prune -a -f
+    docker volume prune -f
 }

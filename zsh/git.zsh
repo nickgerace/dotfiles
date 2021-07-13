@@ -23,6 +23,7 @@ alias gcl="git config -l"
 alias gbva="git branch -v -a"
 alias branch="git rev-parse --abbrev-ref HEAD"
 alias branches="git branch -a"
+alias git-update-branches="git remote update origin --prune"
 alias branch-new="git checkout -b"
 alias branch-delete="git branch -d"
 
