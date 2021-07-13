@@ -18,3 +18,4 @@ download rancher-install.sh
 download helm-quick-install.sh
 download kubectl-ubuntu-install.sh
 download docker-ubuntu-install.sh
+download rancher-docker-upgrade.sh
