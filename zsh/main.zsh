@@ -57,6 +57,7 @@ alias inspiration="fortune | cowsay | lolcat"
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 
+alias gfld=$HOME/.cargo/bin/gfold
 alias bat="bat --theme=OneHalfLight"
 alias uuidgen-seven="uuidgen | tr '[:upper:]' '[:lower:]' |  cut -c1-7"
 alias which-linker="ld --verbose > default.ld"
