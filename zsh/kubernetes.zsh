@@ -68,18 +68,18 @@ function kubectl-cluster-status {
 }
 
 function kube-config-combine {
-    if [ ! $1 ]; then
-        printf "Requires argument(s): <path-to-other-config>\n"
-    elif ! [ -f $HOME/.kube/config ]; then
-        printf "Requires $HOME/.kube/config to exist.\n"
-    else
-        printf "Combining $HOME/.kube/config and $1 ...\n"
-        if [ -f $HOME/.kube/config-new ]; then rm $HOME/.kube/config-new; fi
-        KUBECONFIG=$HOME/.kube/config:$1 kubectl config view --flatten > $HOME/.kube/config-new
-        mv $HOME/.kube/config-new $HOME/.kube/config
-        chmod 600 $HOME/.kube/config
-        rm -i $1
+    if [ ! $1 ] || [ ! $2 ]; then
+        printf "Requires argument(s): <config-one> <config-two>\n"
+        return
     fi
+    local CONFIG=$HOME/.kube/config
+    mkdir -p $HOME/.kube/
+    if [ -f $CONFIG ]; then
+        rm $CONFIG
+    fi
+    KUBECONFIG=$1:$2 kubectl config view --flatten > $CONFIG
+    chmod 600 $CONFIG
+    rm -i $1 $2
 }
 
 function kubectl-get-pods-names-only {
