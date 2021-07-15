@@ -133,3 +133,15 @@ function strip-and-size {
     strip $1
     du -h $1
 }
+
+function directory-sizes {
+    local SORT=sort
+    if [ "$(uname)" = "Darwin" ]; then
+        if [ ! $(command -v gsort) ]; then
+            echo "gsort required: brew install coreutils"
+            return
+        fi
+        SORT=gsort
+    fi
+    du -hs * | $SORT -hr
+}
