@@ -62,6 +62,7 @@ alias bat="bat --theme=OneHalfLight"
 alias uuidgen-seven="uuidgen | tr '[:upper:]' '[:lower:]' |  cut -c1-7"
 alias which-linker="ld --verbose > default.ld"
 alias jq-keys="jq 'keys'"
+alias log-to-file="echo '2\>\&1 \| tee'"
 
 function find-file {
     if [[ ! $1 ]]; then

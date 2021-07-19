@@ -73,9 +73,9 @@ function docker-run-rancher {
         echo "options: master-head latest <dockerhub-tag>"
         return
     fi
-    docker run -d --restart=unless-stopped \
+    docker run -d --restart=unless-stopped --privileged \
         -p 80:80 -p 443:443 \
-        --privileged \
+        -e CATTLE_BOOTSTRAP_PASSWORD=admin \
         rancher/rancher:$1
 }
 
@@ -92,5 +92,9 @@ function docker-upgrade-rancher {
 
     docker stop $1
     docker create --volumes-from $1 --name rancher-data rancher/rancher:$OLD_TAG
-    docker run -d --privileged --volumes-from $VOLUME_NAME --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher:$2
+    docker run -d --restart=unless-stopped --privileged \
+        --volumes-from $VOLUME_NAME \
+        -p 80:80 -p 443:443 \
+        -e CATTLE_BOOTSTRAP_PASSWORD=admin \
+        rancher/rancher:$2
 }
