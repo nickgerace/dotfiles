@@ -13,6 +13,7 @@ alias trivy-scan='trivy image -s "HIGH,CRITICAL"'
 function docker-prune-containers {
     docker stop $(docker ps -aq)
     docker rm $(docker ps -aq)
+    docker volume prune -f
 }
 
 function docker-prune-everything {
