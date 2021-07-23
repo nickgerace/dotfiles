@@ -1,7 +1,9 @@
 bat
+bottom
 cargo-bloat
 cargo-crev
 cargo-expand
+cargo-fuzz
 cargo-udeps
 cargo-update
 cross
