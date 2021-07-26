@@ -64,7 +64,7 @@ function rancher-build {
     fi
 
     CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o $NAME -v -i -gcflags="-N -l" main.go
-    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./$NAME --add-local=true
+    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./$NAME --add-local=true --no-cacerts
 }
 
 function docker-run-rancher {

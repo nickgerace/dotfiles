@@ -110,3 +110,12 @@ function github-branch-comparison {
     fi
     echo "https://github.com/$1/compare/$2...$3"
 }
+
+function git-delete-remote-branch {
+    if [ ! $1 ] || [ "$1" != "" ]; then
+        echo "Required argument: <branch-name>"
+        return
+    fi
+    git push origin --delete $1
+    git branch -D $1
+}
