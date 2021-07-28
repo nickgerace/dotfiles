@@ -1,5 +1,6 @@
 bat
 bottom
+cargo-audit
 cargo-bloat
 cargo-crev
 cargo-expand
