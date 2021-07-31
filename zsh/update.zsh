@@ -25,12 +25,8 @@ function update {
         brew update
         brew upgrade
         brew cleanup
-        local BREWFILE=$DOTFILES/darwin/Brewfile
-        if [ "$TYPE" = "ubuntu" ]; then
-            BREWFILE=$DOTFILES/ubuntu/Brewfile
-        fi
         # Install for the first time: brew bundle install --no-lock --file $BREWFILE
-        brew bundle dump --force --file $BREWFILE
+        brew bundle dump --force --file $DOTFILES/Brewfile
     fi
 
     if [ "$(command -v rustup)" ]; then
@@ -38,11 +34,11 @@ function update {
     fi
 
     if [ "$(command -v cargo)" ]; then
-        # Install for the first time: xargs cargo install < $DOTFILES/crates
         if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
             cargo install cargo-update
         fi
         cargo install-update -a
+        # Install for the first time: xargs cargo install < $DOTFILES/crates
         cargo install --list | grep -o "^\S*\S" > $DOTFILES/crates
     fi
 
@@ -54,8 +50,8 @@ function update {
 
     if [ "$TYPE" = "ubuntu" ] && [ "$(command -v apt)" ]; then
         sudo apt update
-        sudo apt upgrade
-        sudo apt autoremove
+        sudo apt upgrade -y
+        sudo apt autoremove -y
     fi
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
