@@ -5,15 +5,16 @@ function update {
     if [ "$(uname -s)" = "Darwin" ]; then
         TYPE="darwin"
     else
-        if [ -f /etc/os-release ]; then
-            local ID=$(grep '^ID=' / | sed 's/^ID=//')
-            if [ "$ID" = "ubuntu" ] || [ "$ID" = "fedora" ]; then
-                TYPE=$ID
-            fi
-        else
+        if [ ! -f /etc/os-release ]; then
             echo "could not find /etc/os-release"
             return
         fi
+        local ID=$(grep '^ID=' /etc/os-release | sed 's/^ID=//')
+        if [ "$ID" != "ubuntu" ] && [ "$ID" != "fedora" ]; then
+            echo "found unexpected ID in /etc/os-release: $ID"
+            return
+        fi
+        TYPE=$ID
     fi
     if [ "$TYPE" = "" ]; then
         echo "invalid type (available: darwin ubuntu fedora)"
@@ -21,7 +22,7 @@ function update {
     fi
     echo "detected type: $TYPE"
 
-    if [ "$(command -v brew)" ]; then
+    if [ "$TYPE" = "darwin" ] && [ "$(command -v brew)" ]; then
         brew update
         brew upgrade
         brew cleanup

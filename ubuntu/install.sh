@@ -7,9 +7,25 @@ fi
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y \
-    wget curl build-essential make jq \
-    tmux cloc git fzf htop neovim vim telnet \
-    tree zsh ubuntu-restricted-extras virtualbox lsb-release
+    build-essential \
+    cloc \
+    curl \
+    fzf \
+    git \
+    htop \
+    jq \
+    libssl-dev \
+    lsb-release \
+    make \
+    neovim \
+    telnet \
+    tmux \
+    tree \
+    ubuntu-restricted-extras \
+    vim \
+    virtualbox \
+    wget \
+    zsh
 
 REAL_USER=$USER
 RELEASE=$(lsb_release -cs)
