@@ -20,6 +20,7 @@ if [ "$(command -v kubectl)" ]; then
 fi
 
 alias ktx="kubectx"
+alias k9s="docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s"
 
 if [ "$(command -v k3d)" ]; then
     alias kc="k3d cluster"
