@@ -12,4 +12,8 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
-sudo usermod -aG docker $(whoami)
+if [ "$USER" != "root" ]; then
+  $USER_TEMP=$USER
+  sudo usermod -aG docker $USER_TEMP
+fi
+sudo systemctl enable docker
