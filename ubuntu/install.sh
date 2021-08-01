@@ -102,6 +102,11 @@ function install-rust {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 }
 
+function prepare-chrome {
+    # Needed for emoji support.
+    sudo apt reinstall -y fonts-noto fonts-noto-color-emoji
+}
+
 function post-install {
     sudo apt autoremove -y
     echo "configure GNOME terminal: https://github.com/Mayccoll/Gogh"
@@ -115,4 +120,5 @@ install-kubectl
 install-helm
 install-hashi
 install-rust
+prepare-chrome
 post-install
