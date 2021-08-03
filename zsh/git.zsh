@@ -32,6 +32,7 @@ alias git-checkout-remote='printf "git checkout -b branch origin/branch\n"'
 alias git-delete-remote-tag='printf "git push --delete origin <tag>\n"'
 
 alias git-reset-undo="git reset 'HEAD@{1}'"
+alias git-history="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 function post-merge {
     if [[ ! $1 ]]; then
@@ -77,6 +78,7 @@ function git-checkout-tag {
 }
 
 function git-diff-check-permissions {
+
     ls -l $(git diff --name-only)
 }
 
