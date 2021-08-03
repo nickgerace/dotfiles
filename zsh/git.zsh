@@ -47,31 +47,19 @@ function post-merge {
 }
 
 function rebase-forked-repo {
-    if [[ ! $1 || ! $2 || ! $3 ]]; then
-        printf "[-] Requires three arguments: <github-org/original-repo> <original-branch> <forked-branch>\n"
-    else
-        printf "\n[+] Starting rebase from original repository to forked repository...\n"
-        git remote add upstream https://github.com/${1}.git
-        git fetch upstream
-        git rebase upstream/${2}
-        git push origin ${3} --force
-        printf "\n[+] Done! Current remotes...\n"
+    set -e
+    if [ ! $1 ] || [ ! $2 ]; then
+        echo "requires arguments: <original-branch> <forked-branch> <OPTIONAL-provide-full-remote-address>"
+        return
+    fi
+    if [ $3 ] && [ "$3" != "" ]; then
+        git remote add upstream $3
         git remote -v
     fi
-}
-
-function rebase-forked-repo-git {
-    if [[ ! $1 || ! $2 || ! $3 ]]; then
-        printf "[-] Requires three arguments: <github-org/original-repo> <original-branch> <forked-branch>\n"
-    else
-        printf "\n[+] Starting rebase from original repository to forked repository...\n"
-        git remote add upstream git@github.com:${1}.git
-        git fetch upstream
-        git rebase upstream/${2}
-        git push origin ${3} --force
-        printf "\n[+] Done! Current remotes...\n"
-        git remote -v
-    fi
+    git fetch upstream
+    git rebase upstream/$1
+    git push origin $2 --force
+    set +e
 }
 
 function git-checkout-tag {
