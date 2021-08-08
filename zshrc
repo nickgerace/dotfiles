@@ -2,12 +2,11 @@
 # Solution: https://github.com/kubernetes/kubectl/issues/125#issuecomment-351653836
 autoload -U +X compinit
 compinit
+autoload -U +X bashcompinit
+bashcompinit
 
 # If facing issues on macOS, run the following command...
 # compaudit | xargs chmod g-w
-
-# Leaving the below commented for now. We may or may not need this.
-# autoload -U +X bashcompinit && bashcompinit
 
 export DOTFILES=$HOME/github.com/nickgerace/dotfiles
 local ZSH_CONFIG_DIR=$DOTFILES/zsh

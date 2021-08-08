@@ -1,5 +1,5 @@
 function update {
-    set -ex
+    set -x
 
     local TYPE=""
     if [ "$(uname -s)" = "Darwin" ]; then
@@ -59,5 +59,5 @@ function update {
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
 
-    set +ex
+    set +x
 }

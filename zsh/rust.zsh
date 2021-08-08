@@ -47,7 +47,7 @@ function cbrs {
 }
 
 function rustup-default-toolchain-setup {
-    set -ex
+    set -x
     if [ "$(uname)" = "Linux" ]; then
         rustup toolchain install stable-x86_64-unknown-linux-gnu
         rustup toolchain install nightly-x86_64-unknown-linux-gnu
@@ -57,5 +57,5 @@ function rustup-default-toolchain-setup {
         rustup toolchain install nightly-x86_64-apple-darwin
         rustup default stable-x86_64-apple-darwin
     fi
-    set +ex
+    set +x
 }

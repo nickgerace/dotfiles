@@ -48,7 +48,6 @@ function post-merge {
 }
 
 function rebase-forked-repo {
-    set -e
     if [ ! $1 ] || [ ! $2 ]; then
         echo "requires arguments: <original-branch> <forked-branch> <OPTIONAL-provide-full-remote-address>"
         return
@@ -60,7 +59,6 @@ function rebase-forked-repo {
     git fetch upstream
     git rebase upstream/$1
     git push origin $2 --force
-    set +e
 }
 
 function git-checkout-tag {
