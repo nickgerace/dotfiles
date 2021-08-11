@@ -3,6 +3,7 @@ bottom
 cargo-audit
 cargo-bloat
 cargo-expand
+cargo-fuzz
 cargo-udeps
 cargo-update
 cross
