@@ -56,8 +56,12 @@ function rebase-forked-repo {
         git remote add upstream $2
         git remote -v
     fi
-    git fetch upstream
-    git rebase upstream/$1
+    if git ls-remote upstream > /dev/null; then
+        git fetch upstream
+        git rebase upstream/$1
+    else
+        echo "could not find expected remote: upstream"
+    fi
 }
 
 function git-checkout-tag {

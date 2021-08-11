@@ -2,6 +2,7 @@ if [ -d "/usr/local/opt/yq@3/bin" ]; then
     export PATH="/usr/local/opt/yq@3/bin:$PATH"
 fi
 
+alias ngrok-rancher="ngrok http https://localhost:8443"
 alias k3s-uninstall="k3s-uninstall.sh"
 
 function rc-logging {
