@@ -9,7 +9,7 @@ if [ "$(command -v rg)" ]; then
 fi
 alias gr="go run"
 alias grm="go run main.go"
-alias golangci-lint="docker run --rm -v $(pwd):/app -w /app golangci/golangci-lint:latest golangci-lint"
+alias docker-run-golangci-lint="docker run --rm -v $(pwd):/app -w /app golangci/golangci-lint:latest golangci-lint"
 
 function go-mod-vendor {
     printf "Remove the old module first from go.mod\n"

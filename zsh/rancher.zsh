@@ -14,26 +14,19 @@ function rc-logging {
 }
 
 function rc-fleet {
-    if [ ! $1 ]; then
-        printf "Required argument(s): <command>\nExample commands: prepare patch clean charts\n"
-    else
-        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=fleet make ${1} )
-        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=fleet-crd make ${1} )
-        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=fleet-agent make ${1} )
-    fi
-}
-
-function fleet-update-rc-charts {
-    if [ ! $1 ] || [ ! $2 ]; then
-        echo "Required arguments: <old-rc-single-digit> <new-rc-single-digit>"
+    if [ ! -f index.yaml ]; then
+        echo "current working directory must be the charts directory"
         return
     fi
-    local PACKAGES=$HOME/github.com/nickgerace/rancher-charts/packages
-    for i in $(find $PACKAGES/fleet-agent -type f) $(find $PACKAGES/fleet -type f) $(find $PACKAGES/fleet-crd -type f); do
-        for j in "s/rc$1/rc$2/g" "s/^releaseCandidateVersion:.*$/releaseCandidateVersion: 0$2/g"; do
-            gsed -i "$j" $i
-        done
-    done
+    PACKAGE=fleet make charts
+    git add .
+    git commit
+    PACKAGE=fleet-agent make charts
+    git add .
+    git commit --amend
+    PACKAGE=fleet-crd make charts
+    git add .
+    git commit --amend
 }
 
 function rc-backup {
@@ -51,21 +44,6 @@ function rancher-ci {
         DIR=$1
     fi
     ( cd $DIR; DRONE_TAG=local-test TAG=local-test drone exec --event=pull_request --trusted --pipeline=default-linux-amd64 )
-}
-
-function rancher-build {
-    local NAME=rancher
-    k3d cluster delete $NAME
-    if [ $1 ]; then
-        local K3S_IMAGE=rancher/k3s:v${1}-k3s1
-        docker pull $K3S_IMAGE
-        k3d cluster create $NAME --image $K3S_IMAGE
-    else
-        k3d cluster create $NAME
-    fi
-
-    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o $NAME -v -i -gcflags="-N -l" main.go
-    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./$NAME --add-local=true --no-cacerts
 }
 
 function docker-run-rancher {
@@ -98,4 +76,13 @@ function docker-upgrade-rancher {
         -p 80:80 -p 443:443 \
         -e CATTLE_BOOTSTRAP_PASSWORD=admin \
         rancher/rancher:$2
+}
+
+function rancher-run {
+    if [ ! -f main.go ]; then
+        echo "could not find main.go in current working directory"
+        return
+    fi
+    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o rancher -v -i -gcflags="-N -l" main.go
+    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./rancher --add-local=true --no-cacerts
 }
