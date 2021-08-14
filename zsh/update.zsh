@@ -22,6 +22,17 @@ function update {
     fi
     echo "detected type: $TYPE"
 
+    if [ "$TYPE" = "ubuntu" ]; then
+        if [ "$(command -v apt)" ]; then
+            sudo apt update
+            sudo apt upgrade -y
+            sudo apt autoremove -y
+        fi
+        if [ "$(command -v snap)" ]; then
+            sudo snap refresh
+        fi
+    fi
+
     if [ "$TYPE" = "darwin" ] && [ "$(command -v brew)" ]; then
         brew update
         brew upgrade
@@ -47,12 +58,6 @@ function update {
         sudo dnf upgrade --refresh
         sudo dnf autoremove
         sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $DOTFILES/fedora/dnf-packages
-    fi
-
-    if [ "$TYPE" = "ubuntu" ] && [ "$(command -v apt)" ]; then
-        sudo apt update
-        sudo apt upgrade -y
-        sudo apt autoremove -y
     fi
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
