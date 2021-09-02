@@ -65,70 +65,76 @@ alias jq-keys="jq 'keys'"
 alias log-to-file="echo '2\>\&1 \| tee'"
 
 function find-file {
-    if [[ ! $1 ]]; then
-        printf "[-] Requires argument(s): <file-name-or-pattern>\n"
-    else
-        find . -name ${1}
+    if [ ! $1 ]; then
+        echo "required argument: <file-name-or-pattern>"
+        return
     fi
+    find . -name ${1}
 }
 
 function loop-command {
-    if [ ! $1 ] || [ ! $2 ]; then
-        printf "[-] Requires argument(s): <command-to-be-looped> <sleep-seconds>\n"
-    else
-        while true; do ${1}; sleep ${2}; done
+    if [ ! $1 ]; then
+        echo "required argument(s): <command-to-be-looped> <optional-sleep-seconds>"
+        return
     fi
+    local SLEEP_SECONDS=15
+    if [ $2 ] && [ "$2" != "" ]; then
+        SLEEP_SECONDS=$2
+    fi
+    while true; do ${1}; sleep $SLEEP_SECONDS; done
 }
 
 function string-grab-first-n-characters {
     if [ ! $1 ] || [ ! $2 ]; then
-        printf "Requires argument(s): <string> <n>\n"
-    else
-        echo "${1}" | cut -c1-${2}
+        echo "required arguments: <string> <number-of-first-characters>\n"
+        return
     fi
+    echo "${1}" | cut -c1-${2}
 }
 
 function markdown-to-html {
     if [ ! $1 ] || [ ! $2 ]; then
-        printf "Requires argument(s): <input.md> <output.html>\n"
-    else
-        pandoc ${1} -f markdown -t html5 > ${2}
+        echo "required arguments: <input.md> <output.html>"
+        return
     fi
+    if [ ! $(command -v pandoc) ]; then
+        echo "must be installed and in PATH: pandoc"
+        return
+    fi
+    pandoc ${1} -f markdown -t html5 > ${2}
 }
 
 function ssh-passwordless-setup {
     if [ ! $1 ] || [ ! $2 ]; then
-        printf "Requires argument(s): <username> <hostname> <optional-port-number>\n"
-    elif [ ! $3 ]; then
-        cat ${HOME}/.ssh/id_rsa.pub | ssh ${1}@${2} "mkdir -p ${HOME}/.ssh && chmod 755 ${HOME}/.ssh && cat >> ${HOME}/.ssh/authorized_keys && chmod 644 ${HOME}/.ssh/authorized_keys"
-    else
+        echo "required arguments: <username> <hostname> <optional-port-number>"
+        return
+    fi
+    if [ $3 ] && [ "$3" != "" ]; then
         cat ${HOME}/.ssh/id_rsa.pub | ssh ${1}@${2} -p ${3} "mkdir -p ${HOME}/.ssh && chmod 755 ${HOME}/.ssh && cat >> ${HOME}/.ssh/authorized_keys && chmod 644 ${HOME}/.ssh/authorized_keys"
+    else
+        cat ${HOME}/.ssh/id_rsa.pub | ssh ${1}@${2} "mkdir -p ${HOME}/.ssh && chmod 755 ${HOME}/.ssh && cat >> ${HOME}/.ssh/authorized_keys && chmod 644 ${HOME}/.ssh/authorized_keys"
     fi
 }
 
 function trim-whitespace {
     if [ ! $1 ]; then
-        printf "Requires argument(s): <path-to-file>\n"
-    else
-        vim "+%s/\s\+$//e" +wq ${1}
+        echo "requires argument: <path-to-file>"
+        return
     fi
-}
-
-function shasum-github {
-    if [ ! $1 ] || [ ! $2 ] || [ ! $3 ]; then
-        printf "Argument(s): <user/org> <repo> <release-semver>\n"
-    else
-        for i in {1..20}; do
-            wget https://github.com/${1}/${2}/archive/${3}.tar.gz > /dev/null 2>&1
-            shasum -a 256 ${3}.tar.gz
-            rm ${3}.tar.gz
-        done
+    local VIMLIKE=nvim
+    if [ ! $(command -v nvim) ]; then
+        if [ ! $(command -v vim) ]; then
+            echo "must be installed and in PATH: vim"
+            return
+        fi
+        VIMLIKE=vim
     fi
+    ${VIMLIKE} "+%s/\s\+$//e" +wq ${1}
 }
 
 function strip-and-size {
     if [ ! $1 ]; then
-        echo "Required argument: <path-to-binary>"
+        echo "required argument: <path-to-binary>"
         return
     fi
     du -h $1

@@ -35,16 +35,15 @@ alias git-reset-undo="git reset 'HEAD@{1}'"
 alias git-history="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 function post-merge {
-    if [[ ! $1 ]]; then
-        printf "Requires main branch name as first argument.\n"
-    else
-        MERGED=$(git rev-parse --abbrev-ref HEAD)
-        git pull --rebase origin $1
-        git checkout $1
-        git pull origin $1
-        git branch -d $MERGED
-        git pull --prune
+    if [ ! $1 ]; then
+        echo "required argument: <main-branch>"
+        return
     fi
+    git pull --rebase origin $1
+    git checkout $1
+    git pull origin $1
+    git branch -d $(git rev-parse --abbrev-ref HEAD)
+    git pull --prune
 }
 
 function rebase-forked-repo {

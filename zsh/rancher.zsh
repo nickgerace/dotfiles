@@ -7,7 +7,7 @@ alias k3s-uninstall="k3s-uninstall.sh"
 
 function rc-logging {
     if [ ! $1 ]; then
-        printf "Required argument(s): <command>\nExample commands: prepare patch clean charts\n"
+        echo "required argument: <make-target-or-command>"
         return
     fi
     ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-logging make ${1} )
@@ -31,11 +31,11 @@ function rc-fleet {
 
 function rc-backup {
     if [ ! $1 ]; then
-        printf "Required argument(s): <command>\nExample commands: prepare patch clean charts\n"
-    else
-        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup make ${1} )
-        ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup-crd make ${1} )
+        echo "required argument: <make-target-or-command>"
+        return
     fi
+    ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup make ${1} )
+    ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup-crd make ${1} )
 }
 
 function rancher-ci {
@@ -75,6 +75,7 @@ function docker-upgrade-rancher {
         --volumes-from $VOLUME_NAME \
         -p 80:80 -p 443:443 \
         -e CATTLE_BOOTSTRAP_PASSWORD=admin \
+        --no-cacerts \
         rancher/rancher:$2
 }
 

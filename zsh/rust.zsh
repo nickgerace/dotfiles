@@ -7,6 +7,8 @@ if [ "$(command -v cargo)" ]; then
     alias cbr="cargo build --release"
     alias ct="cargo test"
     alias cx="cargo xtask"
+    
+    alias cargo-install-crates-from-dotfiles="xargs cargo install < $DOTFILES/crates"
 fi
 
 if [ "$(command -v rustup)" ]; then
@@ -34,7 +36,7 @@ function cargo-build-static {
         docker pull clux/muslrust
         docker run -v $(pwd):/volume --rm -t clux/muslrust cargo build --release
     else
-        printf "Cargo.toml not found in current working directory\n"
+        echo "file not found in current working directory: Cargo.toml"
     fi
 }
 
@@ -47,7 +49,6 @@ function cbrs {
 }
 
 function rustup-default-toolchain-setup {
-    set -x
     if [ "$(uname)" = "Linux" ]; then
         rustup toolchain install stable-x86_64-unknown-linux-gnu
         rustup toolchain install nightly-x86_64-unknown-linux-gnu
@@ -57,5 +58,4 @@ function rustup-default-toolchain-setup {
         rustup toolchain install nightly-x86_64-apple-darwin
         rustup default stable-x86_64-apple-darwin
     fi
-    set +x
 }

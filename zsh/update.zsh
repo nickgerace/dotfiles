@@ -1,6 +1,4 @@
 function update {
-    set -x
-
     local TYPE=""
     if [ "$(uname -s)" = "Darwin" ]; then
         TYPE="darwin"
@@ -37,7 +35,6 @@ function update {
         brew update
         brew upgrade
         brew cleanup
-        # Install for the first time: brew bundle install --no-lock --file $BREWFILE
         brew bundle dump --force --file $DOTFILES/Brewfile
     fi
 
@@ -50,7 +47,6 @@ function update {
             cargo install cargo-update
         fi
         cargo install-update -a
-        # Install for the first time: xargs cargo install < $DOTFILES/crates
         cargo install --list | grep -o "^\S*\S" > $DOTFILES/crates
     fi
 
@@ -63,6 +59,4 @@ function update {
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
-
-    set +x
 }

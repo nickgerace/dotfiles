@@ -1,5 +1,6 @@
 bat
 bottom
+bovine
 cargo-audit
 cargo-bloat
 cargo-expand
@@ -10,6 +11,7 @@ cross
 exa
 ferris-fetch
 gfold
+git-cliff
 onefetch
 reelpath
 ripgrep

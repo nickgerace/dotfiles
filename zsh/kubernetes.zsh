@@ -20,7 +20,7 @@ if [ "$(command -v kubectl)" ]; then
 fi
 
 alias ktx="kubectx"
-alias k9s="docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s"
+alias docker-run-k9s="docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s"
 
 if [ "$(command -v k3d)" ]; then
     alias kc="k3d cluster"
@@ -33,23 +33,23 @@ fi
 
 function kubectl-exec {
     if [ ! $1 ] || [ ! $2 ]; then
-        printf "Requires argument(s): <namespace> <pod>\n"
-    else
-        kubectl -n ${1} exec --stdin --tty ${2} -- /bin/bash
+        echo "required arguments: <namespace> <pod>"
+        return
     fi
+    kubectl -n ${1} exec --stdin --tty ${2} -- /bin/bash
 }
 
 function kubectl-exec-windows {
     if [ ! $1 ] || [ ! $2 ]; then
-        printf "Requires argument(s): <namespace> <pod>\n"
-    else
-        kubectl -n ${1} exec --stdin --tty ${2} -- powershell.exe
+        echo "required arguments: <namespace> <pod>"
+        return
     fi
+    kubectl -n ${1} exec --stdin --tty ${2} -- powershell.exe
 }
 
 function k3d-create {
     if [ ! $1 ]; then
-        printf "argument(s): <name> <optional-k8s-semver-x.x.x>\n"
+        echo "required argument(s): <name> <optional-k8s-semver-x.x.x>"
     elif [ ! $2 ]; then
         k3d cluster create ${1}
     else
@@ -70,7 +70,7 @@ function kubectl-cluster-status {
 
 function kube-config-combine {
     if [ ! $1 ] || [ ! $2 ]; then
-        printf "Requires argument(s): <config-one> <config-two>\n"
+        echo "required arguments: <config-one> <config-two>"
         return
     fi
     local CONFIG=$HOME/.kube/config
@@ -93,7 +93,7 @@ function kubectl-get-pods-names-only {
 
 function kubectl-download-crd {
     if [ ! $1 ]; then
-        echo "Provide full api-resource plural name"
+        echo "required argument: <api-resource-plural-name>"
         return
     fi
     kubectl get crd $1 -o yaml > $1.yaml

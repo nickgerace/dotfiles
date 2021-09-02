@@ -12,11 +12,9 @@ alias grm="go run main.go"
 alias docker-run-golangci-lint="docker run --rm -v $(pwd):/app -w /app golangci/golangci-lint:latest golangci-lint"
 
 function go-mod-vendor {
-    printf "Remove the old module first from go.mod\n"
     if [ ! $1 ] || [ ! $2 ]; then
-        printf "Requires argument(s): <module-url> <git-hash>\n"
-    else
-        go get ${1}@${2}
-        go mod vendor
+        echo "required arguments: <module-url> <git-hash>"
     fi
+    go get ${1}@${2}
+    go mod vendor
 }

@@ -5,3 +5,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
     alias ls="ls --color=auto"
 fi
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias brew-install-packages-from-dotfiles="brew bundle install --no-lock --file $DOTFILES/Brewfile"
+fi

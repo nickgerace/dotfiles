@@ -8,10 +8,10 @@ bashcompinit
 # If facing issues on macOS, run the following command...
 # compaudit | xargs chmod g-w
 
+# This environment variable is used in other ZSH configuration files.
 export DOTFILES=$HOME/github.com/nickgerace/dotfiles
-local ZSH_CONFIG_DIR=$DOTFILES/zsh
 
-for ZSH_CONFIG_FILE in $ZSH_CONFIG_DIR/*; do
+for ZSH_CONFIG_FILE in $DOTFILES/zsh/*; do
     if [ -r $ZSH_CONFIG_FILE ]; then
         source $ZSH_CONFIG_FILE
     else
