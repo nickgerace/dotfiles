@@ -39,10 +39,11 @@ function post-merge {
         echo "required argument: <main-branch>"
         return
     fi
+    local DELETE=$(git rev-parse --abbrev-ref HEAD)
     git pull --rebase origin $1
     git checkout $1
     git pull origin $1
-    git branch -d $(git rev-parse --abbrev-ref HEAD)
+    git branch -d $DELETE
     git pull --prune
 }
 
@@ -108,15 +109,4 @@ function git-delete-remote-branch {
     fi
     git push origin --delete $1
     git branch -D $1
-}
-
-function github-source-repos {
-    if [ ! $1 ] || [ "$1" = "" ]; then
-        echo "must provide GitHub user/org"
-        return
-    fi
-    REPOS=$(curl -s "https://api.github.com/users/$1/repos?per_page=$(curl -s https://api.github.com/users/$1 | jq -r '.public_repos')")
-    echo $REPOS | jq -r '.[] | select(.fork != true) | select(.archived != true) | .name'
-    echo "---"
-    echo $REPOS | jq -r '.[] | select(.fork != true) | select(.archived == true) | .name'
 }
