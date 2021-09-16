@@ -4,7 +4,6 @@ if [ "$(command -v cargo)" ]; then
     alias crq="cargo run --quiet --"
     alias cmr="cargo fmt && cargo run"
     alias cb="cargo build"
-    alias cbr="cargo build --release"
     alias ct="cargo test"
     alias cx="cargo xtask"
     
@@ -40,12 +39,11 @@ function cargo-build-static {
     fi
 }
 
-function cbrs {
-    local CRATE=target/release/$(cargo metadata --no-deps | jq -r '.packages[0].name')
+function cbr {
     cargo build --release
+    local CRATE=target/release/$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')
     du -h $CRATE
-    strip $CRATE
-    du -h $CRATE
+    du $CRATE
 }
 
 function rustup-default-toolchain-setup {
