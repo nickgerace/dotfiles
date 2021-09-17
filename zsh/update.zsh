@@ -19,6 +19,9 @@ function update {
         return
     fi
     echo "detected type: $TYPE"
+    if [ "$IS_WSL2" = "true" ]; then
+        echo "detected variation: WSL2"
+    fi
 
     if [ "$TYPE" = "ubuntu" ]; then
         if [ "$(command -v apt)" ]; then

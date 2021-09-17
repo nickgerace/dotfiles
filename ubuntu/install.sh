@@ -5,27 +5,7 @@ if [ "$USER" = "root" ]; then
 fi
 
 sudo apt update
-sudo apt upgrade -y
-sudo apt install -y \
-    build-essential \
-    cloc \
-    curl \
-    fzf \
-    git \
-    htop \
-    jq \
-    libssl-dev \
-    lsb-release \
-    make \
-    neovim \
-    telnet \
-    tmux \
-    tree \
-    ubuntu-restricted-extras \
-    vim \
-    virtualbox \
-    wget \
-    zsh
+sudo apt install -y lsb-release
 
 REAL_USER=$USER
 RELEASE=$(lsb_release -cs)
@@ -33,11 +13,44 @@ ARCH=$(uname -m)
 if [ "$ARCH" = "x86_64" ]; then
     ARCH=amd64
 fi
+IS_WSL2="false"
+if [ -f /proc/sys/kernel/osrelease ] && [ $(grep "WSL2" /proc/sys/kernel/osrelease) ]; then
+    IS_WSL2="true"
+fi
+
+echo "=========================="
 echo "user: $REAL_USER"
 echo "release: $RELEASE ($(lsb_release -rs))"
 echo "architecture: $ARCH"
+echo "WSL2: $IS_WSL2"
 echo "continuing in 5 seconds..."
+echo "=========================="
 sleep 5
+
+function pre-install {
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt install -y \
+        build-essential \
+        cloc \
+        curl \
+        fzf \
+        git \
+        htop \
+        jq \
+        libssl-dev \
+        make \
+        neovim \
+        telnet \
+        tmux \
+        tree \
+        vim \
+        wget \
+        zsh
+    if [ "$IS_WSL2" != "true" ]; then
+        sudo apt install -y virtualbox ubuntu-restricted-extras
+    fi
+}
 
 function install-go {
     sudo add-apt-repository ppa:longsleep/golang-backports
@@ -46,25 +59,27 @@ function install-go {
 }
 
 function install-go-extras {
-    go get github.com/rancher/k3d/v4@latest
-    go get github.com/ahmetb/kubectx@latest
+    go install github.com/rancher/k3d/v4@latest
+    go install github.com/ahmetb/kubectx@latest
 }
 
 function install-docker {
-    sudo apt remove -y docker docker-engine docker.io containerd runc
-    sudo apt install -y \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg \
-        lsb-release
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $RELEASE stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt update
-    sudo apt install -y docker-ce docker-ce-cli containerd.io
-    sudo groupadd docker
-    sudo usermod -aG docker $REAL_USER
-    sudo systemctl enable docker
+    if [ "$IS_WSL2" != "true" ]; then
+        sudo apt remove -y docker docker-engine docker.io containerd runc
+        sudo apt install -y \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+        echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $RELEASE stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt update
+        sudo apt install -y docker-ce docker-ce-cli containerd.io
+        sudo groupadd docker
+        sudo usermod -aG docker $REAL_USER
+        sudo systemctl enable docker
+    fi
 }
 
 function install-trivy {
@@ -103,13 +118,17 @@ function install-rust {
 }
 
 function prepare-chrome {
-    # Needed for emoji support.
-    sudo apt reinstall -y fonts-noto fonts-noto-color-emoji
+    if [ "$IS_WSL2" != "true" ]; then
+        # Needed for emoji support.
+        sudo apt reinstall -y fonts-noto fonts-noto-color-emoji
+    fi
 }
 
 function post-install {
     sudo apt autoremove -y
-    echo "configure GNOME terminal: https://github.com/Mayccoll/Gogh"
+    if [ "$IS_WSL2" != "true" ]; then
+        echo "configure GNOME terminal: https://github.com/Mayccoll/Gogh"
+    fi
 }
 
 install-go
