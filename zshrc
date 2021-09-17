@@ -8,6 +8,13 @@ bashcompinit
 # If facing issues on macOS, run the following command...
 # compaudit | xargs chmod g-w
 
+# Change to the home directory on WSL2.
+if [ -f /proc/sys/kernel/osrelease ] \
+    && [ $(grep "WSL" /proc/sys/kernel/osrelease) ] \
+    && [[ "$PWD" == "/mnt/c/Users/"* ]]; then
+    cd $HOME
+fi
+
 # This environment variable is used in other ZSH configuration files.
 export DOTFILES=$HOME/github.com/nickgerace/dotfiles
 

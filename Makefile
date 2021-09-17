@@ -1,11 +1,11 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 all: prepare neovim-theme git-config
-	-rm $(HOME)/.zshrc
+	@-rm $(HOME)/.zshrc
 	ln -s $(MAKEPATH)/zshrc $(HOME)/.zshrc
-	-rm $(HOME)/.tmux.conf
+	@-rm $(HOME)/.tmux.conf
 	ln -s $(MAKEPATH)/tmux.conf $(HOME)/.tmux.conf
-	-rm $(HOME)/.config/nvim/init.vim
+	@-rm $(HOME)/.config/nvim/init.vim
 	ln -s $(MAKEPATH)/init.vim $(HOME)/.config/nvim/init.vim
 
 prepare:
