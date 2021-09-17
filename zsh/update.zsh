@@ -29,7 +29,7 @@ function update {
             sudo apt upgrade -y
             sudo apt autoremove -y
         fi
-        if [ "$(command -v snap)" ]; then
+        if [ "$(command -v snap)" ] && [ "$IS_WSL2" != "true" ]; then
             sudo snap refresh
         fi
     fi
