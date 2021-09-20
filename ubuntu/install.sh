@@ -18,14 +18,15 @@ if [ -f /proc/sys/kernel/osrelease ] && [ $(grep "WSL2" /proc/sys/kernel/osrelea
     IS_WSL2="true"
 fi
 
+SLEEP_SECONDS=10
 echo "=========================="
 echo "user: $REAL_USER"
 echo "release: $RELEASE ($(lsb_release -rs))"
 echo "architecture: $ARCH"
 echo "WSL2: $IS_WSL2"
-echo "continuing in 5 seconds..."
+echo "continuing in $SLEEP_SECONDS seconds..."
 echo "=========================="
-sleep 5
+sleep $SLEEP_SECONDS
 
 function pre-install {
     sudo apt update
@@ -64,20 +65,20 @@ function install-go-extras {
 }
 
 function install-docker {
+    sudo apt remove -y docker docker-engine docker.io containerd runc
+    sudo apt install -y \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $RELEASE stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt update
+    sudo apt install -y docker-ce docker-ce-cli containerd.io
+    sudo groupadd docker
+    sudo usermod -aG docker $REAL_USER
     if [ "$IS_WSL2" != "true" ]; then
-        sudo apt remove -y docker docker-engine docker.io containerd runc
-        sudo apt install -y \
-            apt-transport-https \
-            ca-certificates \
-            curl \
-            gnupg \
-            lsb-release
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-        echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $RELEASE stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-        sudo apt update
-        sudo apt install -y docker-ce docker-ce-cli containerd.io
-        sudo groupadd docker
-        sudo usermod -aG docker $REAL_USER
         sudo systemctl enable docker
     fi
 }
@@ -110,7 +111,10 @@ function install-hashi {
     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
     sudo apt-add-repository "deb [arch=$ARCH] https://apt.releases.hashicorp.com $RELEASE main"
     sudo apt update
-    sudo apt install -y vagrant terraform
+    sudo apt install -y terraform
+    if [ "$IS_WSL2" != "true" ]; then
+        sudo apt install -y vagrant
+    fi
 }
 
 function install-rust {
@@ -131,6 +135,7 @@ function post-install {
     fi
 }
 
+pre-install
 install-go
 install-go-extras
 install-docker
