@@ -20,11 +20,13 @@ if [ "$(command -v kubectl)" ]; then
 fi
 
 alias ktx="kubectx"
+alias ktxd="kubectx -d"
 
 if [ "$(command -v k3d)" ]; then
     alias kc="k3d cluster"
     alias kcl="k3d cluster list"
     alias kcc="k3d cluster create"
+    alias kcu="k3d cluster create $(uuidgen | tr '[:upper:]' '[:lower:]' | cut -c1-7)"
     alias kcd="k3d cluster delete"
     alias kcstart="k3d cluster start"
     alias kcstop="k3d cluster stop"

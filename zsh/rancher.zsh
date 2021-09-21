@@ -87,3 +87,39 @@ function rancher-run {
     CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o rancher -v -i -gcflags="-N -l" main.go
     CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./rancher --add-local=true --no-cacerts
 }
+
+function rancher-build-v2.6 {
+    set -x
+    RKE_VERSION="$(grep -m1 'github.com/rancher/rke' go.mod | awk '{print $2}')"
+    DEFAULT_VALUES="{\"rke-version\":\"${RKE_VERSION}\"}"
+
+    if [ "$1" != "skip-build" ]; then
+        GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -tags k8s \
+            -ldflags "-X github.com/rancher/rancher/pkg/version.Version=dev -X github.com/rancher/rancher/pkg/version.GitCommit=dev -X github.com/rancher/rancher/pkg/settings.InjectDefaults=$DEFAULT_VALUES -extldflags -static -s" \
+            -o bin/rancher
+    fi
+
+    if [ ! -f bin/data.json ]; then
+        curl -sLf https://releases.rancher.com/kontainer-driver-metadata/dev-v2.6/data.json > bin/data.json
+    fi
+    if [ ! -f bin/k3s-airgap-images.tar ]; then
+        echo "file not found: bin/k3s-airgap-images.tar"
+        return
+    fi
+
+    cp bin/rancher package/
+    cp bin/data.json package/
+    cp bin/k3s-airgap-images.tar package/
+
+    docker build -t nickgerace/rancher:dev -f ./package/Dockerfile ./package
+    docker push nickgerace/rancher:dev
+    set +x
+}
+
+function rancher-test {
+    if [ ! $1 ] || [ "$1" = "" ]; then
+        echo "required argument: <pytest-name>"
+        return
+    fi
+    ( cd tests/integration/suite; pytest -k $1 )
+}
