@@ -7,5 +7,5 @@ else
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    alias brew-install-packages-from-dotfiles="brew bundle install --no-lock --file $DOTFILES/Brewfile"
+    alias brew-install-packages-from-dotfiles="brew bundle install --no-lock --file $NICK_DOTFILES/Brewfile"
 fi

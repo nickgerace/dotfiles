@@ -14,10 +14,10 @@ if [ -f $HOME/.fzf.zsh ]; then
 fi
 
 alias sz="source $HOME/.zshrc"
-alias zsh-config="cd $DOTFILES/zsh/"
+alias zsh-config="cd $NICK_DOTFILES/zsh/"
 
-alias dotfiles="cd $DOTFILES"
-alias scripts="cd $DOTFILES/scripts/"
+alias dotfiles="cd $NICK_DOTFILES"
+alias scripts="cd $NICK_DOTFILES/scripts/"
 
 alias ..="cd .."
 alias ...="cd ../.."

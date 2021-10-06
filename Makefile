@@ -13,8 +13,7 @@ prepare:
 
 neovim-theme:
 	-rm $(HOME)/.config/nvim/colors/one.vim
-	curl https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim \
-		-o $(HOME)/.config/nvim/colors/one.vim
+	curl https://raw.githubusercontent.com/rakr/vim-one/master/colors/one.vim -o $(HOME)/.config/nvim/colors/one.vim
 
 git-config:
 	git config --global pull.rebase true

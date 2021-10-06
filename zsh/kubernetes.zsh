@@ -70,15 +70,17 @@ function kubectl-cluster-status {
 }
 
 function kube-config-combine {
-    if [ ! $1 ] || [ ! $2 ]; then
-        echo "required arguments: <config-one> <config-two>"
+    if [ ! $1 ]; then
+        echo "required arguments: <path-to-new-config>"
         return
     fi
+
     local CONFIG=$HOME/.kube/config
     mkdir -p $HOME/.kube/
     if [ -f $CONFIG ]; then
         rm $CONFIG
     fi
+
     KUBECONFIG=$1:$2 kubectl config view --flatten > $CONFIG
     chmod 600 $CONFIG
     rm -i $1 $2

@@ -9,17 +9,14 @@ bashcompinit
 # compaudit | xargs chmod g-w
 
 # These environment variables are used in other ZSH configuration files.
-export DOTFILES=$HOME/github.com/nickgerace/dotfiles
+export NICK_DOTFILES=$HOME/github.com/nickgerace/dotfiles
+export NICK_RANCHER=$HOME/github.com/nickgerace/rancher
+export NICK_RANCHER_CHARTS=$HOME/github.com/nickgerace/rancher-charts
 if [ -f /proc/sys/kernel/osrelease ] && [ $(grep "WSL2" /proc/sys/kernel/osrelease) ]; then
-    export IS_WSL2="true"
+    export NICK_WSL2="true"
 fi
 
-# Change to the home directory on WSL2.
-if [ "$IS_WSL2" = "true" ] && [[ "$PWD" == "/mnt/c/Users/"* ]]; then
-    cd $HOME
-fi
-
-for ZSH_CONFIG_FILE in $DOTFILES/zsh/*; do
+for ZSH_CONFIG_FILE in $NICK_DOTFILES/zsh/*; do
     if [ -r $ZSH_CONFIG_FILE ]; then
         source $ZSH_CONFIG_FILE
     else

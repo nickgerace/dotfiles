@@ -70,22 +70,21 @@ function git-checkout-tag {
         return
     fi
     git fetch --all --tags
-    DOES_EXIST=$(git branch --list $1)
+    local DOES_EXIST=$(git branch --list $1)
     if [[ -z ${DOES_EXIST} ]]; then
         git checkout tags/$1 -b $1
     else
-        echo "Branch already exists"
+        echo "branch already exists"
     fi
 }
 
 function git-diff-check-permissions {
-
     ls -l $(git diff --name-only)
 }
 
 function github-clone {
     if [ ! $1 ]; then
-        printf "Required argument(s): <repo-under-nickgerace> <optional-destination-path>\n"
+        echo "required argument(s): <repo-under-nickgerace> <optional-destination-path>"
     elif [ ! $2 ]; then
         git clone git@github.com:nickgerace/${1}
     else
@@ -95,8 +94,8 @@ function github-clone {
 
 function github-branch-comparison {
     if [ ! $1 ] || [ ! $2 ] || [ ! $3 ]; then
-        echo "Required arguments: <owner/repo> <older-branch> <newer-branch>"
-        echo "Note: to specifcy a fork, use 'fork:branch' rather than just 'branch"
+        echo "required arguments: <owner/repo> <older-branch> <newer-branch>"
+        echo "note: to specifcy a fork, use 'fork:branch' rather than just 'branch"
         return
     fi
     echo "https://github.com/$1/compare/$2...$3"
@@ -104,7 +103,7 @@ function github-branch-comparison {
 
 function git-delete-remote-branch {
     if [ ! $1 ] || [ "$1" != "" ]; then
-        echo "Required argument: <branch-name>"
+        echo "required argument: <branch-name>"
         return
     fi
     git push origin --delete $1

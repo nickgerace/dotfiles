@@ -19,7 +19,7 @@ function update {
         return
     fi
     echo "detected type: $TYPE"
-    if [ "$IS_WSL2" = "true" ]; then
+    if [ "$NICK_WSL2" = "true" ]; then
         echo "detected variation: WSL2"
     fi
 
@@ -29,7 +29,7 @@ function update {
             sudo apt upgrade -y
             sudo apt autoremove -y
         fi
-        if [ "$(command -v snap)" ] && [ "$IS_WSL2" != "true" ]; then
+        if [ "$(command -v snap)" ] && [ "$NICK_WSL2" != "true" ]; then
             sudo snap refresh
         fi
     fi
@@ -38,7 +38,7 @@ function update {
         brew update
         brew upgrade
         brew cleanup
-        brew bundle dump --force --file $DOTFILES/Brewfile
+        brew bundle dump --force --file $NICK_DOTFILES/Brewfile
     fi
 
     if [ "$(command -v rustup)" ]; then
@@ -50,13 +50,13 @@ function update {
             cargo install cargo-update
         fi
         cargo install-update -a
-        cargo install --list | grep -o "^\S*\S" > $DOTFILES/crates
+        cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates
     fi
 
     if [ "$TYPE" = "fedora" ] && [ "$(command -v dnf)" ]; then
         sudo dnf upgrade --refresh
         sudo dnf autoremove
-        sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $DOTFILES/fedora/dnf-packages
+        sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $NICK_DOTFILES/fedora/dnf-packages
     fi
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then

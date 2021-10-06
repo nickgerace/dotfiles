@@ -10,23 +10,23 @@ function rc-logging {
         echo "required argument: <make-target-or-command>"
         return
     fi
-    ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-logging make ${1} )
+    ( cd $NICK_RANCHER_CHARTS; PACKAGE=rancher-logging make ${1} )
 }
 
 function rc-fleet {
-    if [ ! -f index.yaml ]; then
+    if [ ! -f $NICK_RANCHER_CHARTRS/index.yaml ]; then
         echo "current working directory must be the charts directory"
         return
     fi
     PACKAGE=fleet make charts
     git add .
-    git commit
+    git commit -m "Make charts"
     PACKAGE=fleet-agent make charts
     git add .
-    git commit --amend
+    git commit -m "Make charts" --amend
     PACKAGE=fleet-crd make charts
     git add .
-    git commit --amend
+    git commit -m "Make charts" --amend
 }
 
 function rc-backup {
@@ -34,16 +34,16 @@ function rc-backup {
         echo "required argument: <make-target-or-command>"
         return
     fi
-    ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup make ${1} )
-    ( cd $HOME/github.com/nickgerace/rancher-charts; PACKAGE=rancher-backup-crd make ${1} )
+    ( cd $NICK_RANCHER_CHARTS; PACKAGE=rancher-backup make ${1} )
+    ( cd $NICK_RANCHER_CHARTS; PACKAGE=rancher-backup-crd make ${1} )
 }
 
 function rancher-ci {
-    local DIR=$HOME/github.com/rancher/rancher
-    if [ $1 ]; then
-        DIR=$1
+    if [ ! $1 ] || [ "$1" != "" ]; then
+        echo "requires argument: <path-to-rancher>"
+        return
     fi
-    ( cd $DIR; DRONE_TAG=local-test TAG=local-test drone exec --event=pull_request --trusted --pipeline=default-linux-amd64 )
+    ( cd $1; DRONE_TAG=local-test TAG=local-test drone exec --event=pull_request --trusted --pipeline=default-linux-amd64 )
 }
 
 function docker-run-rancher {
@@ -80,12 +80,8 @@ function docker-upgrade-rancher {
 }
 
 function rancher-run {
-    if [ ! -f main.go ]; then
-        echo "could not find main.go in current working directory"
-        return
-    fi
-    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o rancher -v -i -gcflags="-N -l" main.go
-    CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config ./rancher --add-local=true --no-cacerts
+    ( cd $NICK_RANCHER; CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config go build -o rancher -v -i -gcflags="-N -l" main.go )
+    ( cd $NICK_RANCHER; CATTLE_DEV_MODE=30 KUBECONFIG=$HOME/.kube/config $/rancher --add-local=true --no-cacerts )
 }
 
 function rancher-build-v2.6 {
@@ -121,5 +117,10 @@ function rancher-test {
         echo "required argument: <pytest-name>"
         return
     fi
-    ( cd tests/integration/suite; pytest -k $1 )
+    ( cd $NICK_RANCHER/tests/integration/suite; pytest -k $1 )
+}
+
+function rancher-clean {
+    ( cd $NICK_RANCHER/pkg/apis; go mod tidy; go generate )
+    ( cd $NICK_RANCHER; go mod tidy; go generate )
 }

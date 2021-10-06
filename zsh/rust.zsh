@@ -7,7 +7,7 @@ if [ "$(command -v cargo)" ]; then
     alias ct="cargo test"
     alias cx="cargo xtask"
     
-    alias cargo-install-crates-from-dotfiles="xargs cargo install < $DOTFILES/crates"
+    alias cargo-install-crates-from-dotfiles="xargs cargo install < $NICK_DOTFILES/crates"
 fi
 
 if [ "$(command -v rustup)" ]; then
