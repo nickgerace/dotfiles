@@ -118,7 +118,7 @@ function install-hashi {
 }
 
 function install-rust {
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
 }
 
 function prepare-chrome {
@@ -131,7 +131,7 @@ function prepare-chrome {
 function post-install {
     sudo apt autoremove -y
     if [ "$IS_WSL2" != "true" ]; then
-        echo "configure GNOME terminal: https://github.com/Mayccoll/Gogh"
+        echo "(optional) configure GNOME terminal: https://github.com/Mayccoll/Gogh"
     fi
 }
 

@@ -6,3 +6,5 @@ function apt-purge {
     sudo apt purge $1
     sudo apt autoremove -y
 }
+
+alias apt-install-deb="sudo dpkg -i"

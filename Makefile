@@ -17,3 +17,6 @@ neovim-theme:
 
 git-config:
 	git config --global pull.rebase true
+
+ubuntu-install:
+	$(MAKEPATH)/ubuntu/install.sh
