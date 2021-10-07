@@ -119,6 +119,11 @@ function install-hashi {
 
 function install-rust {
     curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
+    if [ "$ARCH" = "amd64" ]; then
+        rustup toolchain install stable-x86_64-unknown-linux-gnu
+        rustup toolchain install nightly-x86_64-unknown-linux-gnu
+        rustup default stable-x86_64-unknown-linux-gnu
+    fi
 }
 
 function prepare-chrome {
