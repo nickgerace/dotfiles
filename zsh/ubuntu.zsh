@@ -3,6 +3,6 @@ function apt-purge {
         echo "must specify package to be removed"
         return
     fi
-    sudo apt purge -y $1
+    sudo apt purge $1
     sudo apt autoremove -y
 }
