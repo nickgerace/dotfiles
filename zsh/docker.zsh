@@ -3,10 +3,10 @@ alias dps="docker ps"
 alias dpsa="docker ps -a"
 alias dimg="docker images"
 
-alias docker-run-debian="docker run -it debian:stable-slim"
-alias docker-run-ubuntu="docker run -it ubuntu:rolling"
-alias docker-run-linuxbrew="docker run -it --entrypoint /bin/bash linuxbrew/linuxbrew:latest"
-alias docker-run-tumbleweed="docker run -it opensuse/tumbleweed:latest"
+alias docker-run-debian="docker run -it --rm debian:stable-slim"
+alias docker-run-ubuntu="docker run -it --rm ubuntu:rolling"
+alias docker-run-linuxbrew="docker run -it --rm --entrypoint /bin/bash linuxbrew/linuxbrew:latest"
+alias docker-run-tumbleweed="docker run -it --rm opensuse/tumbleweed:latest"
 
 alias trivy-scan='trivy image -s "HIGH,CRITICAL"'
 
