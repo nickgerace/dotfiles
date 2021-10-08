@@ -53,6 +53,7 @@ if [ ! $1 ] || [ ! $2 ]; then
 fi
 
 check-binary kubectl
+check-binary curl
 check-binary helm
 check-binary jq
 set-kubeconfig
