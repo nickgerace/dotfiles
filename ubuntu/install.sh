@@ -49,7 +49,11 @@ function pre-install {
         wget \
         zsh
     if [ "$IS_WSL2" != "true" ]; then
-        sudo apt install -y virtualbox ubuntu-restricted-extras
+        sudo apt install -y \
+            virtualbox \
+            linux-headers-oem \
+            virtualbox-dkms \
+            ubuntu-restricted-extras
     fi
 }
 
