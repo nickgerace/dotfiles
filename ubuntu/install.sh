@@ -130,6 +130,12 @@ function install-rust {
     fi
 }
 
+function install-node {
+    curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    sudo apt install -y nodejs
+    sudo npm install -g typescript
+}
+
 function prepare-chrome {
     if [ "$IS_WSL2" != "true" ]; then
         # Needed for emoji support.
@@ -153,5 +159,6 @@ install-kubectl
 install-helm
 install-hashi
 install-rust
+install-node
 prepare-chrome
 post-install
