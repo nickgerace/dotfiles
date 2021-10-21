@@ -6,8 +6,6 @@ if [ "$(command -v cargo)" ]; then
     alias cb="cargo build"
     alias ct="cargo test"
     alias cx="cargo xtask"
-    
-    alias cargo-install-crates-from-dotfiles="xargs cargo install < $NICK_DOTFILES/crates"
 fi
 
 if [ "$(command -v rustup)" ]; then
@@ -46,14 +44,22 @@ function cbr {
     du $CRATE
 }
 
-function rustup-default-toolchain-setup {
-    if [ "$(uname)" = "Linux" ]; then
+function rust-setup {
+    if ! [ "$(command -v rustup) " ]; then
+        curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
+    fi
+    if [ "$(uname -s)" = "Darwin" ]; then
+        local ARCH="aarch64"
+        if [ "$(uname -m)" = "x86_64" ]; then
+            ARCH="x86_64"
+        fi
+        rustup toolchain install stable-$ARCH-apple-darwin
+        rustup toolchain install nightly-$ARCH-apple-darwin
+        rustup default stable-$ARCH-apple-darwin
+    else
         rustup toolchain install stable-x86_64-unknown-linux-gnu
         rustup toolchain install nightly-x86_64-unknown-linux-gnu
         rustup default stable-x86_64-unknown-linux-gnu
-    else
-        rustup toolchain install stable-x86_64-apple-darwin
-        rustup toolchain install nightly-x86_64-apple-darwin
-        rustup default stable-x86_64-apple-darwin
     fi
+    cargo install $(jq -r ".crates[]" $NICK_DOTFILES/crates.json)
 }
