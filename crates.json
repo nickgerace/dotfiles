@@ -1,6 +1,7 @@
 [
   "bat",
   "bottom",
+  "bovine",
   "cargo-audit",
   "cargo-bloat",
   "cargo-expand",
