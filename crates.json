@@ -1,21 +1,18 @@
-{
-    "crates": [
-        "bat",
-        "bottom",
-        "bovine",
-        "cargo-audit",
-        "cargo-bloat",
-        "cargo-expand",
-        "cargo-fuzz",
-        "cargo-udeps",
-        "cargo-update",
-        "cross",
-        "exa",
-        "ferris-fetch",
-        "gfold",
-        "git-cliff",
-        "onefetch",
-        "reelpath",
-        "ripgrep"
-    ]
-}
+[
+  "bat",
+  "bottom",
+  "cargo-audit",
+  "cargo-bloat",
+  "cargo-expand",
+  "cargo-fuzz",
+  "cargo-udeps",
+  "cargo-update",
+  "cross",
+  "exa",
+  "ferris-fetch",
+  "gfold",
+  "git-cliff",
+  "onefetch",
+  "reelpath",
+  "ripgrep"
+]

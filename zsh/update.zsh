@@ -7,16 +7,12 @@ function update {
             echo "could not find /etc/os-release"
             return
         fi
-        local ID=$(grep '^ID=' /etc/os-release | sed 's/^ID=//')
-        if [ "$ID" != "ubuntu" ] && [ "$ID" != "fedora" ]; then
+        local ID=$(grep '^ID=' /etc/os-release | sed 's/^ID=//' | tr -d '"')
+        if [ "$ID" != "ubuntu" ] && [ "$ID" != "fedora" ] && [ "$ID" != "opensuse-tumbleweed" ]; then
             echo "found unexpected ID in /etc/os-release: $ID"
             return
         fi
         TYPE=$ID
-    fi
-    if [ "$TYPE" = "" ]; then
-        echo "invalid type (available: darwin ubuntu fedora)"
-        return
     fi
     echo "detected type: $TYPE"
     if [ "$NICK_WSL2" = "true" ]; then
@@ -49,14 +45,17 @@ function update {
         if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
             cargo install cargo-update
         fi
-        cargo install-update -a
-        cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates
+        crates-update
     fi
 
     if [ "$TYPE" = "fedora" ] && [ "$(command -v dnf)" ]; then
         sudo dnf upgrade --refresh
         sudo dnf autoremove
         sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $NICK_DOTFILES/fedora/dnf-packages
+    fi
+
+    if [ "$TYPE" = "opensuse-tumbleweed" ] && [ "$(command -v zypper)" ]; then
+        sudo zypper update -y
     fi
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then

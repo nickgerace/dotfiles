@@ -61,5 +61,10 @@ function rust-setup {
         rustup toolchain install nightly-x86_64-unknown-linux-gnu
         rustup default stable-x86_64-unknown-linux-gnu
     fi
-    cargo install $(jq -r ".crates[]" $NICK_DOTFILES/crates.json)
+    cargo install $(jq -r ".[]" $NICK_DOTFILES/crates.json)
+}
+
+function crates-update {
+    cargo install-update -a
+    cargo install --list | grep -o "^\S*\S" | jq -Rn '[inputs]' > $NICK_DOTFILES/crates.json
 }
