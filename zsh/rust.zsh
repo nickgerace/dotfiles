@@ -64,7 +64,10 @@ function rust-setup {
     cargo install $(jq -r ".[]" $NICK_DOTFILES/crates.json)
 }
 
-function crates-update {
+function cargo-update-crates {
+    if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
+        cargo install cargo-update
+    fi
     cargo install-update -a
     cargo install --list | grep -o "^\S*\S" | jq -Rn '[inputs]' > $NICK_DOTFILES/crates.json
 }

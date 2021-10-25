@@ -14,10 +14,6 @@ function update {
         fi
         TYPE=$ID
     fi
-    echo "detected type: $TYPE"
-    if [ "$NICK_WSL2" = "true" ]; then
-        echo "detected variation: WSL2"
-    fi
 
     if [ "$TYPE" = "ubuntu" ]; then
         if [ "$(command -v apt)" ]; then
@@ -28,9 +24,13 @@ function update {
         if [ "$(command -v snap)" ] && [ "$NICK_WSL2" != "true" ]; then
             sudo snap refresh
         fi
-    fi
-
-    if [ "$TYPE" = "darwin" ] && [ "$(command -v brew)" ]; then
+    elif [ "$TYPE" = "fedora" ] && [ "$(command -v dnf)" ]; then
+        sudo dnf upgrade --refresh
+        sudo dnf autoremove
+        sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $NICK_DOTFILES/fedora/dnf-packages
+    elif [ "$TYPE" = "opensuse-tumbleweed" ] && [ "$(command -v zypper)" ]; then
+        sudo zypper update -y
+    elif [ "$TYPE" = "darwin" ] && [ "$(command -v brew)" ]; then
         brew update
         brew upgrade
         brew cleanup
@@ -42,23 +42,10 @@ function update {
     fi
 
     if [ "$(command -v cargo)" ]; then
-        if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
-            cargo install cargo-update
-        fi
-        crates-update
+        cargo-update-crates
     fi
 
-    if [ "$TYPE" = "fedora" ] && [ "$(command -v dnf)" ]; then
-        sudo dnf upgrade --refresh
-        sudo dnf autoremove
-        sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $NICK_DOTFILES/fedora/dnf-packages
-    fi
-
-    if [ "$TYPE" = "opensuse-tumbleweed" ] && [ "$(command -v zypper)" ]; then
-        sudo zypper update -y
-    fi
-
-    if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
+    if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
 }
