@@ -89,18 +89,15 @@ function rancher-build-v2.6 {
     RKE_VERSION="$(grep -m1 'github.com/rancher/rke' go.mod | awk '{print $2}')"
     DEFAULT_VALUES="{\"rke-version\":\"${RKE_VERSION}\"}"
 
-    if [ "$1" != "skip-build" ]; then
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -tags k8s \
-            -ldflags "-X github.com/rancher/rancher/pkg/version.Version=dev -X github.com/rancher/rancher/pkg/version.GitCommit=dev -X github.com/rancher/rancher/pkg/settings.InjectDefaults=$DEFAULT_VALUES -extldflags -static -s" \
-            -o bin/rancher
-    fi
+    GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -tags k8s \
+        -ldflags "-X github.com/rancher/rancher/pkg/version.Version=dev -X github.com/rancher/rancher/pkg/version.GitCommit=dev -X github.com/rancher/rancher/pkg/settings.InjectDefaults=$DEFAULT_VALUES -extldflags -static -s" \
+        -o bin/rancher
 
     if [ ! -f bin/data.json ]; then
         curl -sLf https://releases.rancher.com/kontainer-driver-metadata/dev-v2.6/data.json > bin/data.json
     fi
     if [ ! -f bin/k3s-airgap-images.tar ]; then
-        echo "file not found: bin/k3s-airgap-images.tar"
-        return
+        touch bin/k3s-airgap-images.tar
     fi
 
     cp bin/rancher package/
