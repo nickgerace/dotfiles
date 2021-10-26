@@ -15,8 +15,9 @@ selinux-permissive:
 	sudo sed -i '/^SELINUX=enforcing*/d' /etc/selinux/config
 	sudo sed -i '/^SELINUX=disabled*/d' /etc/selinux/config
 	echo "SELINUX=permissive" | sudo tee -a /etc/selinux/config
-	@printf "Confirm by running 'getenforce' after reboot.\nRebooting in 5 seconds...\n"
-	@sleep 5
+	@echo "confirm by running 'getenforce' after reboot"
+	@echo "rebooting in 10 seconds..."
+	@sleep 10
 	sudo reboot
 
 secure-sshd:
@@ -30,10 +31,10 @@ docker-install:
 	sudo dnf install -y dnf-plugins-core
 	sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 	sudo dnf install -y docker-ce docker-ce-cli containerd.io
-	@printf "[+] firewall-cmd settings no longer needed on Fedora 33+ and Docker 20.10+\n"
-	@printf "[+] Skipping: sudo firewall-cmd --permanent --zone=trusted --add-interface=docker0\n"
-	@printf "[+] Skipping: sudo firewall-cmd --permanent --zone=$(FIREWALL_ZONE) --add-masquerade\n"
-	@printf "[+] Skipping: sudo firewall-cmd --reload\n"
+	@echo "[+] firewall-cmd settings no longer needed on Fedora 33+ and Docker 20.10+"
+	@echo "[+] skipping: sudo firewall-cmd --permanent --zone=trusted --add-interface=docker0"
+	@echo "[+] skipping: sudo firewall-cmd --permanent --zone=$(FIREWALL_ZONE) --add-masquerade"
+	@echo "[+] skipping: sudo firewall-cmd --reload"
 	sudo systemctl start docker
 	sudo systemctl enable docker
 	sudo usermod -aG docker $(USER_NO_SUDO)
