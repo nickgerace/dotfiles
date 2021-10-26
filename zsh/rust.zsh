@@ -48,19 +48,19 @@ function rust-setup {
     if ! [ "$(command -v rustup) " ]; then
         curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
     fi
-    if [ "$(uname -s)" = "Darwin" ]; then
-        local ARCH="aarch64"
-        if [ "$(uname -m)" = "x86_64" ]; then
-            ARCH="x86_64"
-        fi
-        rustup toolchain install stable-$ARCH-apple-darwin
-        rustup toolchain install nightly-$ARCH-apple-darwin
-        rustup default stable-$ARCH-apple-darwin
-    else
+
+    if [ "$NICK_OS" = "darwin" ]; then
+        rustup toolchain install stable-$NICK_ARCH-apple-darwin
+        rustup toolchain install nightly-$NICK_ARCH-apple-darwin
+        rustup default stable-$NICK_ARCH-apple-darwin
+    elif [ "$NICK_ARCH" = "x86_64" ]; then
         rustup toolchain install stable-x86_64-unknown-linux-gnu
         rustup toolchain install nightly-x86_64-unknown-linux-gnu
         rustup default stable-x86_64-unknown-linux-gnu
+    else
+        echo "non-amd64 non-darwin system detected: setup rustup toolchain manually"
     fi
+
     cargo install $(jq -r ".[]" $NICK_DOTFILES/crates.json)
 }
 

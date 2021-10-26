@@ -29,12 +29,22 @@ elif [ -f /etc/os-release ]; then
     else
         export NICK_WSL2="false"
     fi
+else
+    export NiCK_OS="unknown"
+fi
+
+if [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" != "x86_64" ]; then
+    # Hard set the architecture for non-amd64 macOS instances since we are assuming they are
+    # running on Apple Silicon.
+    export NICK_ARCH="aarch64"
+else
+    export NICK_ARCH="$(uname -m)"
 fi
 
 for ZSH_CONFIG_FILE in $NICK_DOTFILES/zsh/*; do
     if [ -r $ZSH_CONFIG_FILE ]; then
         source $ZSH_CONFIG_FILE
     else
-        echo "file not found: $ZSH_CONFIG_FILE"
+        echo "file not readable or not found: $ZSH_CONFIG_FILE"
     fi
 done

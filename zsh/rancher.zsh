@@ -118,6 +118,6 @@ function rancher-test {
 }
 
 function rancher-clean {
-    ( cd $NICK_RANCHER/pkg/apis; go mod tidy; go generate )
+    ( cd $NICK_RANCHER/pkg/apis; go mod tidy )
     ( cd $NICK_RANCHER; go mod tidy; go generate )
 }

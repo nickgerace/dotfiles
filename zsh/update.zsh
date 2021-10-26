@@ -11,7 +11,7 @@ function update {
     elif [ "$NICK_OS" = "fedora" ] && [ "$(command -v dnf)" ]; then
         sudo dnf upgrade --refresh
         sudo dnf autoremove
-        sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $NICK_DOTFILES/fedora/dnf-packages
+        sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $NICK_DOTFILES/dnf-packages.txt
     elif [ "$NICK_OS" = "opensuse-tumbleweed" ] && [ "$(command -v zypper)" ]; then
         sudo zypper update -y
     elif [ "$NICK_OS" = "darwin" ] && [ "$(command -v brew)" ]; then
