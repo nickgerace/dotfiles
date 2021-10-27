@@ -2,11 +2,6 @@ if [ "$(command -v zypper)" ]; then
     alias zin="sudo zypper install -y"
     alias zup="sudo zypper update -y"
     alias zrm="sudo zypper remove -y"
-
-    function opensuse-setup {
-        sudo zypper install -y -t pattern devel_basis
-        sudo zypper install -y openssl libopenssl-devel make zsh jq curl wget neovim vim
-    }
 fi
 
 # Upstream issue: https://github.com/microsoft/WSL/issues/2530#issuecomment-879597974

@@ -7,7 +7,7 @@ alias code-open-here="code ."
 
 function code-settings {
     local SETTINGS="$HOME/.config/Code/User/settings.json"
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [ "$NICK_OS" = "darwin" ]; then
         SETTINGS="$HOME/Library/Application\ Support/Code/User/settings.json"
     fi
     if [ ! -f $SETTINGS ]; then

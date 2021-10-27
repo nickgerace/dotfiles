@@ -11,7 +11,6 @@ function update {
     elif [ "$NICK_OS" = "fedora" ] && [ "$(command -v dnf)" ]; then
         sudo dnf upgrade --refresh
         sudo dnf autoremove
-        sudo dnf repoquery --userinstalled --queryformat "%{NAME}" > $NICK_DOTFILES/dnf-packages.txt
     elif [ "$NICK_OS" = "opensuse-tumbleweed" ] && [ "$(command -v zypper)" ]; then
         sudo zypper update -y
     elif [ "$NICK_OS" = "darwin" ] && [ "$(command -v brew)" ]; then
@@ -26,7 +25,11 @@ function update {
     fi
 
     if [ "$(command -v cargo)" ]; then
-        cargo-update-crates
+        if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
+            cargo install cargo-update
+        fi
+        cargo install-update -a
+        cargo install --list | grep -o "^\S*\S" | jq -Rn '[inputs]' > $NICK_DOTFILES/crates.json
     fi
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then

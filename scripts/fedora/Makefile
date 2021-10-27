@@ -20,7 +20,7 @@ selinux-permissive:
 	@sleep 10
 	sudo reboot
 
-secure-sshd:
+secure-sshd-on-server:
 	sudo sed -i '/^PermitEmptyPasswords*/d' /etc/ssh/sshd_config
 	echo "PermitEmptyPasswords no" | sudo tee -a /etc/ssh/sshd_config
 	sudo sed -i '/^PasswordAuthentication*/d' /etc/ssh/sshd_config
@@ -44,3 +44,54 @@ terraform-install:
 	sudo dnf install -y dnf-plugins-core
 	sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 	sudo dnf install -y terraform
+
+packages:
+	@sudo dnf repoquery --userinstalled --queryformat "%{NAME}"
+
+general-install:
+	sudo dnf install -y \
+		aspell \
+		aspell-en \
+		autoconf \
+		automake \
+		awscli \
+		bison \
+		cloc \
+		cowsay \
+		dhcpcd \
+		efibootmgr \
+		fd-find \
+		fzf \
+		gcc-c++ \
+		git \
+		golang \
+		grub2-efi-x64 \
+		grub2-tools \
+		htop \
+		kernel \
+		kernel-core \
+		kernel-modules \
+		kubectl \
+		llvm \
+		lolcat \
+		lvm2 \
+		make \
+		musl-gcc \
+		musl-libc \
+		neofetch \
+		neovim \
+		nodejs \
+		openssl-devel \
+		pandoc \
+		patch \
+		podman \
+		ruby \
+		ruby-devel \
+		shim-x64 \
+		speedtest-cli \
+		tmux \
+		vgrep \
+		vim-enhanced \
+		xfsprogs \
+		zlib-devel \
+		zsh

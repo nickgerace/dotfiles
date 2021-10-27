@@ -16,12 +16,15 @@ export NICK_RANCHER_CHARTS=$HOME/github.com/nickgerace/rancher-charts
 # Set the OS and WSL2 variables for usage in other scripts.
 if [ "$(uname -s)" = "Darwin" ]; then
     export NICK_OS="darwin"
+    export NICK_LINUX="false"
 elif [ -f /etc/os-release ]; then
     OS_RELEASE_ID=$(grep '^ID=' /etc/os-release | sed 's/^ID=//' | tr -d '"')
     if [ "$OS_RELEASE_ID" = "ubuntu" ] || [ "$OS_RELEASE_ID" = "fedora" ] || [ "$OS_RELEASE_ID" = "opensuse-tumbleweed" ]; then
         export NICK_OS="$OS_RELEASE_ID"
+        export NICK_LINUX="true"
     else
-        export NiCK_OS="unknown"
+        export NICK_OS="unknown"
+        export NICK_LINUX="unknown"
     fi
 
     if [ -f /proc/sys/kernel/osrelease ] && [ $(grep "WSL2" /proc/sys/kernel/osrelease) ]; then
@@ -30,7 +33,8 @@ elif [ -f /etc/os-release ]; then
         export NICK_WSL2="false"
     fi
 else
-    export NiCK_OS="unknown"
+    export NICK_OS="unknown"
+    export NICK_LINUX="unknown"
 fi
 
 if [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" != "x86_64" ]; then

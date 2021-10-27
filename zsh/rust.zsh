@@ -1,4 +1,5 @@
 export PATH=$PATH:$HOME/.cargo/bin
+
 if [ "$(command -v cargo)" ]; then
     alias cr="cargo run --"
     alias crq="cargo run --quiet --"
@@ -11,10 +12,6 @@ fi
 if [ "$(command -v rustup)" ]; then
     alias rustup-list="rustup target list"
 fi
-
-function cargo-update-crates {
-    cargo install-update -a
-}
 
 function cargo-fmt-all {
     cargo fmt --all -- --check
@@ -42,32 +39,4 @@ function cbr {
     local CRATE=target/release/$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')
     du -h $CRATE
     du $CRATE
-}
-
-function rust-setup {
-    if ! [ "$(command -v rustup) " ]; then
-        curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
-    fi
-
-    if [ "$NICK_OS" = "darwin" ]; then
-        rustup toolchain install stable-$NICK_ARCH-apple-darwin
-        rustup toolchain install nightly-$NICK_ARCH-apple-darwin
-        rustup default stable-$NICK_ARCH-apple-darwin
-    elif [ "$NICK_ARCH" = "x86_64" ]; then
-        rustup toolchain install stable-x86_64-unknown-linux-gnu
-        rustup toolchain install nightly-x86_64-unknown-linux-gnu
-        rustup default stable-x86_64-unknown-linux-gnu
-    else
-        echo "non-amd64 non-darwin system detected: setup rustup toolchain manually"
-    fi
-
-    cargo install $(jq -r ".[]" $NICK_DOTFILES/crates.json)
-}
-
-function cargo-update-crates {
-    if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
-        cargo install cargo-update
-    fi
-    cargo install-update -a
-    cargo install --list | grep -o "^\S*\S" | jq -Rn '[inputs]' > $NICK_DOTFILES/crates.json
 }
