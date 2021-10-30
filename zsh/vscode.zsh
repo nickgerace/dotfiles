@@ -1,7 +1,3 @@
-if [ "$NICK_OS" = "darwin" ]; then
-    export PATH="$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin"
-fi
-
 # Unnecessary alias, but just in case...
 alias code-open-here="code ."
 

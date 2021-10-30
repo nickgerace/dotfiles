@@ -17,7 +17,11 @@ function update {
         brew update
         brew upgrade
         brew cleanup
-        brew bundle dump --force --file $NICK_DOTFILES/Brewfile
+        if [ "$NICK_ARCH" = "arm64" ]; then
+            bundle dump --force --file $NICK_DOTFILES/darwin/arm64/Brewfile
+        elif [ "$NICK_ARCH" = "x86_64" ]; then
+            bundle dump --force --file $NICK_DOTFILES/darwin/amd64/Brewfile
+        fi
     fi
 
     if [ "$(command -v rustup)" ]; then

@@ -12,6 +12,7 @@ bashcompinit
 export NICK_DOTFILES=$HOME/github.com/nickgerace/dotfiles
 export NICK_RANCHER=$HOME/github.com/nickgerace/rancher
 export NICK_RANCHER_CHARTS=$HOME/github.com/nickgerace/rancher-charts
+export NICK_ARCH="$(uname -m)"
 
 # Set the OS and WSL2 variables for usage in other scripts.
 if [ "$(uname -s)" = "Darwin" ]; then
@@ -35,14 +36,6 @@ elif [ -f /etc/os-release ]; then
 else
     export NICK_OS="unknown"
     export NICK_LINUX="unknown"
-fi
-
-if [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" != "x86_64" ]; then
-    # Hard set the architecture for non-amd64 macOS instances since we are assuming they are
-    # running on Apple Silicon.
-    export NICK_ARCH="aarch64"
-else
-    export NICK_ARCH="$(uname -m)"
 fi
 
 for ZSH_CONFIG_FILE in $NICK_DOTFILES/zsh/*; do
