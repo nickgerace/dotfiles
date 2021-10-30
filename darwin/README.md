@@ -17,7 +17,7 @@ After installation, you may need to execute `eval "$(/opt/homebrew/bin/brew shel
 Finally, install some base packages with `brew`:
 
 ```sh
-brew install zsh git bash make jq neovim vim
+brew install zsh git bash make jq neovim vim curl wget
 ```
 
 ## Setup Dotfiles
@@ -31,7 +31,15 @@ echo ${ZSH} | sudo tee -a /etc/shells
 chsh -s ${ZSH}
 ```
 
+Now, install the previous `Brewfile`.
+
+```sh
+brew bundle install --no-lock --file $NICK_DOTFILES/darwin/brewfile-$NICK_ARCH.rb
+```
+
 ## Setup Rust
 
 Navigate to [rustup.sh](https://rustup.sh) and install it.
 Add the following arguments to the installation script: `-s -- --no-modify-path -y`
+
+With the dotfiles loaded and `zsh` as your shell, execute the loaded function: `rust-setup`
