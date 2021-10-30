@@ -9,8 +9,8 @@ A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and misc
 The dotfiles themselves assume that you running in one of the following environments with `zsh` as your shell:
 
 - macOS amd64
-- macOS aarch64
-- Linux amd64
+- macOS arm64 (aarch64)
+- Linux (GNU) amd64
 - WSL2 Linux amd64
 
 Execute `make` to get started.

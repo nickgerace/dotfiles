@@ -43,16 +43,19 @@ function cbr {
 
 function rust-setup {
     if [ "$NICK_OS" = "darwin" ]; then
-        rustup toolchain install stable-$NICK_ARCH-apple-darwin
-        rustup toolchain install nightly-$NICK_ARCH-apple-darwin
-        rustup default stable-$NICK_ARCH-apple-darwin
+        if [ "$NICK_ARCH" = "x86_64" ]; then
+            rustup toolchain install stable-x86_64-apple-darwin
+            rustup toolchain install nightly-x86_64-apple-darwin
+            rustup default stable-x86_64-apple-darwin
+        elif [ "$NICK_ARCH" = "arm64" ]; then
+            rustup toolchain install stable-aarch64-apple-darwin
+            rustup toolchain install nightly-aarch64-apple-darwin
+            rustup default stable-aarch64-apple-darwin
+        fi
     elif [ "$NICK_OS" = "linux" ] && [ "$NICK_ARCH" = "x86_64" ]; then
         rustup toolchain install stable-x86_64-unknown-linux-gnu
         rustup toolchain install nightly-x86_64-unknown-linux-gnu
         rustup default stable-x86_64-unknown-linux-gnu
-    else
-        echo "untested system detected: setup rustup toolchain manually"
-        return
     fi
     cargo install $(jq -r ".[]" $NICK_DOTFILES/crates.json)
 }
