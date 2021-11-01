@@ -49,7 +49,7 @@ function install-rancher  {
     kubectl rollout status deploy/rancher -n $RANCHER_NAMESPACE
 }
 
-if [ ! $1 ] || [ ! $2 ]; then
+if [ ! $1 ]; then
     echo "[rancher-install] required argument: <hostname-without-http>"
     exit 1
 fi
