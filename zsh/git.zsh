@@ -53,6 +53,9 @@ function rebase-forked-repo {
         return
     fi
     if [ $2 ] && [ "$2" != "" ]; then
+        if [ "$(git remote | grep upstream)" ]; then
+            git remote remove upstream
+        fi
         git remote add upstream $2
         git remote -v
     fi
