@@ -22,16 +22,6 @@ fi
 alias ktx="kubectx"
 alias ktxd="kubectx -d"
 
-if [ "$(command -v k3d)" ]; then
-    alias kc="k3d cluster"
-    alias kcl="k3d cluster list"
-    alias kcc="k3d cluster create"
-    alias kcu="k3d cluster create $(uuidgen | tr '[:upper:]' '[:lower:]' | cut -c1-7)"
-    alias kcd="k3d cluster delete"
-    alias kcstart="k3d cluster start"
-    alias kcstop="k3d cluster stop"
-fi
-
 function kubectl-exec {
     if [ ! $1 ] || [ ! $2 ]; then
         echo "required arguments: <namespace> <pod>"
@@ -46,17 +36,6 @@ function kubectl-exec-windows {
         return
     fi
     kubectl -n ${1} exec --stdin --tty ${2} -- powershell.exe
-}
-
-function k3d-create {
-    if [ ! $1 ]; then
-        echo "required arguments: <name> <k3s-tag>"
-        echo "tags available: https://hub.docker.com/r/rancher/k3s/tags"
-        return
-    fi
-    K3S_IMAGE=rancher/k3s:$2
-    docker pull $K3S_IMAGE
-    k3d cluster create ${1} --image $K3S_IMAGE
 }
 
 function kubectl-all-images {
