@@ -20,7 +20,7 @@ OLD_IMAGE=$(docker container inspect $1 | jq ".[0].Config.Image" | tr -d '"')
 docker stop $1
 docker create --volumes-from $1 --name rancher-data $OLD_IMAGE
 docker run -d --privileged \
-    --volumes-from rancher-data
+    --volumes-from rancher-data \
     --restart=unless-stopped -p 80:80 -p 443:443 \
-    --no-cacerts
+    --no-cacerts \
     $IMAGE_NAME:$2
