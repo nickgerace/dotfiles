@@ -6,12 +6,13 @@ A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and misc
 
 ## Shell Configuration
 
-The dotfiles themselves assume that you running in one of the following environments with `zsh` as your shell:
+These dotfiles have been tested in the following environments using `zsh` as the default shell:
 
-- macOS amd64
-- macOS arm64 (aarch64)
-- Linux (GNU) amd64
-- WSL2 Linux amd64
+**-** | **amd64** | **arm64 (aarch64)**
+--- | --- | ---
+**macOS** | yes | yes
+**Linux (GNU)** | yes | no
+**WSL2 Linux (GNU)** | yes | no
 
 Execute `make` to get started.
 
