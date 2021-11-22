@@ -14,7 +14,7 @@ function rc-logging {
 }
 
 function rc-fleet {
-    if [ ! -f $NICK_RANCHER_CHARTRS/index.yaml ]; then
+    if [ ! -f $NICK_RANCHER_CHARTS/index.yaml ]; then
         echo "current working directory must be the charts directory"
         return
     fi
