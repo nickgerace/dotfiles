@@ -8,11 +8,11 @@ A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and misc
 
 These dotfiles have been tested in the following environments using `zsh` as the default shell:
 
-**OS** | **amd64** | **arm64 (aarch64)**
+OS | amd64 | arm64 (aarch64)
 --- | --- | ---
-**macOS** | ✅ | ✅
-**Linux (GNU)** | ✅ | 🚫
-**WSL2 Linux (GNU)** | ✅ | 🚫
+macOS | ✅ | ✅
+Linux (GNU) | ✅ | 🚫
+WSL2 Linux (GNU) | ✅ | 🚫
 
 Execute `make` to get started.
 
