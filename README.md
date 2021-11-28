@@ -21,6 +21,6 @@ Execute `make` to get started.
 
 ## Disclaimer
 
-Scripts not recently in use may be out of date.
+Files not recently in use may be out of date.
 This is a "living" repository, meaning that scripts and dotfiles more frequently in use will be more likely to be kept up to date.
 Anything not recently or frequently in use will be removed from the repository (eventually).
