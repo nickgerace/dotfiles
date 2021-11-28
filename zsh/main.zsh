@@ -36,11 +36,6 @@ alias v=$EDITOR
 alias vi=$EDITOR
 alias vim=$EDITOR
 
-alias tmuxa="tmux attach -t"
-alias tmuxk="tmux kill-session -t"
-alias tmuxl="tmux ls"
-alias tmuxn="tmux new -s"
-
 alias see-drives="sudo fdisk -l"
 alias inspiration="fortune | cowsay | lolcat"
 

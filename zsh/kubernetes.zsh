@@ -19,8 +19,10 @@ if [ "$(command -v kubectl)" ]; then
     fi
 fi
 
-alias ktx="kubectx"
-alias ktxd="kubectx -d"
+if [ "$(command -v kubectx)" ]; then
+    alias ktx="kubectx"
+    alias ktxd="kubectx -d"
+fi
 
 function kubectl-exec {
     if [ ! $1 ] || [ ! $2 ]; then

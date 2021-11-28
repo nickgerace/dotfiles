@@ -35,4 +35,8 @@ function update {
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
+
+    if [ "$NICK_LINUX" = "true" ] && [ "$NICK_WSL2" != "true" ] && [ "$(command -v fwupdmgr)" ]; then
+        fwupdmgr update
+    fi
 }

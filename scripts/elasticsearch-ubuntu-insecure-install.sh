@@ -15,4 +15,4 @@ sudo systemctl enable elasticsearch.service
 sudo systemctl start elasticsearch.service
 sleep 10
 curl -X GET "localhost:9200/?pretty"
-printf "[WARNING] This is an insecure ElasticSearch setup meant for development only.\n"
+echo "[ ⚠️ ] this is an insecure Elasticsearch setup meant for development usage only"

@@ -1,38 +1,25 @@
 alias g="git"
-alias gd="git diff"
-alias gadd="git add"
 alias gbc="git branch --show-current"
-alias gcomm="git commit"
-alias gcommit="git commit"
-alias gcs="git commit -s"
-alias gcomms="git commit -s"
-alias gdiff="git diff"
+alias gbva="git branch -v -a"
+alias gcdf="git clean -df"
+alias gcl="git config -l"
+alias gd="git diff"
 alias gpo="git push origin"
 alias gpull="git pull"
-alias gpu="git pull"
-alias gpuo="git pull origin"
+alias gpullo="git pull origin"
 alias gst="git status"
-alias gstat="git status"
-alias reset-repo-to-last-commmit="git reset --hard"
-alias git-pull-fix="git config --global pull.ff only"
-alias git-show-tags='git log --tags --simplify-by-decoration --pretty="format:%ci %d"'
-alias gcdf="git clean -df"
+
+alias git-branch-current="git branch --show-current"
 alias git-clean-all-"git clean -fd"
-alias gcl="git config -l"
-
-alias gbva="git branch -v -a"
-alias branch="git rev-parse --abbrev-ref HEAD"
-alias branches="git branch -a"
-alias git-update-branches="git remote update origin --prune"
-alias branch-new="git checkout -b"
-alias branch-delete="git branch -d"
-
-alias squash='printf "git reset --soft HEAD~N\n"'
-alias git-checkout-remote='printf "git checkout -b branch origin/branch\n"' 
-alias git-delete-remote-tag='printf "git push --delete origin <tag>\n"'
-
-alias git-reset-undo="git reset 'HEAD@{1}'"
+alias git-config-pull-fix="git config --global pull.ff only"
 alias git-history="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias git-reset-repo-to-last-commmit="git reset --hard"
+alias git-reset-undo="git reset 'HEAD@{1}'"
+alias git-show-tags='git log --tags --simplify-by-decoration --pretty="format:%ci %d"'
+alias git-squash='echo "git reset --soft HEAD~N"' 
+alias git-update-branches="git remote update origin --prune"
+
+alias branch="git rev-parse --abbrev-ref HEAD"
 
 function post-merge {
     if [ ! $1 ]; then
@@ -69,7 +56,7 @@ function rebase-forked-repo {
 
 function git-checkout-tag {
     if [ ! $1 ]; then
-        echo "argument required: <tag>"
+        echo "required argument: <tag>"
         return
     fi
     git fetch --all --tags
@@ -79,6 +66,14 @@ function git-checkout-tag {
     else
         echo "branch already exists"
     fi
+}
+
+function git-checkout-remote-branch {
+    if [ ! $1 ] || [ "$1" = "" ]; then
+        echo "required argument: <remote-branch-name>"
+        return
+    fi
+    git checkout -b $1 origin/$1
 }
 
 function git-diff-check-permissions {
@@ -98,7 +93,7 @@ function github-clone {
 function github-branch-comparison {
     if [ ! $1 ] || [ ! $2 ] || [ ! $3 ]; then
         echo "required arguments: <owner/repo> <older-branch> <newer-branch>"
-        echo "note: to specifcy a fork, use 'fork:branch' rather than just 'branch"
+        echo "note: to specify a fork, use \"fork:branch\" rather than just \"branch\""
         return
     fi
     echo "https://github.com/$1/compare/$2...$3"
@@ -111,4 +106,12 @@ function git-delete-remote-branch {
     fi
     git push origin --delete $1
     git branch -D $1
+}
+
+function git-delete-remote-tag {
+    if [ ! $1 ] || [ "$1" != "" ]; then
+        echo "required argument: <tag-name>"
+        return
+    fi
+    git push --delete origin $1
 }

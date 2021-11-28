@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if [ -z "$1" ]; then
-    printf "requires argument(s): <namespace>\n"
+    echo "requires argument: <namespace>"
     exit 1
 fi
 kubectl get namespaces $1
