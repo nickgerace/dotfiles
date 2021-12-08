@@ -20,14 +20,12 @@ if [ "$(uname -s)" = "Darwin" ]; then
     export NICK_OS="darwin"
     export NICK_LINUX="false"
     export NICK_WSL2="false"
-elif [ -f /etc/os-release ]; then
-    OS_RELEASE_ID=$(grep '^ID=' /etc/os-release | sed 's/^ID=//' | tr -d '"')
-    if [ "$OS_RELEASE_ID" = "ubuntu" ] || [ "$OS_RELEASE_ID" = "fedora" ] || [ "$OS_RELEASE_ID" = "opensuse-tumbleweed" ]; then
-        export NICK_OS="$OS_RELEASE_ID"
-        export NICK_LINUX="true"
+elif [ "$(uname -s)" = "Linux" ]; then
+    NICK_LINUX="true"
+    if [ -f /etc/os-release ]; then
+        export NICK_OS=$(grep '^ID=' /etc/os-release | sed 's/^ID=//' | tr -d '"')
     else
         export NICK_OS="unknown"
-        export NICK_LINUX="unknown"
     fi
 
     if [ -f /proc/sys/kernel/osrelease ] && [ $(grep "WSL2" /proc/sys/kernel/osrelease) ]; then
@@ -37,7 +35,7 @@ elif [ -f /etc/os-release ]; then
     fi
 else
     export NICK_OS="unknown"
-    export NICK_LINUX="unknown"
+    export NICK_LINUX="false"
     export NICK_WSL2="false"
 fi
 

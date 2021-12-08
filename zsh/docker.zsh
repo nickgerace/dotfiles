@@ -3,6 +3,7 @@ alias dps="docker ps"
 alias dpsa="docker ps -a"
 alias dimg="docker images"
 
+alias docker-run-archlinux="docker run -it --rm archlinux:latest"
 alias docker-run-debian="docker run -it --rm debian:stable-slim"
 alias docker-run-ubuntu="docker run -it --rm ubuntu:rolling"
 alias docker-run-linuxbrew="docker run -it --rm --entrypoint /bin/bash linuxbrew/linuxbrew:latest"
