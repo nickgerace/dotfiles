@@ -5,10 +5,10 @@ alias gcdf="git clean -df"
 alias gcl="git config -l"
 alias gd="git diff"
 alias gpo="git push origin"
-alias gpob="git push origin $(git branch --show-current)"
 alias gpull="git pull"
 alias gpullo="git pull origin"
 alias gst="git status"
+alias gcs="git commit -s"
 
 alias git-branch-current="git branch --show-current"
 alias git-clean-all-"git clean -fd"
@@ -115,4 +115,8 @@ function git-delete-remote-tag {
         return
     fi
     git push --delete origin $1
+}
+
+function gpob {
+    git push origin $(git branch --show-current)
 }

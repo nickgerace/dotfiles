@@ -9,8 +9,8 @@ function update {
             sudo snap refresh
         fi
     elif [ "$NICK_OS" = "fedora" ] && [ "$(command -v dnf)" ]; then
-        sudo dnf upgrade --refresh
-        sudo dnf autoremove
+        sudo dnf upgrade -y --refresh
+        sudo dnf autoremove -y
     elif [ "$NICK_OS" = "opensuse-tumbleweed" ] && [ "$(command -v zypper)" ]; then
         sudo zypper update -y
     elif [ "$NICK_OS" = "darwin" ] && [ "$(command -v brew)" ]; then

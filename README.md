@@ -4,20 +4,31 @@
 
 A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and miscellaneous scripts.
 
+## Quickstart
+
+Execute the following to get started:
+
+```bash
+./bootstrap.sh
+```
+
+This script is idempotent, so you should be able to execute it multiple times, if needed.
+However, the bootstrapper may overwrite files if you are coming from an existing configuration, so please read the script before execution.
+
 ## Shell Configuration
 
 These dotfiles have been tested in the following environments using `zsh` as the default shell:
 
-OS | amd64 | arm64 (aarch64)
---- | --- | ---
-macOS | ✅ | ✅
-Linux (GNU) | ✅ | 🚫
-WSL2 Linux (GNU) | ✅ | 🚫
+| OS    | Type      | amd64 | arm64 (aarch64) |
+|-------|-----------|-------|-----------------|
+| macOS | darwin    | ✅     | ✅               |
+| Linux | linux-gnu | ✅     | 🚫              |
+| WSL2  | linux-gnu | ✅     | 🚫              |
 
-Execute `make` to get started.
+### What about `oh-my-zsh`?
 
-> _Note: the shell configuration does not use `oh-my-zsh`._
-> _Only `zsh` needs to be installed as everything is configured manually._
+This shell configuration does not use `oh-my-zsh`.
+Only `zsh` needs to be installed as everything is configured manually.
 
 ## Disclaimer
 
