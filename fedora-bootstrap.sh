@@ -51,7 +51,7 @@ function install-rust {
     rustup toolchain install stable-x86_64-unknown-linux-gnu
     rustup toolchain install nightly-x86_64-unknown-linux-gnu
     rustup default stable-x86_64-unknown-linux-gnu
-    cargo install $(jq -r ".[]" $SCRIPTPATH/crates.json)
+    cargo install --locked $(jq -r ".[]" $SCRIPTPATH/crates.json)
 }
 
 # Source: https://docs.docker.com/engine/install/fedora/
@@ -91,6 +91,11 @@ EOF
     sudo dnf install -y kubectl helm
 }
 
+# Source: https://github.com/JetBrains/JetBrainsMono/blob/master/README.md
+function install-jetbrains-mono-font {
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+}
+
 # Source: https://support.system76.com/articles/system76-driver/
 function thelio-driver {
     sudo dnf copr enable -y szydell/system76
@@ -104,8 +109,7 @@ function thelio-firmware {
     sudo gpasswd -a $TRUEUSER adm
 
     sudo dnf install -y system76-power
-    sudo systemctl enable system76-power system76-power-wake
-    sudo systemctl start system76-power
+    sudo systemctl enable --now system76-power system76-power-wake
 
     sudo dnf install -y system76-acpi-dkms
     sudo systemctl enable dkms
