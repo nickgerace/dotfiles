@@ -39,7 +39,10 @@ brew bundle install --no-lock --file $NICK_DOTFILES/darwin/brewfile-$NICK_ARCH.r
 
 ## Setup Rust
 
-Navigate to [rustup.sh](https://rustup.sh) and install it.
-Add the following arguments to the installation script: `-s -- --no-modify-path -y`
+Execute the following command from [rustup.sh](https://rustup.sh):
+
+```sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
+```
 
 With the dotfiles loaded and `zsh` as your shell, execute the loaded function: `rust-setup`
