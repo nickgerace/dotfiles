@@ -26,7 +26,7 @@ function update {
 
     if [ "$(command -v cargo)" ]; then
         if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
-            cargo install cargo-update
+            cargo install --locked cargo-update
         fi
         cargo install-update -a
         cargo install --list | grep -o "^\S*\S" | jq -Rn '[inputs]' > $NICK_DOTFILES/crates.json
@@ -34,9 +34,5 @@ function update {
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
-    fi
-
-    if [ "$NICK_LINUX" = "true" ] && [ "$NICK_WSL2" != "true" ] && [ "$(command -v fwupdmgr)" ]; then
-        fwupdmgr update
     fi
 }
