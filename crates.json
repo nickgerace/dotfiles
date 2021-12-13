@@ -1,7 +1,6 @@
 [
   "bat",
   "bottom",
-  "bovine",
   "cargo-audit",
   "cargo-bloat",
   "cargo-expand",
@@ -14,6 +13,5 @@
   "gfold",
   "git-cliff",
   "onefetch",
-  "reelpath",
   "ripgrep"
 ]
