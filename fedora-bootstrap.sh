@@ -60,9 +60,9 @@ function install-docker {
     sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
     sudo dnf install -y docker-ce docker-ce-cli containerd.io
     sudo systemctl start docker
-  	sudo systemctl enable docker
-  	sudo usermod -aG docker $TRUEUSER
-  	sudo docker run hello-world
+    sudo systemctl enable docker
+    sudo usermod -aG docker $TRUEUSER
+    sudo docker run hello-world
 }
 
 # Source: https://docs.volta.sh/advanced/installers#skipping-volta-setup
@@ -115,6 +115,12 @@ function thelio-firmware {
     sudo systemctl enable dkms
 
     sudo dnf install -y system76-io-dkms
+}
+
+# Source: https://flatpak.org/setup/Fedora/
+function install-flatpaks {
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak install flathub -y us.zoom.Zoom
 }
 
 # Source: https://rpmfusion.org/Configuration
