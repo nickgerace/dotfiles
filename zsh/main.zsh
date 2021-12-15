@@ -127,3 +127,7 @@ function directory-sizes {
     fi
     du -hs * | $SORT -hr
 }
+
+function rick {
+    curl -s -L http://bit.ly/10hA8iC | bash
+}

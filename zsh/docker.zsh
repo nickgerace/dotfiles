@@ -16,21 +16,15 @@ alias docker-run-linuxbrew="docker run -it --rm --entrypoint /bin/bash linuxbrew
 alias trivy-scan='trivy image -s "HIGH,CRITICAL"'
 
 function docker-prune-containers {
-    if [ $(docker ps -aq) ]; then
-        docker stop $(docker ps -aq)
-        docker rm $(docker ps -aq)
-    fi
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
     docker volume prune -f
 }
 
 function docker-prune-everything {
-    if [ $(docker ps -aq) ]; then
-        docker stop $(docker ps -aq)
-        docker rm $(docker ps -aq)
-    fi
-    if [ $(docker images -q) ]; then
-        docker rmi $(docker images -q)
-    fi
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
+    docker rmi $(docker images -q)
     docker system prune -a -f
     docker volume prune -f
 }
