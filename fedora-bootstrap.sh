@@ -123,6 +123,13 @@ function install-flatpaks {
     sudo flatpak install flathub -y us.zoom.Zoom
 }
 
+# Source: https://tailscale.com/kb/1050/install-fedora/
+function install-tailscale {
+    sudo dnf config-manager -y --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+    sudo dnf install -y tailscale
+    sudo systemctl enable --now tailscaled
+}
+
 # Source: https://rpmfusion.org/Configuration
 function prepare {
     sudo sed -i '/^max_parallel_downloads=*/d' /etc/dnf/dnf.conf
@@ -203,6 +210,7 @@ install-docker
 install-volta
 install-hashicorp-tools
 install-kubernetes-tools
+install-tailscale
 
 if [ "$BOOTSTRAP_THELIO" = "true" ]; then
     thelio-driver
