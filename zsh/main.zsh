@@ -15,9 +15,6 @@ fi
 
 alias sz="source $HOME/.zshrc"
 
-alias dotfiles="cd $NICK_DOTFILES"
-alias scripts="cd $NICK_DOTFILES/scripts/"
-
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -130,4 +127,8 @@ function directory-sizes {
 
 function rick {
     curl -s -L http://bit.ly/10hA8iC | bash
+}
+
+function dotfiles {
+    cd $NICK_DOTFILES
 }

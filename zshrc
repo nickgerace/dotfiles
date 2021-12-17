@@ -9,10 +9,10 @@ bashcompinit
 # compaudit | xargs chmod g-w
 
 # These environment variables are used in other ZSH configuration files.
-export NICK_GITHUB_REPOS=$HOME/github.com/nickgerace
-export NICK_DOTFILES=$NICK_GITHUB_REPOS/dotfiles
-export NICK_RANCHER=$NICK_GITHUB_REPOS/rancher
-export NICK_RANCHER_CHARTS=$NICK_GITHUB_REPOS/rancher-charts
+export NICK_GITHUB_REPOS=$HOME/github.com
+export NICK_DOTFILES=$NICK_GITHUB_REPOS/nickgerace/dotfiles
+export NICK_RANCHER=$NICK_GITHUB_REPOS/nickgerace/rancher
+export NICK_RANCHER_CHARTS=$NICK_GITHUB_REPOS/nickgerace/rancher-charts
 export NICK_ARCH="$(uname -m)"
 
 # Set OS-based environment variables.

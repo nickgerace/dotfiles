@@ -28,3 +28,7 @@ function docker-prune-everything {
     docker system prune -a -f
     docker volume prune -f
 }
+
+function dpss {
+    docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Status}}"
+}
