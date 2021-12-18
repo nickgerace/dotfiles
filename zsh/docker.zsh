@@ -5,8 +5,9 @@ alias dimg="docker images"
 
 # Run Linux distro containers interactively.
 alias docker-run-archlinux="docker run -it --rm archlinux:latest"
-alias docker-run-fedora="docker run -it --rm fedora:latest"
 alias docker-run-debian="docker run -it --rm debian:stable-slim"
+alias docker-run-fedora="docker run -it --rm fedora:latest"
+alias docker-run-nixos="docker run -it --rm nixos/nix:latest"
 alias docker-run-ubuntu="docker run -it --rm ubuntu:rolling"
 alias docker-run-tumbleweed="docker run -it --rm opensuse/tumbleweed:latest"
 
