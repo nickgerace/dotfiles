@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
+set -e
 
-# https://kubernetes.io/docs/setup/production-environment/windows/user-guide-windows-containers/#getting-started-deploying-a-windows-container
-# Modified version of the above YAML link.
+# Source: https://kubernetes.io/docs/setup/production-environment/windows/user-guide-windows-containers/#getting-started-deploying-a-windows-container
+if [ ! $1 ]; then
+    echo "required argument: <create>/<delete>"
+    exit 1
+fi
 
+cat <<EOF | kubectl $1 -f -
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -56,3 +61,4 @@ spec:
         - name: all
           hostPath:
               path: "/"
+EOF

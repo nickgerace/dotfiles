@@ -9,7 +9,7 @@ A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and misc
 Execute the following to get started:
 
 ```bash
-./bootstrap.sh
+./scripts/bootstrap/dotfiles.sh
 ```
 
 This script is idempotent, so you should be able to execute it multiple times, if needed.
@@ -19,11 +19,11 @@ However, the bootstrapper may overwrite files if you are coming from an existing
 
 These dotfiles have been tested in the following environments using `zsh` as the default shell:
 
-| OS    | Type      | amd64 | arm64 (aarch64) |
-|-------|-----------|-------|-----------------|
-| macOS | darwin    | ✅     | ✅               |
-| Linux | linux-gnu | ✅     | 🚫              |
-| WSL2  | linux-gnu | ✅     | 🚫              |
+OS | Type | `x86_64 / amd64` | `arm64 / aarch64`
+--- | --- | --- | ---
+macOS | darwin | ✅ | ✅
+Linux | darwin | ✅ | 🚫
+WSL2 | linux-gnu | ✅ | 🚫
 
 ### What about `oh-my-zsh`?
 

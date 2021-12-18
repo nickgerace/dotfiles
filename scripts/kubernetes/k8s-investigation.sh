@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -e
+
 if [ ! $1 ]; then
-    echo "Requires argument: <create/<delete>"
-    exit 0
+    echo "required argument: <create>/<delete>"
+    exit 1
 fi
+
 cat <<EOF | kubectl $1 -f -
 apiVersion: v1
 kind: Namespace
