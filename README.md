@@ -2,18 +2,18 @@
 
 [![GitHub](https://img.shields.io/github/license/nickgerace/dotfiles?style=flat-square)](./LICENSE)
 
-A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and miscellaneous scripts.
+A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and scripts.
 
 ## Quickstart
 
 Execute the following to get started:
 
 ```bash
-./scripts/bootstrap/dotfiles.sh
+make bootstrap
 ```
 
-This script is idempotent, so you should be able to execute it multiple times, if needed.
-However, the bootstrapper may overwrite files if you are coming from an existing configuration, so please read the script before execution.
+This `make` target is idempotent, so you should be able to execute it multiple times, if needed.
+However, it may overwrite files if you are coming from an existing configuration, so please read the [Makefile](./Makefile) before execution.
 
 ## Shell Configuration
 

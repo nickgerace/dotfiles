@@ -9,10 +9,10 @@ bashcompinit
 # compaudit | xargs chmod g-w
 
 # These environment variables are used in other ZSH configuration files.
-export NICK_GITHUB_REPOS=$HOME/github.com
-export NICK_DOTFILES=$NICK_GITHUB_REPOS/nickgerace/dotfiles
-export NICK_RANCHER=$NICK_GITHUB_REPOS/nickgerace/rancher
-export NICK_RANCHER_CHARTS=$NICK_GITHUB_REPOS/nickgerace/rancher-charts
+export NICK_SRC=$HOME/src
+export NICK_DOTFILES=$NICK_SRC/dotfiles
+export NICK_RANCHER=$NICK_SRC/rancher/rancher
+export NICK_RANCHER_CHARTS=$NICK_SRC/rancher/rancher-charts
 export NICK_ARCH="$(uname -m)"
 
 # Set OS-based environment variables.
@@ -44,7 +44,7 @@ function nick-environment-variables {
     echo "NICK_OS              $NICK_OS"
     echo "NICK_LINUX           $NICK_LINUX"
     echo "NICK_WSL2            $NICK_WSL2"
-    echo "NICK_GITHUB_REPOS    $NICK_GITHUB_REPOS"
+    echo "NICK_SRC             $NICK_SRC"
     echo "NICK_DOTFILES        $NICK_DOTFILES"
     echo "NICK_RANCHER         $NICK_RANCHER"
     echo "NICK_RANCHER_CHARTS  $NICK_RANCHER_CHARTS"

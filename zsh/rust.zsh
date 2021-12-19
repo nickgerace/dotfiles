@@ -8,7 +8,7 @@ if [ "$(command -v cargo)" ]; then
     alias ct="cargo test"
     alias cx="cargo xtask"
 
-    alias cargo-wipe="$NICK_DOTFILES/scripts/cargo-wipe.sh $NICK_GITHUB_REPOS"
+    alias cargo-wipe="$NICK_DOTFILES/scripts/cargo-wipe.sh $NICK_SRC"
 fi
 
 if [ "$(command -v rustup)" ]; then
