@@ -9,6 +9,7 @@
   "cargo-update",
   "cross",
   "exa",
+  "fd-find",
   "ferris-fetch",
   "gfold",
   "git-cliff",

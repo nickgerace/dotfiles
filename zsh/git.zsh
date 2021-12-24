@@ -27,8 +27,14 @@ function post-merge {
         echo "required argument: <main-branch>"
         return
     fi
-    local DELETE=$(git rev-parse --abbrev-ref HEAD)
-    git pull --rebase origin $1
+
+    local DELETE
+    DELETE=$(git rev-parse --abbrev-ref HEAD)
+    if [ "$1" = "$DELETE" ]; then
+        echo "cannot delete main branch: $1"
+        return
+    fi
+
     git checkout $1
     git pull origin $1
     git branch -d $DELETE

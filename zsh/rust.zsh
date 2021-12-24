@@ -1,8 +1,8 @@
 export PATH=$PATH:$HOME/.cargo/bin
 
 if [ "$(command -v cargo)" ]; then
-    alias cr="cargo run --"
-    alias crq="cargo run --quiet --"
+    alias cr="cargo run"
+    alias crq="cargo run --quiet"
     alias cmr="cargo fmt && cargo run"
     alias cb="cargo build"
     alias ct="cargo test"
@@ -22,9 +22,7 @@ function cargo-fmt-all {
 
 function cargo-check-all {
     cargo +nightly fmt
-    cargo +nightly clippy
-    cargo +nightly udeps
-    cargo bloat
+    cargo clippy
 }
 
 function cargo-build-static {
@@ -38,9 +36,9 @@ function cargo-build-static {
 
 function cbr {
     cargo build --release
-    local CRATE=target/release/$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')
+    local CRATE
+    CRATE="target/release/$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')"
     du -h $CRATE
-    du $CRATE
 }
 
 function rust-setup {
