@@ -13,5 +13,7 @@ zstyle ':vcs_info:git*' formats '(%F{59}%b%f)'
 precmd() { vcs_info }
 
 # The PROMPT must use single quotes in order to properly work, and update "vcs_info".
-PROMPT='[%F{131}%n%f at %F{71}%m%f in %F{61}%~%f] (%(?.%F{71}%?%f.%F{131}%?%f)) ${vcs_info_msg_0_}
+# Username: %F{131}%n%f
+# Hostname: %F{71}%m%f
+PROMPT='[%F{61}%~%f] (%(?.%F{71}%?%f.%F{131}%?%f)) ${vcs_info_msg_0_}
 %# '

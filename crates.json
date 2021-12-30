@@ -7,12 +7,17 @@
   "cargo-fuzz",
   "cargo-udeps",
   "cargo-update",
+  "cargo-whatfeatures",
   "cross",
   "exa",
   "fd-find",
   "ferris-fetch",
   "gfold",
   "git-cliff",
+  "kubie",
   "onefetch",
-  "ripgrep"
+  "procs",
+  "ripgrep",
+  "tokei",
+  "toml2json"
 ]
