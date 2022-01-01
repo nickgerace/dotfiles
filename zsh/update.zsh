@@ -29,7 +29,7 @@ function update {
             cargo install --locked cargo-update
         fi
         cargo install-update -a
-        cargo install --list | grep -o "^\S*\S" | jq -Rn '[inputs]' > $NICK_DOTFILES/crates.json
+        cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
     fi
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
