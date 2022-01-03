@@ -13,7 +13,6 @@ fd-find
 ferris-fetch
 gfold
 git-cliff
-kubie
 onefetch
 procs
 ripgrep

@@ -127,23 +127,3 @@ function gpob {
     git push origin $(git branch --show-current)
 }
 
-function gfld {
-    if ! [ "$(command -v fd)" ]; then
-        echo "fd needs to be installed in an PATH"
-        return
-    fi
-
-    local FIRST="true"
-    for i in $(fd -t d); do
-        if [ -d $i/.git ]; then
-            if [ "$FIRST" = "true" ]; then
-                FIRST="false"
-            else
-                echo ""
-            fi
-
-            echo "📡 $i"
-            ( cd $i; git status -s; git config --get remote.origin.url; git config --get user.email )
-        fi
-    done
-}
