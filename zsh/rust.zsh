@@ -40,22 +40,3 @@ function cbr {
     CRATE="target/release/$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')"
     du -h $CRATE
 }
-
-function rust-setup {
-    if [ "$NICK_OS" = "darwin" ]; then
-        if [ "$NICK_ARCH" = "x86_64" ]; then
-            rustup toolchain install stable-x86_64-apple-darwin
-            rustup toolchain install nightly-x86_64-apple-darwin
-            rustup default stable-x86_64-apple-darwin
-        elif [ "$NICK_ARCH" = "arm64" ]; then
-            rustup toolchain install stable-aarch64-apple-darwin
-            rustup toolchain install nightly-aarch64-apple-darwin
-            rustup default stable-aarch64-apple-darwin
-        fi
-    elif [ "$NICK_OS" = "linux" ] && [ "$NICK_ARCH" = "x86_64" ]; then
-        rustup toolchain install stable-x86_64-unknown-linux-gnu
-        rustup toolchain install nightly-x86_64-unknown-linux-gnu
-        rustup default stable-x86_64-unknown-linux-gnu
-    fi
-    xargs cargo install --locked < $NICK_DOTFILES/crates.txt
-}

@@ -12,7 +12,3 @@ function code-settings {
     fi
     ${EDITOR} ${SETTINGS}
 }
-
-function code-install-extensions {
-    xargs code --install-extension < $NICK_DOTFILES/extensions.txt
-}
