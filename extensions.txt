@@ -1,0 +1,6 @@
+akamud.vscode-theme-onelight
+be5invis.toml
+DavidAnson.vscode-markdownlint
+eamodio.gitlens
+johnsoncodehk.volar
+matklad.rust-analyzer
