@@ -32,10 +32,6 @@ function update {
         cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
     fi
 
-    if [ "$(command -v code)" ]; then
-        code --list-extensions > $NICK_DOTFILES/extensions.txt
-    fi
-
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
