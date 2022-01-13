@@ -30,6 +30,10 @@ WSL2 | linux-gnu | ✅ | 🚫
 This shell configuration does not use `oh-my-zsh`.
 Only `zsh` needs to be installed as everything is configured manually.
 
+## GNOME Users
+
+Using [Gogh](https://mayccoll.github.io/Gogh/) can help setup your terminal colors nicely.
+
 ## Disclaimer
 
 Files not recently in use may be out of date.
