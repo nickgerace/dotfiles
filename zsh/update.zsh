@@ -1,5 +1,5 @@
 function update {
-    if [ "$NICK_OS" = "ubuntu" ]; then
+    if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
         if [ "$(command -v apt)" ]; then
             sudo apt update
             sudo apt upgrade -y
