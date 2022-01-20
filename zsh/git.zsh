@@ -127,3 +127,22 @@ function gpob {
     git push origin $(git branch --show-current)
 }
 
+function status {
+    if ! [ "$(command -v fd)" ]; then
+        echo "fd needs to be installed in an PATH"
+        return
+    fi
+
+    local FIRST="true"
+    for REPO in $(fd -t d --full-path $NICK_SRC); do
+        if [ -d $REPO/.git ]; then
+            if [ "$FIRST" = "true" ]; then
+                FIRST="false"
+            else
+                echo ""
+            fi
+            echo -e "\033[1m$REPO\033[0m"
+            ( cd $REPO; git status -s; git config --get remote.origin.url; git config --get user.email )
+        fi
+    done
+}
