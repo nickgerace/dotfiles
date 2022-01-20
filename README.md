@@ -2,14 +2,14 @@
 
 [![GitHub](https://img.shields.io/github/license/nickgerace/dotfiles?style=flat-square)](./LICENSE)
 
-A collection of [@nickgerace](https://github.com/nickgerace)'s dotfiles and scripts.
+A collection of dotfiles and scripts from [@nickgerace](https://github.com/nickgerace).
 
 ## Quickstart
 
 Execute the following to get started:
 
 ```bash
-make bootstrap
+make
 ```
 
 This `make` target is idempotent, so you should be able to execute it multiple times, if needed.
@@ -22,7 +22,7 @@ These dotfiles have been tested in the following environments using `zsh` as the
 OS | Type | `x86_64 / amd64` | `arm64 / aarch64`
 --- | --- | --- | ---
 macOS | darwin | ✅ | ✅
-Linux | darwin | ✅ | 🚫
+Linux | linux-gnu | ✅ | 🚫
 WSL2 | linux-gnu | ✅ | 🚫
 
 ### What about `oh-my-zsh`?
