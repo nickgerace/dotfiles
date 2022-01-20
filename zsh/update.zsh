@@ -17,7 +17,7 @@ function update {
         brew update
         brew upgrade
         brew cleanup
-        brew bundle dump --force --file $NICK_DOTFILES/darwin/brewfile-$NICK_ARCH.rb
+        brew bundle dump --force --file $NICK_DOTFILES/scripts/darwin/brewfile-$NICK_ARCH.rb
     fi
 
     if [ "$(command -v rustup)" ]; then
@@ -30,6 +30,10 @@ function update {
         fi
         cargo install-update -a
         cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
+    fi
+
+    if [ "$(command -v volta)" ]; then
+        volta install node
     fi
 
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then

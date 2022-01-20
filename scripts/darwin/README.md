@@ -34,7 +34,7 @@ chsh -s ${ZSH}
 Now, install the previous `Brewfile`.
 
 ```sh
-brew bundle install --no-lock --file $NICK_DOTFILES/darwin/brewfile-$NICK_ARCH.rb
+brew bundle install --no-lock --file $NICK_DOTFILES/scripts/darwin/brewfile-$NICK_ARCH.rb
 ```
 
 ## Setup Rust
