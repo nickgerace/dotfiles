@@ -132,9 +132,13 @@ function status {
         echo "fd needs to be installed in an PATH"
         return
     fi
+    local CWD
+    CWD=$(pwd)
+    local FIRST
+    FIRST="true"
 
-    local FIRST="true"
-    for REPO in $(fd -t d --full-path $NICK_SRC); do
+    cd $NICK_SRC
+    for REPO in $(fd -t d); do
         if [ -d $REPO/.git ]; then
             if [ "$FIRST" = "true" ]; then
                 FIRST="false"
@@ -145,4 +149,5 @@ function status {
             ( cd $REPO; git status -s; git config --get remote.origin.url; git config --get user.email )
         fi
     done
+    cd $CWD
 }
