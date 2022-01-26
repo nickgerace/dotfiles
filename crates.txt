@@ -4,6 +4,7 @@ cargo-audit
 cargo-bloat
 cargo-expand
 cargo-fuzz
+cargo-msrv
 cargo-udeps
 cargo-update
 cargo-whatfeatures
@@ -13,6 +14,7 @@ fd-find
 ferris-fetch
 gfold
 git-cliff
+kubie
 onefetch
 procs
 ripgrep
