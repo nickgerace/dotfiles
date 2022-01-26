@@ -146,7 +146,7 @@ function status {
                 echo ""
             fi
             echo -e "\033[1m$REPO\033[0m"
-            ( cd $REPO; git status -s; git config --get remote.origin.url; git config --get user.email )
+            ( cd $REPO; git branch --show-current; git status -s; git config --get remote.origin.url; git config --get user.email )
         fi
     done
     cd $CWD
