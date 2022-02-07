@@ -40,3 +40,10 @@ function cbr {
     CRATE="target/release/$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')"
     du -h $CRATE
 }
+
+function cargo-all {
+    cargo build --all
+    cargo fix --edition-idioms --allow-dirty --allow-staged
+    cargo fmt --all
+    cargo clippy
+}
