@@ -1,4 +1,4 @@
-# Setting up Pop!_OS
+# Setting Up Pop!_OS
 
 This guide is aimed at setting up a fresh installation of [Pop!_OS](https://pop.system76.com/).
 
