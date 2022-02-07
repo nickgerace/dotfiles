@@ -17,7 +17,7 @@ function update {
         brew update
         brew upgrade
         brew cleanup
-        brew bundle dump --force --file $NICK_DOTFILES/scripts/darwin/brewfile-$NICK_ARCH.rb
+        brew bundle dump --force --file $NICK_DOTFILES/os/darwin/brewfile-$NICK_ARCH.rb
     fi
 
     if [ "$(command -v rustup)" ]; then
