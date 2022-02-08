@@ -18,6 +18,7 @@ htop
 hugo
 jq
 libstdc++-devel
+lld
 llvm
 lvm2
 make
