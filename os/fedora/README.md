@@ -6,8 +6,8 @@ This guide is aimed at setting up a fresh installation of [Fedora](https://getfe
 
 ```bash
 sudo dnf upgrade -y --refresh
-sudo apt install -y findutils zsh make git neovim vim curl wget bash
-sudo apt autoremove -y
+sudo dnf install -y findutils zsh make git neovim vim curl wget bash mold
+sudo dnf autoremove -y
 ```
 
 ## Clone Dotfiles and Bootstrap
@@ -23,10 +23,6 @@ chsh -s $(which zsh)
 ```
 
 Log out and log back in.
-
-## Install Mold
-
-You will need to install [mold](https://github.com/rui314/mold) before bootstrapping.
 
 ## Execute Bootstrap Script
 

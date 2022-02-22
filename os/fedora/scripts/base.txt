@@ -22,6 +22,7 @@ lld
 llvm
 lvm2
 make
+mold
 musl-gcc
 musl-libc
 neofetch

@@ -5,6 +5,7 @@ cargo-bloat
 cargo-expand
 cargo-fuzz
 cargo-msrv
+cargo-nextest
 cargo-udeps
 cargo-update
 cargo-whatfeatures
