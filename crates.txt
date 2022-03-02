@@ -8,6 +8,7 @@ cargo-msrv
 cargo-nextest
 cargo-udeps
 cargo-update
+cargo-watch
 cargo-whatfeatures
 cross
 exa

@@ -8,6 +8,7 @@ if [ "$(command -v cargo)" ]; then
     alias ct="cargo test"
     alias cx="cargo xtask"
 
+    alias cargo-doc-watch="cargo watch -s 'cargo doc --all'"
     alias cargo-wipe="$NICK_DOTFILES/scripts/cargo-wipe.sh $NICK_SRC"
 fi
 
