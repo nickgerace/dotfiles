@@ -20,5 +20,6 @@ kubie
 onefetch
 procs
 ripgrep
+starship
 tokei
 toml2json

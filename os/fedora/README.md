@@ -38,11 +38,11 @@ Log out and log back in.
 
 Here are some examples:
 
-- Google Chrome
-- Zoom
-- Slack
+- Google Chrome (Flatpak or RPM)
+- Zoom (Flatpak or RPM)
+- Slack (Flatpak or RPM)
+- VS Code (Flatpak or RPM)
 - CLion
-- VS Code
 - Tailscale
 - [System76 Driver](https://support.system76.com/articles/system76-driver/)
 - [System76 Software](https://support.system76.com/articles/system76-software/)
