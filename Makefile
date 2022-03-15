@@ -25,3 +25,6 @@ all:
 	@-mkdir -p $(HOME)/.cargo/
 	@-rm $(HOME)/.cargo/config.toml
 	ln -s $(MAKEPATH)/config.toml $(HOME)/.cargo/config.toml
+
+install-crates:
+	xargs cargo install --locked < $(MAKEPATH)/crates.txt
