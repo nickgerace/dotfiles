@@ -82,6 +82,7 @@ function git-checkout-remote-branch {
         echo "required argument: <remote-branch-name>"
         return
     fi
+    git fetch --all
     git checkout -b $1 origin/$1
 }
 
