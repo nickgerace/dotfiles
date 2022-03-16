@@ -24,6 +24,8 @@ alias git-update-branches="git remote update origin --prune"
 
 alias branch="git rev-parse --abbrev-ref HEAD"
 
+alias post-merge-main="post-merge main"
+
 function post-merge {
     if [ ! $1 ]; then
         echo "required argument: <main-branch>"
