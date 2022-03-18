@@ -46,4 +46,11 @@ function update {
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
+
+    # Needed until the following issue is resolved: https://github.com/pop-os/system76-power/issues/299
+    # Must run AFTER all other updates and checks.
+    if [ "$NICK_OS" = "fedora" ] && [ "$(command -v system76-power)" ]; then
+        sudo systemctl start system76-power
+        echo "started system76-power"
+    fi
 }
