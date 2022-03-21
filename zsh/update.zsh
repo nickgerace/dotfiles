@@ -43,7 +43,9 @@ function update {
         volta install node
     fi
 
+    # Update the rust-analzyer binary too.
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
+        update-rust-analyzer
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
 
@@ -53,4 +55,17 @@ function update {
         sudo systemctl start system76-power
         echo "started system76-power"
     fi
+}
+
+function update-rust-analyzer {
+    if [ ! -d ~/.local/bin ]; then
+        mkdir -p ~/.local/bin
+    fi
+
+    if [ -f ~/.local/bin/rust-analyzer ]; then
+        rm ~/.local/bin/rust-analyzer
+    fi
+
+    curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
+    chmod +x ~/.local/bin/rust-analyzer
 }

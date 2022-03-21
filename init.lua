@@ -1,8 +1,18 @@
+-- Install plugins
+vim.cmd([[
+  call plug#begin("~/.config/nvim/plugged")
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'simrat39/rust-tools.nvim'
+  Plug 'rakr/vim-one'
+  call plug#end()
+]])
+require('rust-tools').setup({})
+
 -- Setup colorscheme. Make sure that the background is light.
 vim.cmd([[
   syntax on
   color one
-  set background=dark
+  set background=light
 ]])
 
 -- Highlighting options.
