@@ -1,6 +1,10 @@
 window:
   title: Alacritty
   dynamic_title: false
+  padding:
+    x: 1
+    y: 1
+  dynamic_padding: true
 
 bell:
   duration: 0

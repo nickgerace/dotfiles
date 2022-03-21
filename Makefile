@@ -19,8 +19,8 @@ all:
 	ln -s $(MAKEPATH)/tmux.conf $(HOME)/.tmux.conf
 
 	@-mkdir -p $(HOME)/.config/nvim/
-	@-rm $(HOME)/.config/nvim/init.vim
-	ln -s $(MAKEPATH)/init.vim $(HOME)/.config/nvim/init.vim
+	@-rm $(HOME)/.config/nvim/init.lua
+	ln -s $(MAKEPATH)/init.lua $(HOME)/.config/nvim/init.lua
 
 	@-mkdir -p $(HOME)/.cargo/
 	@-rm $(HOME)/.cargo/config.toml
