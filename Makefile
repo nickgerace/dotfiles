@@ -26,5 +26,9 @@ all:
 	@-rm $(HOME)/.cargo/config.toml
 	ln -s $(MAKEPATH)/config.toml $(HOME)/.cargo/config.toml
 
+	@-mkdir -p $(HOME)/.config/alacritty/
+	@-rm $(HOME)/.config/alacritty/alacritty.yml
+	ln -s $(MAKEPATH)/alacritty.yml $(HOME)/.config/alacritty/alacritty.yml
+
 install-crates:
 	xargs cargo install --locked < $(MAKEPATH)/crates.txt

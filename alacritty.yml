@@ -1,0 +1,69 @@
+window:
+  title: Alacritty
+  dynamic_title: false
+
+bell:
+  duration: 0
+
+font:
+  normal:
+    family: Iosevka
+    style: Regular
+  bold:
+    family: Iosevka
+    style: Bold
+  italic:
+    family: Iosevka
+    style: Italic
+  bold_italic:
+    family: Iosevka
+    style: Bold Italic
+  size: 13.0
+
+paleknight: &paleknight
+  primary:
+    background: '0x292d3e'
+    foreground: '0xd0d0d0'
+  normal:
+    black:   '0x292d3e'
+    red:     '0xf07178'
+    green:   '0xc3e88d'
+    yellow:  '0xffcb6b'
+    blue:    '0x82aaff'
+    magenta: '0xc792ea'
+    cyan:    '0x89ddff'
+    white:   '0xd0d0d0'
+  bright:
+    black:   '0x434758'
+    red:     '0xff8b92'
+    green:   '0xddffa7'
+    yellow:  '0xffe585'
+    blue:    '0x9cc4ff'
+    magenta: '0xe1acff'
+    cyan:    '0xa3f7ff'
+    white:   '0xffffff'
+
+one-half-light: &one-half-light
+  primary:
+    background: '0xfafafa'
+    foreground: '0x383a42'
+  normal:
+    black: '0x383a42'
+    red: '0xe45649'
+    green: '0x50a14f'
+    yellow: '0xc18401'
+    blue: '0x0184bc'
+    magenta: '0xa626a4'
+    cyan: '0x0997b3'
+    white: '0xfafafa'
+  bright:
+    black: '0x383a42'
+    red: '0xe45649'
+    green: '0x50a14f'
+    yellow: '0xc18401'
+    blue: '0x0184bc'
+    magenta: '0xa626a4'
+    cyan: '0x0997b3'
+    white: '0xfafafa'
+
+colors: *one-half-light
