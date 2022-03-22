@@ -91,15 +91,11 @@ function trim-whitespace {
         echo "requires argument: <path-to-file>"
         return
     fi
-    local VIMLIKE=nvim
     if [ ! $(command -v nvim) ]; then
-        if [ ! $(command -v vim) ]; then
-            echo "must be installed and in PATH: vim"
-            return
-        fi
-        VIMLIKE=vim
+        echo "must be installed and in PATH: nvim"
+        return
     fi
-    ${VIMLIKE} "+%s/\s\+$//e" +wq ${1}
+    nvim "+%s/\s\+$//e" +wq ${1}
 }
 
 function strip-and-size {
