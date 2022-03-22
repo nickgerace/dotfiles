@@ -1,14 +1,14 @@
 # Unnecessary alias, but just in case...
 alias code-open-here="code ."
 
-function code-settings {
-    local SETTINGS="$HOME/.config/Code/User/settings.json"
+function code-dir {
+    local CODE_DIR="$HOME/.config/Code/User/"
     if [ "$NICK_OS" = "darwin" ]; then
-        SETTINGS="$HOME/Library/Application\ Support/Code/User/settings.json"
+        CODE_DIR="$HOME/Library/Application\ Support/Code/User/"
     fi
-    if [ ! -f $SETTINGS ]; then
-        echo "settings file does not exist at expected location: $SETTINGS"
+    if [ ! -d $CODE_DIR ]; then
+        echo "could not change to directory (does not exist): $CODE_DIR"
         return
     fi
-    ${EDITOR} ${SETTINGS}
+    cd $CODE_DIR
 }

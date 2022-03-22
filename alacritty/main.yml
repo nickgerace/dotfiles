@@ -2,27 +2,12 @@ window:
   title: Alacritty
   dynamic_title: false
   padding:
-    x: 1
-    y: 1
+    x: 2
+    y: 2
   dynamic_padding: true
 
 bell:
   duration: 0
-
-font:
-  normal:
-    family: Iosevka
-    style: Regular
-  bold:
-    family: Iosevka
-    style: Bold
-  italic:
-    family: Iosevka
-    style: Italic
-  bold_italic:
-    family: Iosevka
-    style: Bold Italic
-  size: 13.0
 
 paleknight: &paleknight
   primary:
