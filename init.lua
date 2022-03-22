@@ -1,12 +1,22 @@
 -- Install plugins
-vim.cmd([[
-  call plug#begin("~/.config/nvim/plugged")
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'simrat39/rust-tools.nvim'
-  Plug 'rakr/vim-one'
-  call plug#end()
-]])
+local Plug = vim.fn['plug#']
+
+vim.call('plug#begin', '~/.config/nvim/plugged')
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'simrat39/rust-tools.nvim'
+
+Plug 'rakr/vim-one'
+
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'tpope/vim-fugitive'
+
+vim.call('plug#end')
+
 require('rust-tools').setup({})
+require('nvim-tree').setup({})
 
 -- Setup colorscheme. Make sure that the background is light.
 vim.cmd([[
@@ -72,3 +82,9 @@ vim.cmd([[
   let mapleader=","
   nmap <leader>t :call TrimWhitespace()<CR>
 ]])
+
+-- Remapping for nvim-tree
+local keymap = function(map, actual)
+  vim.api.nvim_set_keymap("n", map, actual, { noremap = true })
+end
+keymap("<C-n>", ":NvimTreeToggle<CR>")
