@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$HOME/.cargo/bin:$PATH
 
 if [ "$(command -v cargo)" ]; then
     alias cr="cargo run"
