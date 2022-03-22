@@ -1,0 +1,17 @@
+import:
+  - "~/src/dotfiles/alacritty/main.yml"
+
+font:
+  size: 13.0
+  normal:
+    family: "Iosevka"
+    style: "Regular"
+  bold:
+    family: "Iosevka"
+    style: "Bold"
+  italic:
+    family: "Iosevka"
+    style: "Italic"
+  bold_italic:
+    family: "Iosevka"
+    style: "Bold Italic"

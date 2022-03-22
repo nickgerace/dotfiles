@@ -1,0 +1,18 @@
+import:
+  - "~/src/dotfiles/alacritty/main.yml"
+
+font:
+  size: 16.0
+  normal:
+    family: "Iosevka Nerd Font"
+    style: "Light"
+  bold:
+    family: "Iosevka Nerd Font"
+    style: "Medium"
+  italic:
+    family: "Iosevka Nerd Font"
+    style: "Light Italic"
+  bold_italic:
+    family: "Iosevka Nerd Font"
+    style: "Light Oblique"
+  use_thin_strokes: true

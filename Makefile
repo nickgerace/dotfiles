@@ -1,7 +1,15 @@
-MAKEPATH := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-GIT_USER_NAME := "Nick Gerace"
+MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+GIT_USER_NAME:="Nick Gerace"
 
-.DEFAULT_GOAL := all
+UNAME:=$(shell uname -s)
+VSCODE:="$(HOME)/.config/Code/User"
+ALACRITTY:=linux.yml
+ifeq ("$(UNAME)", "Darwin")
+	VSCODE:="$(HOME)/Library/Application\ Support/Code/User"
+	ALACRITTY:=darwin.yml
+endif
+
+.DEFAULT_GOAL:=all
 
 all:
 	git config --global pull.rebase true
@@ -21,9 +29,18 @@ all:
 	@-rm $(HOME)/.cargo/config.toml
 	ln -s $(MAKEPATH)/config.toml $(HOME)/.cargo/config.toml
 
+	@-mkdir -p $(HOME)/.config/
+	@-rm $(HOME)/.config/starship.toml
+	ln -s $(MAKEPATH)/starship.toml $(HOME)/.config/starship.toml
+
 	@-mkdir -p $(HOME)/.config/alacritty/
 	@-rm $(HOME)/.config/alacritty/alacritty.yml
-	ln -s $(MAKEPATH)/alacritty.yml $(HOME)/.config/alacritty/alacritty.yml
+	ln -s $(MAKEPATH)/alacritty/$(ALACRITTY) $(HOME)/.config/alacritty/alacritty.yml
 
 install-crates:
 	xargs cargo install --locked < $(MAKEPATH)/crates.txt
+
+vscode:
+	@-mkdir -p $(VSCODE)
+	@-rm $(VSCODE)/keybindings.json
+	ln -s $(MAKEPATH)/vscode/keybindings.json $(VSCODE)/keybindings.json
