@@ -156,3 +156,12 @@ function status {
     done
     cd $CWD
 }
+
+function git-fetch-pull-prune {
+    if [ ! $1 ] || [ "$1" = "" ]; then
+        echo "must provide argument: <main-branch>"
+        return
+    fi
+    git fetch --all --tags
+    git pull --prune origin $1
+}

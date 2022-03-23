@@ -22,4 +22,5 @@ procs
 ripgrep
 starship
 tokei
+tokio-console
 toml2json
