@@ -5,7 +5,7 @@ UNAME:=$(shell uname -s)
 VSCODE:="$(HOME)/.config/Code/User"
 ALACRITTY:=linux.yml
 ifeq ("$(UNAME)", "Darwin")
-	VSCODE:="$(HOME)/Library/Application\ Support/Code/User"
+	VSCODE:="$(HOME)/Library/Application Support/Code/User"
 	ALACRITTY:=darwin.yml
 endif
 
@@ -41,6 +41,6 @@ install-crates:
 	xargs cargo install --locked < $(MAKEPATH)/crates.txt
 
 vscode:
-	@-mkdir -p $(VSCODE)
 	@-rm $(VSCODE)/keybindings.json
 	ln -s $(MAKEPATH)/vscode/keybindings.json $(VSCODE)/keybindings.json
+.PHONY: vscode
