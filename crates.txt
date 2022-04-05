@@ -17,6 +17,7 @@ ferris-fetch
 gfold
 git-cliff
 kubie
+nu
 onefetch
 procs
 ripgrep

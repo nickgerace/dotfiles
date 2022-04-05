@@ -56,3 +56,4 @@ one-half-light: &one-half-light
     white: '0xfafafa'
 
 colors: *one-half-light
+#colors: *paleknight
