@@ -55,5 +55,6 @@ one-half-light: &one-half-light
     cyan: '0x0997b3'
     white: '0xfafafa'
 
+# Light theme: one-half-light
+# Dark theme: paleknight
 colors: *one-half-light
-#colors: *paleknight
