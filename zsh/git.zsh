@@ -162,6 +162,6 @@ function git-fetch-pull-prune {
         echo "must provide argument: <main-branch>"
         return
     fi
-    git fetch --all --tags
+    git fetch --all --tags --prune
     git pull --prune origin $1
 }
