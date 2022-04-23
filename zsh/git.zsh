@@ -45,7 +45,7 @@ function post-merge {
     git pull --prune
 }
 
-function rebase-forked-repo {
+function git-rebase-forked-repo {
     if [ ! $1 ]; then
         echo "requires arguments: <upstream-branch> <OPTIONAL-provide-full-remote-address>"
         return
