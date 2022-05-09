@@ -63,11 +63,6 @@ function install-go {
     sudo apt install -y golang-go
 }
 
-function install-go-extras {
-    go install github.com/rancher/k3d/v4@latest
-    go install github.com/ahmetb/kubectx@latest
-}
-
 function install-docker {
     sudo apt remove -y docker docker-engine docker.io containerd runc
     sudo apt install -y \
@@ -152,7 +147,6 @@ function post-install {
 
 pre-install
 install-go
-install-go-extras
 install-docker
 install-trivy
 install-kubectl

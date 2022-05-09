@@ -11,8 +11,6 @@ bashcompinit
 # These environment variables are used in other ZSH configuration files.
 export NICK_SRC=$HOME/src
 export NICK_DOTFILES=$NICK_SRC/dotfiles
-export NICK_RANCHER=$NICK_SRC/rancher/rancher
-export NICK_RANCHER_CHARTS=$NICK_SRC/rancher/rancher-charts
 export NICK_ARCH="$(uname -m)"
 
 # Set OS-based environment variables.
@@ -46,8 +44,6 @@ function nick-environment-variables {
     echo "NICK_WSL2            $NICK_WSL2"
     echo "NICK_SRC             $NICK_SRC"
     echo "NICK_DOTFILES        $NICK_DOTFILES"
-    echo "NICK_RANCHER         $NICK_RANCHER"
-    echo "NICK_RANCHER_CHARTS  $NICK_RANCHER_CHARTS"
 }
 
 for ZSH_CONFIG_FILE in $NICK_DOTFILES/zsh/*; do
