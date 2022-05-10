@@ -2,11 +2,14 @@ MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 GIT_USER_NAME:="Nick Gerace"
 
 UNAME:=$(shell uname -s)
+
 VSCODE:="$(HOME)/.config/Code/User"
 ALACRITTY:=linux.yml
+GFOLD:=linux.toml
 ifeq ("$(UNAME)", "Darwin")
 	VSCODE:="$(HOME)/Library/Application Support/Code/User"
 	ALACRITTY:=darwin.yml
+	GFOLD:=darwin.toml
 endif
 
 .DEFAULT_GOAL:=all
@@ -36,6 +39,10 @@ all:
 	@-mkdir -p $(HOME)/.config/alacritty/
 	@-rm $(HOME)/.config/alacritty/alacritty.yml
 	ln -s $(MAKEPATH)/alacritty/$(ALACRITTY) $(HOME)/.config/alacritty/alacritty.yml
+
+	@-mkdir -p $(HOME)/.config/
+	@-rm $(HOME)/.config/gfold.toml
+	ln -s $(MAKEPATH)/gfold/$(GFOLD) $(HOME)/.config/gfold.toml
 
 install-crates:
 	xargs cargo install --locked < $(MAKEPATH)/crates.txt
