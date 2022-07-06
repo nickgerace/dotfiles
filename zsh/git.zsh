@@ -157,11 +157,11 @@ function status {
     cd $CWD
 }
 
-function git-fetch-pull-prune {
-    if [ ! $1 ] || [ "$1" = "" ]; then
-        echo "must provide argument: <main-branch>"
+function git-fetch-pull-prune-main {
+    if [ "$(git branch --show-current)" != "main" ]; then
+        echo "must be checked out on \"main\""
         return
     fi
     git fetch --all --tags --prune
-    git pull --prune origin $1
+    git pull --prune origin main
 }
