@@ -5,6 +5,7 @@ if [ "$(command -v cargo)" ]; then
     alias crq="cargo run --quiet"
     alias cmr="cargo fmt && cargo run"
     alias cb="cargo build"
+    alias cbr="cargo build --release"
     alias ct="cargo test"
     alias cx="cargo xtask"
 
@@ -33,13 +34,6 @@ function cargo-build-static {
     else
         echo "file not found in current working directory: Cargo.toml"
     fi
-}
-
-function cbr {
-    cargo build --release
-    local CRATE
-    CRATE="target/release/$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')"
-    du -h $CRATE
 }
 
 function cargo-all {
