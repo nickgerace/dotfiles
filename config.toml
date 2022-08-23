@@ -2,6 +2,6 @@
 linker = "clang"
 rustflags = ["-C", "link-arg=-fuse-ld=/usr/bin/mold"]
 
-[target.aarch64-apple-darwin]
-linker = "clang"
-rustflags = ["-C", "link-arg=-fuse-ld=/opt/homebrew/bin/ld64.mold"]
+# [target.aarch64-apple-darwin]
+# linker = "clang"
+# rustflags = ["-C", "link-arg=-fuse-ld=/opt/homebrew/bin/ld64.mold"]
