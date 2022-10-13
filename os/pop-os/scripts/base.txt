@@ -4,6 +4,7 @@ ca-certificates
 clang
 cloc
 cmake
+coreutils
 curl
 fzf
 git
