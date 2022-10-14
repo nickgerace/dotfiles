@@ -1,29 +1,49 @@
 function update {
-    if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
+    function apt-upgrade {
         if [ "$(command -v apt)" ]; then
             sudo apt update
             sudo apt upgrade -y
             sudo apt autoremove -y
         fi
-        if [ "$(command -v snap)" ] && [ "$NICK_WSL2" != "true" ]; then
-            sudo snap refresh
+    }
+
+    function update-rust-analyzer {
+        if [ ! -d ~/.local/bin ]; then
+            mkdir -p ~/.local/bin
         fi
-    elif [ "$NICK_OS" = "fedora" ]; then
-        if [ "$(command -v dnf)" ]; then
-            sudo dnf upgrade -y --refresh
-            sudo dnf autoremove -y
+
+        if [ -f ~/.local/bin/rust-analyzer ]; then
+            rm ~/.local/bin/rust-analyzer
         fi
-        if [ "$(command -v flatpak)" ]; then
-            flatpak update
-            flatpak uninstall --unused
-            flatpak repair
-        fi
+
+        curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
+        chmod +x ~/.local/bin/rust-analyzer
+    }
+
+    # OS-specific package upgrades.
+    if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
+        apt-upgrade
+    elif [ "$NICK_OS" = "fedora" ] && [ "$(command -v dnf)" ]; then
+        sudo dnf upgrade -y --refresh
+        sudo dnf autoremove -y
     elif [ "$NICK_OS" = "opensuse-tumbleweed" ] && [ "$(command -v zypper)" ]; then
         sudo zypper update -y
     elif [ "$NICK_OS" = "darwin" ] && [ "$(command -v brew)" ]; then
         brew update
         brew upgrade
         brew cleanup
+    fi
+
+    # Linux desktop snap and flatpak upgrades.
+    if [ "$NICK_LINUX" = "true" ] && [ "$NICK_WSL2" != "true" ]; then
+        if [ "$(command -v snap)" ]; then
+            sudo snap refresh
+        fi
+        if [ "$(command -v flatpak)" ]; then
+            flatpak update
+            flatpak uninstall --unused
+            flatpak repair
+        fi
     fi
 
     if [ "$(command -v rustup)" ]; then
@@ -65,6 +85,7 @@ function update-rust-analyzer {
         rm ~/.local/bin/rust-analyzer
     fi
 
+    echo "downloading latest rust-analyzer"
     curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
     chmod +x ~/.local/bin/rust-analyzer
 }
