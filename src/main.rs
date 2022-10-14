@@ -1,11 +1,11 @@
 use anyhow::{anyhow, Result};
 use git2::Config;
+use serde::Deserialize;
 use std::os::unix::fs as unix_fs;
 use std::path::{Path, PathBuf};
 use std::{env, fs, io};
 
 const REPO: &str = env!("CARGO_MANIFEST_DIR");
-const GIT_CONFIG_USER_NAME: &str = "Nick Gerace";
 
 #[cfg(target_os = "linux")]
 const ALACRITTY: &str = "linux.yml";
@@ -17,6 +17,12 @@ const GFOLD: &str = "linux.toml";
 #[cfg(target_os = "macos")]
 const GFOLD: &str = "darwin.toml";
 
+#[derive(Deserialize)]
+struct DotfilesConfig {
+    #[serde(rename = "git-user-name")]
+    git_user_name: String,
+}
+
 struct Runner;
 
 impl Runner {
@@ -27,14 +33,17 @@ impl Runner {
 
     #[cfg(any(target_os = "linux", target_os = "macos"))]
     fn run() -> Result<()> {
-        let global_gitconfig = Config::find_global()?;
-        let mut gitconfig = Config::open(&global_gitconfig)?;
-        gitconfig.set_str("user.name", GIT_CONFIG_USER_NAME)?;
-        gitconfig.set_bool("pull.rebase", true)?;
-
         let home = dirs::home_dir().ok_or_else(|| anyhow!("home dir not found"))?;
         let repo = PathBuf::from(REPO);
         let none: Option<PathBuf> = None;
+
+        let dotfiles_toml_string = fs::read_to_string(repo.join("dotfiles.toml"))?;
+        let config: DotfilesConfig = toml::from_str(&dotfiles_toml_string)?;
+
+        let global_gitconfig = Config::find_global()?;
+        let mut gitconfig = Config::open(&global_gitconfig)?;
+        gitconfig.set_str("user.name", &config.git_user_name)?;
+        gitconfig.set_bool("pull.rebase", true)?;
 
         Self::link(repo.join("zshrc"), home.join(".zshrc"), none.clone())?;
         Self::link(repo.join("tmux.conf"), home.join(".tmux.conf"), none)?;

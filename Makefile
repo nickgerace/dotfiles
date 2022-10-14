@@ -10,7 +10,7 @@ endif
 .DEFAULT_GOAL:=all
 
 all:
-	cd $(MAKEPATH); cargo run -q
+	@cd $(MAKEPATH); cargo run -q
 
 tidy:
 	cd $(MAKEPATH); cargo fmt

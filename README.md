@@ -6,6 +6,8 @@ A collection of dotfiles and scripts from [@nickgerace](https://github.com/nickg
 
 ## Quickstart
 
+_Before running the setup automation, you will need to update [dotfiles.toml](./dotfiles.toml)_.
+
 Execute the following to get started:
 
 ```bash
