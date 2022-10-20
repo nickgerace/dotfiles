@@ -40,7 +40,7 @@ function update {
             sudo snap refresh
         fi
         if [ "$(command -v flatpak)" ]; then
-            flatpak update
+            flatpak update -y
             flatpak uninstall --unused
             flatpak repair
         fi
