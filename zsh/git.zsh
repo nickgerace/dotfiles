@@ -10,6 +10,8 @@ alias gpullo="git pull origin"
 alias gst="git status"
 alias gcs="git commit -s"
 alias gc="git commit"
+alias gca="git commit --amend"
+alias gcan="git commit --amend --no-edit"
 
 alias git-copy="git diff --cached -M -C -C"
 alias git-branch-current="git branch --show-current"

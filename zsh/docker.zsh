@@ -4,12 +4,13 @@ alias dpsa="docker ps -a"
 alias dimg="docker images"
 
 # Run Linux distro containers interactively.
+alias docker-run-alpine="docker run -it --rm alpine:latest"
 alias docker-run-archlinux="docker run -it --rm archlinux:latest"
 alias docker-run-debian="docker run -it --rm debian:stable-slim"
 alias docker-run-fedora="docker run -it --rm fedora:latest"
 alias docker-run-nixos="docker run -it --rm nixos/nix:latest"
-alias docker-run-ubuntu="docker run -it --rm ubuntu:rolling"
 alias docker-run-tumbleweed="docker run -it --rm opensuse/tumbleweed:latest"
+alias docker-run-ubuntu="docker run -it --rm ubuntu:rolling"
 
 # Run other containers interactively.
 alias docker-run-linuxbrew="docker run -it --rm --entrypoint /bin/bash linuxbrew/linuxbrew:latest"
