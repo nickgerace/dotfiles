@@ -11,6 +11,7 @@ cargo-update
 cargo-watch
 cargo-whatfeatures
 cross
+du-dust
 exa
 fd-find
 ferris-fetch

@@ -58,3 +58,4 @@ one-half-light: &one-half-light
 # Light theme: one-half-light
 # Dark theme: paleknight
 colors: *one-half-light
+# colors: *paleknight
