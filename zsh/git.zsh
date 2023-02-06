@@ -167,3 +167,12 @@ function git-fetch-pull-prune-main {
     git fetch --all --tags --prune
     git pull --prune origin main
 }
+
+function git-branch-new {
+    if [ "$(git branch --show-current)" != "main" ]; then
+        echo "must be on 'main'"
+        return
+    fi
+    HASH="$(uuidgen | md5sum | head -c 7)"
+    git checkout -b nick/$HASH
+}
