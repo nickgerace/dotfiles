@@ -18,6 +18,7 @@ ferris-fetch
 gfold
 git-cliff
 kubie
+nixpacks
 nu
 onefetch
 procs

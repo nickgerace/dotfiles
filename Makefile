@@ -10,13 +10,12 @@ endif
 .DEFAULT_GOAL:=all
 
 all:
-	@cd $(MAKEPATH); cargo run -q
+	cd $(MAKEPATH); cargo run -q
 
 tidy:
 	cd $(MAKEPATH); cargo fmt
 	cd $(MAKEPATH); cargo fix --edition-idioms --allow-dirty --allow-staged
 	cd $(MAKEPATH); cargo clippy --fix --no-deps --edition-idioms --allow-dirty --allow-staged
-
 
 install-crates:
 	xargs cargo install --locked < $(MAKEPATH)/crates.txt
