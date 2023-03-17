@@ -176,3 +176,8 @@ function git-branch-new {
     HASH="$(uuidgen | md5sum | head -c 7)"
     git checkout -b nick/$HASH
 }
+
+function git-commit-amend-undo {
+    git reset --soft @{1}
+    git commit -C @{1}
+}
