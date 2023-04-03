@@ -6,6 +6,7 @@ cargo-expand
 cargo-fuzz
 cargo-msrv
 cargo-nextest
+cargo-outdated
 cargo-udeps
 cargo-update
 cargo-watch

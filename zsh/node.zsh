@@ -1,6 +1,8 @@
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+# Docs: https://pnpm.io/installation
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 
-if [ -d "/opt/homebrew/opt/node@16/bin" ]; then
-    export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
-fi
+alias pnpm-use-node="pnpm env use --global lts"

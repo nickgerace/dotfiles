@@ -11,6 +11,8 @@ if [ "$(command -v cargo)" ]; then
 
     alias cargo-doc-watch="cargo watch -s 'cargo doc --all'"
     alias cargo-wipe="$NICK_DOTFILES/scripts/cargo-wipe.sh $NICK_SRC"
+
+    alias cargo-doc-open="cargo doc --document-private-items --open --no-deps"
 fi
 
 if [ "$(command -v rustup)" ]; then
@@ -42,3 +44,4 @@ function cargo-all {
     cargo fmt --all
     cargo clippy
 }
+
