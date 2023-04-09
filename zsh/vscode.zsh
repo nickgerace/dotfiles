@@ -1,5 +1,7 @@
-# Unnecessary alias, but just in case...
-alias code-open-here="code ."
+if [ "$(command -v code)" ]; then
+    # Unnecessary alias, but just in case...
+    alias code-open-here="code ."
+fi
 
 function code-dir {
     local CODE_DIR="$HOME/.config/Code/User/"

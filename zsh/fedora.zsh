@@ -5,13 +5,15 @@ if [ "$NICK_OS" = "fedora" ]; then
     }
 fi
 
-alias dnf-list-installed='sudo dnf repoquery --userinstalled --queryformat "%{NAME}"'
-alias dnf-list-repositories='sudo dnf repolist'
+if [ "$(command -v dnf)" ]; then
+    alias dnf-list-installed='sudo dnf repoquery --userinstalled --queryformat "%{NAME}"'
+    alias dnf-list-repositories='sudo dnf repolist'
 
-function dnf-disable-repository {
-    if [ ! $1 ] || [ "$1" = "" ]; then
-        echo "must provide argument: <dnf-repository-name>"
-        return
-    fi
-    sudo dnf config-manager --set-disabled $1
-}
+    function dnf-disable-repository {
+        if [ ! $1 ] || [ "$1" = "" ]; then
+            echo "must provide argument: <dnf-repository-name>"
+            return
+        fi
+        sudo dnf config-manager --set-disabled $1
+    }
+fi
