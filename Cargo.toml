@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1"
-dirs = "4"
+dirs = "5"
 git2 = "0"
 serde = { version = "1", features = ["derive"] }
 toml = "0"

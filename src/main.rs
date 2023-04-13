@@ -67,6 +67,11 @@ impl Runner {
             home.join(".config").join("gfold.toml"),
             Some(home.join(".config")),
         )?;
+        Self::link(
+            repo.join("home-manager").join("home.nix"),
+            home.join(".config").join("home-manager").join("home.nix"),
+            Some(home.join(".config").join("home-manager")),
+        )?;
 
         #[cfg(target_os = "linux")]
         let cargo_config = match PathBuf::from("/home/linuxbrew/.linuxbrew/bin/mold").exists() {
@@ -108,7 +113,7 @@ impl Runner {
         let original = original.as_ref();
         let link = link.as_ref();
 
-        match fs::remove_file(&link) {
+        match fs::remove_file(link) {
             Ok(_) => println!("removed {link:?}"),
             Err(e) if e.kind() == io::ErrorKind::NotFound => {}
             Err(e) => return Err(e.into()),
