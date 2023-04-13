@@ -60,7 +60,6 @@ impl Runner {
     fn run() -> Result<()> {
         let home = dirs::home_dir().ok_or_else(|| anyhow!("home dir not found"))?;
         let repo = PathBuf::from(REPO);
-        let none: Option<PathBuf> = None;
 
         let dotfiles_toml_string = fs::read_to_string(repo.join("dotfiles.toml"))?;
         let config: DotfilesConfig = toml::from_str(&dotfiles_toml_string)?;
@@ -70,32 +69,27 @@ impl Runner {
         gitconfig.set_str("user.name", &config.git_user_name)?;
         gitconfig.set_bool("pull.rebase", true)?;
 
-        Self::link(repo.join("zshrc"), home.join(".zshrc"), none.clone())?;
-        Self::link(repo.join("tmux.conf"), home.join(".tmux.conf"), none)?;
+        Self::link(repo.join("zshrc"), home.join(".zshrc"))?;
+        Self::link(repo.join("tmux.conf"), home.join(".tmux.conf"))?;
         Self::link(
             repo.join("init.lua"),
             home.join(".config").join("nvim").join("init.lua"),
-            Some(home.join(".config").join("nvim")),
         )?;
         Self::link(
             repo.join("starship.toml"),
             home.join(".config").join("starship.toml"),
-            Some(home.join(".config")),
         )?;
         Self::link(
             repo.join("alacritty").join(ALACRITTY),
             home.join(".config").join("alacritty").join("alacritty.yml"),
-            Some(home.join(".config").join("alacritty")),
         )?;
         Self::link(
             repo.join("gfold").join(GFOLD),
             home.join(".config").join("gfold.toml"),
-            Some(home.join(".config")),
         )?;
         Self::link(
-            repo.join("home-manager").join("home.nix"),
+            repo.join("home-manager").join("darwin.nix"),
             home.join(".config").join("home-manager").join("home.nix"),
-            Some(home.join(".config").join("home-manager")),
         )?;
 
         #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
@@ -109,7 +103,6 @@ impl Runner {
         Self::link(
             repo.join("cargo").join(cargo_config),
             home.join(".cargo").join("config.toml"),
-            Some(home.join(".cargo")),
         )?;
 
         Self::rustup(&["toolchain", "install", STABLE_TOOLCHAIN])?;
@@ -119,27 +112,19 @@ impl Runner {
         Ok(())
     }
 
-    /// Remove the old link before linking again. If provided, create the parent directory and
-    /// all of its parent components (if missing).
-    fn link<X: AsRef<Path>, Y: AsRef<Path>, Z: AsRef<Path>>(
-        original: X,
-        link: Y,
-        link_parent_directory: Option<Z>,
-    ) -> Result<()> {
-        if let Some(directory) = link_parent_directory {
-            let directory = directory.as_ref();
-            if !directory.exists() {
-                fs::create_dir_all(directory)?;
-                println!(
-                    "created parent directory (and ancestor(s), if applicable): {directory:?}"
-                );
-            } else if !directory.is_dir() {
-                return Err(anyhow!("parent is not a directory: {:?}", directory));
-            }
-        }
-
+    /// Remove the old link before linking again.
+    fn link<X: AsRef<Path>, Y: AsRef<Path>>(original: X, link: Y) -> Result<()> {
         let original = original.as_ref();
         let link = link.as_ref();
+
+        if let Some(parent) = link.parent() {
+            if !parent.exists() {
+                fs::create_dir_all(parent)?;
+                println!("created parent directory (and ancestor(s), if applicable): {parent:?}");
+            } else if !parent.is_dir() {
+                return Err(anyhow!("parent is not a directory: {parent:?}"));
+            }
+        }
 
         match fs::remove_file(link) {
             Ok(_) => println!("removed {link:?}"),
