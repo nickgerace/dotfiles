@@ -10,5 +10,6 @@ if [ $(command -v home-manager) ]; then
 fi
 
 if [ $(command -v nix) ]; then
+    alias nix-search="nix search nixpkgs"
     alias ndc="nix develop --command"
 fi

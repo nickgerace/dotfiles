@@ -29,6 +29,7 @@
     # procs
     asciinema
     asciinema-agg
+    aspell
     automake
     awscli2
     bash
@@ -45,6 +46,7 @@
     cargo-outdated
     cargo-udeps
     cargo-whatfeatures
+    cloc
     cmake
     coreutils
     cowsay
@@ -64,10 +66,14 @@
     hugo
     iosevka
     jq
+    kube3d
+    kubernetes-helm
     kubeval
     kubie
+    libtool
     lolcat
     lua
+    m4
     mold
     neovim
     nixfmt
@@ -84,6 +90,7 @@
     skopeo
     speedtest-cli
     starship
+    terraform
     tmux
     tokei
     tokio-console
