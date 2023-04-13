@@ -17,8 +17,4 @@ function bootstrap {
         rustup toolchain install nightly-$RUSTUP_ARCH-$RUSTUP_OS
         rustup default stable-$RUSTUP_ARCH-$RUSTUP_OS
     fi
-
-    if [ "$(command -v cargo)" ]; then
-        xargs cargo install --locked < $NICK_DOTFILES/crates.txt
-    fi
 }
