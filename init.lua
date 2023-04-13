@@ -5,6 +5,7 @@ vim.call('plug#begin', '~/.config/nvim/plugged')
 Plug 'rakr/vim-one'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'LnL7/vim-nix'
 vim.call('plug#end')
 
 -- require('rust-tools').setup({})

@@ -20,6 +20,12 @@ function update {
         chmod +x ~/.local/bin/rust-analyzer
     }
 
+    # Start with home-manager
+    if [ $(command -v home-manager) ]; then
+        nix-channel --update
+        home-manager switch
+    fi
+
     # OS-specific package upgrades.
     if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
         apt-upgrade
@@ -57,11 +63,6 @@ function update {
         cargo install-update -a
         cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
     fi
-
-    # Do not use volta at the moment.
-    # if [ "$(command -v volta)" ]; then
-    #     volta install node
-    # fi
 
     # Update the rust-analzyer binary too.
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
