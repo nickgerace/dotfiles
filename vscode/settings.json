@@ -1,8 +1,0 @@
-{
-  "workbench.colorTheme": "Atom One Light",
-  "editor.fontFamily": "Iosevka",
-  "editor.fontSize": 14,
-  "[rust]": {
-    "editor.formatOnSave": true
-  }
-}
