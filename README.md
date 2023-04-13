@@ -21,11 +21,11 @@ However, it may overwrite files if you are coming from an existing configuration
 
 These dotfiles have been tested in the following environments using `zsh` as the default shell:
 
-OS | Type | `x86_64 / amd64` | `arm64 / aarch64`
---- | --- | --- | ---
-macOS | darwin | ✅ | ✅
-Linux | linux-gnu | ✅ | 🚫
-WSL2 | linux-gnu | ✅ | 🚫
+| OS    | Type      | `x86_64 / amd64` | `arm64 / aarch64` |
+| ----- | --------- | ---------------- | ----------------- |
+| macOS | darwin    | 🚫               | ✅                |
+| Linux | linux-gnu | ✅               | 🚫                |
+| WSL2  | linux-gnu | ✅               | 🚫                |
 
 ### What about `oh-my-zsh`?
 

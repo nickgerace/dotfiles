@@ -3,20 +3,39 @@ use git2::Config;
 use serde::Deserialize;
 use std::os::unix::fs as unix_fs;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 use std::{env, fs, io};
 
+#[cfg(any(
+    all(target_os = "linux", target_arch = "x86_64"),
+    all(target_os = "macos", target_arch = "aarch64")
+))]
 const REPO: &str = env!("CARGO_MANIFEST_DIR");
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
 const ALACRITTY: &str = "linux.yml";
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 const ALACRITTY: &str = "darwin.yml";
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
 const GFOLD: &str = "linux.toml";
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 const GFOLD: &str = "darwin.toml";
 
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+const STABLE_TOOLCHAIN: &str = "stable-x86_64-unknown-linux-gnu";
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+const NIGHTLY_TOOLCHAIN: &str = "nightly-x86_64-unknown-linux-gnu";
+
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+const STABLE_TOOLCHAIN: &str = "stable-aarch64-apple-darwin";
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+const NIGHTLY_TOOLCHAIN: &str = "nightly-aarch64-apple-darwin";
+
+#[cfg(any(
+    all(target_os = "linux", target_arch = "x86_64"),
+    all(target_os = "macos", target_arch = "aarch64")
+))]
 #[derive(Deserialize)]
 struct DotfilesConfig {
     #[serde(rename = "git-user-name")]
@@ -26,12 +45,18 @@ struct DotfilesConfig {
 struct Runner;
 
 impl Runner {
-    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
+    #[cfg(not(any(
+        all(target_os = "linux", target_arch = "x86_64"),
+        all(target_os = "macos", target_arch = "aarch64")
+    )))]
     fn run() -> Result<()> {
-        Err(anyhow!("only Linux and macOS are currently supported"))
+        Err(anyhow!("invalid OS and ARCH configuration (see README.md)"))
     }
 
-    #[cfg(any(target_os = "linux", target_os = "macos"))]
+    #[cfg(any(
+        all(target_os = "linux", target_arch = "x86_64"),
+        all(target_os = "macos", target_arch = "aarch64")
+    ))]
     fn run() -> Result<()> {
         let home = dirs::home_dir().ok_or_else(|| anyhow!("home dir not found"))?;
         let repo = PathBuf::from(REPO);
@@ -73,12 +98,12 @@ impl Runner {
             Some(home.join(".config").join("home-manager")),
         )?;
 
-        #[cfg(target_os = "linux")]
+        #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
         let cargo_config = match PathBuf::from("/home/linuxbrew/.linuxbrew/bin/mold").exists() {
             true => "linuxbrew.toml",
             false => "config.toml",
         };
-        #[cfg(not(target_os = "linux"))]
+        #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
         let cargo_config = "config.toml";
 
         Self::link(
@@ -87,12 +112,15 @@ impl Runner {
             Some(home.join(".cargo")),
         )?;
 
+        Self::rustup(&["toolchain", "install", STABLE_TOOLCHAIN])?;
+        Self::rustup(&["toolchain", "install", NIGHTLY_TOOLCHAIN])?;
+        Self::rustup(&["default", STABLE_TOOLCHAIN])?;
+
         Ok(())
     }
 
     /// Remove the old link before linking again. If provided, create the parent directory and
     /// all of its parent components (if missing).
-    #[cfg(any(target_os = "linux", target_os = "macos"))]
     fn link<X: AsRef<Path>, Y: AsRef<Path>, Z: AsRef<Path>>(
         original: X,
         link: Y,
@@ -123,6 +151,16 @@ impl Runner {
         println!("created symlink from {original:?} to {link:?}");
 
         Ok(())
+    }
+
+    /// Execute `rustup` with provided arguments.
+    fn rustup(args: &[&str]) -> Result<()> {
+        println!("> rustup {}", args.join(" "));
+        let mut cmd = Command::new("rustup");
+        match cmd.args(args).status()?.success() {
+            true => Ok(()),
+            false => Err(anyhow!("rustup command failed")),
+        }
     }
 }
 
