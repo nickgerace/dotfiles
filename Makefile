@@ -13,12 +13,10 @@ all:
 	cd $(MAKEPATH); cargo run -q
 
 tidy:
+	cd $(MAKEPATH); nixfmt home-manager/home.nix
 	cd $(MAKEPATH); cargo fmt
 	cd $(MAKEPATH); cargo fix --edition-idioms --allow-dirty --allow-staged
 	cd $(MAKEPATH); cargo clippy --fix --no-deps --edition-idioms --allow-dirty --allow-staged
-
-install-crates:
-	xargs cargo install --locked < $(MAKEPATH)/crates.txt
 
 vscode:
 	@-rm $(VSCODE)/keybindings.json

@@ -23,22 +23,39 @@
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
+    # cargo-watch
+    # ferris-fetch
+    # nushell
+    # procs
     asciinema
     asciinema-agg
     automake
     awscli2
     bash
     bat
+    bottom
     butane
+    cargo-audit
+    cargo-bloat
+    cargo-cross
+    cargo-expand
+    cargo-fuzz
+    cargo-msrv
+    cargo-nextest
+    cargo-outdated
+    cargo-udeps
+    cargo-whatfeatures
     cmake
     coreutils
     cowsay
     curl
     direnv
     exa
+    fd
     fortune
     gfold
     git
+    git-cliff
     gnumake
     gnused
     graphviz
@@ -46,22 +63,31 @@
     htop
     hugo
     iosevka
+    jq
     kubeval
+    kubie
     lolcat
     lua
     mold
     neovim
     nixfmt
+    nixpacks
     nixpkgs-fmt
     nodejs-18_x
+    onefetch
     overrides.pnpm
     postgresql
     protobuf
+    ripgrep
     rust-analyzer
     rustup
     skopeo
     speedtest-cli
+    starship
     tmux
+    tokei
+    tokio-console
+    toml2json
     tree
     vim
     wget
