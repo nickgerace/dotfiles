@@ -4,23 +4,10 @@
   home.username = "nick";
   home.homeDirectory = "/Users/nick";
   home.stateVersion = "23.05";
-
-  # How to get sha512...
-  # > curl https://registry.npmjs.org/pnpm/ | jq '.versions."7.32.0"'.dist.integrity
-  nixpkgs.overlays = [
-    (self: super: {
-      overrides.pnpm = super.nodePackages.pnpm.override (oldAttrs: rec {
-        version = "7.32.0";
-        src = super.fetchurl {
-          url = "https://registry.npmjs.org/pnpm/-/pnpm-7.32.0.tgz";
-          sha512 =
-            "XkLEMinrF4046cWGvvam7dsCKeRdJ9i2SeDiKNodoZEPmJp1KrzQe1qYC5Vs/v9qBXJqyI0vLzjoMHjXgphP6g==";
-        };
-      });
-    })
-  ];
+  home.sessionVariables = { EDITOR = "nvim"; };
 
   fonts.fontconfig.enable = true;
+  programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
     # cargo-watch
@@ -60,6 +47,7 @@
     git-cliff
     gnumake
     gnused
+    go
     graphviz
     helix
     htop
@@ -67,6 +55,7 @@
     iosevka
     jq
     kube3d
+    kubectl
     kubernetes-helm
     kubeval
     kubie
@@ -81,7 +70,6 @@
     nixpkgs-fmt
     nodejs-18_x
     onefetch
-    overrides.pnpm
     postgresql
     protobuf
     ripgrep
@@ -103,10 +91,16 @@
     zellij
     zsh
 
+    # curl https://registry.npmjs.org/pnpm/ | jq '.versions."7.32.0"'.dist.integrity
+    (nodePackages.pnpm.override (oldAttrs: rec {
+      version = "7.32.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/pnpm/-/pnpm-7.32.0.tgz";
+        sha512 =
+          "XkLEMinrF4046cWGvvam7dsCKeRdJ9i2SeDiKNodoZEPmJp1KrzQe1qYC5Vs/v9qBXJqyI0vLzjoMHjXgphP6g==";
+      };
+    }))
+
     (nerdfonts.override { fonts = [ "Iosevka" ]; })
   ];
-
-  home.sessionVariables = { EDITOR = "nvim"; };
-
-  programs.home-manager.enable = true;
 }
