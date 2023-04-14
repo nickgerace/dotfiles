@@ -21,6 +21,11 @@ function update {
         brew cleanup
     fi
 
+    # rustup updates (works with home-manager for only the toolchains themselves)
+    if [ "$(command -v rustup)" ]; then
+        rustup update
+    fi
+
     # neovim updates (works with home-manager)
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
@@ -40,10 +45,6 @@ function update {
 
     # Actions we should only allow when home-manager is not being used
     if [ ! "(command -v home-manager)" ]; then
-        if [ "$(command -v rustup)" ]; then
-            rustup update
-        fi
-        
         if [ "$(command -v cargo)" ]; then
             if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
                 cargo install --locked cargo-update

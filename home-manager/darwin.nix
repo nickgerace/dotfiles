@@ -69,12 +69,14 @@
     nixpacks
     nixpkgs-fmt
     nodejs-18_x
+    nodePackages.pnpm
     onefetch
     postgresql
     protobuf
     ripgrep
     rust-analyzer
     rustup
+    scc
     skopeo
     speedtest-cli
     starship
@@ -90,16 +92,6 @@
     yq
     zellij
     zsh
-
-    # curl https://registry.npmjs.org/pnpm/ | jq '.versions."7.32.0"'.dist.integrity
-    (nodePackages.pnpm.override (oldAttrs: rec {
-      version = "7.32.0";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/pnpm/-/pnpm-7.32.0.tgz";
-        sha512 =
-          "XkLEMinrF4046cWGvvam7dsCKeRdJ9i2SeDiKNodoZEPmJp1KrzQe1qYC5Vs/v9qBXJqyI0vLzjoMHjXgphP6g==";
-      };
-    }))
 
     (nerdfonts.override { fonts = [ "Iosevka" ]; })
   ];
