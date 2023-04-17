@@ -2,6 +2,9 @@
 linker = "clang"
 rustflags = ["-C", "link-arg=-fuse-ld=/usr/bin/mold"]
 
+[registries.crates-io]
+protocol = "sparse"
+
 # [target.aarch64-apple-darwin]
 # linker = "clang"
 # rustflags = ["-C", "link-arg=-fuse-ld=/opt/homebrew/bin/ld64.mold"]

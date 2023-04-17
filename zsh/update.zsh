@@ -60,4 +60,10 @@ function update {
         sudo systemctl start system76-power
         echo "started system76-power"
     fi
+
+    # Temporary measure to ensure we get the latest "buck2": https://github.com/NixOS/nixpkgs/issues/226677
+    if [ $(command -v rustup) ]; then
+        rustup install nightly-2023-01-24
+        cargo +nightly-2023-01-24 install --git https://github.com/facebook/buck2.git buck2
+    fi
 }
