@@ -1,8 +1,9 @@
 function update {
-    # Start with home-manager
+    # Start with home-manager and early return if installed
     if [ $(command -v home-manager) ]; then
         nix-channel --update
         home-manager switch
+        return;
     fi
 
     # OS-specific package upgrades
@@ -21,12 +22,10 @@ function update {
         brew cleanup
     fi
 
-    # rustup updates (works with home-manager for only the toolchains themselves)
+    # Toolchain and package updates
     if [ "$(command -v rustup)" ]; then
         rustup update
     fi
-
-    # neovim updates (works with home-manager)
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
         nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
@@ -43,15 +42,13 @@ function update {
         fi
     fi
 
-    # Actions we should only allow when home-manager is not being used
-    if [ ! "(command -v home-manager)" ]; then
-        if [ "$(command -v cargo)" ]; then
-            if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
-                cargo install --locked cargo-update
-            fi
-            cargo install-update -a
-            # cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
+    # Update crates
+    if [ "$(command -v cargo)" ]; then
+        if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
+            cargo install --locked cargo-update
         fi
+        cargo install-update -a
+        # cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
     fi
 
     # Needed until the following issue is resolved: https://github.com/pop-os/system76-power/issues/299

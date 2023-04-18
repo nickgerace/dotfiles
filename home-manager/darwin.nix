@@ -98,8 +98,22 @@
     (nerdfonts.override { fonts = [ "Iosevka" ]; })
   ];
 
+  home.activation.rustupUpdate = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    PATH="${config.home.path}/bin:$PATH"
+    if [ "$(command -v rustup)" ]; then
+        rustup update
+    fi
+  '';
+
+  home.activation.upgradeAndCleanVimPlug = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    PATH="${config.home.path}/bin:$PATH"
+    if [ "$(command -v nvim)" ] && [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
+        nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
+    fi
+  '';
+
   # Temporary measure: https://github.com/NixOS/nixpkgs/issues/226677
-  home.activation.buck2 = lib.hm.dag.entryAfter [ "installPackages" ] ''
+  home.activation.downloadAndReplaceBuck2 = lib.hm.dag.entryAfter [ "installPackages" ] ''
     PATH="${config.home.path}/bin:$PATH"
     TEMP_BUCK2=$(mktemp -d)
 
