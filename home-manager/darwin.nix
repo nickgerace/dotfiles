@@ -54,6 +54,7 @@
     hugo
     iosevka
     jq
+    just
     kube3d
     kubectl
     kubernetes-helm
@@ -92,6 +93,7 @@
     yq
     zellij
     zsh
+    zstd
 
     (nerdfonts.override { fonts = [ "Iosevka" ]; })
   ];

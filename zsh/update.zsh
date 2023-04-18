@@ -62,8 +62,26 @@ function update {
     fi
 
     # Temporary measure to ensure we get the latest "buck2": https://github.com/NixOS/nixpkgs/issues/226677
-    if [ $(command -v rustup) ]; then
-        rustup install nightly-2023-01-24
-        cargo +nightly-2023-01-24 install --git https://github.com/facebook/buck2.git buck2
+    buck2-update
+}
+
+function buck2-update {
+    if [ "$NICK_OS" = "darwin" ]; then
+        local TEMP_BUCK2
+        TEMP_BUCK2=$(mktemp -d)
+
+        wget "https://github.com/facebook/buck2/releases/download/latest/buck2-aarch64-apple-darwin.zst" -O $TEMP_BUCK2/buck2.zst
+        zstd -d $TEMP_BUCK2/buck2.zst
+
+        if [ ! -d $HOME/.local/bin ]; then
+            mkdir -p $HOME/.local/bin
+        elif [ -f $HOME/.local/bin/buck2 ]; then
+            $HOME/.local/bin/buck2 -V
+            rm $HOME/.local/bin/buck2
+        fi
+
+        mv $TEMP_BUCK2/buck2 $HOME/.local/bin/buck2
+        chmod +x $HOME/.local/bin/buck2
+        $HOME/.local/bin/buck2 -V
     fi
 }
