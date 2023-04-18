@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.username = "nick";
@@ -97,4 +97,27 @@
 
     (nerdfonts.override { fonts = [ "Iosevka" ]; })
   ];
+
+  # Temporary measure: https://github.com/NixOS/nixpkgs/issues/226677
+  home.activation.buck2 = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    PATH="${config.home.path}/bin:$PATH"
+    TEMP_BUCK2=$(mktemp -d)
+
+    wget "https://github.com/facebook/buck2/releases/download/latest/buck2-aarch64-apple-darwin.zst" -O $TEMP_BUCK2/buck2.zst
+    zstd -d $TEMP_BUCK2/buck2.zst
+
+    if [ ! -d $HOME/.local/bin ]; then
+        mkdir -p $HOME/.local/bin
+    elif [ -f $HOME/.local/bin/buck2 ]; then
+        echo "[home.activation.buck2] current buck2 version..."
+        $HOME/.local/bin/buck2 -V
+        rm $HOME/.local/bin/buck2
+    fi
+
+    mv $TEMP_BUCK2/buck2 $HOME/.local/bin/buck2
+    chmod +x $HOME/.local/bin/buck2
+
+    echo "[home.activation.buck2] new buck2 version..."
+    $HOME/.local/bin/buck2 -V
+  '';
 }
