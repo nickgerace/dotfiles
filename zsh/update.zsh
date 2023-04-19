@@ -3,6 +3,8 @@ function update {
     if [ $(command -v home-manager) ]; then
         nix-channel --update
         home-manager switch
+        rustup install nightly-2023-01-24
+        cargo +nightly-2023-01-24 install --git https://github.com/facebook/buck2.git buck2
         return;
     fi
 
