@@ -66,11 +66,12 @@
     m4
     mold
     neovim
+    nix-prefetch
     nixfmt
     nixpacks
     nixpkgs-fmt
-    nodejs-18_x
     nodePackages.pnpm
+    nodejs-18_x
     onefetch
     postgresql
     protobuf
