@@ -5,24 +5,15 @@
   home.homeDirectory = "/Users/nick";
   home.stateVersion = "23.05";
   home.sessionVariables = { EDITOR = "nvim"; };
+
   fonts.fontconfig.enable = true;
   programs.home-manager.enable = true;
-
-  # TODO(nick): solve GUI apps on macOS.
-  # programs.alacritty = {
-  #   enable = true;
-  #   settings = { font.size = 11; };
-  # };
 
   home.packages = with pkgs; [
     # cargo-watch
     # ferris-fetch
     # nushell
     # procs
-
-    # TODO(nick): solve GUI apps on macOS.
-    # alacritty
-
     asciinema
     asciinema-agg
     aspell
@@ -122,4 +113,13 @@
           nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
       fi
     '';
+
+  home.activation.brew = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    PATH="/opt/homebrew/bin:${config.home.path}/bin:$PATH"
+    brew update
+    brew upgrade
+    brew install --cask alacritty visual-studio-code
+    brew install ca-certificates openssl@3 openssl@1.1
+    brew cleanup
+  '';
 }
