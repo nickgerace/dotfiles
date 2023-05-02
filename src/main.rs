@@ -87,10 +87,6 @@ impl Runner {
             repo.join("gfold").join(GFOLD),
             home.join(".config").join("gfold.toml"),
         )?;
-        Self::link(
-            repo.join("home-manager").join("darwin.nix"),
-            home.join(".config").join("home-manager").join("home.nix"),
-        )?;
 
         #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
         let cargo_config = match PathBuf::from("/home/linuxbrew/.linuxbrew/bin/mold").exists() {

@@ -1,8 +1,8 @@
 function update {
     # Start with home-manager and early return if installed
     if [ $(command -v home-manager) ]; then
-        nix-channel --update
-        home-manager switch
+        cd $NICK_DOTFILES; nix flake update
+        home-manager switch --flake $NICK_DOTFILES
         return;
     fi
 

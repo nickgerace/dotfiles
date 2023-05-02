@@ -3,3 +3,4 @@
 **/zsh/local.zsh
 Cargo.lock
 target
+result

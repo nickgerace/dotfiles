@@ -2,9 +2,15 @@ MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 .DEFAULT_GOAL:=all
 
-all:
+all: nix
 	cd $(MAKEPATH); cargo run -q
 .PHONY: all
+
+nix:
+	cd $(MAKEPATH); git add .
+	cd $(MAKEPATH); nix flake update
+	cd $(MAKEPATH); home-manager switch --flake .
+.PHONY: nix
 
 tidy:
 	cd $(MAKEPATH); nixfmt home-manager/darwin.nix

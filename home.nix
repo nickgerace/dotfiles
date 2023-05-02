@@ -5,15 +5,24 @@
   home.homeDirectory = "/Users/nick";
   home.stateVersion = "23.05";
   home.sessionVariables = { EDITOR = "nvim"; };
-
   fonts.fontconfig.enable = true;
   programs.home-manager.enable = true;
+
+  # TODO(nick): solve GUI apps on macOS.
+  # programs.alacritty = {
+  #   enable = true;
+  #   settings = { font.size = 11; };
+  # };
 
   home.packages = with pkgs; [
     # cargo-watch
     # ferris-fetch
     # nushell
     # procs
+
+    # TODO(nick): solve GUI apps on macOS.
+    # alacritty
+
     asciinema
     asciinema-agg
     aspell
@@ -106,10 +115,11 @@
     fi
   '';
 
-  home.activation.upgradeAndCleanVimPlug = lib.hm.dag.entryAfter [ "installPackages" ] ''
-    PATH="${config.home.path}/bin:$PATH"
-    if [ "$(command -v nvim)" ] && [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
-        nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
-    fi
-  '';
+  home.activation.upgradeAndCleanVimPlug =
+    lib.hm.dag.entryAfter [ "installPackages" ] ''
+      PATH="${config.home.path}/bin:$PATH"
+      if [ "$(command -v nvim)" ] && [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
+          nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
+      fi
+    '';
 }
