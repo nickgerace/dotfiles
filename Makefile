@@ -6,6 +6,11 @@ all: nix
 	cd $(MAKEPATH); cargo run -q
 .PHONY: all
 
+brew:
+	cd $(MAKEPATH); brew install --cask alacritty visual-studio-code
+	cd $(MAKEPATH); brew install ca-certificates openssl@3 openssl@1.1
+.PHONY:
+
 nix:
 	cd $(MAKEPATH); git add .
 	cd $(MAKEPATH); nix flake update

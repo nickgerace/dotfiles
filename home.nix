@@ -118,8 +118,6 @@
     PATH="/opt/homebrew/bin:${config.home.path}/bin:$PATH"
     brew update
     brew upgrade
-    brew install --cask alacritty visual-studio-code
-    brew install ca-certificates openssl@3 openssl@1.1
     brew cleanup
   '';
 }
