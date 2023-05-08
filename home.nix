@@ -42,7 +42,9 @@
     exa
     fd
     fortune
+    fzf
     gfold
+    gh
     git
     git-cliff
     gnumake
@@ -93,6 +95,7 @@
     yamllint
     yq
     zellij
+    zoxide
     zsh
     zstd
 
