@@ -4,7 +4,10 @@
   home.username = "nick";
   home.homeDirectory = "/Users/nick";
   home.stateVersion = "23.05";
-  home.sessionVariables = { EDITOR = "nvim"; };
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+  };
 
   fonts.fontconfig.enable = true;
   programs.home-manager.enable = true;
@@ -75,12 +78,13 @@
     nodePackages.pnpm
     nodejs-18_x
     onefetch
+    pkg-config
     postgresql
     protobuf
     ripgrep
-    rust-analyzer
     rustup
     scc
+    shfmt
     skopeo
     speedtest-cli
     starship
