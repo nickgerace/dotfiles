@@ -1,9 +1,8 @@
 function update {
     # Start with home-manager and early return if installed
     if [ $(command -v home-manager) ]; then
-        cd $NICK_DOTFILES; nix flake update
-        home-manager switch --flake $NICK_DOTFILES
-        return;
+        nix-channel --update
+        home-manager switch
     fi
 
     # OS-specific package upgrades
@@ -20,6 +19,10 @@ function update {
         brew update
         brew upgrade
         brew cleanup
+        if [ -f $NICK_DOTFILES/Brewfile ]; then
+            rm $NICK_DOTFILES/Brewfile
+        fi
+        brew bundle dump --file $NICK_DOTFILES/Brewfile
     fi
 
     # Toolchain and package updates
@@ -27,7 +30,7 @@ function update {
         rustup update
     fi
     if [ -f $HOME/.local/share/nvim/site/autoload/plug.vim ] && [ "$(command -v nvim)" ]; then
-        nvim +PlugUpgrade +PlugUpdate +PlugClean +qall
+        nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
 
     # Linux desktop snap and flatpak upgrades
@@ -48,7 +51,7 @@ function update {
             cargo install --locked cargo-update
         fi
         cargo install-update -a
-        # cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
+        cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
     fi
 
     # Needed until the following issue is resolved: https://github.com/pop-os/system76-power/issues/299
