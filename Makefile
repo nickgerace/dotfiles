@@ -2,22 +2,11 @@ MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 .DEFAULT_GOAL:=all
 
-all: nix
+all:
 	cd $(MAKEPATH); cargo run -q
 .PHONY: all
 
-brew:
-	cd $(MAKEPATH); brew install --cask alacritty visual-studio-code
-.PHONY:
-
-nix:
-	cd $(MAKEPATH); git add .
-	cd $(MAKEPATH); nix flake update
-	cd $(MAKEPATH); home-manager switch --flake .
-.PHONY: nix
-
 tidy:
-	cd $(MAKEPATH); nixfmt home-manager/darwin.nix
 	cd $(MAKEPATH); cargo fmt
 	cd $(MAKEPATH); cargo fix --edition-idioms --allow-dirty --allow-staged
 	cd $(MAKEPATH); cargo clippy --fix --no-deps --edition-idioms --allow-dirty --allow-staged

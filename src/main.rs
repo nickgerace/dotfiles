@@ -91,17 +91,8 @@ impl Runner {
             repo.join("home.nix"),
             home.join(".config").join("home-manager").join("home.nix"),
         )?;
-
-        #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
-        let cargo_config = match PathBuf::from("/home/linuxbrew/.linuxbrew/bin/mold").exists() {
-            true => "linuxbrew.toml",
-            false => "config.toml",
-        };
-        #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
-        let cargo_config = "config.toml";
-
         Self::link(
-            repo.join("cargo").join(cargo_config),
+            repo.join("cargo-config.toml"),
             home.join(".cargo").join("config.toml"),
         )?;
 
