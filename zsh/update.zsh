@@ -1,8 +1,12 @@
 function update {
-    # Start with home-manager and early return if installed
+    # Start with home-manager and early return, if installed
     if [ $(command -v home-manager) ]; then
-        nix-channel --update
-        home-manager switch
+        pushd $NICK_DOTFILES
+        git add .
+        nix flake update
+        popd
+        home-manager switch --flake $NICK_DOTFILES
+        return
     fi
 
     # OS-specific package upgrades
@@ -19,10 +23,6 @@ function update {
         brew update
         brew upgrade
         brew cleanup
-        if [ -f $NICK_DOTFILES/Brewfile ]; then
-            rm $NICK_DOTFILES/Brewfile
-        fi
-        brew bundle dump --file $NICK_DOTFILES/Brewfile
     fi
 
     # Toolchain and package updates
@@ -51,7 +51,7 @@ function update {
             cargo install --locked cargo-update
         fi
         cargo install-update -a
-        cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
+        # cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
     fi
 
     # Needed until the following issue is resolved: https://github.com/pop-os/system76-power/issues/299

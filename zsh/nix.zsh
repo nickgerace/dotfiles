@@ -4,8 +4,8 @@ fi
 
 if [ $(command -v home-manager) ]; then
     alias hm="home-manager"
-    alias hme="home-manager edit"
-    alias hms="home-manager switch"
+    alias hme="$EDITOR $NICK_DOTFILES/home.nix"
+    alias hms="home-manager switch --flake $NICK_DOTFILES"
     alias hml="home-manager packages | sort"
 fi
 
