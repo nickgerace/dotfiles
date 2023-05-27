@@ -88,11 +88,7 @@ impl Runner {
             home.join(".config").join("gfold.toml"),
         )?;
         Self::link(
-            repo.join("home.nix"),
-            home.join(".config").join("home-manager").join("home.nix"),
-        )?;
-        Self::link(
-            repo.join("cargo-config.toml"),
+            repo.join("global-cargo-config.toml"),
             home.join(".cargo").join("config.toml"),
         )?;
 
