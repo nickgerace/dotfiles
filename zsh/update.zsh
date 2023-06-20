@@ -23,6 +23,11 @@ function update {
         nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
 
+    # Nix profile updates
+    if [ "$(command -v nix)" ] && [ ! "$(command -v home-manager)" ]; then
+        nix profile upgrade '.*'
+    fi
+
     # Linux desktop snap and flatpak upgrades
     if [ "$NICK_LINUX" = "true" ] && [ "$NICK_WSL2" != "true" ]; then
         if [ "$(command -v snap)" ]; then
