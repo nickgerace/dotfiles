@@ -1,14 +1,4 @@
 function update {
-    # Start with home-manager and early return, if installed
-    if [ $(command -v home-manager) ]; then
-        pushd $NICK_DOTFILES
-        git add .
-        nix flake update
-        popd
-        home-manager switch --flake $NICK_DOTFILES
-        return
-    fi
-
     # OS-specific package upgrades
     if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
         sudo apt update
@@ -51,7 +41,7 @@ function update {
             cargo install --locked cargo-update
         fi
         cargo install-update -a
-        # cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/crates.txt
+        cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/pkgs/crates.txt
     fi
 
     # Needed until the following issue is resolved: https://github.com/pop-os/system76-power/issues/299
