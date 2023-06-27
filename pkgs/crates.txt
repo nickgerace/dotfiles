@@ -6,5 +6,6 @@ cargo-whatfeatures
 cross
 ferris-fetch
 gfold
+reindeer
 tokio-console
 toml2json
