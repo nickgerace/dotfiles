@@ -30,6 +30,7 @@ if [ "$(command -v docker)" ]; then
         docker rmi $(docker images -q)
         docker system prune -a -f
         docker volume prune -f
+        docker volume rm $(docker volume ls -q)
     }
 
     function dpss {

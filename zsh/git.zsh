@@ -29,6 +29,8 @@ if [ "$(command -v git)" ]; then
 
     alias post-merge-main="post-merge main"
 
+    alias git-rebase-local="echo 'git rebase -i <oldest-commit>~'"
+
     function post-merge {
         if [ ! $1 ]; then
             echo "required argument: <main-branch>"
