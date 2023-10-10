@@ -1,4 +1,5 @@
 function update {
+    set -x
     # OS-specific package upgrades
     if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
         sudo apt update
@@ -55,4 +56,5 @@ function update {
         sudo systemctl start system76-power
         echo "started system76-power"
     fi
+    set +x
 }
