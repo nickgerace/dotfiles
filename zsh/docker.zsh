@@ -21,14 +21,18 @@ if [ "$(command -v docker)" ]; then
     function docker-prune-containers {
         docker stop $(docker ps -aq)
         docker rm $(docker ps -aq)
+
         docker volume prune -f
+        docker volume rm $(docker volume ls -q)
     }
 
     function docker-prune-everything {
         docker stop $(docker ps -aq)
         docker rm $(docker ps -aq)
+
         docker rmi $(docker images -q)
         docker system prune -a -f
+
         docker volume prune -f
         docker volume rm $(docker volume ls -q)
     }
