@@ -31,6 +31,8 @@ openssl
 openssl-devel
 pandoc
 patch
+protobuf
+protobuf-devel
 ruby
 ruby-devel
 sed

@@ -4,14 +4,14 @@ import:
 font:
   size: 13.0
   normal:
-    family: "Iosevka"
+    family: "Iosevka Nerd Font"
     style: "Regular"
   bold:
-    family: "Iosevka"
+    family: "Iosevka Nerd Font"
     style: "Bold"
   italic:
-    family: "Iosevka"
+    family: "Iosevka Nerd Font"
     style: "Italic"
   bold_italic:
-    family: "Iosevka"
+    family: "Iosevka Nerd Font"
     style: "Bold Italic"
