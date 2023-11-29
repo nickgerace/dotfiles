@@ -6,8 +6,7 @@ A collection of dotfiles and scripts from [@nickgerace](https://github.com/nickg
 
 ## Quickstart
 
-_Before running the setup automation, you will need to update [dotfiles.toml](./dotfiles.toml)_.
-
+Before getting started, ensure `bash` is installed on you macOS or Linux system.
 Execute the following to get started:
 
 ```bash
@@ -32,9 +31,9 @@ These dotfiles have been tested in the following environments using `zsh` as the
 This shell configuration does not use `oh-my-zsh`.
 Only `zsh` needs to be installed as everything is configured manually.
 
-## GNOME Users
+### What if I use the default GNOME terminal? 
 
-Using [Gogh](https://mayccoll.github.io/Gogh/) can help setup your terminal colors nicely.
+[Gogh](https://mayccoll.github.io/Gogh/) is great for configuring colors in the default GNOME terminal!
 
 ## Disclaimer
 
