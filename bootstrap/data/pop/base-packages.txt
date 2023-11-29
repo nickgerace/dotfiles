@@ -14,6 +14,8 @@ jq
 libssl-dev
 libstdc++-10-dev
 libxxhash-dev
+lld
+llvm
 lsb-release
 make
 neovim

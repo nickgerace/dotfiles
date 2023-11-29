@@ -1,6 +1,3 @@
 **/.DS_Store
 **/.idea
 **/zsh/local.zsh
-Cargo.lock
-target
-result
