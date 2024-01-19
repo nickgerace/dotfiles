@@ -6,25 +6,27 @@ A collection of dotfiles and scripts from [@nickgerace](https://github.com/nickg
 
 ## Quickstart
 
-Ensure the following:
+Before starting, ensure that `bash` and `zsh` are installed on your macOS or Linux system.
+You will also need to ensure that this repository resides in the `$HOME/src/` directory.
+You may need to create it by executing `mkdir $HOME/src`.
 
-1. `bash` and `zsh` are installed on your macOS or Linux system
-1. That this repository resides in `$HOME/src/` (you will likely need to create the directory)
-
-Then, execute the following to get started:
+Once everything looks good, execute the following:
 
 ```bash
 make
 ```
 
-The invoked `make` target is idempotent-ish, so you should be able to execute it multiple times, as desired.
-However, it may overwrite files if you are coming from an existing configuration.
+The invoked `make` target runs an idempotent-ish bootstrap script.
+Thus, you should be able to execute it multiple times, as desired.
+That being said: *caution is advised*.
+Running the `make` target may overwrite files if you are coming from an existing configuration.
 Please read the source code, starting from the [Makefile](./Makefile), before execution.
 
 ## Platform Notes
 
-These dotfiles require neither [`oh-my-zsh`](https://ohmyz.sh/) nor [`starship`](https://starship.rs/) to be installed (though, a  `starship` configuration file will be linked to `$HOME/.config/starship.toml`).
-Only `zsh` needs to be installed as everything is configured manually.
+These dotfiles require neither [`oh-my-zsh`](https://ohmyz.sh/) nor [`starship`](https://starship.rs/) to be installed.
+Only `zsh` needs to be installed as all shell-based dotfiles are custom and configured manually.
+That being said, if `starship` is installed, it will use the configuration file linked to `$HOME/.config/starship.toml`.
 
 While most Linux distros can use these dotfiles, only hand-selected distros have advanced bootstrapping options.
 Advanced bootstrapping options are available via the interactive installer.
