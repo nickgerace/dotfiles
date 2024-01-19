@@ -474,7 +474,7 @@ function main {
     # Run for the detected OS (and distro, if applicable).
     if [ "$(uname -s)" = "Darwin" ]; then
         if [ "$(uname -m)" != "arm64" ]; then
-            explode "must use aarch64/arm64 architecture"
+            explode "must use macOS on aarch64/arm64 architecture"
         fi
 
         setup-dotfiles-darwin
@@ -482,11 +482,8 @@ function main {
             run-darwin
         fi
     elif [ "$(uname -s)" = "Linux" ]; then
-        if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
-            explode "cannot use WSL2"
-        fi
         if [ "$(uname -m)" != "x86_64" ]; then
-            explode "must use x86_64 architecture"
+            explode "must use Linux on x86_64/amd64 architecture"
         fi
         if [ ! -f /etc/os-release ]; then
             explode "could not determine distro: /etc/os-release not found"
@@ -497,20 +494,27 @@ function main {
         if [ "$LINUX_DISTRO" = "fedora" ]; then
             setup-dotfiles-linux
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
+                if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
+                    explode "cannot use WSL2 and perform advanced package installation"
+                fi
                 run-fedora
             fi
         elif [ "$LINUX_DISTRO" = "pop" ]; then
             setup-dotfiles-linux
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
+                if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
+                    explode "cannot use WSL2 and perform advanced package installation"
+                fi
                 run-pop
             fi
         elif [ "$LINUX_DISTRO" = "opensuse-tumbleweed" ]; then
             setup-dotfiles-linux
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
+                if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
+                    explode "cannot use WSL2 and perform advanced package installation"
+                fi
                 run-opensuse-tumbleweed
             fi
-        else
-            explode "invalid distro found: $LINUX_DISTRO"
         fi
     else
         explode "must be macOS or Linux"

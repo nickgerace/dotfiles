@@ -6,34 +6,30 @@ A collection of dotfiles and scripts from [@nickgerace](https://github.com/nickg
 
 ## Quickstart
 
-Before getting started, ensure `bash` is installed on you macOS or Linux system.
-Execute the following to get started:
+Ensure the following:
+
+1. `bash` and `zsh` are installed on your macOS or Linux system
+1. That this repository resides in `$HOME/src/` (you will likely need to create the directory)
+
+Then, execute the following to get started:
 
 ```bash
 make
 ```
 
-This `make` target is idempotent, so you should be able to execute it multiple times, if needed.
-However, it may overwrite files if you are coming from an existing configuration, so please read the [Makefile](./Makefile) before execution.
+The invoked `make` target is idempotent-ish, so you should be able to execute it multiple times, as desired.
+However, it may overwrite files if you are coming from an existing configuration.
+Please read the source code, starting from the [Makefile](./Makefile), before execution.
 
-## Shell Configuration
+## Platform Notes
 
-These dotfiles have been tested in the following environments using `zsh` as the default shell:
-
-| OS    | Type      | `x86_64 / amd64` | `arm64 / aarch64` |
-| ----- | --------- | ---------------- | ----------------- |
-| macOS | darwin    | 🚫               | ✅                |
-| Linux | linux-gnu | ✅               | 🚫                |
-| WSL2  | linux-gnu | ✅               | 🚫                |
-
-### What about `oh-my-zsh`?
-
-This shell configuration does not use `oh-my-zsh`.
+These dotfiles require neither [`oh-my-zsh`](https://ohmyz.sh/) nor [`starship`](https://starship.rs/) to be installed (though, a  `starship` configuration file will be linked to `$HOME/.config/starship.toml`).
 Only `zsh` needs to be installed as everything is configured manually.
 
-### What if I use the default GNOME terminal? 
+While most Linux distros can use these dotfiles, only hand-selected distros have advanced bootstrapping options.
+Advanced bootstrapping options are available via the interactive installer.
 
-[Gogh](https://mayccoll.github.io/Gogh/) is great for configuring colors in the default GNOME terminal!
+WSL2 is supported, but advanced bootstrapping options from the interactive installer will likely be blocked.
 
 ## Disclaimer
 
