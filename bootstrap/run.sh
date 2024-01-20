@@ -274,18 +274,13 @@ function run-fedora {
         log-inner "[bootstrap|fedora]" "$1"
     }
 
-    local FEDORA_LIB
     local FEDORA_DATA
 
-    FEDORA_LIB="$NICK_BOOTSTRAP_BOOTSTRAP_DIRECTORY/lib/fedora"
     FEDORA_DATA="$NICK_BOOTSTRAP_BOOTSTRAP_DIRECTORY/data/fedora"
 
     function verify-paths {
         if [ ! -d "$FEDORA_DATA" ]; then
-            die "could not find $FEDORA_DATA"
-        fi
-        if [ ! -d "$FEDORA_LIB" ]; then
-            die "could not find $FEDORA_LIB"
+            explode "could not find $FEDORA_DATA"
         fi
     }
 
