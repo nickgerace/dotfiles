@@ -123,6 +123,22 @@ function setup-dotfiles-linux {
     fi
 }
 
+# ==============================================
+# === Generic Package Installation Functions ===
+# ==============================================
+
+function install-neovim-plugins {
+    local NEOVIM_VIM_PLUG_FILE
+    NEOVIM_VIM_PLUG_FILE="${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim
+
+    # Inspired by source: https://github.com/junegunn/vim-plug?tab=readme-ov-file#neovim
+    if [ ! -f "$NEOVIM_VIM_PLUG_FILE" ]; then
+        sh -c 'curl -fLo "$NEOVIM_VIM_PLUG_FILE" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    fi
+
+    nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
+}
+
 # =================================
 # === OS (and distro) Functions ===
 # =================================
@@ -153,31 +169,33 @@ function run-fedora-install-packages {
     }
 
     function install-base-packages {
-        xargs sudo dnf install -y < "$FEDORA_BASE_PACKAGES_FILE"
+        xargs sudo dnf5 install -y < "$FEDORA_BASE_PACKAGES_FILE"
     }
 
     # Source: https://rpmfusion.org/Configuration
     function install-rpmfusion {
         # shellcheck disable=SC2046
-        sudo dnf install -y \
+        sudo dnf5 install -y \
             https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-    	      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+            https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     }
 
     # Source: https://rpmfusion.org/Howto/Multimedia
     function install-rpmfusion-packages {
-        sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
+        sudo dnf5 swap ffmpeg-free ffmpeg --allowerasing -y
         sudo dnf groupupdate -y multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
         sudo dnf groupupdate -y sound-and-video
     }
 
     # Source: https://docs.docker.com/engine/install/fedora/
     function install-docker {
-        sudo dnf -y install dnf-plugins-core
-        sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-        sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-        sudo systemctl start docker
-        sudo systemctl enable --now docker
+        if ! [ "$(command -v docker)" ]; then
+            sudo dnf5 -y install dnf-plugins-core
+            sudo dnf5 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+            sudo dnf5 install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            sudo systemctl start docker
+            sudo systemctl enable --now docker
+        fi
 
         # Enable docker to be used by non-root users.
         sudo usermod -aG docker "$USER"
@@ -185,16 +203,18 @@ function run-fedora-install-packages {
     }
 
     function install-rust {
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
-        source "$HOME/.cargo/env"
+        if [ -f "$HOME/.cargo/env" ]; then
+            source "$HOME/.cargo/env"
+        else
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
+            source "$HOME/.cargo/env"
+        fi
         rustup toolchain install stable-x86_64-unknown-linux-gnu
         rustup toolchain install nightly-x86_64-unknown-linux-gnu
         rustup default stable-x86_64-unknown-linux-gnu
     }
 
     function install-crates {
-        # Call it again in case this script is re-run and installing rust is skipped.
-        source "$HOME/.cargo/env"
         xargs cargo install --locked < "$FEDORA_CRATES_FILE"
     }
 
@@ -212,6 +232,8 @@ function run-fedora-install-packages {
     install-rust
     log "installing crates"
     install-crates
+    log "installing neovim plugins"
+    install-neovim-plugins
 }
 
 function run-fedora-setup-thelio {
@@ -224,13 +246,13 @@ function run-fedora-setup-thelio {
 
     # Source: https://support.system76.com/articles/system76-driver/
     function install-system76-driver {
-        sudo dnf copr enable szydell/system76 -y
-        sudo dnf install system76-driver -y
+        sudo dnf5 copr enable szydell/system76 -y
+        sudo dnf5 install system76-driver -y
     }
 
     # Source: https://support.system76.com/articles/system76-software/
     function install-system76-software {
-        sudo dnf install system76* firmware-manager -y
+        sudo dnf5 install system76* firmware-manager -y
     }
 
     function setup-firmware-daemon {
@@ -244,12 +266,12 @@ function run-fedora-setup-thelio {
     }
 
     function install-system76-acpi-dkms {
-        sudo dnf install system76-acpi-dkms -y
+        sudo dnf5 install system76-acpi-dkms -y
         sudo systemctl enable --now dkms
     }
 
     function install-system76-thelio-io-dkms {
-        sudo dnf install system76-io-dkms -y
+        sudo dnf5 install system76-io-dkms -y
     }
 
     log "installing system76-driver"
@@ -275,7 +297,6 @@ function run-fedora {
     }
 
     local FEDORA_DATA
-
     FEDORA_DATA="$NICK_BOOTSTRAP_BOOTSTRAP_DIRECTORY/data/fedora"
 
     function verify-paths {
@@ -286,6 +307,10 @@ function run-fedora {
 
     function setup-permissions {
         sudo -v
+    }
+
+    function install-dnf5 {
+        sudo dnf5 install dnf5 --refresh -y
     }
 
     # Source: https://dnf.readthedocs.io/en/latest/conf_ref.html
@@ -301,21 +326,23 @@ function run-fedora {
     # Upgrade all packages and install xargs from findutils.
     # We need to do this before executing other scripts.
     function upgrade-all-packages-and-install-essentials {
-        sudo dnf upgrade --refresh -y
-        sudo dnf install -y findutils zsh make git neovim vim curl wget bash
+        sudo dnf5 upgrade -y
+        sudo dnf5 install -y findutils zsh make git neovim vim curl wget bash
     }
 
     function cleanup {
-        sudo dnf upgrade -y --refresh
-        sudo dnf autoremove -y
-        sudo dnf repoquery --userinstalled --queryformat "%{NAME}"
+        sudo dnf5 upgrade -y --refresh
+        sudo dnf5 autoremove -y
     }
 
     log "verifying paths"
     verify-paths
     log "setting up permissions and configuring dnf"
     setup-permissions
+    log "configuring dnf"
     configure-dnf
+    log "installing dnf5"
+    install-dnf5
     log "upgrading all packages and installing essentials"
     upgrade-all-packages-and-install-essentials
     log "installing packages"
@@ -380,6 +407,8 @@ function run-pop {
     install-packages
     log "installing rust"
     install-rust
+    log "installing neovim plugins"
+    install-neovim-plugins
     log "cleaning up"
     cleanup
 }
@@ -392,9 +421,15 @@ function run-opensuse-tumbleweed {
         log-inner "[bootstrap|opensuse-tumbleweed]" "$1"
     }
 
+    function install-packages {
+        sudo zypper install -y -t pattern devel_basis
+        sudo zypper install -y openssl libopenssl-devel make zsh jq curl wget neovim vim gcc-c++ ruby ruby-devel go
+    }
+
     log "installing packages"
-    sudo zypper install -y -t pattern devel_basis
-    sudo zypper install -y openssl libopenssl-devel make zsh jq curl wget neovim vim gcc-c++ ruby ruby-devel go
+    install-packages
+    log "installing neovim plugins"
+    install-neovim-plugins
 }
 
 function run-darwin {
@@ -431,7 +466,7 @@ function run-darwin {
     }
 
     function install-crates {
-    	xargs cargo install < "$DARWIN_CRATES_FILE"
+        xargs cargo install < "$DARWIN_CRATES_FILE"
     }
 
     log "verifying paths"
@@ -442,6 +477,8 @@ function run-darwin {
     install-casks
     log "installing crates"
     install-crates
+    log "installing neovim plugins"
+    install-neovim-plugins
 }
 
 # =======================
