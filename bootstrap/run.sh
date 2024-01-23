@@ -152,7 +152,9 @@ function install-rust-linux {
 }
 
 function install-nix {
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+    if ! command -v nix; then
+        curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+    fi
 }
 
 # =================================
@@ -205,7 +207,7 @@ function run-fedora-install-packages {
 
     # Source: https://docs.docker.com/engine/install/fedora/
     function install-docker {
-        if ! [ "$(command -v docker)" ]; then
+        if ! command -v docker; then
             sudo dnf5 -y install dnf-plugins-core
             sudo dnf5 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
             sudo dnf5 install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -391,7 +393,7 @@ function run-pop {
 
     # Source: https://docs.docker.com/engine/install/ubuntu/
     function install-docker {
-        if ! [ "$(command -v docker)" ]; then
+        if ! command -v docker; then
             sudo apt update
             sudo apt install -y ca-certificates curl gnupg
             sudo install -m 0755 -d /etc/apt/keyrings
@@ -413,7 +415,6 @@ function run-pop {
     }
 
     function install-nix-packages {
-        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
         nix profile install nixpkgs#direnv
         nix profile install nixpkgs#neovim
         nix profile install nixpkgs#starship
@@ -437,6 +438,8 @@ function run-pop {
     install-nix-packages
     log "installing rust"
     install-rust-linux
+    log "installing docker"
+    install-docker
     log "installing neovim plugins"
     install-neovim-plugins
     log "cleaning up"
