@@ -33,6 +33,7 @@ function update {
     # Nix profile updates
     if command -v nix && [ ! "$(command -v home-manager)" ]; then
         nix profile upgrade '.*'
+        nix upgrade-nix
     fi
 
     # Linux desktop snap and flatpak upgrades
@@ -53,7 +54,6 @@ function update {
             cargo install --locked cargo-update
         fi
         cargo install-update -a
-        cargo install --list | grep -o "^\S*\S" > $NICK_DOTFILES/pkgs/crates.txt
     fi
 
     set +x

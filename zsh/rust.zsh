@@ -13,6 +13,7 @@ if [ "$(command -v cargo)" ]; then
 
     alias cargo-doc-watch="cargo watch -s 'cargo doc --all'"
     alias cargo-wipe="$NICK_DOTFILES/scripts/cargo-wipe.sh $NICK_SRC"
+    alias cargo-list-all-installed-crates="cargo install --list | grep -o \"^\S*\S\""
 
     alias cargo-doc-open="cargo doc --document-private-items --open --no-deps"
 

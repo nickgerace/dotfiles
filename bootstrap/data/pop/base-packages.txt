@@ -18,7 +18,6 @@ lld
 llvm
 lsb-release
 make
-neovim
 pkg-config
 telnet
 tmux

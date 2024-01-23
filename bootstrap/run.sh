@@ -11,7 +11,7 @@ NICK_BOOTSTRAP_SETUP_THELIO="false"
 
 echo -e "Welcome to nickgerace's dotfiles bootstrap script!\n"
 while true; do
-    read -r -n1 -p "1) Are you setting up a System76 Thelio system? [y/n] (default: n): " yn
+    read -r -n1 -p "1) Are you setting up a System76 Thelio system? [y/n] (default: n) (ignored for Pop!_OS): " yn
     case $yn in
         [yY] ) NICK_BOOTSTRAP_SETUP_THELIO="true"; echo ""; break;;
         "" ) break;;
@@ -133,10 +133,26 @@ function install-neovim-plugins {
 
     # Inspired by source: https://github.com/junegunn/vim-plug?tab=readme-ov-file#neovim
     if [ ! -f "$NEOVIM_VIM_PLUG_FILE" ]; then
-        sh -c 'curl -fLo "$NEOVIM_VIM_PLUG_FILE" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+        curl -fLo "$NEOVIM_VIM_PLUG_FILE" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     fi
 
     nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
+}
+
+function install-rust-linux {
+    if [ -f "$HOME/.cargo/env" ]; then
+        source "$HOME/.cargo/env"
+    else
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
+        source "$HOME/.cargo/env"
+    fi
+    rustup toolchain install stable-x86_64-unknown-linux-gnu
+    rustup toolchain install nightly-x86_64-unknown-linux-gnu
+    rustup default stable-x86_64-unknown-linux-gnu
+}
+
+function install-nix {
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
 }
 
 # =================================
@@ -202,18 +218,6 @@ function run-fedora-install-packages {
         sudo docker run hello-world
     }
 
-    function install-rust {
-        if [ -f "$HOME/.cargo/env" ]; then
-            source "$HOME/.cargo/env"
-        else
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
-            source "$HOME/.cargo/env"
-        fi
-        rustup toolchain install stable-x86_64-unknown-linux-gnu
-        rustup toolchain install nightly-x86_64-unknown-linux-gnu
-        rustup default stable-x86_64-unknown-linux-gnu
-    }
-
     function install-crates {
         xargs cargo install --locked < "$FEDORA_CRATES_FILE"
     }
@@ -229,7 +233,7 @@ function run-fedora-install-packages {
     log "installing docker"
     install-docker
     log "installing rust"
-    install-rust
+    install-rust-linux
     log "installing crates"
     install-crates
     log "installing neovim plugins"
@@ -385,12 +389,34 @@ function run-pop {
         xargs sudo apt install -y < "$POP_BASE_PACKAGES_FILE"
     }
 
-    function install-rust {
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
-        source "$HOME/.cargo/env"
-        rustup toolchain install stable-x86_64-unknown-linux-gnu
-        rustup toolchain install nightly-x86_64-unknown-linux-gnu
-        rustup default stable-x86_64-unknown-linux-gnu
+    # Source: https://docs.docker.com/engine/install/ubuntu/
+    function install-docker {
+        if ! [ "$(command -v docker)" ]; then
+            sudo apt update
+            sudo apt install -y ca-certificates curl gnupg
+            sudo install -m 0755 -d /etc/apt/keyrings
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+            sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+            echo \
+              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+              $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+              sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            sudo apt update
+
+            sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+        fi
+
+        # Enable docker to be used by non-root users.
+        sudo usermod -aG docker "$USER"
+        sudo docker run hello-world
+    }
+
+    function install-nix-packages {
+        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        nix profile install nixpkgs#direnv
+        nix profile install nixpkgs#neovim
+        nix profile install nixpkgs#starship
     }
 
     function cleanup {
@@ -405,8 +431,12 @@ function run-pop {
     log "setting up permissions and installing packages"
     setup-permissions
     install-packages
+    log "installing nix"
+    install-nix
+    log "installing nix packages"
+    install-nix-packages
     log "installing rust"
-    install-rust
+    install-rust-linux
     log "installing neovim plugins"
     install-neovim-plugins
     log "cleaning up"
