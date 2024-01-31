@@ -176,9 +176,20 @@ if [ "$(command -v git)" ]; then
             echo "must be on 'main'"
             return
         fi
+        if [ ! "$(command -v uuidgen)" ]; then
+            echo "missing in PATH: \"uuidgen\""
+            return
+        fi
+        if [ ! "$(command -v md5sum)" ]; then
+            echo "missing in PATH: \"md5sum\""
+            return
+        fi
         HASH="$(uuidgen | md5sum | head -c 7)"
         git checkout -b nick/$HASH
     }
+
+    alias new-git-branch="git-branch-new"
+    alias new-branch="git-branch-new"
 
     function git-commit-amend-undo {
         git reset --soft @{1}

@@ -93,7 +93,7 @@ function setup-dotfiles-darwin {
     link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
     link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/darwin.yml" "$HOME/.config/alacritty" "alacritty.yml"
     link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/global-cargo-config.toml" "$HOME/.cargo" "config.toml"
+    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
 
     # Only use rustup if it is installed.
     if command -v rustup; then
@@ -113,7 +113,7 @@ function setup-dotfiles-linux {
     link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
     link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/darwin.yml" "$HOME/.config/alacritty" "alacritty.yml"
     link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/global-cargo-config.toml" "$HOME/.cargo" "config.toml"
+    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
 
     # Only use rustup if it is installed.
     if command -v rustup; then
@@ -418,6 +418,7 @@ function run-pop {
         nix profile install nixpkgs#direnv
         nix profile install nixpkgs#neovim
         nix profile install nixpkgs#starship
+        nix profile install nixpkgs#mold
     }
 
     function cleanup {

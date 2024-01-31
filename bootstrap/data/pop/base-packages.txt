@@ -22,6 +22,7 @@ pkg-config
 telnet
 tmux
 tree
+uuid-runtime
 vim
 wget
 zlib1g-dev
