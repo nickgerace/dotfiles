@@ -17,6 +17,7 @@
     curl
     direnv
     eza
+    fastfetch
     fd
     fortune
     fzf
@@ -34,6 +35,7 @@
     lolcat
     mold
     neovim
+    onefetch
     ripgrep
     scc
     speedtest-cli
