@@ -2,9 +2,20 @@ if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-if [ $(command -v nix) ]; then
+if [ "$(command -v nix)" ]; then
     alias nix-search="nix search nixpkgs"
     alias ndc="nix develop --command"
+fi
+
+if [ "$(command -v home-manager)" ]; then
+    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+
+    alias hm="home-manager"
+    alias hme="home-manager edit"
+    alias hms="home-manager switch"
+    alias hml="home-manager packages | sort"
+else
+    # Only use nix profile commands is home-manager is not installed.
     alias nix-upgrade="nix profile upgrade '.*'"
 
     function nix-install {
@@ -16,7 +27,7 @@ if [ $(command -v nix) ]; then
     }
 fi
 
-if [ $(command -v direnv) ]; then
+if [ "$(command -v direnv)" ]; then
     eval "$(direnv hook zsh)"
 fi
 
