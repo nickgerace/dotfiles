@@ -67,62 +67,6 @@ function explode-inner {
     exit 1
 }
 
-function link {
-    if [ -d "$2" ]; then
-        if [ -f "$2"/"$3" ]; then
-            rm "$2"/"$3"
-        fi
-    elif [ "$HOME" != "$2" ]; then
-        mkdir -p "$2"
-    fi
-
-    ln -s "$1" "$2"/"$3"
-}
-
-# ======================
-# === Dotfiles Setup ===
-# ======================
-
-function setup-dotfiles-darwin {
-    git config --global user.name "$NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME"
-    git config --global pull.rebase true
-
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zshrc" "$HOME" ".zshrc"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/tmux.conf" "$HOME" ".tmux.conf"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/init.lua" "$HOME/.config/nvim" "init.lua"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/darwin.yml" "$HOME/.config/alacritty" "alacritty.yml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
-
-    # Only use rustup if it is installed.
-    if command -v rustup; then
-        rustup toolchain install stable-aarch64-apple-darwin
-        rustup toolchain install nightly-aarch64-apple-darwin
-        rustup default stable-aarch64-apple-darwin
-    fi
-}
-
-function setup-dotfiles-linux {
-    git config --global user.name "$NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME"
-    git config --global pull.rebase true
-
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zshrc" "$HOME" ".zshrc"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/tmux.conf" "$HOME" ".tmux.conf"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/init.lua" "$HOME/.config/nvim" "init.lua"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/darwin.yml" "$HOME/.config/alacritty" "alacritty.yml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"
-    link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
-
-    # Only use rustup if it is installed.
-    if command -v rustup; then
-        rustup toolchain install stable-x86_64-unknown-linux-gnu
-        rustup toolchain install nightly-x86_64-unknown-linux-gnu
-        rustup default stable-x86_64-unknown-linux-gnu
-    fi
-}
-
 # ==============================================
 # === Generic Package Installation Functions ===
 # ==============================================
@@ -414,11 +358,13 @@ function run-pop {
         sudo docker run hello-world
     }
 
-    function install-nix-packages {
-        nix profile install nixpkgs#direnv
-        nix profile install nixpkgs#neovim
-        nix profile install nixpkgs#starship
-        nix profile install nixpkgs#mold
+    function setup-home-manager {
+        if ! command -v home-manager; then
+            nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+            nix-channel --update
+            nix-shell '<home-manager>' -A install
+        fi
+        home-manager switch
     }
 
     function cleanup {
@@ -435,8 +381,8 @@ function run-pop {
     install-packages
     log "installing nix"
     install-nix
-    log "installing nix packages"
-    install-nix-packages
+    log "setting up home-manager"
+    setup-home-manager
     log "installing rust"
     install-rust-linux
     log "installing docker"
@@ -499,6 +445,16 @@ function run-darwin {
         brew install --cask alacritty visual-studio-code font-iosevka font-iosevka-nerd-font font-jetbrains-mono
     }
 
+    function configure-rustup {
+        if command -v rustup; then
+            rustup toolchain install stable-aarch64-apple-darwin
+            rustup toolchain install nightly-aarch64-apple-darwin
+            rustup default stable-aarch64-apple-darwin
+        else
+            log "rustup not installed"
+        fi
+    }
+
     function install-crates {
         xargs cargo install < "$DARWIN_CRATES_FILE"
     }
@@ -509,6 +465,8 @@ function run-darwin {
     install-packages
     log "installing casks"
     install-casks
+    log "configuring rustup"
+    configure-rustup
     log "installing crates"
     install-crates
     log "installing neovim plugins"
@@ -527,6 +485,44 @@ function main {
         log-inner "[bootstrap]" "$1"
     }
 
+    function link {
+        if [ ! -f "$1" ]; then
+            explode "file does not exist: $1"
+        fi
+
+        if [ -d "$2" ]; then
+            if [ -f "$2"/"$3" ]; then
+                rm "$2"/"$3"
+            fi
+        elif [ "$HOME" != "$2" ]; then
+            mkdir -p "$2"
+        fi
+
+        ln -s "$1" "$2"/"$3"
+    }
+
+    function setup-dotfiles {
+        git config --global user.name "$NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME"
+        git config --global pull.rebase true
+
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zshrc" "$HOME" ".zshrc"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/tmux.conf" "$HOME" ".tmux.conf"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/init.lua" "$HOME/.config/nvim" "init.lua"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
+
+        if [ "darwin" = "$1" ]; then
+            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/darwin.yml" "$HOME/.config/alacritty" "alacritty.yml"
+            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"
+        else
+            if [ "pop" = "$1" ]; then
+                link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/home-manager/pop/home.nix" "$HOME/.config/home-manager" "home.nix"
+            fi
+            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/linux.yml" "$HOME/.config/alacritty" "alacritty.yml"
+            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/linux.toml" "$HOME/.config" "gfold.toml"
+        fi
+    }
+
     log "running..."
 
     if [ $EUID -eq 0 ]; then
@@ -543,7 +539,7 @@ function main {
             explode "must use macOS on aarch64/arm64 architecture"
         fi
 
-        setup-dotfiles-darwin
+        setup-dotfiles "darwin"
         if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
             run-darwin
         fi
@@ -558,7 +554,7 @@ function main {
         local LINUX_DISTRO
         LINUX_DISTRO="$(grep '^ID=' /etc/os-release | sed 's/^ID=//' | tr -d '"')"
         if [ "$LINUX_DISTRO" = "fedora" ]; then
-            setup-dotfiles-linux
+            setup-dotfiles "$LINUX_DISTRO"
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
                 if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
                     explode "cannot use WSL2 and perform advanced package installation"
@@ -566,7 +562,7 @@ function main {
                 run-fedora
             fi
         elif [ "$LINUX_DISTRO" = "pop" ]; then
-            setup-dotfiles-linux
+            setup-dotfiles "$LINUX_DISTRO"
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
                 if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
                     explode "cannot use WSL2 and perform advanced package installation"
@@ -574,7 +570,7 @@ function main {
                 run-pop
             fi
         elif [ "$LINUX_DISTRO" = "opensuse-tumbleweed" ]; then
-            setup-dotfiles-linux
+            setup-dotfiles "$LINUX_DISTRO"
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
                 if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
                     explode "cannot use WSL2 and perform advanced package installation"

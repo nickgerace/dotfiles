@@ -2,15 +2,11 @@ apt-transport-https
 build-essential
 ca-certificates
 clang
-cloc
 cmake
 coreutils
 curl
-fzf
 git
 gnupg
-htop
-jq
 libssl-dev
 libstdc++-10-dev
 libxxhash-dev
@@ -20,8 +16,6 @@ lsb-release
 make
 pkg-config
 telnet
-tmux
-tree
 uuid-runtime
 vim
 wget

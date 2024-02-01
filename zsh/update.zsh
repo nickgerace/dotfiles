@@ -30,18 +30,24 @@ function update {
         nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
     fi
 
-    # Nix profile updates
-    if command -v nix && [ ! "$(command -v home-manager)" ]; then
-        nix profile upgrade '.*'
+    # Nix related updates
+    if command -v nix; then
         nix upgrade-nix
+        nix-channel --update
+
+        if command -v home-manager; then
+            home-manager switch
+        else
+            nix profile upgrade '.*'
+        fi
     fi
 
     # Linux desktop snap and flatpak upgrades
     if [ "$NICK_LINUX" = "true" ] && [ "$NICK_WSL2" != "true" ]; then
-        if [ "$(command -v snap)" ]; then
+        if command -v snap; then
             sudo snap refresh
         fi
-        if [ "$(command -v flatpak)" ]; then
+        if command -v flatpak; then
             flatpak update -y
             flatpak uninstall --unused
             flatpak repair
