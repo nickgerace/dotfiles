@@ -32,7 +32,7 @@ function update {
 
     # Nix related updates
     if command -v nix; then
-        nix upgrade-nix
+        sudo -i nix upgrade-nix
         nix-channel --update
 
         if command -v home-manager; then
