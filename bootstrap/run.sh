@@ -358,6 +358,13 @@ function run-pop {
         sudo docker run hello-world
     }
 
+    function install-wezterm {
+        curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+        echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+        sudo apt update
+        sudo apt install -y wezterm
+    }
+
     function setup-home-manager {
         if ! command -v home-manager; then
             nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
@@ -387,6 +394,8 @@ function run-pop {
     install-rust-linux
     log "installing docker"
     install-docker
+    log "installing wezterm"
+    install-wezterm
     log "installing neovim plugins"
     install-neovim-plugins
     log "cleaning up"
@@ -442,7 +451,7 @@ function run-darwin {
     }
 
     function install-casks {
-        brew install --cask alacritty visual-studio-code font-iosevka font-iosevka-nerd-font font-jetbrains-mono
+        brew install --cask wezterm visual-studio-code font-iosevka font-iosevka-nerd-font font-jetbrains-mono
     }
 
     function configure-rustup {
@@ -507,18 +516,17 @@ function main {
 
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zshrc" "$HOME" ".zshrc"
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/tmux.conf" "$HOME" ".tmux.conf"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/wezterm.lua" "$HOME" ".wezterm.lua"
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/init.lua" "$HOME/.config/nvim" "init.lua"
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
 
         if [ "darwin" = "$1" ]; then
-            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/darwin.yml" "$HOME/.config/alacritty" "alacritty.yml"
             link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"
         else
             if [ "pop" = "$1" ]; then
                 link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/home-manager/pop/home.nix" "$HOME/.config/home-manager" "home.nix"
             fi
-            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/linux.yml" "$HOME/.config/alacritty" "alacritty.yml"
             link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/linux.toml" "$HOME/.config" "gfold.toml"
         fi
     }
