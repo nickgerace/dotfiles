@@ -172,10 +172,6 @@ if [ "$(command -v git)" ]; then
     }
 
     function git-branch-new {
-        if [ "$(git branch --show-current)" != "main" ]; then
-            echo "must be on 'main'"
-            return
-        fi
         if [ ! "$(command -v uuidgen)" ]; then
             echo "missing in PATH: \"uuidgen\""
             return
