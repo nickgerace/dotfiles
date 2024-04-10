@@ -5,21 +5,30 @@ function start-work {
 }
 
 function si-branches {
-    echo ""
+    function si-print-branch {
+        echo "  ─ $branch"
+        echo "    └── $(git log -1 --pretty=format:%s $branch)"
 
+
+    }
+
+    pushd ~/src/si
+
+    echo ""
+    echo "LOCAL"
     for branch in $(git branch); do
         if [[ $branch != *"*"* ]] && [[ $branch != "main" ]]; then
-            echo "  $branch    $(git log -1 --pretty=format:%s $branch)"
+            si-print-branch $1
         fi
     done
-
     echo ""
-
+    echo "REMOTE"
     for branch in $(git branch -a); do
         if [[ $branch == *"origin"* ]] && [[ $branch == *"nick"* ]]; then
-            echo "  $branch    $(git log -1 --pretty=format:%s $branch)"
+            si-print-branch $1
         fi
     done
-
     echo ""
+
+    popd
 }
