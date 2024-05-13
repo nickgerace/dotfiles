@@ -1,6 +1,8 @@
 function start-work {
-    ulimit -n 10240
+    # File descriptor max set to 2^20
+    ulimit -n 1048576
     cd ~/src/si
+    direnv allow .
     tmux
 }
 
@@ -31,4 +33,21 @@ function si-branches {
     echo ""
 
     popd
+}
+
+function si-wipe-cache {
+    setopt PUSHDSILENT
+
+    pushd /tmp
+    for WIPE_NIX_SHELL in $(ls | rg "nix-shell\.."); do
+        pushd $WIPE_NIX_SHELL
+        for WIPE_CACHE_DIR in $(ls | rg ".\-cache\-."); do
+            echo $WIPE_CACHE_DIR
+            rm -r $WIPE_CACHE_DIR
+        done
+        popd
+    done
+    popd
+
+    unsetopt PUSHDSILENT
 }
