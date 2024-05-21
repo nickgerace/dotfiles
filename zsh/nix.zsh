@@ -28,6 +28,10 @@ else
 fi
 
 if [ "$(command -v direnv)" ]; then
+    # Source: https://github.com/direnv/direnv/issues/106#issuecomment-1027330218
+    if [ -n "$tmux" ] && [ -n "$direnv_dir" ]; then
+        unset "${!direnv_@}"  # unset env vars starting with direnv_
+    fi
     eval "$(direnv hook zsh)"
 fi
 
