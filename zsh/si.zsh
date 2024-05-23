@@ -3,8 +3,13 @@ function start-work {
     ulimit -n 1048576
     cd ~/src/si
     direnv allow .
-    tmux
+    tmux new-session -s si -d
+    tmux new-window -t si
+    tmux new-window -t si
+    tmux attach-session -t si:0
 }
+
+alias si="start-work"
 
 function si-branches {
     function si-print-branch {
