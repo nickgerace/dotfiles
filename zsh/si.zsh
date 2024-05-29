@@ -11,6 +11,12 @@ function start-work {
 
 alias si="start-work"
 
+function si-build {
+    pushd ~/src/si
+    buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech
+    popd
+}
+
 function si-branches {
     function si-print-branch {
         echo "  ─ $branch"
