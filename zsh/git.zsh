@@ -27,28 +27,7 @@ if [ "$(command -v git)" ]; then
 
     alias branch="git rev-parse --abbrev-ref HEAD"
 
-    alias post-merge-main="post-merge main"
-
     alias git-rebase-local="echo 'git rebase -i <oldest-commit>~'"
-
-    function post-merge {
-        if [ ! $1 ]; then
-            echo "required argument: <main-branch>"
-            return
-        fi
-
-        local DELETE
-        DELETE=$(git rev-parse --abbrev-ref HEAD)
-        if [ "$1" = "$DELETE" ]; then
-            echo "cannot delete main branch: $1"
-            return
-        fi
-
-        git checkout $1
-        git pull origin $1
-        git branch -d $DELETE
-        git pull --prune
-    }
 
     function git-rebase-forked-repo {
         if [ ! $1 ]; then
