@@ -29,6 +29,7 @@
     gnused
     go
     graphviz
+    helix
     htop
     hugo
     jq
@@ -46,6 +47,7 @@
     wget
     yamllint
     yq
+    zellij
     zoxide
     zsh
   ];
