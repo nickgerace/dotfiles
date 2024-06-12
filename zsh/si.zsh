@@ -4,12 +4,6 @@ function start-work {
     cd ~/src/si
     direnv allow .
     zellij --layout "$NICK_DOTFILES/zellij/layouts/si.kdl"
-
-    # NOTE(nick): remove if zellij trial goes well.
-    # tmux new-session -s si -d
-    # tmux new-window -t si
-    # tmux new-window -t si
-    # tmux attach-session -t si:0
 }
 
 alias si="start-work"

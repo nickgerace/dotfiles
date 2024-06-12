@@ -12,6 +12,7 @@
     bash
     bat
     bottom
+    btop
     cloc
     cowsay
     curl
