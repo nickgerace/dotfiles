@@ -451,7 +451,7 @@ function run-darwin {
     }
 
     function install-casks {
-        brew install --cask wezterm visual-studio-code font-iosevka font-iosevka-nerd-font font-jetbrains-mono
+        brew install --cask wezterm font-iosevka font-iosevka-nerd-font font-jetbrains-mono
     }
 
     function configure-rustup {
@@ -520,6 +520,9 @@ function main {
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/init.lua" "$HOME/.config/nvim" "init.lua"
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
         link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/helix/config.toml" "$HOME/.config/helix" "config.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/helix/languages.toml" "$HOME/.config/helix" "languages.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zellij/config.kdl" "$HOME/.config/zellij" "config.kdl"
 
         if [ "darwin" = "$1" ]; then
             link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"

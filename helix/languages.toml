@@ -1,0 +1,7 @@
+[[language]]
+name = "nix"
+formatter = { command = "nixpkgs-fmt" }
+auto-format = true
+
+[language-server.rust-analyzer]
+config = { check = { command = "clippy" } }
