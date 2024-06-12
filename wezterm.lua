@@ -10,7 +10,7 @@ config.enable_tab_bar = false
 config.color_scheme = 'OneHalfLight'
 config.audible_bell = 'Disabled'
 
-config.font_size = 13
+config.font_size = 12
 if wezterm.target_triple == 'aarch64-apple-darwin' then
     config.font_size = 16
 end
