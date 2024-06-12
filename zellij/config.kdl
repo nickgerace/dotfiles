@@ -1,12 +1,23 @@
-// ===== Nick's Customizations =====
-theme "catppuccin-latte"
-// =================================
+// ================================================================================================
+// NOTE(nick): this a slightly modified version of the default zellij layout as of version v0.40.1.
+// Exisiting configuration settings or comments have been left intact. The keybinds use a modified
+// version of @dlintw's bindings posted in a zellij GitHub discussion. The main differences are
+// that I use "`" instead of "ctrl+b" for tmux and that I did not port over the resizing,
+// fullscreen or movement bindings.
+//
+// Links:
+// - @dlintw's comment:
+//   --> https://github.com/zellij-org/zellij/discussions/3058#discussion-6064366
+// - reference config (not the default):
+//   --> https://github.com/zellij-org/zellij/blob/v0.40.1/example/config.kdl
+// ================================================================================================
 
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
 keybinds {
-    normal {
+    normal clear-defaults=true {
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
+        bind "`" { SwitchToMode "tmux"; }
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -127,7 +138,7 @@ keybinds {
     }
     tmux {
         bind "[" { SwitchToMode "Scroll"; }
-        bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
+        bind "`" { Write 2; SwitchToMode "Normal"; }
         bind "\"" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
@@ -147,6 +158,18 @@ keybinds {
         bind "d" { Detach; }
         bind "Space" { NextSwapLayout; }
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
+        bind "1" { GoToTab 1; SwitchToMode "Normal"; }
+        bind "2" { GoToTab 2; SwitchToMode "Normal"; }
+        bind "3" { GoToTab 3; SwitchToMode "Normal"; }
+        bind "4" { GoToTab 4; SwitchToMode "Normal"; }
+        bind "5" { GoToTab 5; SwitchToMode "Normal"; }
+        bind "6" { GoToTab 6; SwitchToMode "Normal"; }
+        bind "7" { GoToTab 7; SwitchToMode "Normal"; }
+        bind "8" { GoToTab 8; SwitchToMode "Normal"; }
+        bind "9" { GoToTab 9; SwitchToMode "Normal"; }
+        bind "e" { EditScrollback; SwitchToMode "Normal"; }
+        bind "m" { SwitchToMode "move"; }
+        bind "=" { SwitchToMode "resize"; }
     }
     shared_except "locked" {
         bind "Ctrl g" { SwitchToMode "Locked"; }
@@ -189,9 +212,10 @@ keybinds {
     }
 }
 
+// NOTE(nick): reduce the number of plugins used because we only use compact mode.
 plugins {
-    tab-bar location="zellij:tab-bar"
-    status-bar location="zellij:status-bar"
+    // tab-bar location="zellij:tab-bar"
+    // status-bar location="zellij:status-bar"
     strider location="zellij:strider"
     compact-bar location="zellij:compact-bar"
     session-manager location="zellij:session-manager"
@@ -233,6 +257,7 @@ plugins {
 //   - false
 //
 // pane_frames true
+pane_frames false
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
@@ -284,11 +309,13 @@ plugins {
 // Default: default
 //
 // theme "default"
+theme "catppuccin-latte"
 
 // The name of the default layout to load on startup
 // Default: "default"
 //
 // default_layout "compact"
+default_layout "compact"
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
