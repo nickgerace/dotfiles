@@ -1,52 +1,6 @@
 #!/usr/bin/env bash
 set -eu
 
-# =======================
-# === Opening Prompts ===
-# =======================
-
-NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME="Nick Gerace"
-NICK_BOOTSTRAP_INSTALL_PACKAGES="false"
-NICK_BOOTSTRAP_SETUP_THELIO="false"
-
-echo -e "Welcome to nickgerace's dotfiles bootstrap script!\n"
-while true; do
-    read -r -n1 -p "1) Are you setting up a System76 Thelio system? [y/n] (default: n) (ignored for Pop!_OS): " yn
-    case $yn in
-        [yY] ) NICK_BOOTSTRAP_SETUP_THELIO="true"; echo ""; break;;
-        "" ) break;;
-        * ) echo ""; break;;
-    esac
-done
-while true; do
-    read -r -n1 -p "2) Do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
-    case $yn in
-        [yY] ) NICK_BOOTSTRAP_INSTALL_PACKAGES="true"; echo ""; break;;
-        "" ) break;;
-        * ) echo ""; break;;
-    esac
-done
-while true; do
-    read -r -p "3) What is your git \"user.name\"? (default: \"$NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME\"): " response
-    case $response in
-        "" ) break;;
-        *) echo ""; NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME="$response"; break;;
-    esac
-done
-while true; do
-    echo -e "\nReady to go! Configuration..."
-    echo "  - Set up a System76 Thelio system (ignored for Pop!_OS): $NICK_BOOTSTRAP_SETUP_THELIO"
-    echo "  - Install packages in addition to setting up dotfiles: $NICK_BOOTSTRAP_INSTALL_PACKAGES"
-    echo "  - Global git config \"user.name\": \"$NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME\""
-    echo ""
-    read -r -n1 -p "Run the bootstrap script? [y/n] (default: y): " yn
-    case $yn in
-        [yY] ) echo -e "\n"; break;;
-        "" ) echo ""; break;;
-         * ) exit 0;;
-    esac
-done
-
 # ========================================
 # === Reusable Variables and Functions ===
 # ========================================
@@ -55,44 +9,94 @@ NICK_BOOTSTRAP_DOTFILES_DIRECTORY="$HOME/src/dotfiles"
 NICK_BOOTSTRAP_BOOTSTRAP_DIRECTORY="$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/bootstrap"
 
 NICK_BOOTSTRAP_LOG_FORMAT_BOLD=$(tput bold)
+NICK_BOOTSTRAP_LOG_FORMAT_GREEN=$(tput setaf 2)
 NICK_BOOTSTRAP_LOG_FORMAT_RED=$(tput setaf 1)
 NICK_BOOTSTRAP_LOG_FORMAT_RESET=$(tput sgr0)
 
-function log-inner {
-    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}$1 $2${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
+function log {
+    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}☐ $1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
 }
 
-function explode-inner {
-    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}${NICK_BOOTSTRAP_LOG_FORMAT_RED}$1 error: $2${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
+function success {
+    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}${NICK_BOOTSTRAP_LOG_FORMAT_GREEN}☑ $1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
+}
+
+function explode {
+    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}${NICK_BOOTSTRAP_LOG_FORMAT_RED}☒ $1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
     exit 1
 }
+
+# =======================
+# === Opening Prompts ===
+# =======================
+
+NICK_BOOTSTRAP_INSTALL_PACKAGES="false"
+NICK_BOOTSTRAP_SETUP_THELIO="false"
+
+log "welcome to nickgerace's dotfiles bootstrap script!"
+
+while true; do
+    read -r -n1 -p "→  are you setting up a System76 Thelio system? [y/n] (default: n) (ignored for Pop!_OS): " yn
+    case $yn in
+        [yY] ) NICK_BOOTSTRAP_SETUP_THELIO="true"; echo ""; break;;
+        "" ) break;;
+        * ) echo ""; break;;
+    esac
+done
+
+log "setting up a System76 Thelio system (ignored for Pop!_OS): $NICK_BOOTSTRAP_SETUP_THELIO"
+while true; do
+    read -r -n1 -p "→  do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
+    case $yn in
+        [yY] ) NICK_BOOTSTRAP_INSTALL_PACKAGES="true"; echo ""; break;;
+        "" ) break;;
+        * ) echo ""; break;;
+    esac
+done
+log "installing packages in addition to setting up dotfiles: $NICK_BOOTSTRAP_INSTALL_PACKAGES"
+
+while true; do
+    read -r -n1 -p "→  run the bootstrap script? [y/n] (default: y): " yn
+    case $yn in
+        [yY] ) echo -e "\n"; break;;
+        "" ) echo ""; break;;
+         * ) exit 0;;
+    esac
+done
+
+success "configuration locked! running..."
 
 # ==============================================
 # === Generic Package Installation Functions ===
 # ==============================================
 
-function install-neovim-plugins {
-    local NEOVIM_VIM_PLUG_FILE
-    NEOVIM_VIM_PLUG_FILE="${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim
+function install-rust-darwin {
+    install-rust-inner
 
-    # Inspired by source: https://github.com/junegunn/vim-plug?tab=readme-ov-file#neovim
-    if [ ! -f "$NEOVIM_VIM_PLUG_FILE" ]; then
-        curl -fLo "$NEOVIM_VIM_PLUG_FILE" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    fi
+    rustup toolchain install stable-aarch64-apple-darwin
+    rustup default stable-aarch64-apple-darwin
 
-    nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
+    rustup component add rust-analyzer
 }
 
 function install-rust-linux {
-    if [ -f "$HOME/.cargo/env" ]; then
+    install-rust-inner
+
+    rustup toolchain install stable-x86_64-unknown-linux-gnu
+    rustup default stable-x86_64-unknown-linux-gnu
+
+    rustup component add rust-analyzer
+}
+
+function install-rust-inner {
+    if ! command -v rustup && [ -f "$HOME/.cargo/env" ]; then
         source "$HOME/.cargo/env"
-    else
+    fi
+    
+    if ! command -v rustup; then
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
         source "$HOME/.cargo/env"
     fi
-    rustup toolchain install stable-x86_64-unknown-linux-gnu
-    rustup toolchain install nightly-x86_64-unknown-linux-gnu
-    rustup default stable-x86_64-unknown-linux-gnu
 }
 
 function install-nix {
@@ -101,18 +105,26 @@ function install-nix {
     fi
 }
 
+function setup-home-manager {
+    if ! command -v home-manager; then
+        nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+        nix-channel --update
+        nix-shell '<home-manager>' -A install
+    fi
+    home-manager switch
+}
+
+function check-wsl2 {
+    if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
+        explode "cannot use WSL2 and perform advanced package installation"
+    fi
+}
+
 # =================================
 # === OS (and distro) Functions ===
 # =================================
 
 function run-fedora-install-packages {
-    function explode {
-        explode-inner "[bootstrap|fedora|install-packages]" "$1"
-    }
-    function log {
-        log-inner "[bootstrap|fedora|install-packages]" "$1"
-    }
-
     local FEDORA_DATA
     local FEDORA_BASE_PACKAGES_FILE
     local FEDORA_CRATES_FILE
@@ -182,18 +194,9 @@ function run-fedora-install-packages {
     install-rust-linux
     log "installing crates"
     install-crates
-    log "installing neovim plugins"
-    install-neovim-plugins
 }
 
 function run-fedora-setup-thelio {
-    function explode {
-        explode-inner "[bootstrap|fedora|setup-thelio]" "$1"
-    }
-    function log {
-        log-inner "[bootstrap|fedora|setup-thelio]" "$1"
-    }
-
     # Source: https://support.system76.com/articles/system76-driver/
     function install-system76-driver {
         sudo dnf5 copr enable szydell/system76 -y
@@ -239,13 +242,6 @@ function run-fedora-setup-thelio {
 }
 
 function run-fedora {
-    function explode {
-        explode-inner "[bootstrap|fedora]" "$1"
-    }
-    function log {
-        log-inner "[bootstrap|fedora]" "$1"
-    }
-
     local FEDORA_DATA
     FEDORA_DATA="$NICK_BOOTSTRAP_BOOTSTRAP_DIRECTORY/data/fedora"
 
@@ -277,7 +273,7 @@ function run-fedora {
     # We need to do this before executing other scripts.
     function upgrade-all-packages-and-install-essentials {
         sudo dnf5 upgrade -y
-        sudo dnf5 install -y findutils zsh make git neovim vim curl wget bash
+        sudo dnf5 install -y findutils zsh make git curl wget bash
     }
 
     function cleanup {
@@ -306,13 +302,6 @@ function run-fedora {
 }
 
 function run-pop {
-    function explode {
-        explode-inner "[bootstrap|pop]" "$1"
-    }
-    function log {
-        log-inner "[bootstrap|pop]" "$1"
-    }
-
     local POP_DATA
     local POP_BASE_PACKAGES_FILE
 
@@ -365,15 +354,6 @@ function run-pop {
         sudo apt install -y wezterm
     }
 
-    function setup-home-manager {
-        if ! command -v home-manager; then
-            nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-            nix-channel --update
-            nix-shell '<home-manager>' -A install
-        fi
-        home-manager switch
-    }
-
     function cleanup {
         sudo apt update
         sudo apt upgrade -y
@@ -396,90 +376,54 @@ function run-pop {
     install-docker
     log "installing wezterm"
     install-wezterm
-    log "installing neovim plugins"
-    install-neovim-plugins
     log "cleaning up"
     cleanup
 }
 
-function run-opensuse-tumbleweed {
-    function explode {
-        explode-inner "[bootstrap|opensuse-tumbleweed]" "$1"
-    }
-    function log {
-        log-inner "[bootstrap|opensuse-tumbleweed]" "$1"
-    }
-
-    function install-packages {
-        sudo zypper install -y -t pattern devel_basis
-        sudo zypper install -y openssl libopenssl-devel make zsh jq curl wget neovim vim gcc-c++ ruby ruby-devel go
-    }
-
-    log "installing packages"
-    install-packages
-    log "installing neovim plugins"
-    install-neovim-plugins
-}
-
 function run-darwin {
-    function explode {
-        explode-inner "[bootstrap|darwin]" "$1"
-    }
-    function log {
-        log-inner "[bootstrap|darwin]" "$1"
-    }
-
     local DARWIN_DATA
     local DARWIN_BASE_PACKAGES_FILE
-    local DARWIN_CRATES_FILE
 
+    # TODO(nick): decide what to do with "extra-packages.txt"
     DARWIN_DATA=$NICK_BOOTSTRAP_BOOTSTRAP_DIRECTORY/data/darwin
     DARWIN_BASE_PACKAGES_FILE=$DARWIN_DATA/base-packages.txt
-    DARWIN_CRATES_FILE=$DARWIN_DATA/crates.txt
 
     function verify-paths {
         if [ ! -f "$DARWIN_BASE_PACKAGES_FILE" ]; then
             explode "not found $DARWIN_BASE_PACKAGES_FILE"
         fi
-        if [ ! -f "$DARWIN_CRATES_FILE" ]; then
-            explode "not found $DARWIN_CRATES_FILE"
-        fi
     }
 
-    function install-packages {
+    function install-brew-packages {
+        if ! command -v brew; then
+            # Source: https://brew.sh/
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+        brew update
+        brew upgrade
+        brew cleanup
         xargs brew install < "$DARWIN_BASE_PACKAGES_FILE"
     }
 
-    function install-casks {
-        brew install --cask wezterm font-iosevka font-iosevka-nerd-font font-jetbrains-mono
+    function install-brew-casks {
+        brew install --cask wezterm font-iosevka-nerd-font
     }
 
-    function configure-rustup {
-        if command -v rustup; then
-            rustup toolchain install stable-aarch64-apple-darwin
-            rustup toolchain install nightly-aarch64-apple-darwin
-            rustup default stable-aarch64-apple-darwin
-        else
-            log "rustup not installed"
-        fi
-    }
-
-    function install-crates {
-        xargs cargo install < "$DARWIN_CRATES_FILE"
-    }
+    # FIXME(nick): replace with homebrew and home-manager, if possible.
+    # function install-crates {
+    #     xargs cargo install < "$DARWIN_CRATES_FILE"
+    # }
 
     log "verifying paths"
     verify-paths
-    log "installing packages"
-    install-packages
-    log "installing casks"
-    install-casks
-    log "configuring rustup"
-    configure-rustup
-    log "installing crates"
-    install-crates
-    log "installing neovim plugins"
-    install-neovim-plugins
+    log "installing brew packages"
+    install-brew-packages
+    log "installing brew casks"
+    install-brew-casks
+    log "installing nix"
+    install-nix
+    log "installing rust"
+    install-rust-darwin
 }
 
 # =======================
@@ -487,54 +431,45 @@ function run-darwin {
 # =======================
 
 function main {
-    function explode {
-        explode-inner "[bootstrap]" "$1"
-    }
-    function log {
-        log-inner "[bootstrap]" "$1"
-    }
-
     function link {
         if [ ! -f "$1" ]; then
             explode "file does not exist: $1"
         fi
 
-        if [ -d "$2" ]; then
-            if [ -f "$2"/"$3" ]; then
-                rm "$2"/"$3"
+        local DIRNAME
+        DIRNAME=$(dirname "$2")
+
+        if [ -d "$DIRNAME" ]; then
+            if [ -f "$2" ]; then
+                rm "$2"
             fi
-        elif [ "$HOME" != "$2" ]; then
-            mkdir -p "$2"
+        elif [ "$HOME" != "$DIRNAME" ]; then
+            mkdir -p "$DIRNAME"
         fi
 
-        ln -s "$1" "$2"/"$3"
+        ln -s "$1" "$2"
     }
 
     function setup-dotfiles {
-        git config --global user.name "$NICK_BOOTSTRAP_GLOBAL_GIT_USER_NAME"
         git config --global pull.rebase true
 
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zshrc" "$HOME" ".zshrc"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/tmux.conf" "$HOME" ".tmux.conf"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/wezterm.lua" "$HOME" ".wezterm.lua"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/init.lua" "$HOME/.config/nvim" "init.lua"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config" "starship.toml"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo" "config.toml"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/helix/config.toml" "$HOME/.config/helix" "config.toml"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/helix/languages.toml" "$HOME/.config/helix" "languages.toml"
-        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zellij/config.kdl" "$HOME/.config/zellij" "config.kdl"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zshrc" "$HOME/.zshrc"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/wezterm.lua" "$HOME/.wezterm.lua"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config/starship.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/cargo-config-global.toml" "$HOME/.cargo/config.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/helix/config.toml" "$HOME/.config/helix/config.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/helix/languages.toml" "$HOME/.config/helix/languages.toml"
+        link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 
         if [ "darwin" = "$1" ]; then
-            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config" "gfold.toml"
+            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config/gfold.toml"
         else
             if [ "pop" = "$1" ]; then
-                link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/home-manager/pop/home.nix" "$HOME/.config/home-manager" "home.nix"
+                link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/home-manager/pop/home.nix" "$HOME/.config/home-manager/home.nix"
             fi
-            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/linux.toml" "$HOME/.config" "gfold.toml"
+            link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/linux.toml" "$HOME/.config/gfold.toml"
         fi
     }
-
-    log "running..."
 
     if [ $EUID -eq 0 ]; then
         explode "must run as non-root"
@@ -567,33 +502,23 @@ function main {
         if [ "$LINUX_DISTRO" = "fedora" ]; then
             setup-dotfiles "$LINUX_DISTRO"
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
-                if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
-                    explode "cannot use WSL2 and perform advanced package installation"
-                fi
+                check-wsl2
                 run-fedora
             fi
         elif [ "$LINUX_DISTRO" = "pop" ]; then
             setup-dotfiles "$LINUX_DISTRO"
             if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
-                if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
-                    explode "cannot use WSL2 and perform advanced package installation"
-                fi
+                check-wsl2
                 run-pop
             fi
-        elif [ "$LINUX_DISTRO" = "opensuse-tumbleweed" ]; then
-            setup-dotfiles "$LINUX_DISTRO"
-            if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
-                if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
-                    explode "cannot use WSL2 and perform advanced package installation"
-                fi
-                run-opensuse-tumbleweed
-            fi
+        else
+            explode "distro must be either Fedora or Pop!_OS"
         fi
     else
-        explode "must be macOS or Linux"
+        explode "must be macOS aarch64, Fedora x86_64, or Pop!_OS x86_64"
     fi
 
-    log "success!"
+    success "success!"
 }
 
 main
