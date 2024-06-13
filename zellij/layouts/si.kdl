@@ -15,7 +15,8 @@ layout {
 
     tab focus=true {
         pane
-        pane command="htop" close_on_exit=true
+        // NOTE(nick): temporarily disable htop.
+        // pane command="htop" close_on_exit=true
     }
 
     tab {
