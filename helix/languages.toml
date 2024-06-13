@@ -7,6 +7,10 @@ auto-format = true
 name = "rust"
 auto-format = true
 
+[[language]]
+name = "markdown"
+soft-wrap.enable = true
+
 [language-server.rust-analyzer.config.checkOnSave]
 command = "clippy"
 

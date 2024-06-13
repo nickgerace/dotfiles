@@ -31,12 +31,6 @@ function update {
         fi
     }
 
-    function update-neovim-plugins {
-        if [ -f "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim ] && command -v nvim; then
-            nvim --headless +PlugUpgrade +PlugUpdate +PlugClean +qall
-        fi
-    }
-
     function update-nix-and-packages {
         if command -v nix; then
             sudo -i nix upgrade-nix
@@ -75,7 +69,6 @@ function update {
     prepare-permissions
     update-os-packages
     update-rustup
-    update-neovim-plugins
     update-nix-and-packages
     update-snap-and-flatpak-packages
     update-crates
