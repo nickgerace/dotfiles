@@ -55,14 +55,15 @@ function update {
         fi
     }
 
-    function update-crates {
-        if command -v cargo; then
-            if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
-                cargo install --locked cargo-update
-            fi
-            cargo install-update -a
-        fi
-    }
+    # NOTE(nick): disabled since crates will come from package managers or nix via home-manager.
+    # function update-crates {
+    #     if command -v cargo; then
+    #         if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
+    #             cargo install --locked cargo-update
+    #         fi
+    #         cargo install-update -a
+    #     fi
+    # }
 
     set -x
 
@@ -71,7 +72,6 @@ function update {
     update-rustup
     update-nix-and-packages
     update-snap-and-flatpak-packages
-    update-crates
 
     set +x
 }

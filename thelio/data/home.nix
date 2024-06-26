@@ -12,7 +12,6 @@
     bash
     bash-language-server
     bat
-    btop
     cloc
     cowsay
     curl
@@ -29,7 +28,6 @@
     git-cliff
     gnumake
     gnused
-    go
     graphviz
     helix
     htop
