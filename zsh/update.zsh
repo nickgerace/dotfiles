@@ -1,8 +1,4 @@
 function update {
-    function prepare-permissions {
-        sudo -v
-    }
-
     function update-os-packages {
         if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
             sudo apt update
@@ -67,7 +63,6 @@ function update {
 
     set -x
 
-    prepare-permissions
     update-os-packages
     update-rustup
     update-nix-and-packages

@@ -18,7 +18,7 @@ function log-success {
 }
 
 function log-error {
-    echo "${THELIO_BOOTSTRAP_LOG_FORMAT_BOLD}${THELIO_BOOTSTRAP_LOG_FORMAT_RED}$1${THELIO_BOOTSTRAP_LOG_FORMAT_RESET}" >&2
+    echo "${THELIO_BOOTSTRAP_LOG_FORMAT_BOLD}${THELIO_BOOTSTRAP_LOG_FORMAT_RED}Error: $1${THELIO_BOOTSTRAP_LOG_FORMAT_RESET}" >&2
 }
 
 log "Welcome to @nickgerace's System76 Thelio bootstrap script for Pop!_OS!"
@@ -42,7 +42,22 @@ done
 
 # Check for non-root user
 if [ $EUID -eq 0 ]; then
-  log-error "Must run as non-root."
+  log-error "must run as non-root user"
+  exit 1
+fi
+
+# Ensure that we are running pop and doing so with the expected architecture
+if [ ! -f /etc/os-release ]; then
+  log-error "missing file: /etc/os-release"
+  exit 1
+fi
+. /etc/os-release
+if [[ "$ID" != "pop" ]]; then
+  log-error "must be running Pop!_OS"
+  exit 1
+fi
+if [[ "$(uname -m)" != "x86_64" ]]; then
+  log-error "must be running on x86_64"
   exit 1
 fi
 
@@ -96,10 +111,10 @@ log "Installing base packages..."
 xargs sudo apt install -y < "$THELIO_BOOTSTRAP_DOTFILES_DIRECTORY/thelio/data/base-packages.txt"
 
 # Install Iosevka Nerd Font
-if [ ! -f $HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf ]; then
+if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
   log "Installing iosevka nerd font..."
-  mkdir -p $HOME/.local/share/fonts
-  pushd $HOME/.local/share/fonts
+  mkdir -p "$HOME/.local/share/fonts"
+  pushd "$HOME/.local/share/fonts"
   curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.tar.xz
   tar -xf Iosevka.tar.xz
   [[ -f LICENSE ]] && rm LICENSE
