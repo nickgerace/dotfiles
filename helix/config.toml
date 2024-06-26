@@ -1,1 +1,5 @@
 theme = "onelight"
+
+# NOTE(nick): add if using over ssh.
+# [editor]
+# true-color = true

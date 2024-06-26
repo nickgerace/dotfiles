@@ -5,3 +5,7 @@ MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 all:
 	@$(MAKEPATH)/bootstrap/run.sh
 .PHONY: all
+
+thelio:
+	@$(MAKEPATH)/thelio/bootstrap.sh
+.PHONY:thelio
