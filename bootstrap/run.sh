@@ -14,15 +14,15 @@ NICK_BOOTSTRAP_LOG_FORMAT_RED=$(tput setaf 1)
 NICK_BOOTSTRAP_LOG_FORMAT_RESET=$(tput sgr0)
 
 function log {
-    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}☐ $1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
+    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}$1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
 }
 
 function success {
-    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}${NICK_BOOTSTRAP_LOG_FORMAT_GREEN}☑ $1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
+    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}${NICK_BOOTSTRAP_LOG_FORMAT_GREEN}$1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
 }
 
 function explode {
-    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}${NICK_BOOTSTRAP_LOG_FORMAT_RED}☒ $1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
+    echo "${NICK_BOOTSTRAP_LOG_FORMAT_BOLD}${NICK_BOOTSTRAP_LOG_FORMAT_RED}$1${NICK_BOOTSTRAP_LOG_FORMAT_RESET}"
     exit 1
 }
 
@@ -36,7 +36,7 @@ NICK_BOOTSTRAP_SETUP_THELIO="false"
 log "welcome to nickgerace's dotfiles bootstrap script!"
 
 while true; do
-    read -r -n1 -p "→  are you setting up a System76 Thelio system? [y/n] (default: n) (ignored for Pop!_OS): " yn
+    read -r -n1 -p "are you setting up a System76 Thelio system? [y/n] (default: n) (ignored for Pop!_OS): " yn
     case $yn in
         [yY] ) NICK_BOOTSTRAP_SETUP_THELIO="true"; echo ""; break;;
         "" ) break;;
@@ -46,7 +46,7 @@ done
 
 log "setting up a System76 Thelio system (ignored for Pop!_OS): $NICK_BOOTSTRAP_SETUP_THELIO"
 while true; do
-    read -r -n1 -p "→  do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
+    read -r -n1 -p "do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
     case $yn in
         [yY] ) NICK_BOOTSTRAP_INSTALL_PACKAGES="true"; echo ""; break;;
         "" ) break;;
@@ -56,7 +56,7 @@ done
 log "installing packages in addition to setting up dotfiles: $NICK_BOOTSTRAP_INSTALL_PACKAGES"
 
 while true; do
-    read -r -n1 -p "→  run the bootstrap script? [y/n] (default: y): " yn
+    read -r -n1 -p "run the bootstrap script? [y/n] (default: y): " yn
     case $yn in
         [yY] ) echo -e "\n"; break;;
         "" ) echo ""; break;;
@@ -301,85 +301,6 @@ function run-fedora {
     cleanup
 }
 
-function run-pop {
-    local POP_DATA
-    local POP_BASE_PACKAGES_FILE
-
-    POP_DATA="$NICK_BOOTSTRAP_BOOTSTRAP_DIRECTORY/data/pop"
-    POP_BASE_PACKAGES_FILE="$POP_DATA/base-packages.txt"
-
-    function verify-paths {
-        if [ ! -f "$POP_BASE_PACKAGES_FILE" ]; then
-            explode "could not find $POP_BASE_PACKAGES_FILE"
-        fi
-    }
-
-    function setup-permissions {
-        sudo -v
-    }
-
-    function install-packages {
-        sudo apt update
-        sudo apt upgrade -y
-        xargs sudo apt install -y < "$POP_BASE_PACKAGES_FILE"
-    }
-
-    # Source: https://docs.docker.com/engine/install/ubuntu/
-    function install-docker {
-        if ! command -v docker; then
-            sudo apt update
-            sudo apt install -y ca-certificates curl gnupg
-            sudo install -m 0755 -d /etc/apt/keyrings
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-            sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-            echo \
-              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-              $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-              sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-            sudo apt update
-
-            sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-        fi
-
-        # Enable docker to be used by non-root users.
-        sudo usermod -aG docker "$USER"
-        sudo docker run hello-world
-    }
-
-    function install-wezterm {
-        curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
-        echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
-        sudo apt update
-        sudo apt install -y wezterm
-    }
-
-    function cleanup {
-        sudo apt update
-        sudo apt upgrade -y
-        sudo apt autoremove -y
-        sudo apt clean -y
-    }
-
-    log "verifying paths"
-    verify-paths
-    log "setting up permissions and installing packages"
-    setup-permissions
-    install-packages
-    log "installing nix"
-    install-nix
-    log "setting up home-manager"
-    setup-home-manager
-    log "installing rust"
-    install-rust-linux
-    log "installing docker"
-    install-docker
-    log "installing wezterm"
-    install-wezterm
-    log "cleaning up"
-    cleanup
-}
-
 function run-darwin {
     local DARWIN_DATA
     local DARWIN_BASE_PACKAGES_FILE
@@ -465,9 +386,6 @@ function main {
         if [ "darwin" = "$1" ]; then
             link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config/gfold.toml"
         else
-            if [ "pop" = "$1" ]; then
-                link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/home-manager/pop/home.nix" "$HOME/.config/home-manager/home.nix"
-            fi
             link "$NICK_BOOTSTRAP_DOTFILES_DIRECTORY/gfold/linux.toml" "$HOME/.config/gfold.toml"
         fi
     }
@@ -506,17 +424,12 @@ function main {
                 check-wsl2
                 run-fedora
             fi
-        elif [ "$LINUX_DISTRO" = "pop" ]; then
-            setup-dotfiles "$LINUX_DISTRO"
-            if [ "true" = "$NICK_BOOTSTRAP_INSTALL_PACKAGES" ]; then
-                check-wsl2
-                run-pop
-            fi
         else
-            explode "distro must be either Fedora or Pop!_OS"
+            echo "skipping package installation (only available on Fedora)"
+            setup-dotfiles "$LINUX_DISTRO"
         fi
     else
-        explode "must be macOS aarch64, Fedora x86_64, or Pop!_OS x86_64"
+        explode "must be macOS aarch64 or Linux x86_64"
     fi
 
     success "success!"
