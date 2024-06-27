@@ -23,14 +23,6 @@ make
 The invoked `make` target runs an idempotent-ish bootstrap script, so you should be able to execute it multiple times.
 That being said: *caution is advised*.
 
-### Option for Thelio Users
-
-For [System76 Thelio](https://system76.com/desktops) users running [Pop!\_OS](https://pop.system76.com), execute the following:
-
-```bash
-make thelio
-```
-
 ## Q&A
 
 This section contains questions and answers regarding these dotfiles.
@@ -45,10 +37,11 @@ These dotfiles require neither [`oh-my-zsh`](https://ohmyz.sh/) nor [`starship`]
 Only `zsh` needs to be installed as all shell-based dotfiles are custom and configured manually.
 That being said, if `starship` is installed, it will use the configuration file linked to `$HOME/.config/starship.toml`.
 
-### Does the bootstrapper offer options beyond setting up dotfiles?
+### Does the `make` target do more than setup dotfiles?
 
-The bootstrapper only sets up dotfiles by default.
-However, for certain Linux distributions and for macOS, you can optionally install packages and setup the base system (e.g. install an opinionated set of base packages with a package manager).
+The script only sets up dotfiles by default.
+However, for certain Linux distributions and macOS, you can optionally install packages and setup the base system (e.g. install an opinionated set of base packages with a package manager).
+This is referred to "bootstrapping" in the script.
 
 ### Is WSL2 supported?
 
