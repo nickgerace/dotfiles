@@ -1,0 +1,28 @@
+import = [ "~/.config/alacritty/catppuccin-latte.toml" ]
+
+[window]
+dynamic_padding = true
+dynamic_title = false
+
+# NOTE(nick): removes the title bar and borders.
+# decorations = "None"
+
+[font.normal]
+family = "Iosevka Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "Iosevka Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "Iosevka Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "Iosevka Nerd Font"
+style = "Bold Italic"
+
+[window.padding]
+x = 5
+y = 5
