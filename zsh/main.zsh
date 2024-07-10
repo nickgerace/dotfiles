@@ -1,5 +1,10 @@
+if [ "$NICK_OS" = "arch" ]; then
+    export EDITOR=helix
+else
+    export EDITOR=hx
+fi
+
 export TERM=xterm-256color
-export EDITOR=hx
 export VISUAL=$EDITOR
 
 export PATH=$PATH:/usr/local/bin

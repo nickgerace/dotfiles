@@ -21,7 +21,8 @@ if [ "$(uname -s)" = "Darwin" ]; then
 elif [ "$(uname -s)" = "Linux" ]; then
     NICK_LINUX="true"
     if [ -f /etc/os-release ]; then
-        export NICK_OS=$(grep '^ID=' /etc/os-release | sed 's/^ID=//' | tr -d '"')
+        . /etc/os-release
+        export NICK_OS="$ID"
     else
         export NICK_OS="unknown"
     fi
