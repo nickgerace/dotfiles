@@ -19,6 +19,7 @@ gfold
 git
 git-cliff
 github-cli
+gnu-free-fonts
 graphviz
 helix
 htop
@@ -29,6 +30,10 @@ lolcat
 make
 mold
 neovim
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+noto-fonts-extra
 openssl
 ripgrep
 sed
@@ -37,6 +42,7 @@ speedtest-cli
 starship
 tree
 ttf-iosevka-nerd
+ttf-jetbrains-mono
 vim
 wget
 yamllint
