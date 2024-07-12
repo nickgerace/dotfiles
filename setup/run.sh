@@ -145,6 +145,15 @@ elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
   fi
 
+  if ! command -v home-manager; then
+    log "Installing home-manager..."
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    nix-channel --update
+    nix-shell '<home-manager>' -A install
+  fi
+  log "Running home-manager switch..."
+  home-manager switch
+
   log "Checking default shell..."
   if [ "$SHELL" != "$HOME/.nix-profile/bin/zsh" ]; then
     if [[ ! $(grep "$HOME/.nix-profile/bin/zsh" /etc/shells) ]]; then
@@ -165,15 +174,6 @@ elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
   log "Setting up rust toolchain..."
   rustup default stable
   rustup component add rust-analyzer
-
-  if ! command -v home-manager; then
-    log "Installing home-manager..."
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    nix-shell '<home-manager>' -A install
-  fi
-  log "Setting up home-manager..."
-  home-manager switch
 
   if ! command -v docker; then
     log "Installing docker..."
@@ -230,7 +230,18 @@ elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
   log "Installing core base packages..."
   sudo pacman -S --noconfirm --needed - < "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/pkgs/core.lst"
 
-  log "Installing AUR base packages..."
+  echo "Attempting to find paru..."
+  if ! command -v paru; then
+    echo "Installing paru..."
+    pushd "$(mktemp -d)"
+    git clone https://aur.archlinux.org/paru.git
+    pushd paru
+    makepkg -si --noconfirm
+    popd
+    popd
+  fi
+
+  log "Installing AUR base packages via paru..."
   paru -S --noconfirm --needed - < "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/pkgs/aur.lst"
 
   log "Checking for nix installation..."

@@ -14,7 +14,10 @@ if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; 
 fi
 
 echo "Installing base dependencies..."
-sudo pacman -S --noconfirm --needed base-devel git linux-headers
+sudo pacman -S --noconfirm --needed base-devel git linux-headers rustup
+
+echo "Setting up rust..."
+rustup default stable
 
 echo "Attempting to find paru..."
 if ! command -v paru; then
@@ -34,7 +37,7 @@ sudo gpasswd -a "$USER" adm
 
 echo "Installing and setting up firmware manager and system76 driver..."
 paru -S --noconfirm firmware-manager-git
-paru -S --noconfrim system76-driver
+paru -S --noconfirm system76-driver
 sudo systemctl enable --now system76
 
 echo "Installing and setting up system76 software and enabling power daemon..."
