@@ -1,5 +1,3 @@
-import = [ "~/.config/alacritty/catppuccin-latte.toml" ]
-
 [window]
 dynamic_padding = true
 dynamic_title = false

@@ -92,14 +92,16 @@ link "$BOOTSTRAP_DOTFILES_DIRECTORY/helix/config.toml" "$HOME/.config/helix/conf
 link "$BOOTSTRAP_DOTFILES_DIRECTORY/helix/languages.toml" "$HOME/.config/helix/languages.toml"
 link "$BOOTSTRAP_DOTFILES_DIRECTORY/helix/themes/catppuccin_latte.toml" "$HOME/.config/helix/catppuccin_latte.toml"
 link "$BOOTSTRAP_DOTFILES_DIRECTORY/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+link "$BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/main.toml" "$HOME/.config/alacritty/main.toml"
 link "$BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/catppuccin-latte.toml" "$HOME/.config/alacritty/catppuccin-latte.toml"
 
 # TODO(nick): rework gfold to not need multiple configs.
 if [ "$(uname -s)" = "Darwin" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/gfold/darwin.toml" "$HOME/.config/gfold.toml"
-elif [ "$(uname -s)" = "Linux" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/gfold/linux.toml" "$HOME/.config/gfold.toml"
+  link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/gfold.toml" "$HOME/.config/gfold.toml"
+  link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
+  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/gfold/linux.toml" "$HOME/.config/gfold.toml"
+  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 fi
 
 if [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
