@@ -35,10 +35,15 @@ if ! command -v paru; then
   popd
 fi
 
-echo "Installing and setting up system76 firmware daemon..."
-paru -S --noconfirm system76-firmware-daemon-git
-sudo systemctl enable --now system76-firmware-daemon
-sudo gpasswd -a "$USER" adm
+# FIXME(nick): do this check for the other packages and integrate this script into the bootstrapper.
+if paru -Qs system76-firmware-daemon-git; then
+  echo "Skipping system76 firmware daemon installation and setup (already installed)..."
+else
+  echo "Installing and setting up system76 firmware daemon..."
+  paru -S --noconfirm system76-firmware-daemon-git
+  sudo systemctl enable --now system76-firmware-daemon
+  sudo gpasswd -a "$USER" adm
+fi
 
 echo "Installing and setting up firmware manager and system76 driver..."
 paru -S --noconfirm firmware-manager-git
