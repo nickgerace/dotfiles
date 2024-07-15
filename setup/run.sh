@@ -100,7 +100,7 @@ if [ "$(uname -s)" = "Darwin" ]; then
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/gfold.toml" "$HOME/.config/gfold.toml"
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/gfold/linux.toml" "$HOME/.config/gfold.toml"
+  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/gfold.toml" "$HOME/.config/gfold.toml"
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 fi
 

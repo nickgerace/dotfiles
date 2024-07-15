@@ -4,6 +4,8 @@ function update {
             sudo apt update
             sudo apt upgrade -y
             sudo apt autoremove -y
+        elif [ "$NICK_OS" = "arch" ]; then
+            sudo pacman -Syu
         elif [ "$NICK_OS" = "fedora" ]; then
             if command -v dnf5; then
                 sudo dnf5 upgrade -y --refresh
