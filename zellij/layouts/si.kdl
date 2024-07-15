@@ -14,16 +14,18 @@ layout {
     }
 
     tab focus=true {
-        pane
-        // NOTE(nick): temporarily disable htop.
-        // pane command="htop" close_on_exit=true
+        pane cwd="~/src/si"
     }
 
     tab {
-        pane
+        pane cwd="~/src/si"
     }
 
     tab {
-        pane
+        pane cwd="~/src/si"
+    }
+
+    tab {
+        pane cwd="~/src"
     }
 }

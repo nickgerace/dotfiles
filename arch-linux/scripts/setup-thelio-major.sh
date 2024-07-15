@@ -13,6 +13,11 @@ if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; 
   exit 1
 fi
 
+if [ "$(cat /sys/class/dmi/id/product_name)" != "Thelio Major" ]; then
+  echo "System must be Thelio Major"
+  exit 1
+fi
+
 echo "Installing base dependencies..."
 sudo pacman -S --noconfirm --needed base-devel git linux-headers rustup
 

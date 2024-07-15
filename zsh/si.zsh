@@ -1,8 +1,8 @@
 function start-work {
     # File descriptor max set to 2^20
     ulimit -n 1048576
-    cd ~/src/si
-    direnv allow .
+    cd ~/src
+    direnv allow si
     zellij --layout "$NICK_DOTFILES/zellij/layouts/si.kdl"
 }
 
@@ -10,7 +10,7 @@ alias si="start-work"
 
 function si-build {
     pushd ~/src/si
-    buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech
+    buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/module-index
     popd
 }
 
