@@ -1,5 +1,6 @@
-function update {
-    function update-os-packages {
+if [ "$NICK_OS" != "nixos" ]; then
+    function update {
+        echo "Updating OS packages..."
         if [ "$NICK_OS" = "ubuntu" ] || [ "$NICK_OS" = "pop" ]; then
             sudo apt update
             sudo apt upgrade -y
@@ -21,54 +22,44 @@ function update {
             brew upgrade
             brew cleanup
         fi
-    }
 
-    function update-rustup {
         if command -v rustup; then
+            echo "Running rustup update..."
             rustup update
         fi
-    }
 
-    function update-nix-and-packages {
         if command -v nix; then
+            echo "Updating nix..."
             sudo -i nix upgrade-nix
             nix-channel --update
 
             if command -v home-manager; then
+                echo "Running home-manager switch..."
                 home-manager switch
             fi
         fi
-    }
 
-    function update-snap-and-flatpak-packages {
         if [ "$NICK_LINUX" = "true" ] && [ "$NICK_WSL2" != "true" ]; then
             if command -v snap; then
+                echo "Updating snaps..."
                 sudo snap refresh
             fi
             if command -v flatpak; then
+                echo "Updating flatpaks..."
                 flatpak update -y
                 flatpak uninstall --unused
                 flatpak repair
             fi
         fi
+
+        # NOTE(nick): disabled since crates will come from package managers or nix via home-manager.
+        # function update-crates {
+        #     if command -v cargo; then
+        #         if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
+        #             cargo install --locked cargo-update
+        #         fi
+        #         cargo install-update -a
+        #     fi
+        # }
     }
-
-    # NOTE(nick): disabled since crates will come from package managers or nix via home-manager.
-    # function update-crates {
-    #     if command -v cargo; then
-    #         if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
-    #             cargo install --locked cargo-update
-    #         fi
-    #         cargo install-update -a
-    #     fi
-    # }
-
-    set -x
-
-    update-os-packages
-    update-rustup
-    update-nix-and-packages
-    update-snap-and-flatpak-packages
-
-    set +x
-}
+fi
