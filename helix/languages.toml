@@ -1,6 +1,6 @@
 [[language]]
 name = "nix"
-formatter = { command = "nixpkgs-fmt" }
+formatter = { command = "nixfmt" }
 auto-format = true
 
 [[language]]
