@@ -59,6 +59,9 @@ if [ "$(uname -s)" = "Linux" ]; then
     elif [[ "$ID" = "arch" ]]; then
       log "Found bootstrap-compatible platform: Arch Linux x86_64"
       BOOTSTRAP_PLATFORM="arch"
+    elif [[ "$ID" = "nixos" ]]; then
+      log "Found bootstrap-compatible platform: NixOS x86_64"
+      BOOTSTRAP_PLATFORM="nixos"
     fi
   fi
 fi
@@ -100,14 +103,13 @@ if [ "$(uname -s)" = "Darwin" ]; then
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/gfold.toml" "$HOME/.config/gfold.toml"
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
+  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/gfold.toml" "$HOME/.config/gfold.toml"
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
-fi
-
-if [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
 elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
   link "$BOOTSTRAP_DOTFILES_DIRECTORY/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
+elif [ "$BOOTSTRAP_PLATFORM" = "nixos" ]; then
+  link "$BOOTSTRAP_DOTFILES_DIRECTORY/nixos/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 fi
 
 if [ "$BOOTSTRAP_INSTALL_PACKAGES" != "true" ]; then
@@ -224,6 +226,7 @@ elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
   sudo apt upgrade -y
   sudo apt autoremove -y
   sudo apt clean -y
+
   log-success "Success!"
 elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
   log "Setting up package installation..."
@@ -297,5 +300,33 @@ elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
   flatpak uninstall --unused
   flatpak repair
   sudo pacman -Syu --noconfirm
+
+  log-success "Success!"
+elif [ "$BOOTSTRAP_PLATFORM" = "nixos" ]; then
+  log "Installing npm packages..."
+  npm set prefix ~/.npm-global
+  npm i -g \
+    @vue/language-server \
+    prettier \
+    typescript \
+    typescript-language-server
+
+  log "Adding the flathub repository..."
+  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+  log "Installing flatpaks..."
+  flatpak install -y flathub \
+    com.discordapp.Discord \
+    com.google.Chrome \
+    com.slack.Slack \
+    com.spotify.Client \
+    md.obsidian.Obsidian \
+    us.zoom.Zoom
+
+  log "Running final update and cleanup commands..."
+  flatpak update -y
+  flatpak uninstall --unused
+  flatpak repair
+
   log-success "Success!"
 fi
