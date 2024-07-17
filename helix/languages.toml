@@ -38,7 +38,7 @@ formatter = { command = 'prettier', args = ["--parser", "vue"] }
 
 [[language-server.typescript-language-server.config.plugins]]
 name = "@vue/typescript-plugin"
-location = "/home/nick/.local/share/fnm/node-versions/v20.15.0/installation/lib/node_modules/@vue/language-server"
+location = "/home/nick/.npm-global/lib/node_modules/@vue/language-server"
 languages = ["vue"]
 
 [language-server.volar]
@@ -47,4 +47,4 @@ args = ["--stdio"]
 
 [language-server.volar.config]
 vue = { hybridMode = false }
-typescript = { tsdk = "/home/nick/.local/share/fnm/node-versions/v20.15.0/installation/lib/node_modules/typescript/lib" }
+typescript = { tsdk = "/home/nick/.npm-global/lib/node_modules/typescript/lib" }

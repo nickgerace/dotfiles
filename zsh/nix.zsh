@@ -1,4 +1,4 @@
-if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+if [ "$NICK_OS" != "nixos" ] && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
@@ -8,13 +8,16 @@ if [ "$(command -v nix)" ]; then
 fi
 
 if [ "$(command -v home-manager)" ]; then
-    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    # TODO(nick): confirm how these variables should be setup.
+    if [ "$NICK_OS" != "nixos" ]; then
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    fi
 
     alias hm="home-manager"
     alias hme="home-manager edit"
     alias hms="home-manager switch"
     alias hml="home-manager packages | sort"
-else
+elif [ "$NICK_OS" != "nixos" ]; then
     # Only use nix profile commands is home-manager is not installed.
     alias nix-upgrade="nix profile upgrade '.*'"
 
@@ -26,8 +29,3 @@ else
         nix profile install nixpkgs#${1}
     }
 fi
-
-if [ "$(command -v direnv)" ]; then
-    eval "$(direnv hook zsh)"
-fi
-
