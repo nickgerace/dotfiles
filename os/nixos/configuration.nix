@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
 {
-  imports = [ ./hardware-configuration.nix ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [./hardware-configuration.nix];
 
   nix = {
     gc = {
@@ -9,7 +12,7 @@
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = ["nix-command" "flakes"];
   };
   nixpkgs.config.allowUnfree = true;
 
@@ -22,7 +25,7 @@
 
   users.users.nick = {
     isNormalUser = true;
-    extraGroups = [ "docker" "wheel" "networkmanager" ];
+    extraGroups = ["docker" "wheel" "networkmanager"];
   };
   environment.variables.EDITOR = "hx";
 
@@ -34,8 +37,7 @@
   hardware.system76.enableAll = true;
   virtualisation.docker.enable = true;
 
-  fonts.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "Iosevka" ]; }) ];
+  fonts.packages = with pkgs; [(nerdfonts.override {fonts = ["Iosevka"];})];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -44,29 +46,31 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  environment.gnome.excludePackages = (with pkgs; [
-    cheese
-    epiphany
-    evince
-    geary
-    gedit
-    gnome-calculator
-    gnome-calendar
-    gnome-terminal
-    gnome-text-editor
-    gnome-tour
-    totem
-  ]) ++ (with pkgs.gnome; [
-    atomix
-    gnome-characters
-    gnome-contacts
-    gnome-maps
-    gnome-music
-    gnome-weather
-    hitori
-    iagno
-    tali
-  ]);
+  environment.gnome.excludePackages =
+    (with pkgs; [
+      cheese
+      epiphany
+      evince
+      geary
+      gedit
+      gnome-calculator
+      gnome-calendar
+      gnome-terminal
+      gnome-text-editor
+      gnome-tour
+      totem
+    ])
+    ++ (with pkgs.gnome; [
+      atomix
+      gnome-characters
+      gnome-contacts
+      gnome-maps
+      gnome-music
+      gnome-weather
+      hitori
+      iagno
+      tali
+    ]);
 
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -83,9 +87,9 @@
     # typescript-language-server
     # vue-language-server
     # nodePackages.prettier
-    alacritty
     bat
     aspell
+    nvtop
     bash-language-server
     cowsay
     graphviz
@@ -124,4 +128,3 @@
 
   system.stateVersion = "24.05";
 }
-

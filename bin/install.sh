@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
 set -eu
 
-BOOTSTRAP_DOTFILES_DIRECTORY="$HOME/src/dotfiles"
-BOOTSTRAP_INSTALL_PACKAGES="false"
-BOOTSTRAP_PLATFORM="false"
+INSTALL_BOOTSTRAP_PLATFORM="false"
+INSTALL_DOTFILES_REPO="$HOME/src/dotfiles"
+INSTALL_PLATFORM="false"
 
-BOOTSTRAP_LOG_FORMAT_BOLD=$(tput bold)
-BOOTSTRAP_LOG_FORMAT_GREEN=$(tput setaf 2)
-BOOTSTRAP_LOG_FORMAT_RED=$(tput setaf 1)
-BOOTSTRAP_LOG_FORMAT_RESET=$(tput sgr0)
+INSTALL_LOG_FORMAT_BOLD=$(tput bold)
+INSTALL_LOG_FORMAT_GREEN=$(tput setaf 2)
+INSTALL_LOG_FORMAT_RED=$(tput setaf 1)
+INSTALL_LOG_FORMAT_RESET=$(tput sgr0)
 
 function log {
-  echo "${BOOTSTRAP_LOG_FORMAT_BOLD}$1${BOOTSTRAP_LOG_FORMAT_RESET}"
+  echo "${INSTALL_LOG_FORMAT_BOLD}$1${INSTALL_LOG_FORMAT_RESET}"
 }
 
 function log-success {
-  echo "${BOOTSTRAP_LOG_FORMAT_BOLD}${BOOTSTRAP_LOG_FORMAT_GREEN}$1${BOOTSTRAP_LOG_FORMAT_RESET}"
+  echo "${INSTALL_LOG_FORMAT_BOLD}${INSTALL_LOG_FORMAT_GREEN}$1${INSTALL_LOG_FORMAT_RESET}"
 }
 
 function log-error {
-  echo "${BOOTSTRAP_LOG_FORMAT_BOLD}${BOOTSTRAP_LOG_FORMAT_RED}Error: $1${BOOTSTRAP_LOG_FORMAT_RESET}" >&2
+  echo "${INSTALL_LOG_FORMAT_BOLD}${INSTALL_LOG_FORMAT_RED}Error: $1${INSTALL_LOG_FORMAT_RESET}" >&2
 }
 
 log "Welcome to @nickgerace's dotfiles setup and platform bootstrap script!"
@@ -27,13 +27,13 @@ log "Welcome to @nickgerace's dotfiles setup and platform bootstrap script!"
 while true; do
   read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
   case $yn in
-    [yY] ) BOOTSTRAP_INSTALL_PACKAGES="true"; echo ""; break;;
+    [yY] ) INSTALL_BOOTSTRAP_PLATFORM="true"; echo ""; break;;
     "" ) break;;
     * ) echo ""; break;;
   esac
 done
 while true; do
-  read -r -n1 -p "Run the bootstrap script? [y/n] (default: y): " yn
+  read -r -n1 -p "Confirm to begin [y/n] (default: y): " yn
   case $yn in
     [yY] ) echo ""; break;;
     "" ) echo ""; break;;
@@ -55,20 +55,23 @@ if [ "$(uname -s)" = "Linux" ]; then
     . /etc/os-release
     if [[ "$ID" = "pop" ]]; then
       log "Found bootstrap-compatible platform: Pop!_OS x86_64"
-      BOOTSTRAP_PLATFORM="pop"
+      INSTALL_PLATFORM="pop"
     elif [[ "$ID" = "arch" ]]; then
       log "Found bootstrap-compatible platform: Arch Linux x86_64"
-      BOOTSTRAP_PLATFORM="arch"
+      INSTALL_PLATFORM="arch"
     elif [[ "$ID" = "nixos" ]]; then
       log "Found bootstrap-compatible platform: NixOS x86_64"
-      BOOTSTRAP_PLATFORM="nixos"
+      INSTALL_PLATFORM="nixos"
     fi
   fi
+elif [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then
+  log "Found bootstrap-compatible platform: macOS aarch64"
+  INSTALL_PLATFORM="darwin"
 fi
 
 function link {
   if [ ! -f "$1" ]; then
-    log-error "File does not exist: $1"
+    log-error "file does not exist: $1"
     exit 1
   fi
 
@@ -89,43 +92,33 @@ function link {
 log "Setting up dotfiles..."
 git config --global pull.rebase true
 
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/zshrc" "$HOME/.zshrc"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/starship.toml" "$HOME/.config/starship.toml"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/helix/config.toml" "$HOME/.config/helix/config.toml"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/helix/languages.toml" "$HOME/.config/helix/languages.toml"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/helix/themes/catppuccin_latte.toml" "$HOME/.config/helix/catppuccin_latte.toml"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/main.toml" "$HOME/.config/alacritty/main.toml"
-link "$BOOTSTRAP_DOTFILES_DIRECTORY/alacritty/catppuccin-latte.toml" "$HOME/.config/alacritty/catppuccin-latte.toml"
+link "$INSTALL_DOTFILES_REPO/zshrc" "$HOME/.zshrc"
+link "$INSTALL_DOTFILES_REPO/starship.toml" "$HOME/.config/starship.toml"
+link "$INSTALL_DOTFILES_REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
+link "$INSTALL_DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
+link "$INSTALL_DOTFILES_REPO/helix/themes/catppuccin_latte.toml" "$HOME/.config/helix/catppuccin_latte.toml"
+link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
+link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
-# TODO(nick): rework gfold to not need multiple configs.
-if [ "$(uname -s)" = "Darwin" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/gfold.toml" "$HOME/.config/gfold.toml"
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/darwin/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
-elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/gfold.toml" "$HOME/.config/gfold.toml"
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
-elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
-elif [ "$BOOTSTRAP_PLATFORM" = "nixos" ]; then
-  link "$BOOTSTRAP_DOTFILES_DIRECTORY/nixos/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+if [ "$INSTALL_PLATFORM" = "arch" ]; then
+  link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
+elif [ "$INSTALL_PLATFORM" = "pop" ]; then
+  link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
 fi
 
-if [ "$BOOTSTRAP_INSTALL_PACKAGES" != "true" ]; then
+if [ "$INSTALL_BOOTSTRAP_PLATFORM" != "true" ]; then
   log-success "Success!"
   exit 0
-elif [ "$BOOTSTRAP_PLATFORM" = "false" ]; then
-  log-error "dotfiles setup succeeded, but skipping bootstrapper"
-  log-error "available bootstrapper platform(s): Pop!_OS x86_64, Arch Linux x86_64"
+elif [ "$INSTALL_PLATFORM" = "false" ]; then
+  log-error "dotfiles setup succeeded, but skipping bootstrapper (read script for compatible platforms)"
   exit 1
-elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
+elif [ "$INSTALL_PLATFORM" = "pop" ]; then
   log "Setting up package installation..."
   sudo apt update
   sudo apt upgrade -y
 
   log "Installing base packages..."
-  xargs sudo apt install -y < "$BOOTSTRAP_DOTFILES_DIRECTORY/pop-os/pkgs/core.lst"
+  xargs sudo apt install -y < "$INSTALL_DOTFILES_REPO/os/pop-os/pkgs/core.lst"
 
   if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
     log "Installing iosevka nerd font..."
@@ -199,6 +192,7 @@ elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
   log "Installing latest node lts via fnm..."
   fnm install --lts
   log "Installing npm packages..."
+  npm set prefix ~/.npm-global
   npm i -g \
    @vue/language-server \
    prettier \
@@ -228,12 +222,12 @@ elif [ "$BOOTSTRAP_PLATFORM" = "pop" ]; then
   sudo apt clean -y
 
   log-success "Success!"
-elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
+elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   log "Setting up package installation..."
   sudo pacman -Syu --noconfirm
 
   log "Installing core base packages..."
-  sudo pacman -S --noconfirm --needed - < "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/pkgs/core.lst"
+  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/core.lst"
 
   echo "Attempting to find paru..."
   if ! command -v paru; then
@@ -247,7 +241,7 @@ elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
   fi
 
   log "Installing AUR base packages via paru..."
-  paru -S --noconfirm --needed - < "$BOOTSTRAP_DOTFILES_DIRECTORY/arch-linux/pkgs/aur.lst"
+  paru -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/aur.lst"
 
   log "Checking for nix installation..."
   if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
@@ -278,6 +272,7 @@ elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
   log "Installing latest node lts via fnm..."
   fnm install --lts
   log "Installing npm packages..."
+  npm set prefix ~/.npm-global
   npm i -g \
    @vue/language-server \
    prettier \
@@ -302,7 +297,37 @@ elif [ "$BOOTSTRAP_PLATFORM" = "arch" ]; then
   sudo pacman -Syu --noconfirm
 
   log-success "Success!"
-elif [ "$BOOTSTRAP_PLATFORM" = "nixos" ]; then
+elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
+  log "Checking for nix installation..."
+  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  fi
+  if ! command -v nix; then
+    log "Installing nix..."
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  fi
+
+  log "Checking for nix-darwin..."
+  if ! command -v darwin-rebuild; then
+    pushd $INSTALL_DOTFILES_REPO
+    log "Installing nix-darwin..."
+    nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .
+    popd
+	fi
+
+  log "Running darwin-rebuild switch..."
+  darwin-rebuild switch --flake .
+
+  log "Installing npm packages for helix LSPs..."
+  npm set prefix ~/.npm-global
+  npm i -g \
+   @vue/language-server \
+   prettier \
+   typescript \
+   typescript-language-server
+
+  log-success "Success!"
+elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
   log "Installing npm packages..."
   npm set prefix ~/.npm-global
   npm i -g \

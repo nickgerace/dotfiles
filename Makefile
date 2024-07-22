@@ -1,20 +1,11 @@
 MAKEPATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-.DEFAULT_GOAL:=all
+.DEFAULT_GOAL:=install
 
-all:
-	@$(MAKEPATH)/setup/run.sh
+install:
+	@$(MAKEPATH)/bin/install.sh
 .PHONY: all
 
-switch:
-	cd $(MAKEPATH); sudo nixos-rebuild switch --flake .
-.PHONY: switch
-
 update:
-	cd $(MAKEPATH); nix flake update
-	cd $(MAKEPATH); sudo nixos-rebuild switch --flake .
-	npm update -g
-	flatpak update -y
-	flatpak uninstall --unused
-	flatpak repair
+	@$(MAKEPATH)/bin/update.sh
 .PHONY: update

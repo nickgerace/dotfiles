@@ -1,6 +1,10 @@
 [[language]]
 name = "nix"
-formatter = { command = "nixfmt" }
+formatter = { command = "alejandra" }
+auto-format = true
+
+[[language]]
+name = "json"
 auto-format = true
 
 [[language]]
@@ -38,7 +42,7 @@ formatter = { command = 'prettier', args = ["--parser", "vue"] }
 
 [[language-server.typescript-language-server.config.plugins]]
 name = "@vue/typescript-plugin"
-location = "/home/nick/.npm-global/lib/node_modules/@vue/language-server"
+location = "../../.npm-global/lib/node_modules/@vue/language-server"
 languages = ["vue"]
 
 [language-server.volar]
@@ -47,4 +51,4 @@ args = ["--stdio"]
 
 [language-server.volar.config]
 vue = { hybridMode = false }
-typescript = { tsdk = "/home/nick/.npm-global/lib/node_modules/typescript/lib" }
+typescript = { tsdk = "../../.npm-global/lib/node_modules/typescript/lib/" }
