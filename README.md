@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/github/license/nickgerace/dotfiles?style=flat-square)](LICENSE)
 
-A collection of dotfiles and scripts from [@nickgerace](https://github.com/nickgerace).
+A collection of dotfiles, scripts and configurations from [@nickgerace](https://github.com/nickgerace).
 
 ## Quickstart
 
@@ -22,6 +22,24 @@ make
 
 The invoked `make` target runs an idempotent-ish bootstrap script, so you should be able to execute it multiple times.
 That being said: *caution is advised*.
+
+## Updating
+
+Once the initial `make` target is ran, you can update packages and more using the `update` target.
+
+```bash
+make update
+```
+
+Alternatively, if you run `sz` or reload your shell, you can run the [update function](zsh/update.zsh).
+
+```bash
+update
+```
+
+> [!NOTE]
+> The above commands only update packages with the current dotfiles in place.
+> If you'd like to re-link dotfiles, run the default `make` target again.
 
 ## Q&A
 

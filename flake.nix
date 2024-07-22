@@ -1,17 +1,29 @@
 {
   description = "nickgerace/dotfiles";
 
-  inputs = { nixpkgs.url = "nixpkgs/nixos-unstable"; };
-
-  outputs = { self, nixpkgs, ... }:
-    let lib = nixpkgs.lib;
-    in {
-      nixosConfigurations = {
-        # TODO(nick): rename to "thelio-major"
-        nixos = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./thelio-major/configuration.nix ];
-        };
-      };
+  inputs = {
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-pkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixpkgs-unstable";
+  };
+
+  outputs = {
+    self,
+    nixos-pkgs,
+    nixpkgs,
+    nix-darwin,
+  }: {
+    nixosConfigurations.nixos = nixos-pkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [./os/nixos/configuration.nix];
+    };
+
+    darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      modules = [./os/nix-darwin/configuration.nix];
+    };
+  };
 }
