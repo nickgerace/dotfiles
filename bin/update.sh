@@ -79,7 +79,7 @@ if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; th
   	sudo -i nix upgrade-nix
   fi
 
-  pushd $UPDATE_DOTFILES_REPO
+  pushd "$UPDATE_DOTFILES_REPO"
 
   if [ "$UPDATE_OPTION_UPDATE_FLAKE" = "true" ]; then
     log "Updating flake..."

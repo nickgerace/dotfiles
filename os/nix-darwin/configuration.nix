@@ -1,29 +1,50 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    alejandra
-    aspell
-    bashInteractive
-    bat
+    # Base
     curl
-    direnv
-    fastfetch
-    gfold
-    gnumake
-    gnused
-    graphviz
+    git
     helix
-    htop
-    jq
-    nodejs
-    ripgrep
-    speedtest-cli
-    starship
-    tree
-    vscode-langservers-extracted
     wget
+
+    # LSPs and formatters
+    alejandra
+    nodePackages.bash-language-server
+    nodejs
+    vscode-langservers-extracted
+
+    # Shell
+    bashInteractive
+    starship
     zellij
     zoxide
     zsh
+
+    # Tools
+    bat
+    fzf
+    gnumake
+    gnused
+    jq
+    ripgrep
+    tree
+
+    # Essential TUIs
+    fastfetch
+    gfold
+    htop
+    speedtest-cli
+
+    # Extra TUIs
+    dua
+
+    # SI
+    direnv
+    graphviz
+
+    # Misc
+    aspell
+    cloc
+    hugo
   ];
 
   fonts.packages = with pkgs; [
