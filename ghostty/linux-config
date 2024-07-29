@@ -1,0 +1,4 @@
+theme = catppuccin-latte
+font-family = "Iosevka Nerd Font"
+title = Ghostty
+quit-after-last-window-closed = true

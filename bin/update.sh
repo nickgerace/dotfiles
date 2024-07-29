@@ -46,7 +46,7 @@ else
 fi
 log "Detected platform: $UPDATE_PLATFORM"
 
-if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
+if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   while true; do
     read -r -n1 -p "Do you want to upgrade nix? [y/n] (default: n): " yn
     case $yn in
@@ -55,6 +55,9 @@ if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; th
       * ) echo ""; break;;
     esac
   done
+fi
+
+if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   while true; do
     read -r -n1 -p "Do you want to run nix flake update? [y/n] (default: n): " yn
     case $yn in
@@ -64,6 +67,7 @@ if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; th
     esac
   done
 fi
+
 while true; do
   read -r -n1 -p "Confirm to begin [y/n] (default: y): " yn
   case $yn in
@@ -73,7 +77,23 @@ while true; do
   esac
 done
 
-if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
+if [ "$UPDATE_PLATFORM" = "nixos" ]; then
+  pushd "$UPDATE_DOTFILES_REPO"
+
+  if [ "$UPDATE_OPTION_UPDATE_FLAKE" = "true" ]; then
+    log "Updating flake..."
+    nix flake update
+  fi
+
+  log "Running nixos-rebuild switch..."
+  sudo nixos-rebuild switch --flake .
+
+	popd
+  log-success "Success!"
+  exit 0
+fi
+
+if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   if [ "$UPDATE_OPTION_UPGRADE_NIX" = "true" ]; then
     log "Upgrading nix..."
   	sudo -i nix upgrade-nix
@@ -86,12 +106,8 @@ if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; th
     nix flake update
   fi
 
-  log "Performing rebuild..."
-  if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
-  	darwin-rebuild switch --flake .
-  else
-    sudo nixos-rebuild switch --flake .
-  fi
+  log "Running darwin-rebuild switch..."
+	darwin-rebuild switch --flake .
 
 	popd
   log-success "Success!"

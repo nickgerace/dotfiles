@@ -1,0 +1,6 @@
+theme = catppuccin-latte
+font-family = "Iosevka Nerd Font"
+font-size = 15
+macos-option-as-alt = true
+title = Ghostty
+quit-after-last-window-closed = true
