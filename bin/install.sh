@@ -102,6 +102,10 @@ link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/co
 
 if [ "$INSTALL_PLATFORM" = "arch" ]; then
   link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
+elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
+  link "$INSTALL_DOTFILES_REPO/ghostty/darwin-config" "$HOME/.config/ghostty/config"
+elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
+  link "$INSTALL_DOTFILES_REPO/ghostty/linux-config" "$HOME/.config/ghostty/config"
 elif [ "$INSTALL_PLATFORM" = "pop" ]; then
   link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
 fi
@@ -328,6 +332,11 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
+  log "Running nixos-rebuild..."
+  pushd $INSTALL_DOTFILES_REPO
+  sudo nixos-rebuild switch --flake .
+  popd
+
   log "Installing npm packages..."
   npm set prefix ~/.npm-global
   npm i -g \

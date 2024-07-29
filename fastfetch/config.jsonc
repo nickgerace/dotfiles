@@ -32,13 +32,14 @@
       "format": "{2}"
     },
     {
-      "key": "FS",
+      "key": "Filesystem",
       "type": "disk",
+      "folders": "/",
       "format": "{9}"
     },
     {
-      "key": "Host",
-      "type": "host"
+      "type": "custom",
+      "format": "―――――――――――――――――――――――"
     },
     {
       "key": "Shell",
@@ -47,6 +48,28 @@
     {
       "key": "Terminal",
       "type": "terminal"
+    },
+    {
+      "key": "DE",
+      "type": "de",
+    },
+    {
+      "key": "Host",
+      "type": "host"
+    },
+    {
+      "type": "custom",
+      "format": "―――――――――――――――――――――――"
+    },
+    {
+      "key": "Datetime",
+      "type": "datetime",
+      "format": "{9} {11} {6} {1} - {14}:{18} {22} ({21})"
+    },
+    {
+      "key": "Version",
+      "type": "version",
+      "format": "{2}",
     },
     {
       "key": "Colors",
