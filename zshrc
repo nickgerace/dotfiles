@@ -15,42 +15,42 @@ export NICK_ARCH="$(uname -m)"
 
 # Set OS-based environment variables.
 if [ "$(uname -s)" = "Darwin" ]; then
-    export NICK_OS="darwin"
-    export NICK_LINUX="false"
-    export NICK_WSL2="false"
+  export NICK_OS="darwin"
+  export NICK_LINUX="false"
+  export NICK_WSL2="false"
 elif [ "$(uname -s)" = "Linux" ]; then
-    NICK_LINUX="true"
-    if [ -f /etc/os-release ]; then
-        . /etc/os-release
-        export NICK_OS="$ID"
-    else
-        export NICK_OS="unknown"
-    fi
-
-    if [ -f /proc/sys/kernel/osrelease ] && [ $(grep "WSL2" /proc/sys/kernel/osrelease) ]; then
-        export NICK_WSL2="true"
-    else
-        export NICK_WSL2="false"
-    fi
-else
+  NICK_LINUX="true"
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    export NICK_OS="$ID"
+  else
     export NICK_OS="unknown"
-    export NICK_LINUX="false"
+  fi
+
+  if [ -f /proc/sys/kernel/osrelease ] && [ "$(grep "WSL2" /proc/sys/kernel/osrelease)" ]; then
+    export NICK_WSL2="true"
+  else
     export NICK_WSL2="false"
+  fi
+else
+  export NICK_OS="unknown"
+  export NICK_LINUX="false"
+  export NICK_WSL2="false"
 fi
 
 function nick-environment-variables {
-    echo "NICK_ARCH            $NICK_ARCH"
-    echo "NICK_OS              $NICK_OS"
-    echo "NICK_LINUX           $NICK_LINUX"
-    echo "NICK_WSL2            $NICK_WSL2"
-    echo "NICK_SRC             $NICK_SRC"
-    echo "NICK_DOTFILES        $NICK_DOTFILES"
+  echo "NICK_ARCH        $NICK_ARCH"
+  echo "NICK_OS          $NICK_OS"
+  echo "NICK_LINUX       $NICK_LINUX"
+  echo "NICK_WSL2        $NICK_WSL2"
+  echo "NICK_SRC         $NICK_SRC"
+  echo "NICK_DOTFILES    $NICK_DOTFILES"
 }
 
-for ZSH_CONFIG_FILE in $NICK_DOTFILES/zsh/*; do
-    if [ -r $ZSH_CONFIG_FILE ]; then
-        source $ZSH_CONFIG_FILE
-    else
-        echo "file not readable or not found: $ZSH_CONFIG_FILE"
-    fi
+for ZSH_CONFIG_FILE in "$NICK_DOTFILES"/zsh/*; do
+  if [ -r "$ZSH_CONFIG_FILE" ]; then
+    source "$ZSH_CONFIG_FILE"
+  else
+    echo "file not readable or not found: $ZSH_CONFIG_FILE"
+  fi
 done

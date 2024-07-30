@@ -1,3 +1,3 @@
 if [ "$(command -v fastfetch)" ]; then
-    alias neofetch="fastfetch"
+  alias neofetch="fastfetch"
 fi

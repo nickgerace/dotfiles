@@ -1,3 +1,4 @@
 if [ $(command -v eza) ]; then
-    alias ls="eza"
+  alias exa="eza"
+  alias ls="eza"
 fi

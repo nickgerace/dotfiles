@@ -1,6 +1,6 @@
 # dotfiles
 
-[![GitHub](https://img.shields.io/github/license/nickgerace/dotfiles?style=flat-square)](LICENSE)
+[![built with nix](https://builtwithnix.org/badge.svg)](https://builtwithnix.org)
 
 A collection of dotfiles, scripts and configurations from [@nickgerace](https://github.com/nickgerace).
 

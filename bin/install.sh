@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
-INSTALL_BOOTSTRAP_PLATFORM="false"
 INSTALL_DOTFILES_REPO="$HOME/src/dotfiles"
+INSTALL_OPTION_INSTALL_PACKAGES="false"
 INSTALL_PLATFORM="false"
 
 INSTALL_LOG_FORMAT_BOLD=$(tput bold)
@@ -22,12 +22,12 @@ function log-error {
   echo "${INSTALL_LOG_FORMAT_BOLD}${INSTALL_LOG_FORMAT_RED}Error: $1${INSTALL_LOG_FORMAT_RESET}" >&2
 }
 
-log "Welcome to @nickgerace's dotfiles setup and platform bootstrap script!"
+log "Welcome to @nickgerace's dotfiles setup and package installation script!"
 
 while true; do
   read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
   case $yn in
-    [yY] ) INSTALL_BOOTSTRAP_PLATFORM="true"; echo ""; break;;
+    [yY] ) INSTALL_OPTION_INSTALL_PACKAGES="true"; echo ""; break;;
     "" ) break;;
     * ) echo ""; break;;
   esac
@@ -48,25 +48,24 @@ if [ $EUID -eq 0 ]; then
 fi
 
 log "Checking platform..."
-if [ "$(uname -s)" = "Linux" ]; then
+if [ "$(uname -s)" = "Linux" ] && [ "$(uname -m)" = "x86_64" ]; then
   if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
-    log "WSL2 detected!"
-  elif [ "$(uname -m)" = "x86_64" ] && [ -f /etc/os-release ]; then
-    . /etc/os-release
-    if [[ "$ID" = "pop" ]]; then
-      log "Found bootstrap-compatible platform: Pop!_OS x86_64"
-      INSTALL_PLATFORM="pop"
-    elif [[ "$ID" = "arch" ]]; then
-      log "Found bootstrap-compatible platform: Arch Linux x86_64"
-      INSTALL_PLATFORM="arch"
-    elif [[ "$ID" = "nixos" ]]; then
-      log "Found bootstrap-compatible platform: NixOS x86_64"
-      INSTALL_PLATFORM="nixos"
-    fi
+    log-error "cannot run in WSL2"
+    exit 1
   fi
+  . /etc/os-release
+  if [[ "$ID" != "nixos" ]]; then
+    log-error "only compatible with NixOS x86_64"
+    exit 1
+  fi
+  log "Found compatible platform: NixOS x86_64"
+  INSTALL_PLATFORM="nixos"
 elif [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then
-  log "Found bootstrap-compatible platform: macOS aarch64"
+  log "Found compatible platform: macOS aarch64"
   INSTALL_PLATFORM="darwin"
+else
+  log-error "only compatible with NixOS x86_64 or macOS aarch64"
+  exit 1
 fi
 
 function link {
@@ -100,208 +99,18 @@ link "$INSTALL_DOTFILES_REPO/helix/themes/catppuccin_latte.toml" "$HOME/.config/
 link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
-if [ "$INSTALL_PLATFORM" = "arch" ]; then
-  link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
-elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
+if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/darwin-config" "$HOME/.config/ghostty/config"
 elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/linux-config" "$HOME/.config/ghostty/config"
-elif [ "$INSTALL_PLATFORM" = "pop" ]; then
-  link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
 fi
 
-if [ "$INSTALL_BOOTSTRAP_PLATFORM" != "true" ]; then
+if [ "$INSTALL_OPTION_INSTALL_PACKAGES" != "true" ]; then
   log-success "Success!"
   exit 0
-elif [ "$INSTALL_PLATFORM" = "false" ]; then
-  log-error "dotfiles setup succeeded, but skipping bootstrapper (read script for compatible platforms)"
-  exit 1
-elif [ "$INSTALL_PLATFORM" = "pop" ]; then
-  log "Setting up package installation..."
-  sudo apt update
-  sudo apt upgrade -y
+fi
 
-  log "Installing base packages..."
-  xargs sudo apt install -y < "$INSTALL_DOTFILES_REPO/os/pop-os/pkgs/core.lst"
-
-  if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
-    log "Installing iosevka nerd font..."
-    mkdir -p "$HOME/.local/share/fonts"
-    pushd "$HOME/.local/share/fonts"
-    curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.tar.xz
-    tar -xf Iosevka.tar.xz
-    [[ -f LICENSE ]] && rm LICENSE
-    [[ -f README.md ]] && rm README.md
-    rm Iosevka.tar.xz
-    popd
-    fc-cache
-  fi
-
-  log "Checking for nix installation..."
-  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
-  if ! command -v nix; then
-    log "Installing nix..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  fi
-
-  if ! command -v home-manager; then
-    log "Installing home-manager..."
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    nix-shell '<home-manager>' -A install
-  fi
-  log "Running home-manager switch..."
-  home-manager switch
-
-  log "Checking default shell..."
-  if [ "$SHELL" != "$HOME/.nix-profile/bin/zsh" ]; then
-    if [[ ! $(grep "$HOME/.nix-profile/bin/zsh" /etc/shells) ]]; then
-      echo "$HOME/.nix-profile/bin/zsh" |sudo tee -a /etc/shells
-    fi
-    log "Setting default shell to zsh from home-manager..."
-    chsh -s "$HOME/.nix-profile/bin/zsh"
-  fi
-
-  if ! command -v rustup && [ -f "$HOME/.cargo/env" ]; then
-    source "$HOME/.cargo/env"
-  fi
-  if ! command -v rustup; then
-    log "Installing rustup..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
-    source "$HOME/.cargo/env"
-  fi
-  log "Setting up rust toolchain..."
-  rustup default stable
-  rustup component add rust-analyzer
-
-  if ! command -v docker; then
-    log "Installing docker..."
-    sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    sudo chmod a+r /etc/apt/keyrings/docker.asc
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt update
-    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    sudo usermod -aG docker "$USER"
-    sudo docker run hello-world
-  fi
-
-  log "Setting up fnm (comes with home-manager)..."
-  eval "$(fnm env --use-on-cd)"
-  log "Installing latest node lts via fnm..."
-  fnm install --lts
-  log "Installing npm packages..."
-  npm set prefix ~/.npm-global
-  npm i -g \
-   @vue/language-server \
-   prettier \
-   typescript \
-   typescript-language-server
-
-  log "Installing flatpaks..."
-  flatpak install flathub \
-    com.discordapp.Discord \
-    com.google.Chrome \
-    com.slack.Slack \
-    com.spotify.Client \
-    md.obsidian.Obsidian \
-    us.zoom.Zoom
-
-  log "Running final update and cleanup commands..."
-  rustup update
-  sudo -i nix upgrade-nix
-  nix-channel --update
-  home-manager switch
-  flatpak update -y
-  flatpak uninstall --unused
-  flatpak repair
-  sudo apt update
-  sudo apt upgrade -y
-  sudo apt autoremove -y
-  sudo apt clean -y
-
-  log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "arch" ]; then
-  log "Setting up package installation..."
-  sudo pacman -Syu --noconfirm
-
-  log "Installing core base packages..."
-  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/core.lst"
-
-  echo "Attempting to find paru..."
-  if ! command -v paru; then
-    echo "Installing paru..."
-    pushd "$(mktemp -d)"
-    git clone https://aur.archlinux.org/paru.git
-    pushd paru
-    makepkg -si --noconfirm
-    popd
-    popd
-  fi
-
-  log "Installing AUR base packages via paru..."
-  paru -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/aur.lst"
-
-  log "Checking for nix installation..."
-  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
-  if ! command -v nix; then
-    log "Installing nix..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  fi
-
-  log "Checking default shell..."
-  if [ "$SHELL" != "$(which zsh)" ]; then
-    log "Changing default shell to zsh..."
-    chsh -s "$(which zsh)"
-  fi
-
-  log "Setting up rust via rustup..."
-  rustup default stable
-  rustup component add rust-analyzer
-
-  log "Setting up docker..."
-  sudo systemctl enable --now docker.socket
-  sudo usermod -aG docker "$USER"
-  sudo docker run hello-world
-
-  log "Setting up fnm..."
-  eval "$(fnm env --use-on-cd)"
-  log "Installing latest node lts via fnm..."
-  fnm install --lts
-  log "Installing npm packages..."
-  npm set prefix ~/.npm-global
-  npm i -g \
-   @vue/language-server \
-   prettier \
-   typescript \
-   typescript-language-server
-
-  log "Installing flatpaks..."
-  flatpak install -y flathub \
-    com.discordapp.Discord \
-    com.google.Chrome \
-    com.slack.Slack \
-    com.spotify.Client \
-    md.obsidian.Obsidian \
-    us.zoom.Zoom
-
-  log "Running final update and cleanup commands..."
-  sudo -i nix upgrade-nix
-  nix-channel --update
-  flatpak update -y
-  flatpak uninstall --unused
-  flatpak repair
-  sudo pacman -Syu --noconfirm
-
-  log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
+if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   log "Checking for nix installation..."
   if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
@@ -313,7 +122,7 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
 
   log "Checking for nix-darwin..."
   if ! command -v darwin-rebuild; then
-    pushd $INSTALL_DOTFILES_REPO
+    pushd "$INSTALL_DOTFILES_REPO"
     log "Installing nix-darwin..."
     nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .
     popd
@@ -325,19 +134,17 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
   log "Installing npm packages for helix LSPs..."
   npm set prefix ~/.npm-global
   npm i -g \
-   @vue/language-server \
-   prettier \
-   typescript \
-   typescript-language-server
-
-  log-success "Success!"
+    @vue/language-server \
+    prettier \
+    typescript \
+    typescript-language-server
 elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
   log "Running nixos-rebuild..."
-  pushd $INSTALL_DOTFILES_REPO
+  pushd "$INSTALL_DOTFILES_REPO"
   sudo nixos-rebuild switch --flake .
   popd
 
-  log "Installing npm packages..."
+  log "Installing npm packages for helix..."
   npm set prefix ~/.npm-global
   npm i -g \
     @vue/language-server \
@@ -345,22 +152,8 @@ elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
     typescript \
     typescript-language-server
 
-  log "Adding the flathub repository..."
-  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-  log "Installing flatpaks..."
-  flatpak install -y flathub \
-    com.discordapp.Discord \
-    com.google.Chrome \
-    com.slack.Slack \
-    com.spotify.Client \
-    md.obsidian.Obsidian \
-    us.zoom.Zoom
-
   log "Running final update and cleanup commands..."
-  flatpak update -y
-  flatpak uninstall --unused
-  flatpak repair
-
-  log-success "Success!"
+  npm update -g
 fi
+
+log-success "Success!"

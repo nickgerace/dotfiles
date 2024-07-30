@@ -1,4 +1,4 @@
 if [ $(command -v zoxide) ]; then
-    eval "$(zoxide init zsh)"
-    alias cd="z"
+  eval "$(zoxide init zsh)"
+  alias cd="z"
 fi

@@ -1,4 +1,0 @@
-import = [
-  "~/.config/alacritty/catppuccin-latte.toml",
-  "~/.config/alacritty/main.toml"
-]
