@@ -59,6 +59,9 @@ if [ "$(uname -s)" = "Linux" ]; then
     elif [[ "$ID" = "arch" ]]; then
       log "Found bootstrap-compatible platform: Arch Linux x86_64"
       INSTALL_PLATFORM="arch"
+    elif [[ "$ID" = "fedora" ]]; then
+      log "Found bootstrap-compatible platform: Fedora Linux x86_64"
+      INSTALL_PLATFORM="fedora"
     elif [[ "$ID" = "nixos" ]]; then
       log "Found bootstrap-compatible platform: NixOS x86_64"
       INSTALL_PLATFORM="nixos"
@@ -104,6 +107,8 @@ if [ "$INSTALL_PLATFORM" = "arch" ]; then
   link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
 elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/darwin-config" "$HOME/.config/ghostty/config"
+elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
+  link "$INSTALL_DOTFILES_REPO/ghostty/linux-config" "$HOME/.config/ghostty/config"
 elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/linux-config" "$HOME/.config/ghostty/config"
 elif [ "$INSTALL_PLATFORM" = "pop" ]; then
