@@ -11,9 +11,11 @@ for CARGO_DOT_TOML in $(find ~/src -type f -name Cargo.toml); do
             read -n1 -p "Run \"cargo clean\" for $BASENAME? ($SIZE) [y/n]: " yn
             echo ""
             if [ "$yn" = "y" ]; then
-                echo "[ 🧹 ] cleaning $BASENAME..."
-                echo "( cd $CRATE; cargo clean)"
-                # ( cd $CRATE; cargo clean )
+                echo "Cleaning $BASENAME..."
+                pushd "$CRATE"
+                pwd
+                cargo clean
+                popd
             fi
         fi
     fi
