@@ -227,7 +227,7 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "arch" ]; then
-  log "Setting up package installation..."
+  log "Upgrading packages before continuing..."
   sudo pacman -Syu --noconfirm
 
   log "Installing core packages..."
@@ -236,9 +236,15 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   log "Installing extra packages..."
   sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/extra.lst"
 
+  log "Installing LSPs and formatters for helix..."
+  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/helix.lst"
+
   log "Installing GNOME..."
   sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/gnome.lst"
   sudo systemctl enable gdm.service
+
+  log "Install xorg for GNOME (due to Zoom PipeWire 1.2.x bugs and Discord screen share)..."
+  sudo pacman -S --noconfirm --needed xorg
   
   echo "Attempting to find paru..."
   if ! command -v paru; then
@@ -259,7 +265,7 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
   fi
   if ! command -v nix; then
-    log "Installing nix..."
+    log "Installing nix via the determinate nix installer..."
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
   fi
 
@@ -278,27 +284,13 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   sudo usermod -aG docker "$USER"
   sudo docker run hello-world
 
-  log "Setting up fnm..."
-  eval "$(fnm env --use-on-cd)"
-  log "Installing latest node lts via fnm..."
-  fnm install --lts
-  log "Installing npm packages..."
+  log "Installing npm packages for helix (LSPs, etc.)..."
   npm set prefix ~/.npm-global
-  npm i -g \
-   @vue/language-server \
-   prettier \
-   typescript \
-   typescript-language-server
+  xargs npm i -g < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/npm.lst"
 
   log "Installing flatpaks..."
   flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-  flatpak install -y flathub \
-    com.discordapp.Discord \
-    com.google.Chrome \
-    com.slack.Slack \
-    com.spotify.Client \
-    md.obsidian.Obsidian \
-    us.zoom.Zoom
+  xargs flatpak install flathub -yu < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/flatpak.lst"
 
   log "Running final update and cleanup commands..."
   sudo -i nix upgrade-nix
