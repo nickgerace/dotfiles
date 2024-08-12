@@ -1,19 +1,14 @@
-# Selected colors: https://jonasjacek.github.io/colors/
-# Found color triads: https://www.wolframalpha.com/
-
-# 59   Grey37         #5f5f5f  rgb(95,95,95)
-# 61   SlateBlue3     #5f5faf  rgb(95,95,175)
-# 71   DarkSeaGreen4  #5faf5f  rgb(95,175,95)
-# 131  IndianRed      #af5f5f  rgb(175,95,95)
-
+# NOTE(nick): this prompt uses catppuccin latte colors:
+# - directory: sapphire
+# - branch: pink
+# - success prompt: green
+# - fail prompt: red
 setopt PROMPT_SUBST
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git*' formats '(%F{59}%b%f)'
+zstyle ':vcs_info:git*' formats 'on %B%F{#ea76cb}%b%f'
 precmd() { vcs_info }
 
-# The PROMPT must use single quotes in order to properly work, and update "vcs_info".
-# Username: %F{131}%n%f
-# Hostname: %F{71}%m%f
-PROMPT='[%F{61}%~%f] (%(?.%F{71}%?%f.%F{131}%?%f)) ${vcs_info_msg_0_}
-%# '
+# NOTE(nick): the PROMPT must use single quotes in order to properly work, which includes updating "vcs_info".
+PROMPT='%B%F{#209fb5}%~%f%b ${vcs_info_msg_0_}
+%(?.%B%F{#40a02b}❯%f%b.%B%F{#d20f39}❯%f%b) '

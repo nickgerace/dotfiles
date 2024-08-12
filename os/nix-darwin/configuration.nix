@@ -14,7 +14,6 @@
 
     # Shell
     bashInteractive
-    starship
     zellij
     zoxide
     zsh
