@@ -43,7 +43,6 @@
     ripgrep
     shellcheck
     speedtest-cli
-    starship
     tmux
     tree
     wget

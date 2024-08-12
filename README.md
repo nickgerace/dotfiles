@@ -1,6 +1,4 @@
-# dotfiles
-
-[![GitHub](https://img.shields.io/github/license/nickgerace/dotfiles?style=flat-square)](LICENSE)
+# Dotfiles
 
 A collection of dotfiles, scripts and configurations from [@nickgerace](https://github.com/nickgerace).
 
@@ -53,7 +51,6 @@ These dotfiles rely on [`zsh`](https://www.zsh.org/) as the interactive shell.
 
 These dotfiles require neither [`oh-my-zsh`](https://ohmyz.sh/) nor [`starship`](https://starship.rs/) to be installed.
 Only `zsh` needs to be installed as all shell-based dotfiles are custom and configured manually.
-That being said, if `starship` is installed, it will use the configuration file linked to `$HOME/.config/starship.toml`.
 
 ### Does the `make` target do more than setup dotfiles?
 

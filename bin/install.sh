@@ -92,22 +92,22 @@ function link {
 log "Setting up dotfiles..."
 git config --global pull.rebase true
 
-link "$INSTALL_DOTFILES_REPO/zshrc" "$HOME/.zshrc"
-link "$INSTALL_DOTFILES_REPO/starship.toml" "$HOME/.config/starship.toml"
+link "$INSTALL_DOTFILES_REPO/.zshrc" "$HOME/.zshrc"
 link "$INSTALL_DOTFILES_REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
 link "$INSTALL_DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
 link "$INSTALL_DOTFILES_REPO/helix/themes/catppuccin_latte.toml" "$HOME/.config/helix/catppuccin_latte.toml"
 link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
-if [ "$INSTALL_PLATFORM" = "arch" ]; then
-  link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
-elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
+if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/darwin-config" "$HOME/.config/ghostty/config"
-elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
+else
+  if [ "$INSTALL_PLATFORM" = "arch" ]; then
+    link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
+  elif [ "$INSTALL_PLATFORM" = "pop" ]; then
+    link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
+  fi
   link "$INSTALL_DOTFILES_REPO/ghostty/linux-config" "$HOME/.config/ghostty/config"
-elif [ "$INSTALL_PLATFORM" = "pop" ]; then
-  link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
 fi
 
 if [ "$INSTALL_BOOTSTRAP_PLATFORM" != "true" ]; then
@@ -230,9 +230,16 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   log "Setting up package installation..."
   sudo pacman -Syu --noconfirm
 
-  log "Installing core base packages..."
+  log "Installing core packages..."
   sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/core.lst"
 
+  log "Installing extra packages..."
+  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/extra.lst"
+
+  log "Installing GNOME..."
+  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/gnome.lst"
+  sudo systemctl enable gdm.service
+  
   echo "Attempting to find paru..."
   if ! command -v paru; then
     echo "Installing paru..."
@@ -244,7 +251,7 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
     popd
   fi
 
-  log "Installing AUR base packages via paru..."
+  log "Installing AUR packages via paru..."
   paru -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/aur.lst"
 
   log "Checking for nix installation..."
@@ -284,6 +291,7 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
    typescript-language-server
 
   log "Installing flatpaks..."
+  flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
   flatpak install -y flathub \
     com.discordapp.Discord \
     com.google.Chrome \

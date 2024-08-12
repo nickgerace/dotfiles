@@ -39,7 +39,6 @@
     scc
     shellcheck
     speedtest-cli
-    starship
     tree
     wget
     yamllint
