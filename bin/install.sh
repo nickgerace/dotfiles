@@ -53,12 +53,15 @@ if [ "$(uname -s)" = "Linux" ]; then
     log "WSL2 detected!"
   elif [ "$(uname -m)" = "x86_64" ] && [ -f /etc/os-release ]; then
     . /etc/os-release
-    if [[ "$ID" = "pop" ]]; then
-      log "Found bootstrap-compatible platform: Pop!_OS x86_64"
-      INSTALL_PLATFORM="pop"
-    elif [[ "$ID" = "arch" ]]; then
+    if [[ "$ID" = "arch" ]]; then
       log "Found bootstrap-compatible platform: Arch Linux x86_64"
       INSTALL_PLATFORM="arch"
+    elif [[ "$ID" = "pop" ]]; then
+      log "Found bootstrap-compatible platform: Pop!_OS x86_64"
+      INSTALL_PLATFORM="pop"
+    elif [[ "$ID" = "fedora" ]]; then
+      log "Found bootstrap-compatible platform: Fedora Linux x86_64"
+      INSTALL_PLATFORM="fedora"
     elif [[ "$ID" = "nixos" ]]; then
       log "Found bootstrap-compatible platform: NixOS x86_64"
       INSTALL_PLATFORM="nixos"
@@ -104,6 +107,8 @@ if [ "$INSTALL_PLATFORM" = "darwin" ]; then
 else
   if [ "$INSTALL_PLATFORM" = "arch" ]; then
     link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
+  elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
+    link "$INSTALL_DOTFILES_REPO/os/fedora/cargo/config.toml" "$HOME/.cargo/config.toml"
   elif [ "$INSTALL_PLATFORM" = "pop" ]; then
     link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
   fi
@@ -260,6 +265,31 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   log "Installing AUR packages via paru..."
   paru -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/aur.lst"
 
+  log "Checking if host is a System76 Thelio Major..."
+  if [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
+    log "Setting up rust for installing system76 software..."
+    rustup default stable
+    rustup component add rust-analyzer
+
+    if paru -Qs system76-firmware-daemon-git; then
+      log "Skipping system76 firmware daemon installation and setup (already installed)..."
+    else
+      log "Installing and setting up system76 firmware daemon..."
+      paru -S --noconfirm system76-firmware-daemon-git
+      sudo systemctl enable --now system76-firmware-daemon
+      sudo gpasswd -a "$USER" adm
+
+      log "Installing and setting up firmware manager and system76 driver..."
+      paru -S --noconfirm firmware-manager-git
+      paru -S --noconfirm system76-driver
+      sudo systemctl enable --now system76
+
+      echo "Installing and setting up system76 software and enabling power daemon..."
+      paru -S --noconfirm system76-power system76-dkms system76-acpi-dkms system76-io-dkms
+      sudo systemctl enable --now com.system76.PowerDaemon.service
+    fi
+  fi
+
   log "Checking for nix installation..."
   if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
@@ -294,7 +324,7 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
 
   log "Running final update and cleanup commands..."
   sudo -i nix upgrade-nix
-  nix-channel --update
+  npm up -g
   flatpak update -y
   flatpak uninstall --unused
   flatpak repair
@@ -329,6 +359,95 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
    prettier \
    typescript \
    typescript-language-server
+
+  log-success "Success!"
+elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
+  log "Upgrading packages before continuing..."
+  sudo dnf upgrade -y --refresh
+
+  log "Installing findutils for xargs command..."
+  sudo dnf install -y findutils
+
+  log "Installing base packages..."
+  xargs sudo dnf install -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/base.lst"
+
+  log "Installing zellij from varlad/zellij copr..."
+  sudo dnf copr enable -y varlad/zellij
+  sudo dnf install -y zellij
+
+  log "Setting up rpmfusion..."
+  sudo dnf install -y \
+    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
+
+  # Source: https://rpmfusion.org/Howto/Multimedia
+  log "Setting up multimedia codecs..."
+  sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
+  sudo dnf groupupdate -y multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+  sudo dnf groupupdate -y sound-and-video
+
+  log "Setting up rust..."
+  rustup default stable
+  rustup component add rust-analyzer
+
+  log "Checking if host is a System76 Thelio Major..."
+  if [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
+    log "Installing and setting up system76 software from syzdell/system76 copr..."
+    sudo dnf copr enable -y szydell/system76
+    sudo dnf install -y system76* firmware-manager
+    sudo systemctl enable --now \
+      com.system76.PowerDaemon.service \
+      system76-firmware-daemon \
+      system76-power-wake
+    sudo systemctl mask power-profiles-daemon.service
+    sudo gpasswd -a "$USER" adm
+  fi
+
+  log "Checking for docker installation..."
+  if ! commnd -v docker; then
+    log "Installing and setting up docker..."
+    sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+    sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo systemctl enable --now docker
+    sudo docker run hello-world
+
+    log "Setting up and testing permissions for docker..."
+    sudo groupadd docker
+    sudo usermod -aG docker "$USER"
+    newgrp docker
+    docker run hello-world
+  fi
+
+  log "Checking for nix installation..."
+  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  fi
+  if ! command -v nix; then
+    log "Installing nix via the determinate nix installer..."
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  fi
+
+  log "Checking default shell..."
+  if [ "$SHELL" != "$(which zsh)" ]; then
+    log "Changing default shell to zsh..."
+    chsh -s "$(which zsh)"
+  fi
+
+  log "Installing npm packages for helix (LSPs, etc.)..."
+  npm set prefix ~/.npm-global
+  xargs npm i -g < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
+
+  log "Installing flatpaks..."
+  xargs flatpak install flathub -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/flatpak.lst"
+
+  log "Running final update and cleanup commands..."
+  sudo -i nix upgrade-nix
+  npm up -g
+  flatpak update -y
+  flatpak uninstall --unused
+  flatpak repair
+  sudo dnf upgrade -y --refresh
+  sudo dnf autoremove -y
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
