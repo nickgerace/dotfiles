@@ -5,7 +5,9 @@ cloc
 curl
 direnv
 dnf-plugins-core
+eza
 fastfetch
+fd-find
 findutils
 fzf
 git
@@ -15,14 +17,11 @@ jq
 make
 mold
 nodejs
-rust-bat
-rust-eza
-rust-fd-find
-rust-ripgrep
-rust-zoxide
+ripgrep
 rustup
 sed
 speedtest-cli
 tree
 wget
+zoxide
 zsh

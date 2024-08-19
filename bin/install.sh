@@ -369,11 +369,13 @@ elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
   sudo dnf install -y findutils
 
   log "Installing base packages..."
-  xargs sudo dnf install -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/base.lst"
+  xargs sudo dnf install -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
 
   log "Installing zellij from varlad/zellij copr..."
-  sudo dnf copr enable -y varlad/zellij
-  sudo dnf install -y zellij
+  if ! command -v zellij; then
+    sudo dnf copr enable -y varlad/zellij
+    sudo dnf install -y zellij
+  fi
 
   log "Setting up rpmfusion..."
   sudo dnf install -y \
@@ -386,12 +388,22 @@ elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
   sudo dnf groupupdate -y multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
   sudo dnf groupupdate -y sound-and-video
 
-  log "Setting up rust..."
+  log "Checking for rustup initialization..."
+  if ! command -v rustup; then
+    if [ -f "$HOME/.cargo/env" ]; then
+      . "$HOME.cargo/env"
+    else
+      log "Running rustup-init..."
+      rustup-init --no-modify-path -y
+    fi
+  fi
+
+  log "Setting default rust toolchain and install rust-analyzer for helix..."
   rustup default stable
   rustup component add rust-analyzer
 
   log "Checking if host is a System76 Thelio Major..."
-  if [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
+  if [ -f /sys/class/dmi/id/product_name ] && [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
     log "Installing and setting up system76 software from syzdell/system76 copr..."
     sudo dnf copr enable -y szydell/system76
     sudo dnf install -y system76* firmware-manager
@@ -428,9 +440,9 @@ elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
   fi
 
   log "Checking default shell..."
-  if [ "$SHELL" != "$(which zsh)" ]; then
+  if [ "$SHELL" != "/usr/bin/zsh" ]; then
     log "Changing default shell to zsh..."
-    chsh -s "$(which zsh)"
+    chsh -s "/usr/bin/zsh"
   fi
 
   log "Installing npm packages for helix (LSPs, etc.)..."
