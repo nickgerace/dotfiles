@@ -1,5 +1,13 @@
 # Dotfiles
 
+![zsh](https://img.shields.io/badge/zsh-black?style=for-the-badge&logo=zsh)
+![linux](https://img.shields.io/badge/linux-black?style=for-the-badge&logo=linux)
+![fedora](https://img.shields.io/badge/fedora-black?style=for-the-badge&logo=fedora)
+![arch-linux](https://img.shields.io/badge/arch_linux-black?style=for-the-badge&logo=archlinux)
+![pop-os](https://img.shields.io/badge/pop!__os-black?style=for-the-badge&logo=popos)
+![nix-nixos](https://img.shields.io/badge/nix_/_nixos-black?style=for-the-badge&logo=nixos)
+![darwin-macos](https://img.shields.io/badge/darwin_\(macos\)-black?style=for-the-badge&logo=apple)
+
 A collection of dotfiles, scripts and configurations from [@nickgerace](https://github.com/nickgerace).
 
 ## Quickstart
@@ -60,7 +68,7 @@ This is referred to "bootstrapping" in the script.
 
 ### Is WSL2 supported?
 
-[WSL2](https://learn.microsoft.com/en-us/windows/wsl/) is supported for dotfiles setup, but package installation is blocked.
+[WSL2](https://learn.microsoft.com/en-us/windows/wsl/) is supported for dotfiles setup, but packages will not be installed for supported distros when running the installer.
 
 ## Disclaimer
 
