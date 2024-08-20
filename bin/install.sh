@@ -224,7 +224,6 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
   home-manager switch
   flatpak update -y
   flatpak uninstall --unused
-  flatpak repair
   sudo apt update
   sudo apt upgrade -y
   sudo apt autoremove -y
@@ -327,7 +326,6 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   npm up -g
   flatpak update -y
   flatpak uninstall --unused
-  flatpak repair
   sudo pacman -Syu --noconfirm
 
   log-success "Success!"
@@ -371,8 +369,9 @@ elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
   log "Installing base packages..."
   xargs sudo dnf install -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
 
-  log "Installing zellij from varlad/zellij copr..."
+  log "Checking if zellij is installed..."
   if ! command -v zellij; then
+    log "Installing zellij from varlad/zellij copr..."
     sudo dnf copr enable -y varlad/zellij
     sudo dnf install -y zellij
   fi
@@ -390,13 +389,10 @@ elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
 
   log "Checking for rustup initialization..."
   if ! command -v rustup; then
-    if [ -f "$HOME/.cargo/env" ]; then
-      . "$HOME.cargo/env"
-    else
-      log "Running rustup-init..."
-      rustup-init --no-modify-path -y
-    fi
+    log "Running rustup-init..."
+    rustup-init --no-modify-path -y
   fi
+  . "$HOME/.cargo/env"
 
   log "Setting default rust toolchain and install rust-analyzer for helix..."
   rustup default stable
@@ -422,12 +418,7 @@ elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
     sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     sudo systemctl enable --now docker
     sudo docker run hello-world
-
-    log "Setting up and testing permissions for docker..."
-    sudo groupadd docker
     sudo usermod -aG docker "$USER"
-    newgrp docker
-    docker run hello-world
   fi
 
   log "Checking for nix installation..."
@@ -452,12 +443,25 @@ elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
   log "Installing flatpaks..."
   xargs flatpak install flathub -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/flatpak.lst"
 
+  log "Checking for Iosevka Nerd Font..."
+  if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
+    log "Installing Iosevka Nerd Font..."
+    mkdir -p "$HOME/.local/share/fonts"
+    pushd "$HOME/.local/share/fonts"
+    curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.tar.xz
+    tar -xf Iosevka.tar.xz
+    [[ -f LICENSE ]] && rm LICENSE
+    [[ -f README.md ]] && rm README.md
+    rm Iosevka.tar.xz
+    popd
+    fc-cache
+  fi
+
   log "Running final update and cleanup commands..."
   sudo -i nix upgrade-nix
   npm up -g
   flatpak update -y
   flatpak uninstall --unused
-  flatpak repair
   sudo dnf upgrade -y --refresh
   sudo dnf autoremove -y
 
@@ -491,7 +495,6 @@ elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
   log "Running final update and cleanup commands..."
   flatpak update -y
   flatpak uninstall --unused
-  flatpak repair
 
   log-success "Success!"
 fi

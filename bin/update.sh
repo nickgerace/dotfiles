@@ -161,7 +161,6 @@ if command -v flatpak; then
   log "Updating flatpaks..."
   flatpak update -y
   flatpak uninstall --unused
-  flatpak repair
 fi
 
 if command -v npm && [ -d $HOME/.npm-global ]; then
