@@ -1,3 +1,8 @@
+# Source: https://github.com/NixOS/nixpkgs/issues/58132
+if [ "$NICK_OS" = "fedora" ] && [ "$(command -v nix)" ]; then
+  export GIT_SSH="/usr/bin/ssh"
+fi
+
 if [ "$(command -v git)" ]; then
   alias g="git"
   alias gbc="git branch --show-current"
