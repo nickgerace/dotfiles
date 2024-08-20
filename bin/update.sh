@@ -138,30 +138,35 @@ elif [ "$UPDATE_PLATFORM" = "darwin" ] && command -v brew; then
 fi
 
 if command -v rustup; then
-  echo "Running rustup update..."
+  log "Running rustup update..."
   rustup update
 fi
 
 if command -v nix; then
-  echo "Upgrading nix..."
+  log "Upgrading nix..."
   sudo -i nix upgrade-nix
-  nix-channel --update
 
   if command -v home-manager; then
-    echo "Running home-manager switch..."
+    log "Running home-manager switch..."
     home-manager switch
   fi
 fi
 
 if command -v snap; then
-  echo "Updating snaps..."
+  log "Updating snaps..."
   sudo snap refresh
 fi
+
 if command -v flatpak; then
-  echo "Updating flatpaks..."
+  log "Updating flatpaks..."
   flatpak update -y
   flatpak uninstall --unused
   flatpak repair
+fi
+
+if command -v npm && [ -d $HOME/.npm-global ]; then
+  log "Updating npm packages..."
+  npm up -g
 fi
 
 # NOTE(nick): disabled since crates will come from package managers or nix via home-manager.
