@@ -8,6 +8,17 @@ function si-build {
   popd
 }
 
+function si-build-rust {
+  pushd ~/src/si
+  buck2 uquery 'kind("rust_(binary|library|test)", set("//bin/..." "//lib/..."))' | xargs buck2 build
+  popd
+}
+
+alias si-run-pinga="buck2 run @//mode/release //bin/pinga"
+alias si-run-rebaser="buck2 run @//mode/release //bin/rebaser"
+alias si-run-sdf="buck2 run @//mode/release //bin/sdf"
+alias si-run-veritech="buck2 run @//mode/release //bin/veritech"
+
 function si-up {
   buck2 run dev:down
   si-build-cwd
