@@ -60,8 +60,15 @@ if [ "$(uname -s)" = "Linux" ]; then
       log "Found bootstrap-compatible platform: Pop!_OS x86_64"
       INSTALL_PLATFORM="pop"
     elif [[ "$ID" = "fedora" ]]; then
-      log "Found bootstrap-compatible platform: Fedora Linux x86_64"
-      INSTALL_PLATFORM="fedora"
+      if [[ "$VARIANT_ID" = "workstation" ]]; then
+        log "Found bootstrap-compatible platform: Fedora Workstation x86_64"
+        INSTALL_PLATFORM="fedora-workstation"
+      elif [[ "$VARIANT_ID" = "server" ]]; then
+        log "Found bootstrap-compatible platform: Fedora Server x86_64"
+        INSTALL_PLATFORM="fedora-server"
+      else
+        log "Unknown variant for platform: Fedora x86_64 (found $VARIANT_ID)"
+      fi
     elif [[ "$ID" = "nixos" ]]; then
       log "Found bootstrap-compatible platform: NixOS x86_64"
       INSTALL_PLATFORM="nixos"
@@ -359,7 +366,7 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
    typescript-language-server
 
   log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
+elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
   log "Upgrading packages before continuing..."
   sudo dnf upgrade -y --refresh
 
