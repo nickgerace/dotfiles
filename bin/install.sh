@@ -419,7 +419,7 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
   fi
 
   log "Checking for docker installation..."
-  if ! commnd -v docker; then
+  if ! command -v docker; then
     log "Installing and setting up docker..."
     sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
     sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -469,6 +469,87 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
   npm up -g
   flatpak update -y
   flatpak uninstall --unused
+  sudo dnf upgrade -y --refresh
+  sudo dnf autoremove -y
+
+  log-success "Success!"
+elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
+  log "Prepare XFS filesystem before running base package upgrades..."
+  sudo lvextend /dev/fedora_fedora/root -l+100%FREE
+  sudo xfs_growfs -d /
+  df -h /
+
+  log "Upgrading packages before continuing..."
+  sudo dnf upgrade -y --refresh
+
+  log "Installing findutils for xargs command..."
+  sudo dnf install -y findutils
+
+  log "Installing base packages..."
+  xargs sudo dnf install -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
+
+  log "Checking if zellij is installed..."
+  if ! command -v zellij; then
+    log "Installing zellij from varlad/zellij copr..."
+    sudo dnf copr enable -y varlad/zellij
+    sudo dnf install -y zellij
+  fi
+
+  log "Checking for rustup initialization..."
+  if ! command -v rustup; then
+    log "Running rustup-init..."
+    rustup-init --no-modify-path -y
+  fi
+  . "$HOME/.cargo/env"
+
+  log "Setting default rust toolchain and install rust-analyzer for helix..."
+  rustup default stable
+  rustup component add rust-analyzer
+
+  log "Checking if host is a System76 Thelio Major..."
+  if [ -f /sys/class/dmi/id/product_name ] && [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
+    log "Installing and setting up system76 software from syzdell/system76 copr..."
+    sudo dnf copr enable -y szydell/system76
+    sudo dnf install -y system76* firmware-manager
+    sudo systemctl enable --now \
+      com.system76.PowerDaemon.service \
+      system76-firmware-daemon \
+      system76-power-wake
+    sudo gpasswd -a "$USER" adm
+  fi
+
+  log "Checking for docker installation..."
+  if ! command -v docker; then
+    log "Installing and setting up docker..."
+    sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+    sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo systemctl enable --now docker
+    sudo docker run hello-world
+    sudo usermod -aG docker "$USER"
+  fi
+
+  log "Checking for nix installation..."
+  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  fi
+  if ! command -v nix; then
+    log "Installing nix via the determinate nix installer..."
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  fi
+
+  log "Checking default shell..."
+  if [ "$SHELL" != "/usr/bin/zsh" ]; then
+    log "Changing default shell to zsh..."
+    chsh -s "/usr/bin/zsh"
+  fi
+
+  log "Installing npm packages for helix (LSPs, etc.)..."
+  npm set prefix ~/.npm-global
+  xargs npm i -g < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
+
+  log "Running final update and cleanup commands..."
+  sudo -i nix upgrade-nix
+  npm up -g
   sudo dnf upgrade -y --refresh
   sudo dnf autoremove -y
 
