@@ -475,8 +475,8 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
   log "Prepare XFS filesystem before running base package upgrades..."
-  sudo lvextend /dev/fedora_fedora/root -l+100%FREE
-  sudo xfs_growfs -d /
+  sudo lvextend /dev/fedora_fedora/root -l+100%FREE || true
+  sudo xfs_growfs -d / || true
   df -h /
 
   log "Upgrading packages before continuing..."
@@ -508,14 +508,17 @@ elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
 
   log "Checking if host is a System76 Thelio Major..."
   if [ -f /sys/class/dmi/id/product_name ] && [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
-    log "Installing and setting up system76 software from syzdell/system76 copr..."
-    sudo dnf copr enable -y szydell/system76
-    sudo dnf install -y system76* firmware-manager
-    sudo systemctl enable --now \
-      com.system76.PowerDaemon.service \
-      system76-firmware-daemon \
-      system76-power-wake
-    sudo gpasswd -a "$USER" adm
+    log "Checking if System76 software is installed..."
+    if ! command -v system76-driver; then
+      log "Installing and setting up system76 software from syzdell/system76 copr..."
+      sudo dnf copr enable -y szydell/system76
+      sudo dnf install -y system76* firmware-manager
+      sudo systemctl enable --now \
+        com.system76.PowerDaemon.service \
+        system76-firmware-daemon \
+        system76-power-wake
+      sudo gpasswd -a "$USER" adm
+    fi
   fi
 
   log "Checking for docker installation..."
@@ -535,6 +538,13 @@ elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
   if ! command -v nix; then
     log "Installing nix via the determinate nix installer..."
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  fi
+
+  log "Installing tailscale..."
+  if ! command -v tailscale; then
+    sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+    sudo dnf install -y tailscale
+    sudo systemctl enable --now tailscaled
   fi
 
   log "Checking default shell..."

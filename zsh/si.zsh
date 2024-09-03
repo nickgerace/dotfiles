@@ -1,3 +1,7 @@
+function si-run-remote {
+  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
+}
+
 function si-build-cwd {
   buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/module-index
 }
