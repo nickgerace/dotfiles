@@ -3,9 +3,8 @@ theme = "catppuccin_latte"
 # NOTE(nick): theme from the default set.
 # theme = "onelight"
 
-# NOTE(nick): add if using over ssh.
-# [editor]
-# true-color = true
+[editor]
+true-color = true
 
 # NOTE(nick): catppuccin recommendations
 # [editor]

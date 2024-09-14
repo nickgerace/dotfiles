@@ -22,6 +22,7 @@ auto-format = true
 [language-server.rust-analyzer.config.checkOnSave]
 # command = "clippy"
 command = "check"
+extraArgs = ["--target-dir", "target/rust-analyzer"]
 
 [language-server.rust-analyzer.config.cargo]
 allFeatures = true
