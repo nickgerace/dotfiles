@@ -566,7 +566,7 @@ elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
   log "Running nixos-rebuild..."
-  pushd $INSTALL_DOTFILES_REPO
+  pushd "$INSTALL_DOTFILES_REPO"
   sudo nixos-rebuild switch --flake .
   popd
 
@@ -578,21 +578,8 @@ elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
     typescript \
     typescript-language-server
 
-  log "Adding the flathub repository..."
-  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-  log "Installing flatpaks..."
-  flatpak install -y flathub \
-    com.discordapp.Discord \
-    com.google.Chrome \
-    com.slack.Slack \
-    com.spotify.Client \
-    md.obsidian.Obsidian \
-    us.zoom.Zoom
-
   log "Running final update and cleanup commands..."
-  flatpak update -y
-  flatpak uninstall --unused
+  npm up -g
 
   log-success "Success!"
 fi

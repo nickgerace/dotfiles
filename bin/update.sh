@@ -77,6 +77,7 @@ while true; do
   esac
 done
 
+# TODO(nick): refactor to not have "exit 0" statements.
 if [ "$UPDATE_PLATFORM" = "nixos" ]; then
   pushd "$UPDATE_DOTFILES_REPO"
 
@@ -87,6 +88,11 @@ if [ "$UPDATE_PLATFORM" = "nixos" ]; then
 
   log "Running nixos-rebuild switch..."
   sudo nixos-rebuild switch --flake .
+
+  if command -v npm && [ -d "$HOME/.npm-global" ]; then
+    log "Updating npm packages..."
+    npm up -g
+  fi
 
 	popd
   log-success "Success!"
