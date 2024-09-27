@@ -91,7 +91,10 @@ if [ "$UPDATE_PLATFORM" = "nixos" ]; then
 
   if command -v npm && [ -d "$HOME/.npm-global" ]; then
     log "Updating npm packages..."
+    pushd "$UPDATE_DOTFILES_REPO"
+    npm set prefix ~/.npm-global
     npm up -g
+    popd
   fi
 
 	popd
@@ -169,9 +172,12 @@ if command -v flatpak; then
   flatpak uninstall --unused
 fi
 
-if command -v npm && [ -d $HOME/.npm-global ]; then
+if command -v npm && [ -d "$HOME/.npm-global" ]; then
   log "Updating npm packages..."
+  pushd "$UPDATE_DOTFILES_REPO"
+  npm set prefix ~/.npm-global
   npm up -g
+  popd
 fi
 
 # NOTE(nick): disabled since crates will come from package managers or nix via home-manager.
