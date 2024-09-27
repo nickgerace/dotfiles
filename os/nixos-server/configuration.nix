@@ -18,6 +18,7 @@
     bash
     bash-language-server
     bat
+    bottom
     cowsay
     curl
     direnv
