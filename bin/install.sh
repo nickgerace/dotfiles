@@ -108,6 +108,7 @@ link "$INSTALL_DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/language
 link "$INSTALL_DOTFILES_REPO/helix/themes/catppuccin_latte.toml" "$HOME/.config/helix/catppuccin_latte.toml"
 link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+link "$INSTALL_DOTFILES_REPO/bottom/bottom.toml" "$HOME/.config/bottom/bottom.toml"
 
 if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/darwin-config" "$HOME/.config/ghostty/config"
