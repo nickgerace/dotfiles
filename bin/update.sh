@@ -82,7 +82,9 @@ if [ "$UPDATE_PLATFORM" = "nixos" ]; then
   pushd "$UPDATE_DOTFILES_REPO"
 
   if [ "$UPDATE_OPTION_UPDATE_FLAKE" = "true" ]; then
-    log "Updating flake..."
+    log "Updating nix flake and ignoring any errors..."
+    nix flake update || true
+    log "Updating nix flake again in case of permissions error..."
     nix flake update
   fi
 
