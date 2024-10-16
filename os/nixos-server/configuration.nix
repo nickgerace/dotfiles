@@ -79,9 +79,10 @@
     firewall = {
       enable = true;
       interfaces."tailscale0".allowedTCPPorts = [
-        22
-        8080
-        10350
+        22 # ssh
+        8080 # SI UI
+        5157 # local SI module index
+        10350 # TILT UI
       ];
     };
   };
