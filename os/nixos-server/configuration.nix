@@ -66,10 +66,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # TODO(nick): pin minor version until the following issue is fixed:
-  # https://github.com/pop-os/system76-dkms/issues/67
-  boot.kernelPackages = pkgs.linuxPackages_6_10;
+  # TODO(nick): use LTS kernel until the following PR is merged...
+  # https://github.com/NixOS/nixpkgs/pull/349177
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking = {

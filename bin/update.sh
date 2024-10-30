@@ -86,6 +86,8 @@ if [ "$UPDATE_PLATFORM" = "nixos" ]; then
     nix flake update || true
     log "Updating nix flake again in case of permissions error..."
     nix flake update
+    log "Adding flake.lock to staged changes..."
+    git add flake.lock
   fi
 
   log "Running nixos-rebuild switch..."
