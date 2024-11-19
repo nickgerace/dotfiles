@@ -9,7 +9,7 @@ function si-run-remote-with-local-module-index {
 }
 
 function si-build-cwd {
-  buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/module-index
+  buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift
 }
 
 function si-build {
@@ -20,7 +20,7 @@ function si-build {
 
 function si-build-rust {
   pushd ~/src/si
-  buck2 uquery 'kind("rust_(binary|library|test)", set("//bin/..." "//lib/..."))' | xargs buck2 build
+  buck2 uquery 'kind("rust_(binary|library|test)", set("//bin/..." "//lib/..."))' | xargs buck2 build @//mode/debug
   popd
 }
 

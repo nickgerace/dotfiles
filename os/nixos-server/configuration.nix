@@ -66,9 +66,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # TODO(nick): use LTS kernel until the following PR is merged...
-  # https://github.com/NixOS/nixpkgs/pull/349177
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking = {
     hostName = "nixos";
