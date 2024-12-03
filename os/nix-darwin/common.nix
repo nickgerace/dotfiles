@@ -1,16 +1,23 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    # Base
+    aspell
+    bat
+    cloc
     curl
+    dua
+    fastfetch
+    fzf
+    gfold
     git
+    gnumake
+    gnused
     helix
+    htop
+    jq
+    ripgrep
+    speedtest-cli
+    tree
     wget
-
-    # LSPs and formatters
-    alejandra
-    nodePackages.bash-language-server
-    nodejs
-    vscode-langservers-extracted
 
     # Shell
     bashInteractive
@@ -18,38 +25,17 @@
     zoxide
     zsh
 
-    # Tools
-    bat
-    fzf
-    gnumake
-    gnused
-    jq
-    ripgrep
-    tree
+    # LSPs and formatters
+    nodePackages.bash-language-server
+    shfmt
 
-    # Essential TUIs
-    fastfetch
-    gfold
-    htop
-    speedtest-cli
-
-    # Extra TUIs
-    dua
-
-    # SI
+    # Nix-related
+    alejandra
     direnv
-    graphviz
-
-    # Misc
-    aspell
-    cloc
-    hugo
   ];
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override {
-      fonts = ["Iosevka"];
-    })
+    nerd-fonts.iosevka
   ];
 
   programs.zsh.enable = true;

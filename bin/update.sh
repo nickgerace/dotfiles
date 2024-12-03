@@ -50,9 +50,16 @@ if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   while true; do
     read -r -n1 -p "Do you want to upgrade nix? [y/n] (default: n): " yn
     case $yn in
-      [yY] ) UPDATE_OPTION_UPGRADE_NIX="true"; echo ""; break;;
-      "" ) break;;
-      * ) echo ""; break;;
+    [yY])
+      UPDATE_OPTION_UPGRADE_NIX="true"
+      echo ""
+      break
+      ;;
+    "") break ;;
+    *)
+      echo ""
+      break
+      ;;
     esac
   done
 fi
@@ -61,9 +68,16 @@ if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; th
   while true; do
     read -r -n1 -p "Do you want to run nix flake update? [y/n] (default: n): " yn
     case $yn in
-      [yY] ) UPDATE_OPTION_UPDATE_FLAKE="true"; echo ""; break;;
-      "" ) break;;
-      * ) echo ""; break;;
+    [yY])
+      UPDATE_OPTION_UPDATE_FLAKE="true"
+      echo ""
+      break
+      ;;
+    "") break ;;
+    *)
+      echo ""
+      break
+      ;;
     esac
   done
 fi
@@ -71,9 +85,15 @@ fi
 while true; do
   read -r -n1 -p "Confirm to begin [y/n] (default: y): " yn
   case $yn in
-    [yY] ) echo ""; break;;
-    "" ) echo ""; break;;
-     * ) exit 0;;
+  [yY])
+    echo ""
+    break
+    ;;
+  "")
+    echo ""
+    break
+    ;;
+  *) exit 0 ;;
   esac
 done
 
@@ -101,7 +121,7 @@ if [ "$UPDATE_PLATFORM" = "nixos" ]; then
     popd
   fi
 
-	popd
+  popd
   log-success "Success!"
   exit 0
 fi
@@ -109,7 +129,7 @@ fi
 if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   if [ "$UPDATE_OPTION_UPGRADE_NIX" = "true" ]; then
     log "Upgrading nix..."
-  	sudo -i nix upgrade-nix
+    sudo -i nix upgrade-nix
   fi
 
   pushd "$UPDATE_DOTFILES_REPO"
@@ -120,9 +140,9 @@ if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   fi
 
   log "Running darwin-rebuild switch..."
-	darwin-rebuild switch --flake .
+  darwin-rebuild switch --flake .
 
-	popd
+  popd
   log-success "Success!"
   exit 0
 fi

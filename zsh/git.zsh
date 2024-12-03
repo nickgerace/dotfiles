@@ -27,7 +27,7 @@ if [ "$(command -v git)" ]; then
   alias git-reset-repo-to-last-commmit="git reset --hard"
   alias git-reset-undo="git reset 'HEAD@{1}'"
   alias git-show-tags='git log --tags --simplify-by-decoration --pretty="format:%ci %d"'
-  alias git-squash='echo "git reset --soft HEAD~N"' 
+  alias git-squash='echo "git reset --soft HEAD~N"'
   alias git-update-branches="git remote update origin --prune"
 
   alias branch="git rev-parse --abbrev-ref HEAD"
@@ -46,7 +46,7 @@ if [ "$(command -v git)" ]; then
       git remote add upstream $2
       git remote -v
     fi
-    if git ls-remote upstream > /dev/null; then
+    if git ls-remote upstream >/dev/null; then
       git fetch upstream
       git rebase upstream/$1
     else
@@ -118,7 +118,7 @@ if [ "$(command -v git)" ]; then
     fi
     local FIRST
     FIRST="true"
-    
+
     pushd "$NICK_SRC"
     for REPO in $(fd -t d); do
       if [ -d $REPO/.git ]; then

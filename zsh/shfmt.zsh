@@ -3,5 +3,5 @@ function shfmt-write {
     echo "must provide file to shfmt and write back to"
     return
   fi
-  shfmt -l -w $1
+  shfmt -l -i 2 -w $1
 }

@@ -65,7 +65,7 @@ function si-branches {
 if [ "$NICK_OS" = "darwin" ]; then
   function si-wipe-cache {
     setopt PUSHDSILENT
-    
+
     pushd /tmp
     for WIPE_NIX_SHELL in $(ls | rg "nix-shell\.."); do
       pushd $WIPE_NIX_SHELL
@@ -76,7 +76,7 @@ if [ "$NICK_OS" = "darwin" ]; then
       popd
     done
     popd
-    
+
     unsetopt PUSHDSILENT
   }
 fi
