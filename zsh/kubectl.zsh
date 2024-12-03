@@ -50,7 +50,7 @@ if [ "$(command -v kubectl)" ]; then
       rm $CONFIG
     fi
 
-    KUBECONFIG=$1:$2 kubectl config view --flatten > $CONFIG
+    KUBECONFIG=$1:$2 kubectl config view --flatten >$CONFIG
     chmod 600 $CONFIG
     rm -i $1 $2
   }
@@ -68,6 +68,6 @@ if [ "$(command -v kubectl)" ]; then
       echo "required argument: <api-resource-plural-name>"
       return
     fi
-    kubectl get crd $1 -o yaml > $1.yaml
+    kubectl get crd $1 -o yaml >$1.yaml
   }
 fi

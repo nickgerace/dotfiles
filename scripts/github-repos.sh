@@ -5,4 +5,3 @@ echo $REPOS | jq -r '.[] | select(.fork != true) | select(.archived != true) | .
 echo ""
 echo "[ARCHIVED]"
 echo $REPOS | jq -r '.[] | select(.fork != true) | select(.archived == true) | .name'
-

@@ -59,7 +59,10 @@ function loop-command {
   if [ $2 ] && [ "$2" != "" ]; then
     SLEEP_SECONDS=$2
   fi
-  while true; do ${1}; sleep $SLEEP_SECONDS; done
+  while true; do
+    ${1}
+    sleep $SLEEP_SECONDS
+  done
 }
 
 function string-grab-first-n-characters {
@@ -79,7 +82,7 @@ function markdown-to-html {
     echo "must be installed and in PATH: pandoc"
     return
   fi
-  pandoc ${1} -f markdown -t html5 > ${2}
+  pandoc ${1} -f markdown -t html5 >${2}
 }
 
 function strip-and-size {

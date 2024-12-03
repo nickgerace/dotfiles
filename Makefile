@@ -9,3 +9,9 @@ install:
 update:
 	@$(MAKEPATH)/bin/update.sh
 .PHONY: update
+
+format:
+	cd $(MAKEPATH); alejandra **/*.nix
+	-cd $(MAKEPATH); shfmt -i 2 -w **/*.sh
+	-cd $(MAKEPATH); shfmt -i 2 -w **/*.zsh
+.PHONY: format

@@ -3,8 +3,8 @@ set -e
 
 # Source: https://kubernetes.io/docs/setup/production-environment/windows/user-guide-windows-containers/#getting-started-deploying-a-windows-container
 if [ ! $1 ]; then
-    echo "required argument: <create>/<delete>"
-    exit 1
+  echo "required argument: <create>/<delete>"
+  exit 1
 fi
 
 cat <<EOF | kubectl $1 -f -

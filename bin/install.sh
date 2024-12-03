@@ -27,17 +27,30 @@ log "Welcome to @nickgerace's dotfiles setup and platform bootstrap script!"
 while true; do
   read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
   case $yn in
-    [yY] ) INSTALL_BOOTSTRAP_PLATFORM="true"; echo ""; break;;
-    "" ) break;;
-    * ) echo ""; break;;
+  [yY])
+    INSTALL_BOOTSTRAP_PLATFORM="true"
+    echo ""
+    break
+    ;;
+  "") break ;;
+  *)
+    echo ""
+    break
+    ;;
   esac
 done
 while true; do
   read -r -n1 -p "Confirm to begin [y/n] (default: y): " yn
   case $yn in
-    [yY] ) echo ""; break;;
-    "" ) echo ""; break;;
-     * ) exit 0;;
+  [yY])
+    echo ""
+    break
+    ;;
+  "")
+    echo ""
+    break
+    ;;
+  *) exit 0 ;;
   esac
 done
 
@@ -135,7 +148,7 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
   sudo apt upgrade -y
 
   log "Installing base packages..."
-  xargs sudo apt install -y < "$INSTALL_DOTFILES_REPO/os/pop-os/pkgs/core.lst"
+  xargs sudo apt install -y <"$INSTALL_DOTFILES_REPO/os/pop-os/pkgs/core.lst"
 
   if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
     log "Installing iosevka nerd font..."
@@ -171,7 +184,7 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
   log "Checking default shell..."
   if [ "$SHELL" != "$HOME/.nix-profile/bin/zsh" ]; then
     if [[ ! $(grep "$HOME/.nix-profile/bin/zsh" /etc/shells) ]]; then
-      echo "$HOME/.nix-profile/bin/zsh" |sudo tee -a /etc/shells
+      echo "$HOME/.nix-profile/bin/zsh" | sudo tee -a /etc/shells
     fi
     log "Setting default shell to zsh from home-manager..."
     chsh -s "$HOME/.nix-profile/bin/zsh"
@@ -196,8 +209,8 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
     sudo chmod a+r /etc/apt/keyrings/docker.asc
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+      sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
     sudo apt update
     sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     sudo usermod -aG docker "$USER"
@@ -211,10 +224,10 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
   log "Installing npm packages..."
   npm set prefix ~/.npm-global
   npm i -g \
-   @vue/language-server \
-   prettier \
-   typescript \
-   typescript-language-server
+    @vue/language-server \
+    prettier \
+    typescript \
+    typescript-language-server
 
   log "Installing flatpaks..."
   flatpak install flathub \
@@ -243,21 +256,21 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   sudo pacman -Syu --noconfirm
 
   log "Installing core packages..."
-  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/core.lst"
+  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/core.lst"
 
   log "Installing extra packages..."
-  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/extra.lst"
+  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/extra.lst"
 
   log "Installing LSPs and formatters for helix..."
-  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/helix.lst"
+  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/helix.lst"
 
   log "Installing GNOME..."
-  sudo pacman -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/gnome.lst"
+  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/gnome.lst"
   sudo systemctl enable gdm.service
 
   log "Install xorg for GNOME (due to Zoom PipeWire 1.2.x bugs and Discord screen share)..."
   sudo pacman -S --noconfirm --needed xorg
-  
+
   echo "Attempting to find paru..."
   if ! command -v paru; then
     echo "Installing paru..."
@@ -270,7 +283,7 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   fi
 
   log "Installing AUR packages via paru..."
-  paru -S --noconfirm --needed - < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/aur.lst"
+  paru -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/aur.lst"
 
   log "Checking if host is a System76 Thelio Major..."
   if [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
@@ -323,11 +336,11 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
 
   log "Installing npm packages for helix (LSPs, etc.)..."
   npm set prefix ~/.npm-global
-  xargs npm i -g < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/npm.lst"
+  xargs npm i -g <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/npm.lst"
 
   log "Installing flatpaks..."
   flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-  xargs flatpak install flathub -yu < "$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/flatpak.lst"
+  xargs flatpak install flathub -yu <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/flatpak.lst"
 
   log "Running final update and cleanup commands..."
   sudo -i nix upgrade-nix
@@ -353,18 +366,20 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
     log "Installing nix-darwin..."
     nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .
     popd
-	fi
+  fi
 
   log "Running darwin-rebuild switch..."
   darwin-rebuild switch --flake .
 
-  log "Installing npm packages for helix LSPs..."
-  npm set prefix ~/.npm-global
-  npm i -g \
-   @vue/language-server \
-   prettier \
-   typescript \
-   typescript-language-server
+  if [ "$(scutil --get LocalHostName)" = "sibook" ]; then
+    log "Installing npm packages for helix LSPs..."
+    npm set prefix ~/.npm-global
+    npm i -g \
+      @vue/language-server \
+      prettier \
+      typescript \
+      typescript-language-server
+  fi
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
@@ -375,7 +390,7 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
   sudo dnf install -y findutils
 
   log "Installing base packages..."
-  xargs sudo dnf install -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
+  xargs sudo dnf install -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
 
   log "Checking if zellij is installed..."
   if ! command -v zellij; then
@@ -446,10 +461,10 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
 
   log "Installing npm packages for helix (LSPs, etc.)..."
   npm set prefix ~/.npm-global
-  xargs npm i -g < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
+  xargs npm i -g <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
 
   log "Installing flatpaks..."
-  xargs flatpak install flathub -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/flatpak.lst"
+  xargs flatpak install flathub -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/flatpak.lst"
 
   log "Checking for Iosevka Nerd Font..."
   if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
@@ -487,7 +502,7 @@ elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
   sudo dnf install -y findutils
 
   log "Installing base packages..."
-  xargs sudo dnf install -y < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
+  xargs sudo dnf install -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
 
   log "Checking if zellij is installed..."
   if ! command -v zellij; then
@@ -556,7 +571,7 @@ elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
 
   log "Installing npm packages for helix (LSPs, etc.)..."
   npm set prefix ~/.npm-global
-  xargs npm i -g < "$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
+  xargs npm i -g <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
 
   log "Running final update and cleanup commands..."
   sudo -i nix upgrade-nix
