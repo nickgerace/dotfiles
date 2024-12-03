@@ -12,7 +12,6 @@
     # typescript-language-server
     # vue-language-server
     # nodePackages.prettier
-
     alejandra
     aspell
     bash
@@ -50,7 +49,7 @@
     zoxide
     zsh
 
-    # NOTE(nick): enable if GPU-monitoring is desired.
+    # Enable if GPU-monitoring is desired.
     # nvtopPackages.full
   ];
 
@@ -66,7 +65,13 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # TODO(nick): switch back once the following issue is resolved: https://github.com/pop-os/system76-dkms/issues/70
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_11;
+
+  powerManagement.resumeCommands = ''
+    echo "resuming..."
+  '';
 
   networking = {
     hostName = "nixos";
@@ -85,7 +90,7 @@
   services.tailscale.enable = true;
   services.openssh.enable = true;
 
-  # NOTE(nick): try to disable this eventually to see if it works again.
+  # TODO(nick): try to disable this eventually to see if it works again.
   # Source: https://discourse.nixos.org/t/nixos-rebuild-switch-upgrade-networkmanager-wait-online-service-failure/30746
   systemd.services.NetworkManager-wait-online.enable = false;
 
@@ -101,8 +106,8 @@
 
   virtualisation.docker.enable = true;
 
-  # NOTE(nick): this is system76-related software for the Thelio. If chipset fan(s) are loud, you
-  # may need to adjust the "MOS_FAN" and/or "PCH_FAN" fan curves.
+  # This is system76-related software for the Thelio. If chipset fan(s) are loud, you may need to
+  # adjust the "MOS_FAN" and/or "PCH_FAN" fan curves.
   hardware.system76.enableAll = true;
 
   time.timeZone = "America/New_York";
