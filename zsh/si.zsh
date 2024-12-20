@@ -9,12 +9,22 @@ function si-run-remote-with-local-module-index {
 }
 
 function si-build-cwd {
-  buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift
+  time buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
+}
+
+function si-build-cwd-debug {
+  time buck2 build @//mode/debug bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
 }
 
 function si-build {
   pushd ~/src/si
   si-build-cwd
+  popd
+}
+
+function si-build-debug {
+  pushd ~/src/si
+  si-build-cwd-debug
   popd
 }
 
