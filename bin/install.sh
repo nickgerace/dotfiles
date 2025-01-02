@@ -123,7 +123,7 @@ link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/co
 link "$INSTALL_DOTFILES_REPO/bottom/bottom.toml" "$HOME/.config/bottom/bottom.toml"
 
 if [ "$INSTALL_PLATFORM" = "darwin" ]; then
-  link "$INSTALL_DOTFILES_REPO/ghostty/darwin-config" "$HOME/.config/ghostty/config"
+  link "$INSTALL_DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
 else
   if [ "$INSTALL_PLATFORM" = "arch" ]; then
     link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
@@ -132,7 +132,6 @@ else
   elif [ "$INSTALL_PLATFORM" = "pop" ]; then
     link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
   fi
-  link "$INSTALL_DOTFILES_REPO/ghostty/linux-config" "$HOME/.config/ghostty/config"
 fi
 
 if [ "$INSTALL_BOOTSTRAP_PLATFORM" != "true" ]; then
