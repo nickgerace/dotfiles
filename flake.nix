@@ -14,6 +14,21 @@
     nixpkgs,
     nix-darwin,
   }: {
+    devShells = {
+      default = {system}: let
+        pkgs = import nixpkgs {inherit system;};
+      in
+        pkgs.mkShell {
+          packages = with pkgs; [
+            alejandra
+            bash
+            just
+            shfmt
+          ];
+          formatter = pkgs.alejandra;
+        };
+    };
+
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [./os/nixos/server/configuration.nix];
