@@ -1,7 +1,5 @@
-theme = "catppuccin_latte"
-
-# NOTE(nick): theme from the default set.
-# theme = "onelight"
+theme = "catppuccin_frappe"
+# theme = "catppuccin_latte"
 
 [editor]
 true-color = true

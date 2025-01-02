@@ -118,7 +118,6 @@ git config --global pull.rebase true
 link "$INSTALL_DOTFILES_REPO/.zshrc" "$HOME/.zshrc"
 link "$INSTALL_DOTFILES_REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
 link "$INSTALL_DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
-link "$INSTALL_DOTFILES_REPO/helix/themes/catppuccin_latte.toml" "$HOME/.config/helix/catppuccin_latte.toml"
 link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 link "$INSTALL_DOTFILES_REPO/bottom/bottom.toml" "$HOME/.config/bottom/bottom.toml"

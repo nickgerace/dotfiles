@@ -312,7 +312,8 @@ pane_frames false
 // Default: default
 //
 // theme "default"
-theme "catppuccin-latte"
+theme "catppuccin-frappe"
+// theme "catppuccin-latte"
 
 // The name of the default layout to load on startup
 // Default: "default"
