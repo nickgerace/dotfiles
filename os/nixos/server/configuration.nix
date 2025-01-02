@@ -36,6 +36,7 @@
     htop
     hugo
     jq
+    just
     lolcat
     mold
     nodejs
