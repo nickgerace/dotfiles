@@ -50,7 +50,6 @@
     zoxide
     zsh
   ];
-  fonts.packages = with pkgs-unstable; [(nerdfonts.override {fonts = ["Iosevka"];})];
 
   nix = {
     gc = {

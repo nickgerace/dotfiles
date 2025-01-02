@@ -34,9 +34,7 @@
     direnv
   ];
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.iosevka
-  ];
+  fonts.packages = [pkgs.iosevka];
 
   programs.zsh.enable = true;
   environment.shells = [pkgs.zsh];

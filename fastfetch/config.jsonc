@@ -46,10 +46,6 @@
       "type": "shell"
     },
     {
-      "key": "Terminal",
-      "type": "terminal"
-    },
-    {
       "key": "DE",
       "type": "de",
     },
@@ -67,7 +63,7 @@
       "format": "{9} {11} {6} {1} - {14}:{18} {22} ({21})"
     },
     {
-      "key": "Version",
+      "key": "Fastfetch",
       "type": "version",
       "format": "{2}",
     },
@@ -79,6 +75,31 @@
     {
       "type": "custom",
       "format": "―――――――――――――――――――――――"
-    }
+    },
+    {
+      "type": "custom",
+      "key": "Font",
+      "format": "Iosevka",
+    },
+    {
+      "type": "custom",
+      "key": "Multiplexer",
+      "format": "Zellij",
+    },
+    {
+      "type": "custom",
+      "key": "Terminal",
+      "format": "Ghostty",
+    },
+    {
+      "type": "custom",
+      "key": "Editor",
+      "format": "Helix",
+    },
+    {
+      "type": "custom",
+      "key": "Theme",
+      "format": "Catppuccin Frappé",
+    },
   ]
 }

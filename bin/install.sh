@@ -148,19 +148,6 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
   log "Installing base packages..."
   xargs sudo apt install -y <"$INSTALL_DOTFILES_REPO/os/pop-os/pkgs/core.lst"
 
-  if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
-    log "Installing iosevka nerd font..."
-    mkdir -p "$HOME/.local/share/fonts"
-    pushd "$HOME/.local/share/fonts"
-    curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.tar.xz
-    tar -xf Iosevka.tar.xz
-    [[ -f LICENSE ]] && rm LICENSE
-    [[ -f README.md ]] && rm README.md
-    rm Iosevka.tar.xz
-    popd
-    fc-cache
-  fi
-
   log "Checking for nix installation..."
   if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
@@ -463,20 +450,6 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
 
   log "Installing flatpaks..."
   xargs flatpak install flathub -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/flatpak.lst"
-
-  log "Checking for Iosevka Nerd Font..."
-  if [ ! -f "$HOME/.local/share/fonts/IosevkaNerdFont-Regular.ttf" ]; then
-    log "Installing Iosevka Nerd Font..."
-    mkdir -p "$HOME/.local/share/fonts"
-    pushd "$HOME/.local/share/fonts"
-    curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.tar.xz
-    tar -xf Iosevka.tar.xz
-    [[ -f LICENSE ]] && rm LICENSE
-    [[ -f README.md ]] && rm README.md
-    rm Iosevka.tar.xz
-    popd
-    fc-cache
-  fi
 
   log "Running final update and cleanup commands..."
   sudo -i nix upgrade-nix

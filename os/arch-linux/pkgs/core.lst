@@ -25,7 +25,6 @@ rustup
 sed
 speedtest-cli
 tree
-ttf-iosevka-nerd
 wget
 yq
 zellij

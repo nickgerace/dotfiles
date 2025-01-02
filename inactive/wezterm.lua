@@ -5,7 +5,7 @@ if wezterm.config_builder then
     config = wezterm.config_builder()
 end
 
-config.font = wezterm.font 'Iosevka Nerd Font'
+config.font = wezterm.font 'Iosevka'
 config.enable_tab_bar = false
 config.color_scheme = 'OneHalfLight'
 config.audible_bell = 'Disabled'

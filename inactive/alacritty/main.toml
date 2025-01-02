@@ -6,19 +6,19 @@ dynamic_title = false
 # decorations = "None"
 
 [font.normal]
-family = "Iosevka Nerd Font"
+family = "Iosevka"
 style = "Regular"
 
 [font.bold]
-family = "Iosevka Nerd Font"
+family = "Iosevka"
 style = "Bold"
 
 [font.italic]
-family = "Iosevka Nerd Font"
+family = "Iosevka"
 style = "Italic"
 
 [font.bold_italic]
-family = "Iosevka Nerd Font"
+family = "Iosevka"
 style = "Bold Italic"
 
 [window.padding]
