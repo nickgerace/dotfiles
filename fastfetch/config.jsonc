@@ -47,7 +47,7 @@
     },
     {
       "key": "DE",
-      "type": "de",
+      "type": "de"
     },
     {
       "key": "Host",
@@ -65,7 +65,7 @@
     {
       "key": "Fastfetch",
       "type": "version",
-      "format": "{2}",
+      "format": "{2}"
     },
     {
       "key": "Colors",
@@ -79,27 +79,32 @@
     {
       "type": "custom",
       "key": "Font",
-      "format": "Iosevka",
+      "format": "Iosevka"
     },
     {
       "type": "custom",
       "key": "Multiplexer",
-      "format": "Zellij",
+      "format": "Zellij"
     },
     {
       "type": "custom",
       "key": "Terminal",
-      "format": "Ghostty",
+      "format": "Ghostty"
     },
     {
       "type": "custom",
       "key": "Editor",
-      "format": "Helix",
+      "format": "Helix"
     },
     {
       "type": "custom",
       "key": "Theme",
-      "format": "Catppuccin Frappé",
+      "format": "Catppuccin Frappé"
     },
+    {
+      "type": "custom",
+      "key": " ",
+      "format": "―――――――――――――――――――――――"
+    }
   ]
 }
