@@ -14,6 +14,7 @@
     helix
     htop
     jq
+    just
     ripgrep
     speedtest-cli
     tree
