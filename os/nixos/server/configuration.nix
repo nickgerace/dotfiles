@@ -36,6 +36,7 @@
     htop
     hugo
     jq
+    jujutsu
     just
     lolcat
     mold
