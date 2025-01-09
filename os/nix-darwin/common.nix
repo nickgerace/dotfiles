@@ -14,6 +14,7 @@
     helix
     htop
     jq
+    jujutsu
     just
     ripgrep
     speedtest-cli
