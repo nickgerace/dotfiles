@@ -120,7 +120,8 @@ link "$INSTALL_DOTFILES_REPO/helix/config.toml" "$HOME/.config/helix/config.toml
 link "$INSTALL_DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
 link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
-link "$INSTALL_DOTFILES_REPO/bottom/bottom.toml" "$HOME/.config/bottom/bottom.toml"
+link "$INSTALL_DOTFILES_REPO/bat/config" "$HOME/.config/bat/config"
+link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-frappe.tmTheme" "$HOME/.config/bat/themes/catppuccin-frappe.tmTheme"
 
 if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"

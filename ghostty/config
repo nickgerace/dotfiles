@@ -1,4 +1,5 @@
 theme = catppuccin-frappe
+# theme = catppuccin-latte
 font-family = "Iosevka"
 font-size = 15
 macos-option-as-alt = true
