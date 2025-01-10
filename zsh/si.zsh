@@ -1,23 +1,23 @@
 function si-run-remote {
-  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
+  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug
 }
 
-function si-run-remote-debug {
-  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug
+function si-run-remote-release {
+  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
 }
 
 function si-run-remote-with-local-module-index {
   VITE_MODULE_INDEX_API_URL=http://nixos:5157 \
     SI_MODULE_INDEX_URL=http://localhost:5157 \
-    TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
+    TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug
 }
 
 function si-build-cwd {
-  time buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
+  time buck2 build @//mode/debug bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
 }
 
-function si-build-cwd-debug {
-  time buck2 build @//mode/debug bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
+function si-build-cwd-release {
+  time buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
 }
 
 function si-build {
@@ -26,9 +26,9 @@ function si-build {
   popd
 }
 
-function si-build-debug {
+function si-build-release {
   pushd ~/src/si
-  si-build-cwd-debug
+  si-build-cwd
   popd
 }
 
@@ -38,16 +38,10 @@ function si-build-rust {
   popd
 }
 
-alias si-run-pinga="buck2 run @//mode/release //bin/pinga"
-alias si-run-rebaser="buck2 run @//mode/release //bin/rebaser"
-alias si-run-sdf="buck2 run @//mode/release //bin/sdf"
-alias si-run-veritech="buck2 run @//mode/release //bin/veritech"
-
-function si-up {
-  buck2 run dev:down
-  si-build-cwd
-  buck2 run dev:up
-}
+alias si-run-pinga="buck2 run @//mode/debug //bin/pinga"
+alias si-run-rebaser="buck2 run @//mode/debug //bin/rebaser"
+alias si-run-sdf="buck2 run @//mode/debug //bin/sdf"
+alias si-run-veritech="buck2 run @//mode/debug //bin/veritech"
 
 function si-branches {
   function si-print-branch {
