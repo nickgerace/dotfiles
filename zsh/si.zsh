@@ -28,7 +28,7 @@ function si-build {
 
 function si-build-release {
   pushd ~/src/si
-  si-build-cwd
+  si-build-cwd-release
   popd
 }
 
