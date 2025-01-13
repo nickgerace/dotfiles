@@ -125,7 +125,9 @@ link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-frappe.tmTheme" "$HOME/.confi
 
 if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
+  link "$INSTALL_DOTFILES_REPO/gfold/darwin.toml" "$HOME/.config/gfold.toml"
 else
+  link "$INSTALL_DOTFILES_REPO/gfold/linux.toml" "$HOME/.config/gfold.toml"
   if [ "$INSTALL_PLATFORM" = "arch" ]; then
     link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
   elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
