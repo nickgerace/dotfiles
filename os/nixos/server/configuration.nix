@@ -4,7 +4,13 @@
   pkgs,
   ...
 }: {
-  imports = [./hardware-configuration.nix];
+  imports = [
+    ./hardware-configuration.nix
+    (import (builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/systeminit/si-device-compliance/refs/heads/main/special-cases/compliance/si-nixos-configuration.nix";
+      sha256 = "05idliz9v6sb4s1bwp85mzkwm3zbs1is2il2581xdrrn4kgxkr41";
+    }))
+  ];
 
   environment.systemPackages = with pkgs; [
     # TODO(nick): use these instead of npm packages for helix
