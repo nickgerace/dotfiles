@@ -16,11 +16,27 @@ The "install" recipe will install `zsh` if you opt to install packages, so it is
 You will also need to ensure that this repository resides in the `$HOME/src/` directory.
 You may need to create it by executing `mkdir $HOME/src`.
 
-Once everything looks good, execute the following:
-
 > [!WARNING]
 > Running the following command may overwrite files if you are coming from an existing configuration.
 > Please read the source code, starting from the [justfile](justfile), before executing the recipe.
+
+> [!WARNING]
+> **If you are using NixOS or nix-darwin, please read this section!**
+>
+> - If you are using NixOS and would like to install packages via the installation script, remove
+>   the [import code](https://github.com/nickgerace/dotfiles/blob/4e480e657d9dfd0f78eb410365dee9ff29811a1f/os/nixos/server/configuration.nix#L9-L12)
+>   for [si-device-compliance](https://github.com/systeminit/si-device-compliance). **The linked
+>   location is the only location in the repository containing the compliance code.**
+> - For both NixOS and nix-darwin, if you decide to install packages in addition to the dotfiles,
+>   you will likely need to change the relevant configuration files. Not only would the hardware
+>   configurations need to change, but also the hostnames, the compliance check code, etc.
+> - For both NixOS and nix-darwin, if you are only installing dotfiles and _not_ packages, you can
+>   skip the rest of this section.
+>
+> _Recommendation: use the Nix-related stuff for inspiration rather than using the configurations
+> "as-is". The dotfiles are portable, but the configurations are not without edits._
+
+Once everything looks good, execute the following and you will be presented with some options that you'll need to choose:
 
 ```bash
 just install
