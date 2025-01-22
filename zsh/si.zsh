@@ -1,5 +1,5 @@
 function si-run-remote {
-  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug
+  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug-all
 }
 
 function si-run-remote-release {
