@@ -18,7 +18,6 @@
     alejandra
     aspell
     bash
-    bash-language-server
     bat
     bottom
     cowsay
@@ -35,7 +34,6 @@
     gnumake
     gnused
     graphviz
-    helix
     htop
     hugo
     jq
@@ -54,6 +52,10 @@
     zoxide
     zsh
 
+    bash-language-server
+    helix
+    vscode-extensions.vadimcn.vscode-lldb
+
     # Enable if GPU-monitoring is desired.
     # nvtopPackages.full
   ];
@@ -70,9 +72,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # TODO(nick): switch back once the following issue is resolved: https://github.com/pop-os/system76-dkms/issues/70
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_6_11;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   powerManagement.resumeCommands = ''
     echo "resuming..."
@@ -86,9 +86,9 @@
       enable = true;
       interfaces."tailscale0".allowedTCPPorts = [
         22 # ssh
-        8080 # SI UI
+        8080 # local SI app
         5157 # local SI module index
-        10350 # TILT UI
+        10350 # local SI Tilt UI
       ];
     };
   };
