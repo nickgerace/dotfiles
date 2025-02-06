@@ -73,6 +73,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernel.sysctl = {
+    "fs.file-max" = 524288;
+  };
 
   powerManagement.resumeCommands = ''
     echo "resuming..."
