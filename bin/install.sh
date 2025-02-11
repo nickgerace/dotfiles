@@ -79,8 +79,6 @@ if [ "$(uname -s)" = "Linux" ]; then
       elif [[ "$VARIANT_ID" = "server" ]]; then
         log "Found bootstrap-compatible platform: Fedora Server x86_64"
         INSTALL_PLATFORM="fedora-server"
-      else
-        log "Unknown variant for platform: Fedora x86_64 (found $VARIANT_ID)"
       fi
     elif [[ "$ID" = "nixos" ]]; then
       log "Found bootstrap-compatible platform: NixOS x86_64"
@@ -246,18 +244,13 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   log "Installing core packages..."
   sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/core.lst"
 
-  log "Installing extra packages..."
-  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/extra.lst"
-
-  log "Installing LSPs and formatters for helix..."
-  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/helix.lst"
-
-  log "Installing GNOME..."
-  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/gnome.lst"
-  sudo systemctl enable gdm.service
-
-  log "Install xorg for GNOME (due to Zoom PipeWire 1.2.x bugs and Discord screen share)..."
-  sudo pacman -S --noconfirm --needed xorg
+  # TODO(nick): split desktop and server install.
+  # log "Installing GNOME..."
+  # sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/gnome.lst"
+  # sudo systemctl enable gdm.service
+  #
+  # log "Install xorg for GNOME (due to Zoom PipeWire 1.2.x bugs and Discord screen share)..."
+  # sudo pacman -S --noconfirm --needed xorg
 
   echo "Attempting to find paru..."
   if ! command -v paru; then
@@ -298,14 +291,12 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
     fi
   fi
 
-  log "Checking for nix installation..."
-  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
-  if ! command -v nix; then
-    log "Installing nix via the determinate nix installer..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  fi
+  log "Setting up nix..."
+  sudo usermod -aG nixbld "$USER"
+  sudo usermod -aG nix-users "$USER"
+  sudo systemctl enable --now nix-daemon.service
+  nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
+  nix-channel --update
 
   log "Checking default shell..."
   if [ "$SHELL" != "$(which zsh)" ]; then
@@ -322,20 +313,23 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   sudo usermod -aG docker "$USER"
   sudo docker run hello-world
 
-  log "Installing npm packages for helix (LSPs, etc.)..."
-  npm set prefix ~/.npm-global
-  xargs npm i -g <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/npm.lst"
+  log "Setting up tailscale (without running 'tailscale up')..."
+  sudo systemctl enable --now tailscaled.service
 
-  log "Installing flatpaks..."
-  flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-  xargs flatpak install flathub -yu <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/flatpak.lst"
+  # TODO(nick): split desktop and server install.
+  # log "Installing flatpaks..."
+  # flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+  # xargs flatpak install flathub -yu <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/flatpak.lst"
 
   log "Running final update and cleanup commands..."
-  sudo -i nix upgrade-nix
-  npm up -g
-  flatpak update -y
-  flatpak uninstall --unused
   sudo pacman -Syu --noconfirm
+
+  # TODO(nick): confirm if nix needs to upgrade itself...
+  # sudo -i nix upgrade-nix
+  
+  # TODO(nick): split desktop and server install.
+  # flatpak update -y
+  # flatpak uninstall --unused
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
