@@ -154,6 +154,14 @@ if [ "$UPDATE_PLATFORM" = "ubuntu" ] || [ "$UPDATE_PLATFORM" = "pop" ]; then
   sudo apt autoremove -y
 elif [ "$UPDATE_PLATFORM" = "arch" ]; then
   sudo pacman -Syu
+  if command -v rustup; then
+    log "Running rustup update..."
+    rustup update
+  fi
+
+  # TODO(nick): refactor every system to have its own update logic.
+  log-success "Success!"
+  exit 0
 elif [ "$UPDATE_PLATFORM" = "fedora" ]; then
   if command -v dnf5; then
     sudo dnf5 upgrade -y --refresh
