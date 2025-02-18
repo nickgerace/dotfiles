@@ -254,6 +254,10 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
 
   echo "Attempting to find paru..."
   if ! command -v paru; then
+    log "Setting up rust for installing paru..."
+    rustup default stable
+    rustup component add rust-analyzer
+
     echo "Installing paru..."
     pushd "$(mktemp -d)"
     git clone https://aur.archlinux.org/paru.git
@@ -263,15 +267,8 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
     popd
   fi
 
-  log "Installing AUR packages via paru..."
-  paru -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/aur.lst"
-
   log "Checking if host is a System76 Thelio Major..."
   if [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
-    log "Setting up rust for installing system76 software..."
-    rustup default stable
-    rustup component add rust-analyzer
-
     if paru -Qs system76-firmware-daemon-git; then
       log "Skipping system76 firmware daemon installation and setup (already installed)..."
     else
@@ -295,8 +292,8 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   sudo usermod -aG nixbld "$USER"
   sudo usermod -aG nix-users "$USER"
   sudo systemctl enable --now nix-daemon.service
-  nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
-  nix-channel --update
+  sudo nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
+  sudo nix-channel --update
 
   log "Checking default shell..."
   if [ "$SHELL" != "$(which zsh)" ]; then
