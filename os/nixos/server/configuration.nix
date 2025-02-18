@@ -6,7 +6,6 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ./si.nix
   ];
 
   environment.systemPackages = with pkgs; [
