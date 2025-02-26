@@ -25,7 +25,7 @@ function log-error {
 log "Welcome to @nickgerace's dotfiles setup and platform bootstrap script!"
 
 while true; do
-  read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/n] (default: n): " yn
+  read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/N]: " yn
   case $yn in
   [yY])
     INSTALL_BOOTSTRAP_PLATFORM="true"
@@ -40,7 +40,7 @@ while true; do
   esac
 done
 while true; do
-  read -r -n1 -p "Confirm to begin [y/n] (default: y): " yn
+  read -r -n1 -p "Confirm to begin [Y/n]: " yn
   case $yn in
   [yY])
     echo ""

@@ -48,7 +48,7 @@ log "Detected platform: $UPDATE_PLATFORM"
 
 if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   while true; do
-    read -r -n1 -p "Do you want to upgrade nix? [y/n] (default: n): " yn
+    read -r -n1 -p "Do you want to upgrade nix? [y/N]: " yn
     case $yn in
     [yY])
       UPDATE_OPTION_UPGRADE_NIX="true"
@@ -66,7 +66,7 @@ fi
 
 if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
   while true; do
-    read -r -n1 -p "Do you want to run nix flake update? [y/n] (default: n): " yn
+    read -r -n1 -p "Do you want to run nix flake update? [y/N]: " yn
     case $yn in
     [yY])
       UPDATE_OPTION_UPDATE_FLAKE="true"
@@ -83,7 +83,7 @@ if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; th
 fi
 
 while true; do
-  read -r -n1 -p "Confirm to begin [y/n] (default: y): " yn
+  read -r -n1 -p "Confirm to begin [Y/n]: " yn
   case $yn in
   [yY])
     echo ""
