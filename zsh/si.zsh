@@ -1,47 +1,32 @@
 function si-run-remote {
-  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug-all
+  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
 }
 
-function si-run-remote-release {
-  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
+function si-run-remote-debug  {
+  TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug-all
 }
 
 function si-run-remote-with-local-module-index {
   VITE_MODULE_INDEX_API_URL=http://nixos:5157 \
     SI_MODULE_INDEX_URL=http://localhost:5157 \
-    TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug
-}
-
-function si-build-cwd {
-  time buck2 build @//mode/debug bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
-}
-
-function si-build-cwd-release {
-  time buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
+    TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
 }
 
 function si-build {
-  pushd ~/src/si
-  si-build-cwd
-  popd
+  buck2 build @//mode/release bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
 }
 
-function si-build-release {
-  pushd ~/src/si
-  si-build-cwd-release
-  popd
+function si-build-debug {
+  buck2 build @//mode/debug bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
 }
+
+alias zsi="zellij -s si"
 
 function si-build-rust {
   pushd ~/src/si
   buck2 uquery 'kind("rust_(binary|library|test)", set("//bin/..." "//lib/..."))' | xargs buck2 build @//mode/debug
   popd
 }
-
-alias si-run-pinga="buck2 run @//mode/debug //bin/pinga"
-alias si-run-rebaser="buck2 run @//mode/debug //bin/rebaser"
-alias si-run-sdf="buck2 run @//mode/debug //bin/sdf"
-alias si-run-veritech="buck2 run @//mode/debug //bin/veritech"
 
 function si-branches {
   function si-print-branch {
