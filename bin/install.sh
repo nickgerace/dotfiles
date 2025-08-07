@@ -276,15 +276,51 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
       paru -S --noconfirm system76-firmware-daemon-git
       sudo systemctl enable --now system76-firmware-daemon
       sudo gpasswd -a "$USER" adm
+    fi
 
-      log "Installing and setting up firmware manager and system76 driver..."
+    if paru -Qs system76-firmware-manager-git; then
+      log "Skipping system76 firmware manager installation and setup (already installed)..."
+    else
+      log "Installing and setting up system76 firmware manager..."
       paru -S --noconfirm firmware-manager-git
+      sudo systemctl enable --now system76
+    fi
+
+    if paru -Qs system76-driver; then
+      log "Skipping system76 driver installation and setup (already installed)..."
+    else
+      log "Installing and setting up system76 driver..."
       paru -S --noconfirm system76-driver
       sudo systemctl enable --now system76
+    fi
 
-      echo "Installing and setting up system76 software and enabling power daemon..."
-      paru -S --noconfirm system76-power system76-dkms system76-acpi-dkms system76-io-dkms
+    if paru -Qs system76-power; then
+      log "Skipping system76 power installation and setup (already installed)..."
+    else
+      echo "Installing and setting up system76 power..."
+      paru -S --noconfirm system76-power
       sudo systemctl enable --now com.system76.PowerDaemon.service
+    fi
+
+    if paru -Qs system76-dkms; then
+      log "Skipping system76 DKMS installation and setup (already installed)..."
+    else
+      echo "Installing and setting up system76 DKMS..."
+      paru -S --noconfirm system76-dkms
+    fi
+
+    if paru -Qs system76-acpi-dkms; then
+      log "Skipping system76 ACPI DKMS installation and setup (already installed)..."
+    else
+      echo "Installing and setting up system76 ACPI DKMS..."
+      paru -S --noconfirm system76-acpi-dkms
+    fi
+
+    if paru -Qs system76-io-dkms; then
+      log "Skipping system76 IO DKMS installation and setup (already installed)..."
+    else
+      echo "Installing and setting up system76 IO DKMS..."
+      paru -S --noconfirm system76-io-dkms
     fi
   fi
 

@@ -158,6 +158,10 @@ elif [ "$UPDATE_PLATFORM" = "arch" ]; then
     log "Running rustup update..."
     rustup update
   fi
+  if command -v paru; then
+    log "Upgrading AUR packages..."
+    paru -Sua
+  fi
 
   # TODO(nick): refactor every system to have its own update logic.
   log-success "Success!"
