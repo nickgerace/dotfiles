@@ -1,8 +1,9 @@
 if [ "$NICK_OS" = "arch" ]; then
   ulimit -Sn 16384
 
-  alias aur-list-packages="paru -Qua"
-  alias paru-list-packages="paru -Qua"
-  alias aur-upgrade-packages="paru -Sua"
-  alias paru-upgrade-packages="paru -Sua"
+  alias arch-list-packages="pacman -Qe"
+  alias arch-list-packages-names-only="pacman -Qqe"
+
+  alias arch-list-aur-packages="paru -Qua"
+  alias arch-upgrade-aur-packages="paru -Sua"
 fi
