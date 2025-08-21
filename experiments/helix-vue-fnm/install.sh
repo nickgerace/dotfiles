@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-paru -S --noconfirm fnm
+if [ "$(uname -s)" = "Darwin" ]; then
+  brew install fnm
+elif [ "$(uname -s)" = "Linux" ] && [ -f /etc/os-release ]; then
+  . /etc/os-release
+  if [ "$ID" = "arch" ]; then
+    paru -S --noconfirm fnm
+  else
+    exit 1
+  fi
+else
+  exit 1
+fi
+
 fnm install 18 # used by SI
+source ~/.zshrc # get fnm completions
 
 mkdir -p ~/.npm-global
 npm config set prefix ~/.npm-global
