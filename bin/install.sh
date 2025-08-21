@@ -119,7 +119,7 @@ link "$INSTALL_DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/language
 link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 link "$INSTALL_DOTFILES_REPO/bat/config" "$HOME/.config/bat/config"
-link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-frappe.tmTheme" "$HOME/.config/bat/themes/catppuccin-frappe.tmTheme"
+link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-mocha.tmTheme" "$HOME/.config/bat/themes/catppuccin-mocha.tmTheme"
 
 if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
@@ -133,6 +133,11 @@ else
   elif [ "$INSTALL_PLATFORM" = "pop" ]; then
     link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
   fi
+fi
+
+if command -v bat; then
+  log "Rebuilding bat cache..."
+  bat cache --build
 fi
 
 if [ "$INSTALL_BOOTSTRAP_PLATFORM" != "true" ]; then

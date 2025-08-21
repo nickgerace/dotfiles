@@ -7,7 +7,7 @@ This document contains information related to changing themes within this reposi
 
 ## Relevant Tools
 
-This is a list of relevant tools who may be reliant on the theme:
+This is a list of relevant tools who are reliant on the theme:
 
 - `bat`
 - `fastfetch`
@@ -15,13 +15,7 @@ This is a list of relevant tools who may be reliant on the theme:
 - `helix`
 - `zellij` 
 
-## Fonts
+## Theme and Font
 
+- [Catpuccin Mocha](https://catppuccin.com)
 - [Iosevka](https://github.com/be5invis/Iosevka)
-
-## Themes
-
-Name | Kind
---- | ---
-[Catppuccin Frappé](https://catppuccin.com/) | Dark
-[Catppuccin Latte](https://catppuccin.com/) | Light
