@@ -19,23 +19,27 @@ auto-format = true
 name = "rust"
 auto-format = true
 
-[language.debugger]
-command = "codelldb"
-name = "codelldb"
-port-arg = "--port {}"
-transport = "tcp"
+# TODO(nick): restore debugger support.
+# [language.debugger]
+# command = "codelldb"
+# name = "codelldb"
+# port-arg = "--port {}"
+# transport = "tcp"
 
-[[language.debugger.templates]]
-name = "binary"
-request = "launch"
+# TODO(nick): restore debugger support.
+# [[language.debugger.templates]]
+# name = "binary"
+# request = "launch"
 
-[[language.debugger.templates.completion]]
-completion = "filename"
-name = "binary"
+# TODO(nick): restore debugger support.
+# [[language.debugger.templates.completion]]
+# completion = "filename"
+# name = "binary"
 
-[language.debugger.templates.args]
-program = "{0}"
-runInTerminal = true
+# TODO(nick): restore debugger support.
+# [language.debugger.templates.args]
+# program = "{0}"
+# runInTerminal = true
 
 [language-server.rust-analyzer.config.checkOnSave]
 # command = "clippy"
@@ -49,27 +53,34 @@ allFeatures = true
 # command = "clippy"
 command = "check"
 
-[[language]]
-name = "vue"
-scope = "source.vue"
-injection-regex = "vue"
-file-types = ["vue"]
-roots = ["package.json", ".git"]
-auto-format = true
-language-servers = ["volar"]
-formatter = { command = 'prettier', args = ["--parser", "vue"] }
-
-[[language-server.typescript-language-server.config.plugins]]
-name = "@vue/typescript-plugin"
-location = "/usr/lib/node_modules/@vue/language-server"
-# location = "../../.npm-global/lib/node_modules/@vue/language-server"
-languages = ["vue"]
-
-[language-server.volar]
+# NOTE(nick): everything below this comment is absolute crazy town. Use at your own will.
+# Source: https://github.com/helix-editor/helix/discussions/10691#discussioncomment-10688441
+[language-server.vuels]
 command = "vue-language-server"
 args = ["--stdio"]
 
-[language-server.volar.config]
-vue = { hybridMode = false }
-typescript = { tsdk = "/usr/lib/node_modules/typescript/lib/" }
-# typescript = { tsdk = "../../.npm-global/lib/node_modules/typescript/lib/" }
+[language-server.typescript-language-server]
+filetypes = ["javascript", "typescript"]
+roots = ["package.json", ".git"]
+command = "typescript-language-server"
+args = ["--stdio"]
+
+[language-server.typescript-language-server.config]
+plugins = [{  name = "@vue/typescript-plugin", location = "../../.npm-global/lib/node_modules/@vue/language-server", languages = ["vue"] }]
+tsserver = { path = "../../.npm-global/lib/node_modules/typescript/lib" }
+
+[language-server.typescript-language-server.config.vue.inlayHints]
+includeInlayEnumMemberValueHints = true
+includeInlayFunctionLikeReturnTypeHints = true
+includeInlayFunctionParameterTypeHints = true
+includeInlayParameterNameHints = "all"
+includeInlayParameterNameHintsWhenArgumentMatchesName = true
+includeInlayPropertyDeclarationTypeHints = true
+includeInlayVariableTypeHints = true
+
+[[language]]
+name = "vue"
+auto-format = true
+language-servers = ["vuels", "typescript-language-server"]
+roots = ["package.json", ".git"]
+formatter = { command = 'prettier', args = ["--parser", "vue"] }
