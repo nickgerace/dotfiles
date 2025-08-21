@@ -1,18 +1,22 @@
 theme = "catppuccin_mocha"
 
+[editor.lsp]
+display-inlay-hints = true
+display-progress-messages = true
+
 [editor]
 true-color = true
+completion-timeout = 5
 
-# NOTE(nick): catppuccin recommendations
-# [editor]
-# line-number = "relative"
-# cursorline = true
-# color-modes = true
+# Everything below are recommendations from catppuccin:
+# https://github.com/catppuccin/helix/blob/1f13d5e7c72b064699e2c8761f603e4ddd48db8a/README.md?plain=1#L41-L55
+cursorline = true
+color-modes = true
 
-# [editor.cursor-shape]
-# insert = "bar"
-# normal = "block"
-# select = "underline"
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
 
-# [editor.indent-guides]
-# render = true
+[editor.indent-guides]
+render = true

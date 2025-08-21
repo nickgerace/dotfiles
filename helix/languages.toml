@@ -19,49 +19,33 @@ auto-format = true
 name = "rust"
 auto-format = true
 
-# TODO(nick): restore debugger support.
-# [language.debugger]
-# command = "codelldb"
-# name = "codelldb"
-# port-arg = "--port {}"
-# transport = "tcp"
-
-# TODO(nick): restore debugger support.
-# [[language.debugger.templates]]
-# name = "binary"
-# request = "launch"
-
-# TODO(nick): restore debugger support.
-# [[language.debugger.templates.completion]]
-# completion = "filename"
-# name = "binary"
-
-# TODO(nick): restore debugger support.
-# [language.debugger.templates.args]
-# program = "{0}"
-# runInTerminal = true
-
 [language-server.rust-analyzer.config.checkOnSave]
-# command = "clippy"
-command = "check"
+command = "check" # clippy works too
 extraArgs = ["--target-dir", "target/rust-analyzer"]
 
 [language-server.rust-analyzer.config.cargo]
 allFeatures = true
 
 [language-server.rust-analyzer.config.check]
-# command = "clippy"
-command = "check"
+command = "check" # clippy works too
 
+# ==========================================================================================
 # NOTE(nick): everything below this comment is absolute crazy town. Use at your own will.
 # Source: https://github.com/helix-editor/helix/discussions/10691#discussioncomment-10688441
+# ==========================================================================================
+
+[[language]]
+name = "vue"
+auto-format = true
+language-servers = ["vuels", "typescript-language-server"]
+formatter = { command = 'prettier', args = ["--parser", "vue"] }
+
 [language-server.vuels]
 command = "vue-language-server"
 args = ["--stdio"]
 
 [language-server.typescript-language-server]
 filetypes = ["javascript", "typescript"]
-roots = ["package.json", ".git"]
 command = "typescript-language-server"
 args = ["--stdio"]
 
@@ -77,10 +61,3 @@ includeInlayParameterNameHints = "all"
 includeInlayParameterNameHintsWhenArgumentMatchesName = true
 includeInlayPropertyDeclarationTypeHints = true
 includeInlayVariableTypeHints = true
-
-[[language]]
-name = "vue"
-auto-format = true
-language-servers = ["vuels", "typescript-language-server"]
-roots = ["package.json", ".git"]
-formatter = { command = 'prettier', args = ["--parser", "vue"] }
