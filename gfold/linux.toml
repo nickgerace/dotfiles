@@ -1,3 +1,3 @@
-path = "/home/nick/src"
+paths = ["/home/nick/src"]
 display_mode = "Standard"
 color_mode = "Always"
