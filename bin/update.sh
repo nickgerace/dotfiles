@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -eu
 
+# Make sure that we aren't relying on a specific environment based on our current working directory
+pushd $(mktemp -d)
+
 UPDATE_DOTFILES_REPO="$HOME/src/dotfiles"
 UPDATE_OPTION_UPDATE_FLAKE="false"
 UPDATE_OPTION_UPGRADE_NIX="false"
@@ -225,5 +228,8 @@ fi
 #         cargo install-update -a
 #     fi
 # }
+
+# Leave the temporary directory
+popd
 
 log-success "Success!"
