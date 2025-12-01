@@ -2,7 +2,7 @@ function si-run-remote {
   TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up
 }
 
-function si-run-remote-debug  {
+function si-run-remote-debug {
   TILT_HOST=0.0.0.0 DEV_HOST=0.0.0.0 buck2 run //dev:up-debug-all
 }
 

@@ -120,8 +120,6 @@ link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl
 link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 link "$INSTALL_DOTFILES_REPO/bat/config" "$HOME/.config/bat/config"
 link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-mocha.tmTheme" "$HOME/.config/bat/themes/catppuccin-mocha.tmTheme"
-link "$INSTALL_DOTFILES_REPO/btop/btop.conf" "$HOME/.config/btop/btop.conf"
-link "$INSTALL_DOTFILES_REPO/btop/themes/catppuccin-mocha.theme" "$HOME/.config/btop/themes/catppuccin-mocha.theme"
 
 if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
@@ -366,42 +364,57 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
 
   # TODO(nick): confirm if nix needs to upgrade itself...
   # sudo -i nix upgrade-nix
-  
+
   # TODO(nick): split desktop and server install.
   # flatpak update -y
   # flatpak uninstall --unused
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
-  log "Checking for nix installation..."
-  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
-  if ! command -v nix; then
-    log "Installing nix..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  if ! command -v cargo; then
+    log "Installing Rust..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    source "$HOME/.cargo/env"
   fi
 
-  log "Checking for nix-darwin..."
-  if ! command -v darwin-rebuild; then
-    pushd $INSTALL_DOTFILES_REPO
-    log "Installing nix-darwin..."
-    nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .
-    popd
+  # TODO(nick): use "experiments/darwin-homebrew" instead.
+  if command -v brew; then
+    log "Installing brew packages..."
+    brew install speedtest-cli font-iosevka helix zellij bat ripgrep gfold just git curl fzf gnu-sed hugo htop hyperfine make jujutsu jq shfmt tree wget zoxide cargo-outdated cargo-udeps taplo dua-cli
+  else
+    log "Homebrew not installed (skipping package installation)..."
   fi
 
-  log "Running darwin-rebuild switch..."
-  darwin-rebuild switch --flake .
+  # TODO(nick): decide how to handle nix darwin.
+  # log "Checking for nix installation..."
+  # if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  #   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  # fi
+  # if ! command -v nix; then
+  #   log "Installing nix..."
+  #   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  # fi
 
-  if [ "$(scutil --get LocalHostName)" = "sibook" ]; then
-    log "Installing npm packages for helix LSPs..."
-    npm set prefix ~/.npm-global
-    npm i -g \
-      @vue/language-server \
-      prettier \
-      typescript \
-      typescript-language-server
-  fi
+  # log "Checking for nix-darwin..."
+  # if ! command -v darwin-rebuild; then
+  #   pushd $INSTALL_DOTFILES_REPO
+  #   log "Installing nix-darwin..."
+  #   nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .
+  #   popd
+  # fi
+
+  # log "Running darwin-rebuild switch..."
+  # darwin-rebuild switch --flake .
+
+  # if [ "$(scutil --get LocalHostName)" = "sibook" ]; then
+  #   log "Installing npm packages for helix LSPs..."
+  #   npm set prefix ~/.npm-global
+  #   npm i -g \
+  #     @vue/language-server \
+  #     prettier \
+  #     typescript \
+  #     typescript-language-server
+  # fi
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then

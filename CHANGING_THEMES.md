@@ -10,7 +10,6 @@ This document contains information related to changing themes within this reposi
 This is a list of relevant tools who are reliant on the theme:
 
 - `bat`
-- `btop`
 - `fastfetch`
 - `ghostty`
 - `helix`

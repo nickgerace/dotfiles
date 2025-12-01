@@ -11,6 +11,6 @@ update:
 
 # Formats relevant files
 format:
-    alejandra **/*.nix
+    -alejandra **/*.nix
     -shfmt -i 2 -w **/*.sh
     -shfmt -i 2 -w **/*.zsh
