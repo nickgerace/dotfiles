@@ -7,10 +7,6 @@
   },
   "modules": [
     {
-      "type": "custom",
-      "format": "―――――――――――――――――――――――"
-    },
-    {
       "key": "OS",
       "type": "os"
     },
@@ -37,10 +33,7 @@
       "folders": "/",
       "format": "{9}"
     },
-    {
-      "type": "custom",
-      "format": "―――――――――――――――――――――――"
-    },
+    "separator",
     {
       "key": "Shell",
       "type": "shell"
@@ -53,10 +46,7 @@
       "key": "Host",
       "type": "host"
     },
-    {
-      "type": "custom",
-      "format": "―――――――――――――――――――――――"
-    },
+    "separator",
     {
       "key": "Datetime",
       "type": "datetime",
@@ -72,10 +62,7 @@
       "type": "colors",
       "symbol": "circle"
     },
-    {
-      "type": "custom",
-      "format": "―――――――――――――――――――――――"
-    },
+    "separator",
     {
       "type": "custom",
       "key": "Font",
@@ -99,12 +86,7 @@
     {
       "type": "custom",
       "key": "Theme",
-      "format": "Catppuccin Mocha"
+      "format": "Catppuccin Latte (Light) / Catppuccin Mocha (Dark)"
     },
-    {
-      "type": "custom",
-      "key": " ",
-      "format": "―――――――――――――――――――――――"
-    }
   ]
 }

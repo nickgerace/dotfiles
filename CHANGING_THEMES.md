@@ -15,7 +15,8 @@ This is a list of relevant tools who are reliant on the theme:
 - `helix`
 - `zellij` 
 
-## Theme and Font
+## Themes and Font
 
-- [Catpuccin Mocha](https://catppuccin.com)
+- [Catpuccin Latte](https://catppuccin.com) (Light)
+- [Catpuccin Mocha](https://catppuccin.com) (Dark)
 - [Iosevka](https://github.com/be5invis/Iosevka)

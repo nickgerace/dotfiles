@@ -1,4 +1,5 @@
-theme = "catppuccin_mocha"
+theme = "catppuccin_latte"
+# theme = "catppuccin_mocha"
 
 [editor.lsp]
 display-inlay-hints = true
