@@ -375,6 +375,7 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
   if ! command -v cargo; then
     log "Installing Rust..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    rustup component add rust-analyzer
     source "$HOME/.cargo/env"
   fi
 
