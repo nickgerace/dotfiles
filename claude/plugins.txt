@@ -1,0 +1,3 @@
+code-simplifier@claude-plugins-official
+rust-analyzer-lsp@claude-plugins-official
+typescript-lsp@claude-plugins-official

@@ -20,6 +20,13 @@ function si-build-debug {
   buck2 build @//mode/debug bin/sdf bin/rebaser bin/pinga bin/veritech bin/forklift app/docs:dev app/web:dev
 }
 
+function si-binary {
+  pushd ~/src/si/bin/si
+  deno task build
+  mv si ~/.local/bin/si
+  popd
+}
+
 alias zsi="zellij -s si"
 
 function si-build-rust {
