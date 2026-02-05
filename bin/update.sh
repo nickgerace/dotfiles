@@ -211,6 +211,11 @@ if command -v flatpak; then
   flatpak uninstall --unused
 fi
 
+if command -v fnm; then
+  log "Updating node installed via fnm..."
+  fnm install --lts
+fi
+
 if command -v npm && [ -d "$HOME/.npm-global" ]; then
   log "Updating npm packages..."
   pushd "$UPDATE_DOTFILES_REPO"
