@@ -33,6 +33,8 @@ alias branch="git rev-parse --abbrev-ref HEAD"
 
 alias git-rebase-local="echo 'git rebase -i <oldest-commit>~'"
 
+alias git-affected-files="git ls-files --modified --others --exclude-standard"
+
 function git-rebase-forked-repo {
   if [ ! $1 ]; then
     echo "requires arguments: <upstream-branch> <OPTIONAL-provide-full-remote-address>"
