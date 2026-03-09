@@ -122,6 +122,11 @@ link "$INSTALL_DOTFILES_REPO/bat/config" "$HOME/.config/bat/config"
 link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-latte.tmTheme" "$HOME/.config/bat/themes/catppuccin-latte.tmTheme"
 link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-mocha.tmTheme" "$HOME/.config/bat/themes/catppuccin-mocha.tmTheme"
 
+if [ "$(command -v mise)" ]; then
+  mise trust "$INSTALL_DOTFILES_REPO/mise/config.toml"
+  link "$INSTALL_DOTFILES_REPO/mise/config.toml" "$HOME/.config/mise/config.toml"
+fi
+
 if [ "$INSTALL_PLATFORM" = "darwin" ]; then
   link "$INSTALL_DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
   link "$INSTALL_DOTFILES_REPO/gfold/darwin.toml" "$HOME/.config/gfold.toml"
