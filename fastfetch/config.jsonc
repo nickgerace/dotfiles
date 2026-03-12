@@ -65,33 +65,28 @@
     "separator",
     {
       "type": "custom",
-      "key": "Font",
-      "format": "Iosevka"
-    },
-    {
-      "type": "custom",
-      "key": "Multiplexer",
-      "format": "Zellij"
-    },
-    {
-      "type": "custom",
       "key": "Terminal",
       "format": "Ghostty"
     },
     {
       "type": "custom",
       "key": "Editor",
-      "format": "Helix"
+      "format": "Helix (hx)"
     },
     {
       "type": "custom",
-      "key": "Versioning",
-      "format": "Jujutsu"
+      "key": "Version Control",
+      "format": "Jujutsu (jj)"
+    },
+    {
+      "type": "custom",
+      "key": "Font",
+      "format": "Iosevka"
     },
     {
       "type": "custom",
       "key": "Theme",
-      "format": "Catppuccin Latte (Light) / Catppuccin Mocha (Dark)"
+      "format": "Catppuccin Latte"
     },
   ]
 }

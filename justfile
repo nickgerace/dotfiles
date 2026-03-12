@@ -6,4 +6,3 @@ update:
 
 format:
     -shfmt -i 2 -w **/*.sh
-    -shfmt -i 2 -w **/*.zsh
