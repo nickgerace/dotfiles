@@ -13,7 +13,7 @@ alias jjd="jj diff"
 alias git="jj"
 
 # ...but here's an escape hatch when git is installed via homebrew.
-if [ ! -f "/opt/homebrew/bin/git" ]; then
+if [ -f "/opt/homebrew/bin/git" ]; then
   alias jjold="/opt/homebrew/bin/git"
 
   function jjold-fetch-pull-prune {
