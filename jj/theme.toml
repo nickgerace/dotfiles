@@ -1,0 +1,106 @@
+# Catppuccin Latte implemented by claude code. Let's hope it works!
+# Source: https://catppuccin.com/
+
+[colors]
+# Core identifiers
+commit_id = "#1e66f5"
+change_id = "#8839ef"
+author = "#df8e1d"
+committer = "#df8e1d"
+timestamp = "#179299"
+
+# Refs
+bookmark = "#7287fd"
+bookmarks = "#7287fd"
+local_bookmarks = "#7287fd"
+remote_bookmarks = "#209fb5"
+tag = "#ea76cb"
+tags = "#ea76cb"
+git_ref = "#179299"
+git_refs = "#179299"
+git_head = "#40a02b"
+
+# State
+working_copies = "#40a02b"
+empty = "#40a02b"
+root = "#40a02b"
+divergent = "#fe640b"
+conflict = "#d20f39"
+placeholder = "#e64553"
+
+# Descriptions
+"description placeholder" = "#df8e1d"
+"empty description placeholder" = "#40a02b"
+
+# Working copy (bold highlight)
+"working_copy" = { bold = true }
+"working_copy commit_id" = { fg = "#1e66f5", bold = true }
+"working_copy change_id" = { fg = "#8839ef", bold = true }
+"working_copy author" = { fg = "#df8e1d", bold = true }
+"working_copy committer" = { fg = "#df8e1d", bold = true }
+"working_copy timestamp" = { fg = "#179299", bold = true }
+"working_copy working_copies" = { fg = "#40a02b", bold = true }
+"working_copy bookmark" = { fg = "#7287fd", bold = true }
+"working_copy bookmarks" = { fg = "#7287fd", bold = true }
+"working_copy local_bookmarks" = { fg = "#7287fd", bold = true }
+"working_copy remote_bookmarks" = { fg = "#209fb5", bold = true }
+"working_copy tag" = { fg = "#ea76cb", bold = true }
+"working_copy tags" = { fg = "#ea76cb", bold = true }
+"working_copy git_ref" = { fg = "#179299", bold = true }
+"working_copy git_refs" = { fg = "#179299", bold = true }
+"working_copy git_head" = { fg = "#40a02b", bold = true }
+
+# Conflicts
+conflict_description = "#df8e1d"
+"conflict_description difficult" = "#d20f39"
+"mutable divergent" = "#d20f39"
+"mutable divergent change_id" = "#d20f39"
+
+# Misc
+rest = { fg = "#8c8fa1" }
+separator = { fg = "#8c8fa1" }
+elided = { fg = "#8c8fa1" }
+prefix = { bold = true }
+
+# Diff
+"diff header" = "#df8e1d"
+"diff hunk_header" = "#179299"
+"diff removed" = { fg = "#d20f39" }
+"diff added" = { fg = "#40a02b" }
+"diff modified" = "#04a5e5"
+"diff untracked" = "#8839ef"
+"diff renamed" = "#04a5e5"
+"diff copied" = "#40a02b"
+"diff empty" = "#179299"
+"diff file_header" = { bold = true }
+
+# Nodes
+"node elided" = { fg = "#8c8fa1" }
+"node working_copy" = { fg = "#40a02b", bold = true }
+"node current_operation" = { fg = "#40a02b", bold = true }
+"node immutable" = { fg = "#209fb5", bold = true }
+"node conflicted" = { fg = "#d20f39", bold = true }
+
+# Operations
+"operation id" = "#1e66f5"
+"operation user" = "#df8e1d"
+"operation time" = "#179299"
+"operation tags" = "#8839ef"
+"operation current_operation" = { bold = true }
+"operation current_operation id" = { fg = "#7287fd", bold = true }
+"operation current_operation user" = { fg = "#df8e1d", bold = true }
+"operation current_operation time" = { fg = "#04a5e5", bold = true }
+"operation current_operation tags" = { fg = "#ea76cb", bold = true }
+
+# Diagnostics
+"error heading" = { fg = "#d20f39", bold = true }
+"warning heading" = { fg = "#df8e1d", bold = true }
+"hint heading" = { fg = "#179299", bold = true }
+
+# Signatures
+"signature display" = "#df8e1d"
+"signature key" = "#179299"
+"signature status good" = "#40a02b"
+"signature status unknown" = "#df8e1d"
+"signature status bad" = "#d20f39"
+"signature status invalid" = "#d20f39"

@@ -19,6 +19,10 @@ auto-format = true
 name = "rust"
 auto-format = true
 
+# FIXME(nick): make this work outside of macOS.
+[language-server.rust-analyzer]
+command = "/opt/homebrew/bin/rust-analyzer"
+
 [language-server.rust-analyzer.config.checkOnSave]
 command = "check" # clippy works too
 extraArgs = ["--target-dir", "target/rust-analyzer"]
