@@ -24,4 +24,13 @@ if [ -f "/opt/homebrew/bin/git" ]; then
     /opt/homebrew/bin/git fetch --all --tags --prune
     /opt/homebrew/bin/git pull --prune origin "$1"
   }
+
+  function jjold-checkout-remote-branch {
+    if [ -z "$1" ]; then
+      echo "must provide remote branch name"
+      return
+    fi
+    /opt/homebrew/bin/git fetch --all
+    /opt/homebrew/bin/git checkout -b $1 origin/$1
+  }
 fi
