@@ -5,7 +5,8 @@ A collection of dotfiles, scripts and configurations from [@nickgerace](https://
 ## Quickstart
 
 Before starting, ensure that `bash` and `just` are installed on your macOS or Linux system.
-The "install" recipe will install `zsh` if you opt to install packages, so it is not required to start.
+If you are on macOS, have `brew` installed and want to install packages when setting up dotfiles, you do not need to install `zsh`.
+Otherwise, you also need to install `zsh`.
 
 You will also need to ensure that this repository resides in the `$HOME/src/` directory.
 You may need to create it by executing `mkdir $HOME/src`.
@@ -57,12 +58,7 @@ Only `zsh` needs to be installed as all shell-based dotfiles are custom and conf
 ### Does the `just` recipe do more than setup dotfiles?
 
 The script only sets up dotfiles by default.
-However, for certain Linux distributions and macOS, you can optionally install packages and setup the base system (e.g. install an opinionated set of base packages with a package manager).
-This is referred to "bootstrapping" in the script.
-
-### Is WSL2 supported?
-
-[WSL2](https://learn.microsoft.com/en-us/windows/wsl/) is supported for dotfiles setup, but packages will not be installed for supported distros when running the installer.
+However, you can optionally install packages and setup the base system (e.g. install an opinionated set of base packages with a package manager) if the option is provided in the script.
 
 ## Disclaimer
 
