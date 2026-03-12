@@ -80,9 +80,6 @@ if [ "$(uname -s)" = "Linux" ]; then
         log "Found bootstrap-compatible platform: Fedora Server x86_64"
         INSTALL_PLATFORM="fedora-server"
       fi
-    elif [[ "$ID" = "nixos" ]]; then
-      log "Found bootstrap-compatible platform: NixOS x86_64"
-      INSTALL_PLATFORM="nixos"
     fi
   fi
 elif [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then
@@ -137,8 +134,6 @@ else
     link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
   elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
     link "$INSTALL_DOTFILES_REPO/os/fedora/cargo/config.toml" "$HOME/.cargo/config.toml"
-  elif [ "$INSTALL_PLATFORM" = "pop" ]; then
-    link "$INSTALL_DOTFILES_REPO/os/pop-os/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
   fi
 fi
 
@@ -160,33 +155,6 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
 
   log "Installing base packages..."
   xargs sudo apt install -y <"$INSTALL_DOTFILES_REPO/os/pop-os/pkgs/core.lst"
-
-  log "Checking for nix installation..."
-  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
-  if ! command -v nix; then
-    log "Installing nix..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  fi
-
-  if ! command -v home-manager; then
-    log "Installing home-manager..."
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    nix-shell '<home-manager>' -A install
-  fi
-  log "Running home-manager switch..."
-  home-manager switch
-
-  log "Checking default shell..."
-  if [ "$SHELL" != "$HOME/.nix-profile/bin/zsh" ]; then
-    if [[ ! $(grep "$HOME/.nix-profile/bin/zsh" /etc/shells) ]]; then
-      echo "$HOME/.nix-profile/bin/zsh" | sudo tee -a /etc/shells
-    fi
-    log "Setting default shell to zsh from home-manager..."
-    chsh -s "$HOME/.nix-profile/bin/zsh"
-  fi
 
   if ! command -v rustup && [ -f "$HOME/.cargo/env" ]; then
     source "$HOME/.cargo/env"
@@ -215,7 +183,7 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
     sudo docker run hello-world
   fi
 
-  log "Setting up fnm (comes with home-manager)..."
+  log "Setting up fnm..."
   eval "$(fnm env --use-on-cd)"
   log "Installing latest node lts via fnm..."
   fnm install --lts
@@ -238,9 +206,6 @@ elif [ "$INSTALL_PLATFORM" = "pop" ]; then
 
   log "Running final update and cleanup commands..."
   rustup update
-  sudo -i nix upgrade-nix
-  nix-channel --update
-  home-manager switch
   flatpak update -y
   flatpak uninstall --unused
   sudo apt update
@@ -336,13 +301,6 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
     fi
   fi
 
-  log "Setting up nix..."
-  sudo usermod -aG nixbld "$USER"
-  sudo usermod -aG nix-users "$USER"
-  sudo systemctl enable --now nix-daemon.service
-  sudo nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
-  sudo nix-channel --update
-
   log "Checking default shell..."
   if [ "$SHELL" != "$(which zsh)" ]; then
     log "Changing default shell to zsh..."
@@ -369,9 +327,6 @@ elif [ "$INSTALL_PLATFORM" = "arch" ]; then
   log "Running final update and cleanup commands..."
   sudo pacman -Syu --noconfirm
 
-  # TODO(nick): confirm if nix needs to upgrade itself...
-  # sudo -i nix upgrade-nix
-
   # TODO(nick): split desktop and server install.
   # flatpak update -y
   # flatpak uninstall --unused
@@ -388,41 +343,10 @@ elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
   # TODO(nick): use "experiments/darwin-homebrew" instead.
   if command -v brew; then
     log "Installing brew packages..."
-    brew install speedtest-cli font-iosevka helix zellij bat ripgrep gfold just git curl fzf gnu-sed hugo htop hyperfine make jujutsu jq shfmt tree wget zoxide cargo-outdated cargo-udeps taplo dua-cli
+    brew install speedtest-cli font-iosevka caligula helix zellij bat ripgrep gfold just git curl fzf gnu-sed hugo htop hyperfine make jujutsu jq shfmt tree wget zoxide cargo-outdated cargo-udeps taplo dua-cli
   else
     log "Homebrew not installed (skipping package installation)..."
   fi
-
-  # TODO(nick): decide how to handle nix darwin.
-  # log "Checking for nix installation..."
-  # if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-  #   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  # fi
-  # if ! command -v nix; then
-  #   log "Installing nix..."
-  #   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  # fi
-
-  # log "Checking for nix-darwin..."
-  # if ! command -v darwin-rebuild; then
-  #   pushd $INSTALL_DOTFILES_REPO
-  #   log "Installing nix-darwin..."
-  #   nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .
-  #   popd
-  # fi
-
-  # log "Running darwin-rebuild switch..."
-  # darwin-rebuild switch --flake .
-
-  # if [ "$(scutil --get LocalHostName)" = "sibook" ]; then
-  #   log "Installing npm packages for helix LSPs..."
-  #   npm set prefix ~/.npm-global
-  #   npm i -g \
-  #     @vue/language-server \
-  #     prettier \
-  #     typescript \
-  #     typescript-language-server
-  # fi
 
   log-success "Success!"
 elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
@@ -487,15 +411,6 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
     sudo usermod -aG docker "$USER"
   fi
 
-  log "Checking for nix installation..."
-  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
-  if ! command -v nix; then
-    log "Installing nix via the determinate nix installer..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  fi
-
   log "Checking default shell..."
   if [ "$SHELL" != "/usr/bin/zsh" ]; then
     log "Changing default shell to zsh..."
@@ -510,7 +425,6 @@ elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
   xargs flatpak install flathub -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/flatpak.lst"
 
   log "Running final update and cleanup commands..."
-  sudo -i nix upgrade-nix
   npm up -g
   flatpak update -y
   flatpak uninstall --unused
@@ -576,15 +490,6 @@ elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
     sudo usermod -aG docker "$USER"
   fi
 
-  log "Checking for nix installation..."
-  if ! command -v nix && [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
-  if ! command -v nix; then
-    log "Installing nix via the determinate nix installer..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  fi
-
   log "Installing tailscale..."
   if ! command -v tailscale; then
     sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
@@ -603,28 +508,9 @@ elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
   xargs npm i -g <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
 
   log "Running final update and cleanup commands..."
-  sudo -i nix upgrade-nix
   npm up -g
   sudo dnf upgrade -y --refresh
   sudo dnf autoremove -y
-
-  log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "nixos" ]; then
-  log "Running nixos-rebuild..."
-  pushd "$INSTALL_DOTFILES_REPO"
-  sudo nixos-rebuild switch --flake .
-  popd
-
-  log "Installing npm packages..."
-  npm set prefix ~/.npm-global
-  npm i -g \
-    @vue/language-server \
-    prettier \
-    typescript \
-    typescript-language-server
-
-  log "Running final update and cleanup commands..."
-  npm up -g
 
   log-success "Success!"
 fi

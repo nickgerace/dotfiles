@@ -5,8 +5,6 @@ set -eu
 pushd $(mktemp -d)
 
 UPDATE_DOTFILES_REPO="$HOME/src/dotfiles"
-UPDATE_OPTION_UPDATE_FLAKE="false"
-UPDATE_OPTION_UPGRADE_NIX="false"
 UPDATE_PLATFORM="false"
 
 UPDATE_LOG_FORMAT_BOLD=$(tput bold)
@@ -39,51 +37,11 @@ if [ "$(uname -s)" = "Linux" ]; then
   . /etc/os-release
   UPDATE_PLATFORM="$ID"
 elif [ "$(uname -s)" = "Darwin" ]; then
-  if command -v darwin-rebuild; then
-    UPDATE_PLATFORM="nix-darwin"
-  else
-    UPDATE_PLATFORM="darwin"
-  fi
+  UPDATE_PLATFORM="darwin"
 else
   log-error "cannot perform updates for unknown platform"
 fi
 log "Detected platform: $UPDATE_PLATFORM"
-
-if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
-  while true; do
-    read -r -n1 -p "Do you want to upgrade nix? [y/N]: " yn
-    case $yn in
-    [yY])
-      UPDATE_OPTION_UPGRADE_NIX="true"
-      echo ""
-      break
-      ;;
-    "") break ;;
-    *)
-      echo ""
-      break
-      ;;
-    esac
-  done
-fi
-
-if [ "$UPDATE_PLATFORM" = "nixos" ] || [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
-  while true; do
-    read -r -n1 -p "Do you want to run nix flake update? [y/N]: " yn
-    case $yn in
-    [yY])
-      UPDATE_OPTION_UPDATE_FLAKE="true"
-      echo ""
-      break
-      ;;
-    "") break ;;
-    *)
-      echo ""
-      break
-      ;;
-    esac
-  done
-fi
 
 while true; do
   read -r -n1 -p "Confirm to begin [Y/n]: " yn
@@ -99,56 +57,6 @@ while true; do
   *) exit 0 ;;
   esac
 done
-
-# TODO(nick): refactor to not have "exit 0" statements.
-if [ "$UPDATE_PLATFORM" = "nixos" ]; then
-  pushd "$UPDATE_DOTFILES_REPO"
-
-  if [ "$UPDATE_OPTION_UPDATE_FLAKE" = "true" ]; then
-    log "Updating nix flake and ignoring any errors..."
-    nix flake update || true
-    log "Updating nix flake again in case of permissions error..."
-    nix flake update
-    log "Adding flake.lock to staged changes..."
-    git add flake.lock
-  fi
-
-  log "Running nixos-rebuild switch..."
-  sudo nixos-rebuild switch --flake .
-
-  if command -v npm && [ -d "$HOME/.npm-global" ]; then
-    log "Updating npm packages..."
-    pushd "$UPDATE_DOTFILES_REPO"
-    npm set prefix ~/.npm-global
-    npm up -g
-    popd
-  fi
-
-  popd
-  log-success "Success!"
-  exit 0
-fi
-
-if [ "$UPDATE_PLATFORM" = "nix-darwin" ]; then
-  if [ "$UPDATE_OPTION_UPGRADE_NIX" = "true" ]; then
-    log "Upgrading nix..."
-    sudo -i nix upgrade-nix
-  fi
-
-  pushd "$UPDATE_DOTFILES_REPO"
-
-  if [ "$UPDATE_OPTION_UPDATE_FLAKE" = "true" ]; then
-    log "Updating flake..."
-    nix flake update
-  fi
-
-  log "Running darwin-rebuild switch..."
-  darwin-rebuild switch --flake .
-
-  popd
-  log-success "Success!"
-  exit 0
-fi
 
 log "Updating platform packages..."
 if [ "$UPDATE_PLATFORM" = "ubuntu" ] || [ "$UPDATE_PLATFORM" = "pop" ]; then
@@ -190,16 +98,6 @@ if command -v rustup; then
   rustup update
 fi
 
-if command -v nix; then
-  log "Upgrading nix..."
-  sudo -i nix upgrade-nix
-
-  if command -v home-manager; then
-    log "Running home-manager switch..."
-    home-manager switch
-  fi
-fi
-
 if command -v snap; then
   log "Updating snaps..."
   sudo snap refresh
@@ -223,16 +121,6 @@ if command -v npm && [ -d "$HOME/.npm-global" ]; then
   npm up -g
   popd
 fi
-
-# NOTE(nick): disabled since crates will come from package managers or nix via home-manager.
-# function update-crates {
-#     if command -v cargo; then
-#         if [ ! -f $HOME/.cargo/bin/cargo-install-update ]; then
-#             cargo install --locked cargo-update
-#         fi
-#         cargo install-update -a
-#     fi
-# }
 
 # Leave the temporary directory
 popd

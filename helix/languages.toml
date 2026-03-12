@@ -1,9 +1,4 @@
 [[language]]
-name = "nix"
-formatter = { command = "alejandra" }
-auto-format = true
-
-[[language]]
 name = "json"
 auto-format = true
 
