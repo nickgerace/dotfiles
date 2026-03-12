@@ -1,44 +1,51 @@
 #!/usr/bin/env bash
 set -eu
 
-INSTALL_BOOTSTRAP_PLATFORM="false"
-INSTALL_DOTFILES_REPO="$HOME/src/dotfiles"
-INSTALL_PLATFORM="false"
+BOOTSTRAP_PLATFORM="false"
+DOTFILES_REPO="$HOME/src/dotfiles"
 
-INSTALL_LOG_FORMAT_BOLD=$(tput bold)
-INSTALL_LOG_FORMAT_GREEN=$(tput setaf 2)
-INSTALL_LOG_FORMAT_RED=$(tput setaf 1)
-INSTALL_LOG_FORMAT_RESET=$(tput sgr0)
+LOG_FORMAT_BOLD=$(tput bold)
+LOG_FORMAT_GREEN=$(tput setaf 2)
+LOG_FORMAT_RED=$(tput setaf 1)
+LOG_FORMAT_RESET=$(tput sgr0)
 
 function log {
-  echo "${INSTALL_LOG_FORMAT_BOLD}$1${INSTALL_LOG_FORMAT_RESET}"
+  echo "${LOG_FORMAT_BOLD}$1${LOG_FORMAT_RESET}"
 }
 
 function log-success {
-  echo "${INSTALL_LOG_FORMAT_BOLD}${INSTALL_LOG_FORMAT_GREEN}$1${INSTALL_LOG_FORMAT_RESET}"
+  echo "${LOG_FORMAT_BOLD}${LOG_FORMAT_GREEN}$1${LOG_FORMAT_RESET}"
 }
 
 function log-error {
-  echo "${INSTALL_LOG_FORMAT_BOLD}${INSTALL_LOG_FORMAT_RED}Error: $1${INSTALL_LOG_FORMAT_RESET}" >&2
+  echo "${LOG_FORMAT_BOLD}${LOG_FORMAT_RED}Error: $1${LOG_FORMAT_RESET}" >&2
 }
 
 log "Welcome to @nickgerace's dotfiles setup and platform bootstrap script!"
 
-while true; do
-  read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/N]: " yn
-  case $yn in
-  [yY])
-    INSTALL_BOOTSTRAP_PLATFORM="true"
-    echo ""
-    break
-    ;;
-  "") break ;;
-  *)
-    echo ""
-    break
-    ;;
-  esac
-done
+if [ $EUID -eq 0 ]; then
+  log-error "must run as non-root user"
+  exit 1
+fi
+
+if [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then
+  while true; do
+    read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/N]: " yn
+    case $yn in
+    [yY])
+      BOOTSTRAP_PLATFORM="true"
+      echo ""
+      break
+      ;;
+    "") break ;;
+    *)
+      echo ""
+      break
+      ;;
+    esac
+  done
+fi
+
 while true; do
   read -r -n1 -p "Confirm to begin [Y/n]: " yn
   case $yn in
@@ -53,39 +60,6 @@ while true; do
   *) exit 0 ;;
   esac
 done
-
-log "Checking user..."
-if [ $EUID -eq 0 ]; then
-  log-error "must run as non-root user"
-  exit 1
-fi
-
-log "Checking platform..."
-if [ "$(uname -s)" = "Linux" ]; then
-  if [ -f /proc/sys/kernel/osrelease ] && grep "WSL2" /proc/sys/kernel/osrelease; then
-    log "WSL2 detected!"
-  elif [ "$(uname -m)" = "x86_64" ] && [ -f /etc/os-release ]; then
-    . /etc/os-release
-    if [[ "$ID" = "arch" ]]; then
-      log "Found bootstrap-compatible platform: Arch Linux x86_64"
-      INSTALL_PLATFORM="arch"
-    elif [[ "$ID" = "pop" ]]; then
-      log "Found bootstrap-compatible platform: Pop!_OS x86_64"
-      INSTALL_PLATFORM="pop"
-    elif [[ "$ID" = "fedora" ]]; then
-      if [[ "$VARIANT_ID" = "workstation" ]]; then
-        log "Found bootstrap-compatible platform: Fedora Workstation x86_64"
-        INSTALL_PLATFORM="fedora-workstation"
-      elif [[ "$VARIANT_ID" = "server" ]]; then
-        log "Found bootstrap-compatible platform: Fedora Server x86_64"
-        INSTALL_PLATFORM="fedora-server"
-      fi
-    fi
-  fi
-elif [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then
-  log "Found bootstrap-compatible platform: macOS aarch64"
-  INSTALL_PLATFORM="darwin"
-fi
 
 function link {
   if [ ! -f "$1" ]; then
@@ -108,409 +82,55 @@ function link {
 }
 
 log "Setting up dotfiles..."
-git config --global pull.rebase true
 
-link "$INSTALL_DOTFILES_REPO/.zshrc" "$HOME/.zshrc"
-link "$INSTALL_DOTFILES_REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
-link "$INSTALL_DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
-link "$INSTALL_DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
-link "$INSTALL_DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
-link "$INSTALL_DOTFILES_REPO/bat/config" "$HOME/.config/bat/config"
-link "$INSTALL_DOTFILES_REPO/jj/theme.toml" "$HOME/.config/jj/conf.d/theme.toml"
-link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-latte.tmTheme" "$HOME/.config/bat/themes/catppuccin-latte.tmTheme"
-link "$INSTALL_DOTFILES_REPO/bat/themes/catppuccin-mocha.tmTheme" "$HOME/.config/bat/themes/catppuccin-mocha.tmTheme"
+link "$DOTFILES_REPO/.zshrc" "$HOME/.zshrc"
+link "$DOTFILES_REPO/bat/config" "$HOME/.config/bat/config"
+link "$DOTFILES_REPO/bat/themes/catppuccin-latte.tmTheme" "$HOME/.config/bat/themes/catppuccin-latte.tmTheme"
+link "$DOTFILES_REPO/bat/themes/catppuccin-mocha.tmTheme" "$HOME/.config/bat/themes/catppuccin-mocha.tmTheme"
+link "$DOTFILES_REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+link "$DOTFILES_REPO/gfold/config.toml" "$HOME/.config/gfold.toml"
+link "$DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
+link "$DOTFILES_REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
+link "$DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
+link "$DOTFILES_REPO/jj/theme.toml" "$HOME/.config/jj/conf.d/theme.toml"
+link "$DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 
-if [ "$(command -v mise)" ]; then
-  mise trust "$INSTALL_DOTFILES_REPO/mise/config.toml"
-  link "$INSTALL_DOTFILES_REPO/mise/config.toml" "$HOME/.config/mise/config.toml"
-fi
-
-if [ "$INSTALL_PLATFORM" = "darwin" ]; then
-  link "$INSTALL_DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
-  link "$INSTALL_DOTFILES_REPO/gfold/darwin.toml" "$HOME/.config/gfold.toml"
-else
-  link "$INSTALL_DOTFILES_REPO/gfold/linux.toml" "$HOME/.config/gfold.toml"
-  if [ "$INSTALL_PLATFORM" = "arch" ]; then
-    link "$INSTALL_DOTFILES_REPO/os/arch-linux/cargo/config.toml" "$HOME/.cargo/config.toml"
-  elif [ "$INSTALL_PLATFORM" = "fedora" ]; then
-    link "$INSTALL_DOTFILES_REPO/os/fedora/cargo/config.toml" "$HOME/.cargo/config.toml"
-  fi
-fi
-
+log "Checking if bat is installed..."
 if command -v bat; then
   log "Rebuilding bat cache..."
   bat cache --build
 fi
 
-if [ "$INSTALL_BOOTSTRAP_PLATFORM" != "true" ]; then
+log "Checking if mise is installed..."
+if command -v mise; then
+  log "Trusting config file for mise and then linking..."
+  mise trust "$DOTFILES_REPO/mise/config.toml"
+  link "$DOTFILES_REPO/mise/config.toml" "$HOME/.config/mise/config.toml"
+fi
+
+if [ "$BOOTSTRAP_PLATFORM" = "false" ]; then
   log-success "Success!"
   exit 0
-elif [ "$INSTALL_PLATFORM" = "false" ]; then
-  log-error "dotfiles setup succeeded, but skipping bootstrapper (read script for compatible platforms)"
-  exit 1
-elif [ "$INSTALL_PLATFORM" = "pop" ]; then
-  log "Setting up package installation..."
-  sudo apt update
-  sudo apt upgrade -y
-
-  log "Installing base packages..."
-  xargs sudo apt install -y <"$INSTALL_DOTFILES_REPO/os/pop-os/pkgs/core.lst"
-
-  if ! command -v rustup && [ -f "$HOME/.cargo/env" ]; then
-    source "$HOME/.cargo/env"
-  fi
-  if ! command -v rustup; then
-    log "Installing rustup..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
-    source "$HOME/.cargo/env"
-  fi
-  log "Setting up rust toolchain..."
-  rustup default stable
-  rustup component add rust-analyzer
-
-  if ! command -v docker; then
-    log "Installing docker..."
-    sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    sudo chmod a+r /etc/apt/keyrings/docker.asc
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
-      sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-    sudo apt update
-    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    sudo usermod -aG docker "$USER"
-    sudo docker run hello-world
-  fi
-
-  log "Setting up fnm..."
-  eval "$(fnm env --use-on-cd)"
-  log "Installing latest node lts via fnm..."
-  fnm install --lts
-  log "Installing npm packages..."
-  npm set prefix ~/.npm-global
-  npm i -g \
-    @vue/language-server \
-    prettier \
-    typescript \
-    typescript-language-server
-
-  log "Installing flatpaks..."
-  flatpak install flathub \
-    com.discordapp.Discord \
-    com.google.Chrome \
-    com.slack.Slack \
-    com.spotify.Client \
-    md.obsidian.Obsidian \
-    us.zoom.Zoom
-
-  log "Running final update and cleanup commands..."
-  rustup update
-  flatpak update -y
-  flatpak uninstall --unused
-  sudo apt update
-  sudo apt upgrade -y
-  sudo apt autoremove -y
-  sudo apt clean -y
-
-  log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "arch" ]; then
-  log "Upgrading packages before continuing..."
-  sudo pacman -Syu --noconfirm
-
-  log "Installing core packages..."
-  sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/core.lst"
-
-  # TODO(nick): split desktop and server install.
-  # log "Installing GNOME..."
-  # sudo pacman -S --noconfirm --needed - <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/gnome.lst"
-  # sudo systemctl enable gdm.service
-  #
-  # log "Install xorg for GNOME (due to Zoom PipeWire 1.2.x bugs and Discord screen share)..."
-  # sudo pacman -S --noconfirm --needed xorg
-
-  echo "Attempting to find paru..."
-  if ! command -v paru; then
-    log "Setting up rust for installing paru..."
-    rustup default stable
-    rustup component add rust-analyzer
-
-    echo "Installing paru..."
-    pushd "$(mktemp -d)"
-    git clone https://aur.archlinux.org/paru.git
-    pushd paru
-    makepkg -si --noconfirm
-    popd
-    popd
-  fi
-
-  log "Checking if host is a System76 Thelio Major..."
-  if [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
-    if paru -Qs system76-firmware-daemon-git; then
-      log "Skipping system76 firmware daemon installation and setup (already installed)..."
-    else
-      log "Installing and setting up system76 firmware daemon..."
-      paru -S --noconfirm system76-firmware-daemon-git
-      sudo systemctl enable --now system76-firmware-daemon
-      sudo gpasswd -a "$USER" adm
-    fi
-
-    if paru -Qs system76-firmware-manager-git; then
-      log "Skipping system76 firmware manager installation and setup (already installed)..."
-    else
-      log "Installing and setting up system76 firmware manager..."
-      paru -S --noconfirm firmware-manager-git
-      sudo systemctl enable --now system76
-    fi
-
-    if paru -Qs system76-driver; then
-      log "Skipping system76 driver installation and setup (already installed)..."
-    else
-      log "Installing and setting up system76 driver..."
-      paru -S --noconfirm system76-driver
-      sudo systemctl enable --now system76
-    fi
-
-    if paru -Qs system76-power; then
-      log "Skipping system76 power installation and setup (already installed)..."
-    else
-      echo "Installing and setting up system76 power..."
-      paru -S --noconfirm system76-power
-      sudo systemctl enable --now com.system76.PowerDaemon.service
-    fi
-
-    if paru -Qs system76-dkms; then
-      log "Skipping system76 DKMS installation and setup (already installed)..."
-    else
-      echo "Installing and setting up system76 DKMS..."
-      paru -S --noconfirm system76-dkms
-    fi
-
-    if paru -Qs system76-acpi-dkms; then
-      log "Skipping system76 ACPI DKMS installation and setup (already installed)..."
-    else
-      echo "Installing and setting up system76 ACPI DKMS..."
-      paru -S --noconfirm system76-acpi-dkms
-    fi
-
-    if paru -Qs system76-io-dkms; then
-      log "Skipping system76 IO DKMS installation and setup (already installed)..."
-    else
-      echo "Installing and setting up system76 IO DKMS..."
-      paru -S --noconfirm system76-io-dkms
-    fi
-  fi
-
-  log "Checking default shell..."
-  if [ "$SHELL" != "$(which zsh)" ]; then
-    log "Changing default shell to zsh..."
-    chsh -s "$(which zsh)"
-  fi
-
-  log "Setting up rust via rustup..."
-  rustup default stable
-  rustup component add rust-analyzer
-
-  log "Setting up docker..."
-  sudo systemctl enable --now docker.socket
-  sudo usermod -aG docker "$USER"
-  sudo docker run hello-world
-
-  log "Setting up tailscale (without running 'tailscale up')..."
-  sudo systemctl enable --now tailscaled.service
-
-  # TODO(nick): split desktop and server install.
-  # log "Installing flatpaks..."
-  # flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-  # xargs flatpak install flathub -yu <"$INSTALL_DOTFILES_REPO/os/arch-linux/pkgs/flatpak.lst"
-
-  log "Running final update and cleanup commands..."
-  sudo pacman -Syu --noconfirm
-
-  # TODO(nick): split desktop and server install.
-  # flatpak update -y
-  # flatpak uninstall --unused
-
-  log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "darwin" ]; then
-  if ! command -v cargo; then
-    log "Installing Rust..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
-    rustup component add rust-analyzer
-    source "$HOME/.cargo/env"
-  fi
-
-  # TODO(nick): use "experiments/darwin-homebrew" instead.
-  if command -v brew; then
-    log "Installing brew packages..."
-    brew install speedtest-cli font-iosevka caligula helix zellij bat ripgrep gfold just git curl fzf gnu-sed hugo htop hyperfine make jujutsu jq shfmt tree wget zoxide cargo-outdated cargo-udeps taplo dua-cli
-  else
-    log "Homebrew not installed (skipping package installation)..."
-  fi
-
-  log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "fedora-workstation" ]; then
-  log "Upgrading packages before continuing..."
-  sudo dnf upgrade -y --refresh
-
-  log "Installing findutils for xargs command..."
-  sudo dnf install -y findutils
-
-  log "Installing base packages..."
-  xargs sudo dnf install -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
-
-  log "Checking if zellij is installed..."
-  if ! command -v zellij; then
-    log "Installing zellij from varlad/zellij copr..."
-    sudo dnf copr enable -y varlad/zellij
-    sudo dnf install -y zellij
-  fi
-
-  log "Setting up rpmfusion..."
-  sudo dnf install -y \
-    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
-
-  # Source: https://rpmfusion.org/Howto/Multimedia
-  log "Setting up multimedia codecs..."
-  sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
-  sudo dnf groupupdate -y multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-  sudo dnf groupupdate -y sound-and-video
-
-  log "Checking for rustup initialization..."
-  if ! command -v rustup; then
-    log "Running rustup-init..."
-    rustup-init --no-modify-path -y
-  fi
-  . "$HOME/.cargo/env"
-
-  log "Setting default rust toolchain and install rust-analyzer for helix..."
-  rustup default stable
-  rustup component add rust-analyzer
-
-  log "Checking if host is a System76 Thelio Major..."
-  if [ -f /sys/class/dmi/id/product_name ] && [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
-    log "Installing and setting up system76 software from syzdell/system76 copr..."
-    sudo dnf copr enable -y szydell/system76
-    sudo dnf install -y system76* firmware-manager
-    sudo systemctl enable --now \
-      com.system76.PowerDaemon.service \
-      system76-firmware-daemon \
-      system76-power-wake
-    sudo systemctl mask power-profiles-daemon.service
-    sudo gpasswd -a "$USER" adm
-  fi
-
-  log "Checking for docker installation..."
-  if ! command -v docker; then
-    log "Installing and setting up docker..."
-    sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-    sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    sudo systemctl enable --now docker
-    sudo docker run hello-world
-    sudo usermod -aG docker "$USER"
-  fi
-
-  log "Checking default shell..."
-  if [ "$SHELL" != "/usr/bin/zsh" ]; then
-    log "Changing default shell to zsh..."
-    chsh -s "/usr/bin/zsh"
-  fi
-
-  log "Installing npm packages for helix (LSPs, etc.)..."
-  npm set prefix ~/.npm-global
-  xargs npm i -g <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
-
-  log "Installing flatpaks..."
-  xargs flatpak install flathub -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/flatpak.lst"
-
-  log "Running final update and cleanup commands..."
-  npm up -g
-  flatpak update -y
-  flatpak uninstall --unused
-  sudo dnf upgrade -y --refresh
-  sudo dnf autoremove -y
-
-  log-success "Success!"
-elif [ "$INSTALL_PLATFORM" = "fedora-server" ]; then
-  log "Prepare XFS filesystem before running base package upgrades..."
-  sudo lvextend /dev/fedora_fedora/root -l+100%FREE || true
-  sudo xfs_growfs -d / || true
-  df -h /
-
-  log "Upgrading packages before continuing..."
-  sudo dnf upgrade -y --refresh
-
-  log "Installing findutils for xargs command..."
-  sudo dnf install -y findutils
-
-  log "Installing base packages..."
-  xargs sudo dnf install -y <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/core.lst"
-
-  log "Checking if zellij is installed..."
-  if ! command -v zellij; then
-    log "Installing zellij from varlad/zellij copr..."
-    sudo dnf copr enable -y varlad/zellij
-    sudo dnf install -y zellij
-  fi
-
-  log "Checking for rustup initialization..."
-  if ! command -v rustup; then
-    log "Running rustup-init..."
-    rustup-init --no-modify-path -y
-  fi
-  . "$HOME/.cargo/env"
-
-  log "Setting default rust toolchain and install rust-analyzer for helix..."
-  rustup default stable
-  rustup component add rust-analyzer
-
-  log "Checking if host is a System76 Thelio Major..."
-  if [ -f /sys/class/dmi/id/product_name ] && [ "$(cat /sys/class/dmi/id/product_name)" = "Thelio Major" ]; then
-    log "Checking if System76 software is installed..."
-    if ! command -v system76-driver; then
-      log "Installing and setting up system76 software from syzdell/system76 copr..."
-      sudo dnf copr enable -y szydell/system76
-      sudo dnf install -y system76* firmware-manager
-      sudo systemctl enable --now \
-        com.system76.PowerDaemon.service \
-        system76-firmware-daemon \
-        system76-power-wake
-      sudo gpasswd -a "$USER" adm
-    fi
-  fi
-
-  log "Checking for docker installation..."
-  if ! command -v docker; then
-    log "Installing and setting up docker..."
-    sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-    sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    sudo systemctl enable --now docker
-    sudo docker run hello-world
-    sudo usermod -aG docker "$USER"
-  fi
-
-  log "Installing tailscale..."
-  if ! command -v tailscale; then
-    sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-    sudo dnf install -y tailscale
-    sudo systemctl enable --now tailscaled
-  fi
-
-  log "Checking default shell..."
-  if [ "$SHELL" != "/usr/bin/zsh" ]; then
-    log "Changing default shell to zsh..."
-    chsh -s "/usr/bin/zsh"
-  fi
-
-  log "Installing npm packages for helix (LSPs, etc.)..."
-  npm set prefix ~/.npm-global
-  xargs npm i -g <"$INSTALL_DOTFILES_REPO/os/fedora/pkgs/npm.lst"
-
-  log "Running final update and cleanup commands..."
-  npm up -g
-  sudo dnf upgrade -y --refresh
-  sudo dnf autoremove -y
-
-  log-success "Success!"
 fi
+
+log "Checking if cargo is installed via rustup..."
+if ! command -v cargo; then
+  log "Installing Rust..."
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+  rustup component add rust-analyzer
+  source "$HOME/.cargo/env"
+fi
+
+log "Checking if homebrew is installed..."
+if ! command -v brew; then
+  log-error "could not install packages: homebrew is not installed"
+  exit 1
+fi
+
+log "Setting up brew taps..."
+brew tap philocalyst/tap
+
+log "Installing brew packages..."
+xargs brew install < "$DOTFILES_REPO/pkgs/darwin-homebrew/core.lst"
+
+log-success "Success!"

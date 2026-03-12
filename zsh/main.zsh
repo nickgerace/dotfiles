@@ -1,11 +1,7 @@
-if [ "$NICK_OS" = "arch" ]; then
-  export EDITOR=helix
-else
-  export EDITOR=hx
-fi
+export EDITOR=hx
+export VISUAL=$EDITOR
 
 export TERM=xterm-256color
-export VISUAL=$EDITOR
 
 export PATH=$PATH:/usr/local/bin
 export PATH=$HOME/.local/bin:$PATH
@@ -83,24 +79,6 @@ function markdown-to-html {
     return
   fi
   pandoc ${1} -f markdown -t html5 >${2}
-}
-
-function strip-and-size {
-  if [ ! $1 ]; then
-    echo "required argument: <path-to-binary>"
-    return
-  fi
-  du -h $1
-  strip $1
-  du -h $1
-}
-
-function directory-sizes {
-  du -hs * | sort -hr
-}
-
-function rick {
-  curl -s -L http://bit.ly/10hA8iC | bash
 }
 
 function dotfiles {

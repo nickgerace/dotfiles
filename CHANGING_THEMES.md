@@ -13,7 +13,9 @@ This is a list of relevant tools who are reliant on the theme:
 - `fastfetch`
 - `ghostty`
 - `helix`
-- `zellij` 
+- `jj`
+- `mise`
+- `zellij`
 
 ## Themes and Font
 

@@ -14,7 +14,7 @@ auto-format = true
 name = "rust"
 auto-format = true
 
-# FIXME(nick): make this work outside of macOS.
+# TODO(nick): make this work outside of macOS.
 [language-server.rust-analyzer]
 command = "/opt/homebrew/bin/rust-analyzer"
 
