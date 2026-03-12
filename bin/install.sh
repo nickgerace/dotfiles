@@ -83,7 +83,6 @@ function link {
 
 log "Setting up dotfiles..."
 
-link "$DOTFILES_REPO/.zshrc" "$HOME/.zshrc"
 link "$DOTFILES_REPO/bat/config" "$HOME/.config/bat/config"
 link "$DOTFILES_REPO/bat/themes/catppuccin-latte.tmTheme" "$HOME/.config/bat/themes/catppuccin-latte.tmTheme"
 link "$DOTFILES_REPO/bat/themes/catppuccin-mocha.tmTheme" "$HOME/.config/bat/themes/catppuccin-mocha.tmTheme"
@@ -93,7 +92,6 @@ link "$DOTFILES_REPO/ghostty/config" "$HOME/.config/ghostty/config"
 link "$DOTFILES_REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
 link "$DOTFILES_REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
 link "$DOTFILES_REPO/jj/theme.toml" "$HOME/.config/jj/conf.d/theme.toml"
-link "$DOTFILES_REPO/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 
 log "Checking if bat is installed..."
 if command -v bat; then
@@ -131,6 +129,6 @@ log "Setting up brew taps..."
 brew tap philocalyst/tap
 
 log "Installing brew packages..."
-xargs brew install < "$DOTFILES_REPO/pkgs/darwin-homebrew/core.lst"
+xargs brew install <"$DOTFILES_REPO/pkgs/brew-base.lst"
 
 log-success "Success!"
