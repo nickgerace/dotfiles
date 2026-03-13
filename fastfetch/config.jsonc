@@ -85,6 +85,11 @@
     },
     {
       "type": "custom",
+      "key": "Versioning",
+      "format": "Jujutsu"
+    },
+    {
+      "type": "custom",
       "key": "Theme",
       "format": "Catppuccin Latte (Light) / Catppuccin Mocha (Dark)"
     },
