@@ -8,7 +8,7 @@
 
 [![Catppuccin Latte](https://github.com/catppuccin/catppuccin/blob/main/assets/palette/latte.png)](https://catppuccin.com/)
 
-A collection of dotfiles, scripts and configurations from [@nickgerace](https://github.com/nickgerace).
+[@nickgerace](https://github.com/nickgerace)'s dotfiles.
 
 ## Quickstart
 
