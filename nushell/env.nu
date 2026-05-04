@@ -1,5 +1,6 @@
 # Load the PATH first
 let path_prefixes = [
+    "/home/linuxbrew/.linuxbrew/bin"
     '/opt/homebrew/bin'
     '/opt/homebrew/opt/curl/bin'
     '/opt/homebrew/opt/gnu-sed/libexec/gnubin'
@@ -18,14 +19,25 @@ $env.VISUAL = "hx"
 $env.config.show_banner = false
 $env.LS_COLORS = (vivid generate rose-pine-dawn)
 
-const mise_nu = ($nu.home-dir | path join .config nushell mise.nu)
-^/opt/homebrew/bin/mise activate nu | save $mise_nu --force
+let generated_dir = ($nu.home-dir | path join .config nushell)
+mkdir $generated_dir
 
-const just_nu = ($nu.home-dir | path join .config nushell just.nu)
-^/opt/homebrew/bin/just --completions nushell | save $just_nu --force
+if (which mise | is-not-empty) {
+  let mise_nu = ($generated_dir | path join mise.nu)
+  mise activate nu | save $mise_nu --force
+}
 
-const jj_nu = ($nu.home-dir | path join .config nushell jj.nu)
-^/opt/homebrew/bin/jj util completion nushell | save $jj_nu --force
+if (which just | is-not-empty) {
+  let just_nu = ($generated_dir | path join just.nu)
+  just --completions nushell | save $just_nu --force
+}
 
-const zoxide_nu = ($nu.home-dir | path join .config nushell zoxide.nu)
-^/opt/homebrew/bin/zoxide init nushell | save $zoxide_nu --force
+if (which jj | is-not-empty) {
+  let jj_nu = ($generated_dir | path join jj.nu)
+  jj util completion nushell | save $jj_nu --force
+}
+
+if (which zoxide | is-not-empty) {
+  let zoxide_nu = ($generated_dir | path join zoxide.nu)
+  zoxide init nushell | save $zoxide_nu --force
+}
