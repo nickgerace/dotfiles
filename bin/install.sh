@@ -117,9 +117,6 @@ link "$REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
 link "$REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
 link "$REPO/jj/config.toml" "$HOME/.config/jj/config.toml"
 
-log "Downloading nushell theme..."
-wget -O "$HOME/.config/nushell/theme.toml" https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/themes/nu-themes/rose-pine-dawn.nu
-
 log "Checking if mise is installed..."
 if command -v mise; then
   log "Trusting config file for mise and then linking..."

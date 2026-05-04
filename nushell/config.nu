@@ -6,8 +6,9 @@ source ~/.config/nushell/jj.nu
 source ~/.config/nushell/just.nu
 source ~/.config/nushell/zoxide.nu
 
-# Loaded theme from the install script
-source ~/.config/nushell/theme.toml
+# Loaded theme from the repository
+const theme_nu = path self theme.toml
+source $theme_nu
 
 alias hxn = config nu
 alias hxd = hx ~/src/n/
