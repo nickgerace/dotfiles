@@ -3,6 +3,7 @@ set -eu
 
 BOOTSTRAP_PLATFORM="false"
 REPO="$HOME/src/n"
+OS=$(uname -s)
 
 LOG_FORMAT_BOLD=$(tput bold)
 LOG_FORMAT_GREEN=$(tput setaf 2)
@@ -28,7 +29,12 @@ if [ $EUID -eq 0 ]; then
   exit 1
 fi
 
-if [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then
+if [ "$OS" != "Darwin" ] && [ "$OS" != "Linux" ]; then
+  log-error "unsupported platform found: $OS (only macOS and Linux are supported)"
+  exit 1
+fi
+
+if [ "$OS" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then
   while true; do
     read -r -n1 -p "Do you want to install packages in addition to setting up dotfiles? [y/N]: " yn
     case $yn in
@@ -112,10 +118,15 @@ log "Setting up dotfiles..."
 
 link "$REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 link "$REPO/gfold/config.toml" "$HOME/.config/gfold.toml"
-link "$REPO/ghostty/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
 link "$REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
 link "$REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
 link "$REPO/jj/config.toml" "$HOME/.config/jj/config.toml"
+
+if [ "$OS" = "Darwin" ]; then
+  link "$REPO/ghostty/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
+elif [ "$OS" = "Linux" ]; then
+  link "$REPO/experiments/framework/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
+fi
 
 log "Checking if mise is installed..."
 if command -v mise; then
