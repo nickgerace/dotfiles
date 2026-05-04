@@ -1,0 +1,6 @@
+command = "/home/linuxbrew/.linuxbrew/bin/nu --env-config ~/src/n/nushell/env.nu --config ~/src/n/nushell/config.nu"
+# font-family = Berkeley Mono
+# font-size = 16
+# macos-option-as-alt = true
+quit-after-last-window-closed = true
+theme = dark:Rose Pine Moon,light:Rose Pine Dawn
