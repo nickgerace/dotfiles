@@ -18,7 +18,7 @@ function log-success {
 }
 
 function log-error {
-  echo "${LOG_FORMAT_BOLD}${LOG_FORMAT_RED}Error: $1${LOG_FORMAT_RESET}" >&2
+  echo "${LOG_FORMAT_BOLD}${LOG_FORMAT_RED}error: $1${LOG_FORMAT_RESET}" >&2
 }
 
 log "Welcome to @nickgerace's dotfiles setup and platform bootstrap script!"
