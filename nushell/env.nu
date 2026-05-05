@@ -1,7 +1,13 @@
 # Load the PATH first
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin')
-$env.PATH = ($env.PATH | split row (char esep) | prepend '~/.local/bin')
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin')
+let path_prefixes = [
+    '/opt/homebrew/bin'
+    '/opt/homebrew/opt/curl/bin'
+    '/opt/homebrew/opt/gnu-sed/libexec/gnubin'
+    '/opt/homebrew/opt/make/libexec/gnubin'
+    '/usr/local/bin'
+    '~/.local/bin'
+] | where { path exists }
+$env.PATH = ($env.PATH | prepend $path_prefixes)
 
 # Editor settings
 $env.EDITOR = "hx"
