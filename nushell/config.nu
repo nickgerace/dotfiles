@@ -32,7 +32,3 @@ source zoxide.nu
 # - brew
 # - fnm
 # - fzf
-
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/opt/curl/bin')
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/opt/make/libexec/gnubin')
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/opt/gnu-sed/libexec/gnubin')
