@@ -5,6 +5,9 @@ email = "nickagerace@gmail.com"
 [ui]
 editor = "hx"
 
+[aliases]
+stack = ["log", "-r", "@ | trunk()..@ | trunk()"]
+
 [templates]
 git_push_bookmark = '''
 "nickgerace/"
