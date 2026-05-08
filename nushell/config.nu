@@ -25,6 +25,7 @@ const ghostty_nu = path self ghostty.nu
 const repo_jj_nu = path self jj.nu
 const kubernetes_nu = path self kubernetes.nu
 const npm_nu = path self npm.nu
+const ps_nu = path self ps.nu
 const rust_nu = path self rust.nu
 const shfmt_nu = path self shfmt.nu
 const theme_nu = path self theme.toml
