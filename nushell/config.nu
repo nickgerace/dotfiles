@@ -11,6 +11,7 @@ source $jj_nu
 source $just_nu
 source $zoxide_generated_nu
 
+alias cdn = cd ~/src/n
 alias hxn = config nu
 alias hxd = hx ~/src/n/
 alias update = ^~/src/n/bin/update.sh

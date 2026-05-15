@@ -116,13 +116,14 @@ fi
 
 log "Setting up dotfiles..."
 
+link "$REPO/AGENTS.md" "$HOME/.claude/CLAUDE.md"
+link "$REPO/AGENTS.md" "$HOME/.codex/AGENTS.md"
 link "$REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 link "$REPO/gfold/config.toml" "$HOME/.config/gfold.toml"
 link "$REPO/helix/config.toml" "$HOME/.config/helix/config.toml"
+link "$REPO/helix/ignore" "$HOME/.config/helix/ignore"
 link "$REPO/helix/languages.toml" "$HOME/.config/helix/languages.toml"
 link "$REPO/jj/config.toml" "$HOME/.config/jj/config.toml"
-link "$REPO/AGENTS.md" "$HOME/.codex/AGENTS.md"
-link "$REPO/AGENTS.md" "$HOME/.claude/CLAUDE.md"
 
 if [ "$OS" = "Darwin" ]; then
   link "$REPO/ghostty/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
